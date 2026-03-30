@@ -17,7 +17,7 @@ Productivity Engineer "Rym" のポートフォリオ & 技術ブログ。Site: R
 ## Fonts
 - **Display/EN**: Geist (`next/font/google`) → `--font-display`
 - **JP**: Noto Sans JP (`next/font/google`) → `--font-sans-jp`
-- **Code**: PlemolJP HS (`next/font/local`, fallback: Geist Mono) → `--font-mono`
+- **Code**: PlemolJP HS (`next/font/local`, fallback: Geist Mono) → `--font-plemol` (composited as `--font-mono`)
 
 ## Design System
 最終デザイン: `design-mock/design-mockup-v11.html` (ブラウザで確認可能、コントロールバーでページ/テーマ切替)

@@ -22,7 +22,7 @@ const notoSansJP = Noto_Sans_JP({
 
 const plemolJP = localFont({
   src: './fonts/PlemolJPHS-Regular.woff2',
-  variable: '--font-mono',
+  variable: '--font-plemol',
   display: 'swap',
 });
 
@@ -40,7 +40,6 @@ export default function RootLayout({
     <html
       lang="ja"
       className={`${geist.variable} ${geistMono.variable} ${notoSansJP.variable} ${plemolJP.variable} h-full antialiased`}
-      suppressHydrationWarning
     >
       <body className="min-h-full bg-background text-foreground">{children}</body>
     </html>
