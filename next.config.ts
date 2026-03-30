@@ -13,10 +13,12 @@ const nextConfig: NextConfig = {
     ],
   },
 
+  // TODO: Add Content-Security-Policy when CMS content rendering is implemented
   async headers() {
     return [
       {
         source: '/(.*)',
+        // Security headers — HSTS is production-only to avoid issues with localhost HTTP
         headers: [
           { key: 'X-Content-Type-Options', value: 'nosniff' },
           { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
