@@ -49,11 +49,11 @@ export function ListCard({ article, className }: ListCardProps) {
         {/* Meta */}
         <div className="mb-1.5 flex items-center gap-2.5 font-mono text-[11.5px] text-muted-foreground">
           <span className="inline-flex items-center gap-1">
-            <CalendarIcon size={11} />
+            <CalendarIcon size={11} aria-hidden="true" />
             {article.publishedAt}
           </span>
           <span className="inline-flex items-center gap-1">
-            <ClockIcon size={11} />
+            <ClockIcon size={11} aria-hidden="true" />
             {article.readingTime}
           </span>
         </div>

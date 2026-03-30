@@ -68,17 +68,17 @@ export function ArticleCard({ article, className }: ArticleCardProps) {
         {/* Meta */}
         <div className="mb-2.5 flex items-center gap-3.5 font-mono text-xs text-muted-foreground">
           <span className="inline-flex items-center gap-1">
-            <CalendarIcon size={12} />
+            <CalendarIcon size={12} aria-hidden="true" />
             {article.publishedAt}
           </span>
           {article.updatedAt && (
             <span className="inline-flex items-center gap-1">
-              <PenLineIcon size={12} />
+              <PenLineIcon size={12} aria-hidden="true" />
               {article.updatedAt}
             </span>
           )}
           <span className="inline-flex items-center gap-1">
-            <ClockIcon size={12} />
+            <ClockIcon size={12} aria-hidden="true" />
             {article.readingTime}
           </span>
         </div>

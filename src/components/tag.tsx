@@ -40,10 +40,12 @@ interface TagListProps {
 }
 
 export function TagList({ tags, size = 'default', className }: TagListProps) {
+  if (tags.length === 0) return null;
+
   return (
     <div className={cn('flex flex-wrap gap-[5px]', className)}>
       {tags.map((tag) => (
-        <Tag key={tag.label} tag={tag} size={size} />
+        <Tag key={`${tag.category}-${tag.label}`} tag={tag} size={size} />
       ))}
     </div>
   );

@@ -17,7 +17,7 @@ export interface Tag {
   readonly icon?: LucideIcon;
 }
 
-export const TAG_CATEGORY_COLORS: Record<TagCategory, string> = {
+export const TAG_CATEGORY_COLORS = {
   frontend: '#10b981',
   backend: '#3b82f6',
   infra: '#8b5cf6',
@@ -27,4 +27,4 @@ export const TAG_CATEGORY_COLORS: Record<TagCategory, string> = {
   performance: '#06b6d4',
   testing: '#f97316',
   release: '#a855f7',
-};
+} as const satisfies Record<TagCategory, string>;
