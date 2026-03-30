@@ -37,6 +37,8 @@ export function useScrollReveal<T extends HTMLElement>({
           if (entry.isIntersecting) {
             entry.target.classList.add('visible');
             if (once) observer.unobserve(entry.target);
+          } else if (!once) {
+            entry.target.classList.remove('visible');
           }
         }
       },
