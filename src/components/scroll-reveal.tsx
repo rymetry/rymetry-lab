@@ -16,10 +16,10 @@ export function ScrollReveal({
   as: Tag = 'div',
   threshold,
 }: ScrollRevealProps) {
-  const ref = useScrollReveal<HTMLElement>({ threshold });
+  const ref = useScrollReveal<HTMLDivElement>({ threshold });
 
   return (
-    <Tag ref={ref as React.RefObject<HTMLDivElement>} className={cn('reveal', className)}>
+    <Tag ref={ref} className={cn('reveal', className)}>
       {children}
     </Tag>
   );
