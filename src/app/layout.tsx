@@ -1,5 +1,6 @@
 import { Footer } from '@/components/footer';
 import { Header } from '@/components/header';
+import { NoiseOverlay } from '@/components/noise-overlay';
 import { ThemeProvider } from '@/components/theme-provider';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono, Noto_Sans_JP } from 'next/font/google';
@@ -61,6 +62,7 @@ export default function RootLayout({
           <Header />
           <main id="main-content">{children}</main>
           <Footer />
+          <NoiseOverlay />
         </ThemeProvider>
       </body>
     </html>
