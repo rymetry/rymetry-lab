@@ -10,7 +10,7 @@ Productivity Engineer "Rym" のポートフォリオ & 技術ブログ。Site: R
 | Runtime | React 19, TypeScript 6 (strict), Bun |
 | Styling | Tailwind CSS v4, shadcn/ui (New York), Iconify (lucide + simple-icons) |
 | CMS | microCMS → unified (rehype-sanitize, rehype-prism-plus) |
-| Testing | Bun test (unit) + Playwright (E2E) + Storybook 10 (@storybook/nextjs-vite) |
+| Testing | Vitest (unit/component via Storybook) + Playwright (E2E) + Storybook 10 (@storybook/nextjs-vite) |
 | Lint | ESLint 9 (flat config) + Prettier 3 |
 | i18n | next-intl (Phase 3) / Dark Mode: next-themes |
 
@@ -84,7 +84,7 @@ Epics #1-#10 (`epic`), Tasks #11-#44 (`task`)
 - **Skills**: `.agents/skills/` — Vercel skills (react-best-practices, composition-patterns, web-design-guidelines, browser-use)
 - **Rules**: グローバル `~/.claude/rules/common/` に委任。プロジェクト固有ルールは `.claude/rules/` に追加
 - **Plugins**: everything-claude-code (skills/agents), superpowers, frontend-design, playwright, pr-review-toolkit, context7 (グローバル)
-- **Hooks** (#44完了後): PostToolUse Prettier自動フォーマット + PreToolUse .env保護
+- **Hooks**: PostToolUse Prettier自動フォーマット + PreToolUse .env保護 (.claude/settings.json)
 
 ## Implementation Notes
 - 実装順: セットアップ (#11-#16,#42) → Story 先行 → コンポーネント → ページ組み立て
