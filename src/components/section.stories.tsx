@@ -23,9 +23,9 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     label: 'Featured Projects',
-    title: 'Selected Work',
-    descriptionEn: 'Projects that showcase my engineering approach.',
-    description: '技術的なアプローチを示すプロジェクト集。',
+    title: 'Featured Work',
+    descriptionEn: 'Less friction, more flow.',
+    description: '開発者のワークフローを加速するために構築したツール群。',
   },
   decorators: [
     (Story) => (
@@ -45,8 +45,8 @@ export const AltBackground: Story = {
   args: {
     label: 'Latest Articles',
     title: 'Recent Articles',
-    descriptionEn: 'Thoughts on engineering and productivity.',
-    description: 'エンジニアリングと生産性についての考察。',
+    descriptionEn: 'Field notes from the trenches of developer productivity.',
+    description: '開発生産性の現場から得た知見。',
   },
   decorators: [
     (Story) => (
@@ -65,9 +65,9 @@ export const AltBackground: Story = {
 export const DarkMode: Story = {
   args: {
     label: 'Featured Projects',
-    title: 'Selected Work',
-    descriptionEn: 'Projects that showcase my engineering approach.',
-    description: '技術的なアプローチを示すプロジェクト集。',
+    title: 'Featured Work',
+    descriptionEn: 'Less friction, more flow.',
+    description: '開発者のワークフローを加速するために構築したツール群。',
   },
   globals: { theme: 'dark' },
   decorators: [
