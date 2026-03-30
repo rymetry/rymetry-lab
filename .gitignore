@@ -48,3 +48,5 @@ storybook-static/
 
 # Claude Code (personal settings)
 .claude/settings.local.json
+
+*storybook.log
