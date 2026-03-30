@@ -1,32 +1,21 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { ThemeProvider } from './theme-provider';
-import { Header } from './header';
-
-function ScrollArea({ children }: { children: React.ReactNode }) {
-  return (
-    <>
-      {children}
-      <div className="h-[200vh] bg-muted/30 p-8">
-        <p className="text-muted-foreground">スクロールで sticky 動作を確認</p>
-      </div>
-    </>
-  );
-}
+import { Footer } from './footer';
 
 const meta = {
-  title: 'Components/Header',
-  component: Header,
+  title: 'Components/Footer',
+  component: Footer,
   tags: ['autodocs'],
   parameters: {
     layout: 'fullscreen',
     docs: {
       description: {
         component:
-          'Sticky ヘッダー。デスクトップではロゴ + ナビ + ThemeToggle。モバイルでは Sheet スライドイン。',
+          'サイトフッター。ロゴ + コピーライト（左）、ソーシャルアイコン（右）。768px 以下で中央寄せ縦並び。',
       },
     },
   },
-} satisfies Meta<typeof Header>;
+} satisfies Meta<typeof Footer>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -35,9 +24,9 @@ export const Default: Story = {
   decorators: [
     (Story) => (
       <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
-        <ScrollArea>
+        <div className="flex min-h-[50vh] flex-col justify-end">
           <Story />
-        </ScrollArea>
+        </div>
       </ThemeProvider>
     ),
   ],
@@ -48,9 +37,9 @@ export const DarkMode: Story = {
   decorators: [
     (Story) => (
       <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
-        <ScrollArea>
+        <div className="flex min-h-[50vh] flex-col justify-end">
           <Story />
-        </ScrollArea>
+        </div>
       </ThemeProvider>
     ),
   ],

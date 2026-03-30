@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono, Noto_Sans_JP } from 'next/font/google';
 import localFont from 'next/font/local';
+import { Footer } from '@/components/footer';
 import { Header } from '@/components/header';
 import { ThemeProvider } from '@/components/theme-provider';
 import './globals.css';
@@ -54,6 +55,7 @@ export default function RootLayout({
           </a>
           <Header />
           <main id="main-content">{children}</main>
+          <Footer />
         </ThemeProvider>
       </body>
     </html>
