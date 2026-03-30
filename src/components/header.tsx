@@ -87,7 +87,7 @@ export function Header() {
                           'block border-b border-border px-0 py-2.5 text-[15px] font-medium transition-colors duration-200 last:border-b-0',
                           isActive(pathname, href)
                             ? 'text-primary'
-                            : 'text-muted-foreground hover:text-primary',
+                            : 'text-text-secondary hover:text-primary',
                         )}
                       >
                         {label}
