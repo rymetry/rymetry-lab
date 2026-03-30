@@ -1,5 +1,16 @@
 import type { Preview } from '@storybook/nextjs-vite';
+import type { ReactRenderer } from '@storybook/react';
+import type { DecoratorFunction } from 'storybook/internal/types';
+import { useEffect } from 'react';
 import '../src/app/globals.css';
+
+const withThemeClass: DecoratorFunction<ReactRenderer> = (Story, context) => {
+  const theme = context.globals.theme ?? 'light';
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', theme === 'dark');
+  }, [theme]);
+  return <Story />;
+};
 
 const preview: Preview = {
   parameters: {
@@ -30,15 +41,7 @@ const preview: Preview = {
   initialGlobals: {
     theme: 'light',
   },
-  decorators: [
-    (Story, context) => {
-      const theme = context.globals.theme ?? 'light';
-      if (typeof document !== 'undefined') {
-        document.documentElement.classList.toggle('dark', theme === 'dark');
-      }
-      return Story();
-    },
-  ],
+  decorators: [withThemeClass],
 };
 
 export default preview;

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono, Noto_Sans_JP } from 'next/font/google';
 import localFont from 'next/font/local';
+import { ThemeProvider } from '@/components/theme-provider';
 import './globals.css';
 
 const geist = Geist({
@@ -40,8 +41,13 @@ export default function RootLayout({
     <html
       lang="ja"
       className={`${geist.variable} ${geistMono.variable} ${notoSansJP.variable} ${plemolJP.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
-      <body className="min-h-full bg-background text-foreground">{children}</body>
+      <body className="min-h-full bg-background text-foreground">
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   );
 }
