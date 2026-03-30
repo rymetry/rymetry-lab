@@ -12,7 +12,6 @@ import {
   WrenchIcon,
 } from 'lucide-react';
 import { Tag, TagList } from './tag';
-import { ThemeProvider } from './theme-provider';
 
 const sampleTags: TagType[] = [
   { label: 'React', category: 'frontend', icon: MonitorIcon },
@@ -47,37 +46,31 @@ type Story = StoryObj<typeof meta>;
 export const AllCategories: Story = {
   args: { tag: defaultTag },
   render: () => (
-    <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
-      <div className="flex flex-wrap gap-2 p-4">
-        {sampleTags.map((tag) => (
-          <Tag key={tag.label} tag={tag} />
-        ))}
-      </div>
-    </ThemeProvider>
+    <div className="flex flex-wrap gap-2 p-4">
+      {sampleTags.map((tag) => (
+        <Tag key={tag.label} tag={tag} />
+      ))}
+    </div>
   ),
 };
 
 export const SmallSize: Story = {
   args: { tag: defaultTag },
   render: () => (
-    <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
-      <div className="flex flex-wrap gap-2 p-4">
-        {sampleTags.map((tag) => (
-          <Tag key={tag.label} tag={tag} size="sm" />
-        ))}
-      </div>
-    </ThemeProvider>
+    <div className="flex flex-wrap gap-2 p-4">
+      {sampleTags.map((tag) => (
+        <Tag key={tag.label} tag={tag} size="sm" />
+      ))}
+    </div>
   ),
 };
 
 export const TagListExample: Story = {
   args: { tag: defaultTag },
   render: () => (
-    <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
-      <div className="p-4">
-        <TagList tags={sampleTags.slice(0, 4)} />
-      </div>
-    </ThemeProvider>
+    <div className="p-4">
+      <TagList tags={sampleTags.slice(0, 4)} />
+    </div>
   ),
 };
 
@@ -85,12 +78,10 @@ export const DarkMode: Story = {
   args: { tag: defaultTag },
   globals: { theme: 'dark' },
   render: () => (
-    <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
-      <div className="flex flex-wrap gap-2 rounded-lg bg-background p-4">
-        {sampleTags.map((tag) => (
-          <Tag key={tag.label} tag={tag} />
-        ))}
-      </div>
-    </ThemeProvider>
+    <div className="flex flex-wrap gap-2 rounded-lg bg-background p-4">
+      {sampleTags.map((tag) => (
+        <Tag key={tag.label} tag={tag} />
+      ))}
+    </div>
   ),
 };

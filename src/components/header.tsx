@@ -26,7 +26,7 @@ export function Header() {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-background/85 backdrop-blur-xl backdrop-saturate-[180%] transition-colors duration-300">
+    <header className="sticky top-0 z-50 border-b border-border bg-background/85 backdrop-blur-lg backdrop-saturate-[180%] transition-colors duration-300">
       <div className="mx-auto flex h-15 max-w-[1200px] items-center justify-between px-4 md:px-6">
         {/* Logo */}
         <Link
@@ -49,7 +49,7 @@ export function Header() {
                       'relative text-sm font-medium transition-colors duration-200',
                       isActive(pathname, href)
                         ? 'text-primary after:absolute after:-bottom-[19px] after:left-0 after:right-0 after:h-0.5 after:rounded-[1px] after:bg-[image:var(--accent-gradient)]'
-                        : 'text-muted-foreground hover:text-foreground',
+                        : 'text-text-secondary hover:text-foreground',
                     )}
                   >
                     {label}
@@ -66,7 +66,12 @@ export function Header() {
             {/* Mobile Menu */}
             <Sheet key={pathname}>
               <SheetTrigger asChild>
-                <Button type="button" variant="outline" size="icon" className="md:hidden">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="icon"
+                  className="md:hidden hover:bg-transparent dark:hover:bg-transparent hover:border-primary hover:text-primary"
+                >
                   <MenuIcon className="size-[18px]" />
                   <span className="sr-only">メニューを開く</span>
                 </Button>
@@ -82,7 +87,7 @@ export function Header() {
                           'block border-b border-border px-0 py-2.5 text-[15px] font-medium transition-colors duration-200 last:border-b-0',
                           isActive(pathname, href)
                             ? 'text-primary'
-                            : 'text-muted-foreground hover:text-primary',
+                            : 'text-text-secondary hover:text-primary',
                         )}
                       >
                         {label}

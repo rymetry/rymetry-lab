@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { Footer } from './footer';
-import { ThemeProvider } from './theme-provider';
 
 const meta = {
   title: 'Components/Footer',
@@ -23,11 +22,9 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   decorators: [
     (Story) => (
-      <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
-        <div className="flex min-h-[50vh] flex-col justify-end">
-          <Story />
-        </div>
-      </ThemeProvider>
+      <div className="flex min-h-[50vh] flex-col justify-end">
+        <Story />
+      </div>
     ),
   ],
 };
@@ -36,11 +33,9 @@ export const DarkMode: Story = {
   globals: { theme: 'dark' },
   decorators: [
     (Story) => (
-      <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
-        <div className="flex min-h-[50vh] flex-col justify-end">
-          <Story />
-        </div>
-      </ThemeProvider>
+      <div className="flex min-h-[50vh] flex-col justify-end">
+        <Story />
+      </div>
     ),
   ],
 };

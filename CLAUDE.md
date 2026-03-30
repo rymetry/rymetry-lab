@@ -24,7 +24,7 @@ Productivity Engineer "Rym" のポートフォリオ & 技術ブログ。Site: R
 
 ### Colors (CSS Variables)
 **Light** — bg: #fafafa / card: #fff / accent: #0c6b58 / accent-2: #14b890 / gradient: #084c3e→#14b890
-**Dark** — bg: #09090b / card: #1a1a1f / accent: #5cd8c8 (teal) / accent-2: #94ede0 / gradient: #0e8a7a→#5cd8c8
+**Dark** — bg: #09090b / card: #1a1a1f / accent: #5cd8c8 (teal) / accent-2: #94ede0 / gradient: #065a4e→#2db89a
 text-muted は WCAG AA 準拠。カラーは意図的に Tailwind プリセットからずらしている。
 
 ### Tags
@@ -89,7 +89,14 @@ Epics #1-#10 (`epic`), Tasks #11-#44 (`task`)
 ## Implementation Notes
 - 実装順: セットアップ (#11-#16,#42) → Story 先行 → コンポーネント → ページ組み立て
 - Storybook: @storybook/nextjs-vite v10.3.x (Next.js 16 対応済), Tailwind v4 は @tailwindcss/vite で統合
-- Iconify: 実装時は @iconify/json でバンドル (CDN は FOUC リスク)
+- lefthook: pre-commit で `format:check` + `lint` を自動実行
+- Iconify: 実装時は @iconify/json でバンドル (CDN は FOUC リスク)。現状は lucide-react + インライン SVG (social icons) で統一
+
+## Storybook Story ルール
+- **データはモック準拠**: Story のサンプルデータ（タイトル、説明、日付等）は `design-mock/design-mockup-v11.html` からコピーする。適当なプレースホルダーを使わない
+- **ThemeProvider は最小限**: `useTheme()` を直接/間接的に使用するコンポーネント (ThemeToggle, および ThemeToggle を内包する Header) のみ ThemeProvider でラップ。他は `preview.tsx` の `WithThemeClass` デコレータ + `globals: { theme: 'dark' }` でテーマ制御
+- **DarkMode Story**: 全コンポーネントに DarkMode variant を用意し、`globals: { theme: 'dark' }` を必ず設定する
+- **モック変更時は双方更新**: 実装の CSS 変数やスタイルを変更したら、モック HTML も同時に更新する
 - Geist: next/font/google (Next.js 16 で Google Fonts 対応済, モックは CDN 代用)
 - モック確認: `python3 -m http.server 8234` → localhost:8234/design-mock/design-mockup-v11.html
 

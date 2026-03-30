@@ -67,7 +67,7 @@
     --bg-code: #222228;
     --accent-2: #94ede0;
     --accent-glow: rgba(92, 216, 200, 0.09);
-    --accent-gradient: linear-gradient(135deg, #0e8a7a, #5cd8c8);
+    --accent-gradient: linear-gradient(135deg, #065a4e, #2db89a);
     --hero-bg: linear-gradient(180deg, #0b0d0c 0%, #09090b 100%);
     --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
     --card-shadow-hover: 0 8px 24px rgba(92, 216, 200, 0.08), 0 2px 6px rgba(0, 0, 0, 0.3);
@@ -97,6 +97,7 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-text-secondary: var(--text-secondary);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);

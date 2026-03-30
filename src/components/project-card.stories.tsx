@@ -1,47 +1,57 @@
 import type { Project } from '@/types/project';
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { CloudIcon, CodeIcon, MonitorIcon, ServerIcon, WrenchIcon, ZapIcon } from 'lucide-react';
+import {
+  BarChart3Icon,
+  CloudIcon,
+  CodeIcon,
+  ContainerIcon,
+  LayoutDashboardIcon,
+  MonitorIcon,
+  ServerIcon,
+  ZapIcon,
+} from 'lucide-react';
 import { ProjectCard } from './project-card';
-import { ThemeProvider } from './theme-provider';
 
 const sampleProject: Project = {
   slug: 'ci-cd-optimizer',
   title: 'CI/CD Pipeline Optimizer',
   description:
-    'GitHub Actions ワークフローの実行時間を 60% 短縮。キャッシュ戦略、並列実行、条件分岐の最適化を自動化するツール。',
+    'ビルド時間を70%短縮するCI/CDパイプライン最適化ツール。キャッシュ戦略と並列実行の自動チューニング。',
   role: 'Lead Engineer',
   icon: ZapIcon,
   tags: [
     { label: 'GitHub Actions', category: 'infra', icon: CloudIcon },
     { label: 'TypeScript', category: 'languages', icon: CodeIcon },
-    { label: 'Node.js', category: 'backend', icon: ServerIcon },
+    { label: 'Docker', category: 'infra', icon: ContainerIcon },
   ],
 };
 
 const sampleProjects: Project[] = [
   sampleProject,
   {
-    slug: 'design-system',
-    title: 'Design System & Component Library',
+    slug: 'developer-portal',
+    title: 'Developer Portal',
     description:
-      'Storybook + Tailwind CSS による統一されたデザインシステム。コンポーネントカタログ、テーマ切替、アクセシビリティ対応。',
-    role: 'Frontend Architect',
-    icon: MonitorIcon,
+      '社内開発者ポータル。サービスカタログ、ドキュメント検索、オンボーディング自動化を統合。',
+    role: 'Platform Engineer',
+    icon: LayoutDashboardIcon,
     tags: [
-      { label: 'React', category: 'frontend', icon: MonitorIcon },
-      { label: 'Tailwind', category: 'tools', icon: WrenchIcon },
+      { label: 'Next.js', category: 'frontend', icon: MonitorIcon },
+      { label: 'Go', category: 'backend', icon: ServerIcon },
+      { label: 'Backstage', category: 'infra', icon: CloudIcon },
     ],
   },
   {
-    slug: 'api-gateway',
-    title: 'API Gateway Platform',
+    slug: 'devmetrics-dashboard',
+    title: 'DevMetrics Dashboard',
     description:
-      'マイクロサービス間のルーティング、認証、レート制限を一元管理。OpenAPI スキーマ駆動の自動バリデーション。',
-    role: 'Backend Engineer',
-    icon: ServerIcon,
+      'DORA メトリクス可視化ダッシュボード。デプロイ頻度、リードタイム、MTTR、変更失敗率を自動計測。',
+    role: 'OSS Author',
+    icon: BarChart3Icon,
     tags: [
-      { label: 'Go', category: 'languages', icon: CodeIcon },
-      { label: 'Docker', category: 'infra', icon: CloudIcon },
+      { label: 'React', category: 'frontend', icon: MonitorIcon },
+      { label: 'Python', category: 'languages', icon: CodeIcon },
+      { label: 'Grafana', category: 'performance', icon: BarChart3Icon },
     ],
   },
 ];
@@ -55,7 +65,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'プロジェクトカード。アイコン + ロール + タイトル + 説明 + タグ。hover でグリーンバー + lift + 矢印表示。',
+          'プロジェクトカード。アイコン + ロール + タイトル + 説明 + タグ。hover でグリーンバー + lift + 矢印 + アイコン scale/rotate。',
       },
     },
   },
@@ -67,11 +77,9 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   decorators: [
     (Story) => (
-      <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
-        <div className="max-w-sm p-4">
-          <Story />
-        </div>
-      </ThemeProvider>
+      <div className="max-w-sm p-4">
+        <Story />
+      </div>
     ),
   ],
   args: {
@@ -82,13 +90,11 @@ export const Default: Story = {
 export const Grid: Story = {
   args: { project: sampleProject },
   render: () => (
-    <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
-      <div className="grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-5 p-4">
-        {sampleProjects.map((p) => (
-          <ProjectCard key={p.slug} project={p} />
-        ))}
-      </div>
-    </ThemeProvider>
+    <div className="grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-5 p-4">
+      {sampleProjects.map((p) => (
+        <ProjectCard key={p.slug} project={p} />
+      ))}
+    </div>
   ),
 };
 
@@ -96,11 +102,9 @@ export const DarkMode: Story = {
   globals: { theme: 'dark' },
   decorators: [
     (Story) => (
-      <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
-        <div className="max-w-sm rounded-lg bg-background p-4">
-          <Story />
-        </div>
-      </ThemeProvider>
+      <div className="max-w-sm rounded-lg bg-background p-4">
+        <Story />
+      </div>
     ),
   ],
   args: {

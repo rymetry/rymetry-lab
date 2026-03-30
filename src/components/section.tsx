@@ -50,7 +50,7 @@ export function SectionHeader({
         {title}
       </h2>
       {(descriptionEn ?? description) && (
-        <p className="max-w-[600px] text-[15px] leading-[1.7] text-muted-foreground">
+        <p className="max-w-[600px] text-[15px] leading-[1.7] text-text-secondary">
           {descriptionEn && <span className="font-medium text-foreground">{descriptionEn}</span>}
           {descriptionEn && description && ' — '}
           {description}

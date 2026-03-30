@@ -1,8 +1,7 @@
 import type { Article } from '@/types/article';
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { CloudIcon, CodeIcon, GitMergeIcon, MonitorIcon } from 'lucide-react';
+import { CodeIcon, GitBranchIcon, GitMergeIcon, InfinityIcon, RocketIcon } from 'lucide-react';
 import { ListCard } from './list-card';
-import { ThemeProvider } from './theme-provider';
 
 const sampleArticles: Article[] = [
   {
@@ -13,16 +12,19 @@ const sampleArticles: Article[] = [
     thumbnailIcon: GitMergeIcon,
     tags: [
       { label: 'TypeScript', category: 'languages', icon: CodeIcon },
-      { label: 'Infra', category: 'infra', icon: CloudIcon },
+      { label: 'CI/CD', category: 'infra', icon: GitBranchIcon },
     ],
   },
   {
-    slug: 'react-19-patterns',
-    title: 'React 19 の新パターンと Server Components 活用法',
-    publishedAt: '2026-02-10',
-    readingTime: '10 min',
-    thumbnailIcon: MonitorIcon,
-    tags: [{ label: 'React', category: 'frontend', icon: MonitorIcon }],
+    slug: 'feature-flags',
+    title: 'Feature Flags で安全にリリースする仕組みを構築する',
+    publishedAt: '2026-01-10',
+    readingTime: '7 min',
+    thumbnailIcon: RocketIcon,
+    tags: [
+      { label: 'DevOps', category: 'infra', icon: InfinityIcon },
+      { label: 'Release', category: 'release', icon: RocketIcon },
+    ],
   },
 ];
 
@@ -47,11 +49,9 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   decorators: [
     (Story) => (
-      <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
-        <div className="max-w-xl p-4">
-          <Story />
-        </div>
-      </ThemeProvider>
+      <div className="max-w-xl p-4">
+        <Story />
+      </div>
     ),
   ],
   args: {
@@ -62,13 +62,11 @@ export const Default: Story = {
 export const Stacked: Story = {
   args: { article: sampleArticles[0]! },
   render: () => (
-    <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
-      <div className="flex max-w-xl flex-col gap-2.5 p-4">
-        {sampleArticles.map((a) => (
-          <ListCard key={a.slug} article={a} />
-        ))}
-      </div>
-    </ThemeProvider>
+    <div className="flex max-w-xl flex-col gap-2.5 p-4">
+      {sampleArticles.map((a) => (
+        <ListCard key={a.slug} article={a} />
+      ))}
+    </div>
   ),
 };
 
@@ -76,12 +74,10 @@ export const DarkMode: Story = {
   args: { article: sampleArticles[0]! },
   globals: { theme: 'dark' },
   render: () => (
-    <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
-      <div className="flex max-w-xl flex-col gap-2.5 rounded-lg bg-background p-4">
-        {sampleArticles.map((a) => (
-          <ListCard key={a.slug} article={a} />
-        ))}
-      </div>
-    </ThemeProvider>
+    <div className="flex max-w-xl flex-col gap-2.5 rounded-lg bg-background p-4">
+      {sampleArticles.map((a) => (
+        <ListCard key={a.slug} article={a} />
+      ))}
+    </div>
   ),
 };

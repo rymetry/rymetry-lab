@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { ActionButton } from './action-button';
-import { ThemeProvider } from './theme-provider';
 
 const meta = {
   title: 'Components/ActionButton',
@@ -27,11 +26,9 @@ export const Primary: Story = {
   },
   decorators: [
     (Story) => (
-      <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
-        <div className="p-8">
-          <Story />
-        </div>
-      </ThemeProvider>
+      <div className="p-8">
+        <Story />
+      </div>
     ),
   ],
 };
@@ -44,11 +41,9 @@ export const Secondary: Story = {
   },
   decorators: [
     (Story) => (
-      <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
-        <div className="p-8">
-          <Story />
-        </div>
-      </ThemeProvider>
+      <div className="p-8">
+        <Story />
+      </div>
     ),
   ],
 };
@@ -56,16 +51,14 @@ export const Secondary: Story = {
 export const ButtonGroup: Story = {
   args: { href: '/projects', children: 'Projects →' },
   render: () => (
-    <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
-      <div className="flex gap-3 p-8">
-        <ActionButton href="/projects" variant="primary">
-          Projects →
-        </ActionButton>
-        <ActionButton href="/articles" variant="secondary">
-          Articles
-        </ActionButton>
-      </div>
-    </ThemeProvider>
+    <div className="flex gap-3 p-8">
+      <ActionButton href="/projects" variant="primary">
+        Projects →
+      </ActionButton>
+      <ActionButton href="/articles" variant="secondary">
+        Articles
+      </ActionButton>
+    </div>
   ),
 };
 
@@ -73,15 +66,13 @@ export const DarkMode: Story = {
   args: { href: '/projects', children: 'Projects →' },
   globals: { theme: 'dark' },
   render: () => (
-    <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
-      <div className="flex gap-3 rounded-lg bg-background p-8">
-        <ActionButton href="/projects" variant="primary">
-          Projects →
-        </ActionButton>
-        <ActionButton href="/articles" variant="secondary">
-          Articles
-        </ActionButton>
-      </div>
-    </ThemeProvider>
+    <div className="flex gap-3 rounded-lg bg-background p-8">
+      <ActionButton href="/projects" variant="primary">
+        Projects →
+      </ActionButton>
+      <ActionButton href="/articles" variant="secondary">
+        Articles
+      </ActionButton>
+    </div>
   ),
 };
