@@ -10,7 +10,6 @@ import {
   ZapIcon,
 } from 'lucide-react';
 import { ArticleCard } from './article-card';
-import { ThemeProvider } from './theme-provider';
 
 const sampleArticle: Article = {
   slug: 'github-actions-cache',
@@ -77,11 +76,9 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   decorators: [
     (Story) => (
-      <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
-        <div className="max-w-sm p-4">
-          <Story />
-        </div>
-      </ThemeProvider>
+      <div className="max-w-sm p-4">
+        <Story />
+      </div>
     ),
   ],
   args: {
@@ -92,13 +89,11 @@ export const Default: Story = {
 export const ThumbnailVariants: Story = {
   args: { article: sampleArticle },
   render: () => (
-    <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
-      <div className="grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-5 p-4">
-        {sampleArticles.map((a) => (
-          <ArticleCard key={a.slug} article={a} />
-        ))}
-      </div>
-    </ThemeProvider>
+    <div className="grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-5 p-4">
+      {sampleArticles.map((a) => (
+        <ArticleCard key={a.slug} article={a} />
+      ))}
+    </div>
   ),
 };
 
@@ -106,12 +101,10 @@ export const DarkMode: Story = {
   args: { article: sampleArticle },
   globals: { theme: 'dark' },
   render: () => (
-    <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
-      <div className="grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-5 rounded-lg bg-background p-4">
-        {sampleArticles.map((a) => (
-          <ArticleCard key={a.slug} article={a} />
-        ))}
-      </div>
-    </ThemeProvider>
+    <div className="grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-5 rounded-lg bg-background p-4">
+      {sampleArticles.map((a) => (
+        <ArticleCard key={a.slug} article={a} />
+      ))}
+    </div>
   ),
 };

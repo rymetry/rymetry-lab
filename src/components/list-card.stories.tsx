@@ -2,7 +2,6 @@ import type { Article } from '@/types/article';
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { CodeIcon, GitBranchIcon, GitMergeIcon, RocketIcon } from 'lucide-react';
 import { ListCard } from './list-card';
-import { ThemeProvider } from './theme-provider';
 
 const sampleArticles: Article[] = [
   {
@@ -50,11 +49,9 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   decorators: [
     (Story) => (
-      <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
-        <div className="max-w-xl p-4">
-          <Story />
-        </div>
-      </ThemeProvider>
+      <div className="max-w-xl p-4">
+        <Story />
+      </div>
     ),
   ],
   args: {
@@ -65,13 +62,11 @@ export const Default: Story = {
 export const Stacked: Story = {
   args: { article: sampleArticles[0]! },
   render: () => (
-    <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
-      <div className="flex max-w-xl flex-col gap-2.5 p-4">
-        {sampleArticles.map((a) => (
-          <ListCard key={a.slug} article={a} />
-        ))}
-      </div>
-    </ThemeProvider>
+    <div className="flex max-w-xl flex-col gap-2.5 p-4">
+      {sampleArticles.map((a) => (
+        <ListCard key={a.slug} article={a} />
+      ))}
+    </div>
   ),
 };
 
@@ -79,12 +74,10 @@ export const DarkMode: Story = {
   args: { article: sampleArticles[0]! },
   globals: { theme: 'dark' },
   render: () => (
-    <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
-      <div className="flex max-w-xl flex-col gap-2.5 rounded-lg bg-background p-4">
-        {sampleArticles.map((a) => (
-          <ListCard key={a.slug} article={a} />
-        ))}
-      </div>
-    </ThemeProvider>
+    <div className="flex max-w-xl flex-col gap-2.5 rounded-lg bg-background p-4">
+      {sampleArticles.map((a) => (
+        <ListCard key={a.slug} article={a} />
+      ))}
+    </div>
   ),
 };

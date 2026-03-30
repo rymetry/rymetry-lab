@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { SectionContainer, SectionHeader } from './section';
-import { ThemeProvider } from './theme-provider';
 
 const meta = {
   title: 'Components/Section',
@@ -29,14 +28,12 @@ export const Default: Story = {
   },
   decorators: [
     (Story) => (
-      <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
-        <SectionContainer>
-          <Story />
-          <div className="h-32 rounded-lg border border-dashed border-border bg-muted/30 p-4 text-muted-foreground">
-            Section content area
-          </div>
-        </SectionContainer>
-      </ThemeProvider>
+      <SectionContainer>
+        <Story />
+        <div className="h-32 rounded-lg border border-dashed border-border bg-muted/30 p-4 text-muted-foreground">
+          Section content area
+        </div>
+      </SectionContainer>
     ),
   ],
 };
@@ -50,14 +47,12 @@ export const AltBackground: Story = {
   },
   decorators: [
     (Story) => (
-      <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
-        <SectionContainer alt>
-          <Story />
-          <div className="h-32 rounded-lg border border-dashed border-border bg-background/50 p-4 text-muted-foreground">
-            Alt section content area
-          </div>
-        </SectionContainer>
-      </ThemeProvider>
+      <SectionContainer alt>
+        <Story />
+        <div className="h-32 rounded-lg border border-dashed border-border bg-background/50 p-4 text-muted-foreground">
+          Alt section content area
+        </div>
+      </SectionContainer>
     ),
   ],
 };
@@ -72,14 +67,12 @@ export const DarkMode: Story = {
   globals: { theme: 'dark' },
   decorators: [
     (Story) => (
-      <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
-        <SectionContainer>
-          <Story />
-          <div className="h-32 rounded-lg border border-dashed border-border bg-muted/30 p-4 text-muted-foreground">
-            Section content area
-          </div>
-        </SectionContainer>
-      </ThemeProvider>
+      <SectionContainer>
+        <Story />
+        <div className="h-32 rounded-lg border border-dashed border-border bg-muted/30 p-4 text-muted-foreground">
+          Section content area
+        </div>
+      </SectionContainer>
     ),
   ],
 };
