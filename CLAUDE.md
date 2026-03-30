@@ -84,7 +84,7 @@ Epics #1-#10 (`epic`), Tasks #11-#44 (`task`)
 - **Skills**: `.agents/skills/` — Vercel skills (react-best-practices, composition-patterns, web-design-guidelines, browser-use)
 - **Rules**: グローバル `~/.claude/rules/common/` に委任。プロジェクト固有ルールは `.claude/rules/` に追加
 - **Plugins**: everything-claude-code (skills/agents), superpowers, frontend-design, playwright, pr-review-toolkit, context7 (グローバル)
-- **Hooks**: PostToolUse Prettier自動フォーマット + PreToolUse .env保護 (.claude/settings.json)
+- **Hooks** (個人設定 `.claude/settings.local.json`): PostToolUse Prettier自動フォーマット + PreToolUse .env保護
 
 ## Implementation Notes
 - 実装順: セットアップ (#11-#16,#42) → Story 先行 → コンポーネント → ページ組み立て
@@ -92,6 +92,17 @@ Epics #1-#10 (`epic`), Tasks #11-#44 (`task`)
 - Iconify: 実装時は @iconify/json でバンドル (CDN は FOUC リスク)
 - Geist: next/font/google (Next.js 16 で Google Fonts 対応済, モックは CDN 代用)
 - モック確認: `python3 -m http.server 8234` → localhost:8234/design-mock/design-mockup-v11.html
+
+## Hooks Setup
+`.claude/settings.local.json` に以下を追加 (repo にはコミットしない):
+```json
+{
+  "hooks": {
+    "PostToolUse": [{"matcher": "Edit|Write", "hooks": [{"type": "command", "command": "if [ -z \"$CLAUDE_FILE_PATH\" ] || [ ! -f \"$CLAUDE_FILE_PATH\" ]; then exit 0; fi; bunx prettier --write \"$CLAUDE_FILE_PATH\" 2>&1 || echo \"ERROR: Prettier failed on $CLAUDE_FILE_PATH\" >&2; exit 0", "timeout": 5000}]}],
+    "PreToolUse": [{"matcher": "Edit|Write", "hooks": [{"type": "command", "command": "echo \"$CLAUDE_FILE_PATH\" | grep -qE '(^|/)\\.env(\\.|$)' && ! echo \"$CLAUDE_FILE_PATH\" | grep -qE '\\.example$' && echo \"BLOCK: .env files are protected\" >&2 && exit 1 || exit 0"}]}]
+  }
+}
+```
 
 ## Commands
 ```bash
