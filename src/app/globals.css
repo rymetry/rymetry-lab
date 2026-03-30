@@ -1,19 +1,128 @@
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-primary: #fafafa;
+    --bg-secondary: #f3f4f6;
+    --bg-card: #ffffff;
+    --bg-code: #f3f4f6;
+    --text-primary: #0f1a14;
+    --text-secondary: #475464;
+    --text-muted: #6a7585;
+    --border: #e3e8ed;
+    --border-hover: #cdd5dc;
+    --accent: #0c6b58;
+    --accent-2: #14b890;
+    --accent-glow: rgba(12, 107, 88, 0.1);
+    --accent-gradient: linear-gradient(135deg, #084c3e, #14b890);
+    --hero-bg: linear-gradient(180deg, #eefbf6 0%, #fafafa 100%);
+    --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.06);
+    --card-shadow-hover: 0 8px 24px rgba(12, 107, 88, 0.1), 0 2px 6px rgba(0, 0, 0, 0.04);
+    --tag-bg: #eafaf3;
+    --tag-text: #084c3e;
+    --tag-border: #a2dcc5;
+
+    /* shadcn/ui compatible tokens */
+    --background: #fafafa;
+    --foreground: #0f1a14;
+    --card: #ffffff;
+    --card-foreground: #0f1a14;
+    --popover: #ffffff;
+    --popover-foreground: #0f1a14;
+    --primary: #0c6b58;
+    --primary-foreground: #ffffff;
+    --secondary: #f3f4f6;
+    --secondary-foreground: #0f1a14;
+    --muted: #f3f4f6;
+    --muted-foreground: #6a7585;
+    --accent: #0c6b58;
+    --accent-foreground: #ffffff;
+    --destructive: #ef4444;
+    --destructive-foreground: #ffffff;
+    --border: #e3e8ed;
+    --input: #e3e8ed;
+    --ring: #0c6b58;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --bg-primary: #09090b;
+    --bg-secondary: #131316;
+    --bg-card: #1a1a1f;
+    --bg-code: #222228;
+    --text-primary: #f4f4f5;
+    --text-secondary: #b0b4be;
+    --text-muted: #888d98;
+    --border: #28282e;
+    --border-hover: #3a3a42;
+    --accent: #5cd8c8;
+    --accent-2: #94ede0;
+    --accent-glow: rgba(92, 216, 200, 0.09);
+    --accent-gradient: linear-gradient(135deg, #0e8a7a, #5cd8c8);
+    --hero-bg: linear-gradient(180deg, #0b0d0c 0%, #09090b 100%);
+    --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    --card-shadow-hover: 0 8px 24px rgba(92, 216, 200, 0.08), 0 2px 6px rgba(0, 0, 0, 0.3);
+    --tag-bg: rgba(92, 216, 200, 0.07);
+    --tag-text: #94ede0;
+    --tag-border: rgba(92, 216, 200, 0.16);
+
+    --background: #09090b;
+    --foreground: #f4f4f5;
+    --card: #1a1a1f;
+    --card-foreground: #f4f4f5;
+    --popover: #1a1a1f;
+    --popover-foreground: #f4f4f5;
+    --primary: #5cd8c8;
+    --primary-foreground: #09090b;
+    --secondary: #131316;
+    --secondary-foreground: #f4f4f5;
+    --muted: #131316;
+    --muted-foreground: #888d98;
+    --accent: #5cd8c8;
+    --accent-foreground: #09090b;
+    --destructive: #dc2626;
+    --destructive-foreground: #f4f4f5;
+    --border: #28282e;
+    --input: #28282e;
+    --ring: #5cd8c8;
+  }
 }
 
-html {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --font-sans: var(--font-display);
+  --font-mono: var(--font-mono);
 }
 
-body {
-  font-family:
-    system-ui,
-    -apple-system,
-    sans-serif;
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-sans);
+  }
 }
