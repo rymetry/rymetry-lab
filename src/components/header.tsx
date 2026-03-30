@@ -66,7 +66,12 @@ export function Header() {
             {/* Mobile Menu */}
             <Sheet key={pathname}>
               <SheetTrigger asChild>
-                <Button type="button" variant="outline" size="icon" className="md:hidden">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="icon"
+                  className="md:hidden hover:bg-transparent hover:border-primary hover:text-primary"
+                >
                   <MenuIcon className="size-[18px]" />
                   <span className="sr-only">メニューを開く</span>
                 </Button>
