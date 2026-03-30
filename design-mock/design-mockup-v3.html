@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rymlab — Design Mockup v3</title>
+<!-- Font Awesome 6 for official brand & UI icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --font-sans: 'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'JetBrains Mono', 'PlemolJP HS', 'Fira Code', monospace;
+    /* Light — Muted Deep Green (v3: darker, easier on eyes) */
+    --bg-primary: #eaefeb;
+    --bg-secondary: #dfe6e1;
+    --bg-card: #f2f5f3;
+    --bg-code: #e4ebe6;
+    --text-primary: #0f1f17;
+    --text-secondary: #3d5449;
+    --text-muted: #6b8578;
+    --border: #c5d4cb;
+    --border-hover: #a3b8ac;
+    --accent: #047857;
+    --accent-2: #059669;
+    --accent-glow: rgba(4, 120, 87, 0.12);
+    --accent-gradient: linear-gradient(135deg, #047857, #059669);
+    --hero-bg: linear-gradient(180deg, #dce8e0 0%, #eaefeb 100%);
+    --card-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.07);
+    --card-shadow-hover: 0 4px 16px rgba(4,120,87,0.1), 0 2px 4px rgba(0,0,0,0.05);
+    --dot-color: rgba(4, 120, 87, 0.06);
+    --tag-bg: #d1e4d8;
+    --tag-text: #065f46;
+    --tag-border: #a7d4b8;
+  }
+  .dark {
+    --bg-primary: #080f0c;
+    --bg-secondary: #0c1713;
+    --bg-card: #111d17;
+    --bg-code: #142019;
+    --text-primary: #e0ebe4;
+    --text-secondary: #8ca99a;
+    --text-muted: #587568;
+    --border: #1a2e24;
+    --border-hover: #284438;
+    --accent: #34d399;
+    --accent-2: #6ee7b7;
+    --accent-glow: rgba(52, 211, 153, 0.1);
+    --accent-gradient: linear-gradient(135deg, #34d399, #6ee7b7);
+    --hero-bg: linear-gradient(180deg, #0a1610 0%, #080f0c 100%);
+    --card-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    --card-shadow-hover: 0 4px 20px rgba(52,211,153,0.06), 0 2px 4px rgba(0,0,0,0.3);
+    --dot-color: rgba(52, 211, 153, 0.05);
+    --tag-bg: rgba(52, 211, 153, 0.08);
+    --tag-text: #6ee7b7;
+    --tag-border: rgba(52, 211, 153, 0.18);
+  }
+  body { font-family: var(--font-sans); background: var(--bg-primary); color: var(--text-primary); line-height: 1.7; transition: background .3s, color .3s; overflow-x: hidden; }
+
+  /* ===== Control Bar ===== */
+  .control-bar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(8, 15, 12, 0.96); backdrop-filter: blur(12px); padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.08); color: #e0ebe4; }
+  .control-bar h1 { font-size: 13px; font-weight: 600; font-family: var(--font-mono); letter-spacing: -0.02em; }
+  .control-bar h1 span { color: #34d399; }
+  .controls { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+  .ctrl-btn { padding: 5px 12px; border: 1px solid rgba(255,255,255,0.12); border-radius: 5px; background: transparent; color: #8ca99a; font-size: 12px; font-family: var(--font-sans); cursor: pointer; transition: all .2s; white-space: nowrap; }
+  .ctrl-btn:hover { border-color: #34d399; color: #e0ebe4; }
+  .ctrl-btn.active { background: rgba(52,211,153,0.12); border-color: #34d399; color: #34d399; }
+  .ctrl-div { width: 1px; height: 18px; background: rgba(255,255,255,0.08); margin: 0 2px; }
+
+  .mockup-container { padding-top: 50px; }
+  .page-section { display: none; }
+  .page-section.active { display: block; }
+
+  /* ===== Header ===== */
+  .site-header { position: sticky; top: 50px; z-index: 100; background: rgba(234,239,235,0.85); backdrop-filter: blur(16px) saturate(180%); border-bottom: 1px solid var(--border); transition: background .3s; }
+  .dark .site-header { background: rgba(8,15,12,0.85); }
+  .header-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; height: 60px; display: flex; align-items: center; justify-content: space-between; }
+  .logo { font-family: var(--font-mono); font-size: 18px; font-weight: 800; color: var(--text-primary); text-decoration: none; letter-spacing: -0.04em; }
+  .logo .a { color: var(--accent); }
+  .header-right { display: flex; align-items: center; gap: 28px; }
+  .nav-links { display: flex; gap: 28px; list-style: none; }
+  .nav-links a { text-decoration: none; color: var(--text-secondary); font-size: 14px; font-weight: 500; transition: color .2s; position: relative; cursor: pointer; }
+  .nav-links a:hover { color: var(--text-primary); }
+  .nav-links a.active { color: var(--accent); }
+  .nav-links a.active::after { content: ''; position: absolute; bottom: -19px; left: 0; right: 0; height: 2px; background: var(--accent-gradient); border-radius: 1px; }
+  .header-actions { display: flex; gap: 8px; align-items: center; }
+  /* v3: Language toggle with globe icon */
+  .lang-toggle { display: flex; align-items: center; gap: 5px; padding: 5px 10px; border: 1px solid var(--border); border-radius: 6px; background: transparent; color: var(--text-muted); font-size: 12px; font-family: var(--font-mono); cursor: pointer; transition: all .2s; }
+  .lang-toggle:hover { border-color: var(--accent); color: var(--accent); }
+  .lang-toggle i { font-size: 13px; }
+  /* v3: Theme toggle with clear sun/moon icons */
+  .theme-toggle { width: 34px; height: 34px; border: 1px solid var(--border); border-radius: 7px; background: transparent; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 15px; transition: all .2s; }
+  .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+  .theme-toggle .fa-moon { display: none; }
+  .dark .theme-toggle .fa-sun { display: none; }
+  .dark .theme-toggle .fa-moon { display: inline; }
+
+  /* ===== Hero ===== */
+  .hero { background: var(--hero-bg); position: relative; overflow: hidden; padding: 88px 24px 72px; }
+  .hero::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(circle at 1px 1px, var(--dot-color) 1px, transparent 0); background-size: 28px 28px; }
+  .hero::after { content: ''; position: absolute; top: -40%; right: -15%; width: 500px; height: 500px; background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%); }
+  .hero-inner { max-width: 1200px; margin: 0 auto; position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+  .hero h1 { font-size: clamp(32px, 4.5vw, 52px); font-weight: 800; line-height: 1.15; letter-spacing: -0.03em; margin-bottom: 18px; }
+  .hero h1 .gt { background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .hero-desc { font-size: 16px; color: var(--text-secondary); line-height: 1.8; margin-bottom: 28px; max-width: 460px; }
+  .hero-cta { display: flex; gap: 12px; }
+  .btn-p { display: inline-flex; align-items: center; gap: 8px; padding: 11px 22px; background: var(--accent-gradient); color: white; border: none; border-radius: 9px; font-size: 14px; font-weight: 600; cursor: pointer; transition: transform .2s, box-shadow .2s; text-decoration: none; }
+  .btn-p:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(4,120,87,0.3); }
+  /* v3: Secondary button more visible */
+  .btn-s { display: inline-flex; align-items: center; gap: 8px; padding: 11px 22px; background: var(--bg-card); color: var(--accent); border: 1.5px solid var(--accent); border-radius: 9px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all .2s; text-decoration: none; }
+  .btn-s:hover { background: var(--accent-glow); border-color: var(--accent-2); }
+
+  /* Terminal */
+  .terminal { background: #080f0c; border: 1px solid #1a2e24; border-radius: 11px; width: 100%; max-width: 460px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.25); }
+  .dark .terminal { border-color: #284438; }
+  .t-bar { padding: 10px 14px; display: flex; gap: 7px; border-bottom: 1px solid #1a2e24; }
+  .t-dot { width: 11px; height: 11px; border-radius: 50%; }
+  .t-dot.r { background: #ef4444; } .t-dot.y { background: #eab308; } .t-dot.g { background: #22c55e; }
+  .t-body { padding: 18px; font-family: var(--font-mono); font-size: 12.5px; line-height: 1.8; color: #8ca99a; }
+  .t-body .pr { color: #34d399; } .t-body .cm { color: #e0ebe4; } .t-body .hl { color: #6ee7b7; } .t-body .ok { color: #22c55e; }
+  .cursor { display: inline-block; width: 7px; height: 15px; background: #34d399; animation: blink 1.2s infinite; vertical-align: middle; margin-left: 3px; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+  /* ===== Sections ===== */
+  .section { padding: 72px 24px; max-width: 1200px; margin: 0 auto; }
+  .s-label { font-family: var(--font-mono); font-size: 12px; color: var(--accent); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 6px; }
+  .s-title { font-size: clamp(22px, 3vw, 32px); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 12px; }
+  .s-desc { color: var(--text-secondary); font-size: 15px; margin-bottom: 40px; max-width: 560px; }
+
+  /* ===== Tag with dot ===== */
+  .tag { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; background: var(--tag-bg); border: 1px solid var(--tag-border); border-radius: 4px; font-size: 11.5px; color: var(--tag-text); font-family: var(--font-mono); }
+  .tag-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+  /* v3 Tag dot colors — categorized by technology LAYER */
+  .tag-dot.fe { background: #10b981; }      /* Frontend: frameworks, UI libs */
+  .tag-dot.be { background: #3b82f6; }      /* Backend: server, DB, API */
+  .tag-dot.infra { background: #8b5cf6; }   /* Infra / DevOps / CI/CD */
+  .tag-dot.lang { background: #f59e0b; }    /* Programming languages */
+  .tag-dot.tool { background: #ec4899; }    /* Tools / DX */
+  .tag-dot.sec { background: #ef4444; }     /* Security */
+  .tag-dot.perf { background: #06b6d4; }    /* Performance / Metrics */
+  .tag-dot.test { background: #f97316; }    /* Testing */
+  .tag-dot.devops { background: #8b5cf6; }  /* DevOps (alias of infra) */
+  .tag-dot.release { background: #a855f7; } /* Release */
+
+  /* ===== Project Cards ===== */
+  .proj-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px; }
+  .proj-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 11px; padding: 24px; transition: all .25s; position: relative; overflow: hidden; }
+  .proj-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--accent-gradient); opacity: 0; transition: opacity .25s; }
+  .proj-card:hover { border-color: var(--border-hover); box-shadow: var(--card-shadow-hover); transform: translateY(-2px); }
+  .proj-card:hover::before { opacity: 1; }
+  .proj-hd { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
+  .proj-icon { width: 38px; height: 38px; background: var(--accent-glow); border: 1px solid var(--tag-border); border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 17px; }
+  .proj-role { font-family: var(--font-mono); font-size: 11.5px; color: var(--accent); margin-bottom: 12px; }
+  .proj-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 6px; letter-spacing: -0.01em; }
+  .proj-card p { color: var(--text-secondary); font-size: 13.5px; line-height: 1.6; margin-bottom: 16px; }
+  .proj-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+
+  /* ===== Article Cards ===== */
+  .art-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px; }
+  .art-grid.list-view { grid-template-columns: 1fr; }
+  .art-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 11px; overflow: hidden; transition: all .25s; }
+  .art-card:hover { border-color: var(--border-hover); box-shadow: var(--card-shadow-hover); transform: translateY(-2px); }
+  .art-thumb { height: 160px; background: var(--bg-secondary); position: relative; overflow: hidden; }
+  .art-thumb-g { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(4,120,87,0.08) 0%, rgba(5,150,105,0.08) 100%); }
+  .art-thumb-p { position: absolute; inset: 0; background-image: linear-gradient(rgba(0,0,0,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.02) 1px, transparent 1px); background-size: 18px 18px; }
+  .art-thumb-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); font-size: 36px; opacity: 0.25; }
+  .art-body { padding: 20px; }
+  .art-meta { display: flex; gap: 14px; margin-bottom: 10px; font-size: 12px; color: var(--text-muted); font-family: var(--font-mono); align-items: center; }
+  .art-meta .meta-item { display: inline-flex; align-items: center; gap: 4px; }
+  .art-meta .meta-item i { font-size: 11px; }
+  .art-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 10px; letter-spacing: -0.01em; line-height: 1.4; }
+  /* v3: article card description hidden (SEO only) */
+  .art-card .art-desc { display: none; }
+  .art-tags { display: flex; gap: 5px; flex-wrap: wrap; }
+
+  /* List view */
+  .list-view .art-card { display: grid; grid-template-columns: 200px 1fr; }
+  .list-view .art-thumb { height: 100%; min-height: 140px; }
+  .list-view .art-body { padding: 20px 24px; display: flex; flex-direction: column; justify-content: center; }
+
+  /* View toggle */
+  .view-toggle { display: flex; gap: 4px; margin-left: auto; }
+  .view-btn { width: 34px; height: 34px; border: 1px solid var(--border); border-radius: 6px; background: transparent; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all .2s; font-size: 14px; }
+  .view-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .view-btn.active { background: var(--tag-bg); border-color: var(--tag-border); color: var(--tag-text); }
+
+  /* ===== Filter ===== */
+  .filter-bar { display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px; }
+  .filter-row { display: flex; gap: 10px; align-items: center; }
+  .search-wrap { position: relative; flex: 1; }
+  .search-wrap i { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 13px; }
+  .search-input { width: 100%; padding: 9px 14px 9px 38px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 7px; font-size: 13px; color: var(--text-primary); outline: none; transition: border-color .2s; font-family: var(--font-sans); }
+  .search-input:focus { border-color: var(--accent); }
+  .filter-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  /* v3: filter tags with icons */
+  .f-tag { padding: 6px 14px; border: 1px solid var(--border); border-radius: 7px; background: transparent; color: var(--text-secondary); font-size: 12.5px; cursor: pointer; transition: all .2s; font-family: var(--font-sans); display: inline-flex; align-items: center; gap: 5px; }
+  .f-tag:hover { border-color: var(--accent); color: var(--accent); }
+  .f-tag.active { background: var(--tag-bg); border-color: var(--tag-border); color: var(--tag-text); }
+  .f-tag i { font-size: 11px; }
+
+  /* ===== Pagination ===== */
+  .pagination { display: flex; gap: 6px; justify-content: center; margin-top: 40px; }
+  .pg-btn { width: 36px; height: 36px; border: 1px solid var(--border); border-radius: 7px; background: transparent; color: var(--text-secondary); font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all .2s; font-family: var(--font-sans); }
+  .pg-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .pg-btn.active { background: var(--accent-gradient); color: white; border-color: transparent; }
+
+  /* ===== Article Detail ===== */
+  .art-detail { display: grid; grid-template-columns: 1fr 220px; gap: 40px; align-items: start; }
+  .art-content { background: var(--bg-card); border: 1px solid var(--border); border-radius: 11px; padding: 36px; }
+  /* v3: Eyecatch smaller (240→180px) */
+  .art-eyecatch { width: 100%; height: 180px; background: var(--bg-secondary); border-radius: 9px; margin-bottom: 24px; position: relative; overflow: hidden; }
+  .art-eyecatch .art-thumb-g, .art-eyecatch .art-thumb-p { position: absolute; inset: 0; }
+  .art-eyecatch .art-thumb-g { background: linear-gradient(135deg, rgba(4,120,87,0.1) 0%, rgba(5,150,105,0.1) 100%); }
+  .art-eyecatch .art-thumb-p { background-image: linear-gradient(rgba(0,0,0,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.02) 1px, transparent 1px); background-size: 20px 20px; }
+  .art-eyecatch-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); font-size: 42px; opacity: 0.2; }
+  .art-content h1 { font-size: 26px; font-weight: 800; margin-bottom: 14px; letter-spacing: -0.02em; line-height: 1.35; }
+  .art-hd-meta { display: flex; gap: 16px; align-items: center; padding-bottom: 20px; margin-bottom: 28px; border-bottom: 1px solid var(--border); font-size: 12.5px; color: var(--text-muted); flex-wrap: wrap; }
+  .art-hd-meta i { font-size: 11px; }
+  .author-chip { display: flex; align-items: center; gap: 7px; }
+  .author-av { width: 26px; height: 26px; border-radius: 50%; background: var(--accent-glow); border: 1px solid var(--tag-border); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: var(--accent); }
+  .meta-item { display: inline-flex; align-items: center; gap: 4px; }
+  .prose h2 { font-size: 20px; font-weight: 700; margin: 28px 0 14px; letter-spacing: -0.01em; }
+  .prose p { color: var(--text-secondary); font-size: 14.5px; line-height: 1.8; margin-bottom: 18px; }
+  .prose pre { background: var(--bg-code); border: 1px solid var(--border); border-radius: 7px; padding: 18px; margin: 20px 0; overflow-x: auto; font-family: var(--font-mono); font-size: 12.5px; line-height: 1.7; color: var(--text-secondary); }
+  .prose code { font-family: var(--font-mono); font-size: 12.5px; background: var(--bg-code); padding: 2px 5px; border-radius: 3px; color: var(--accent); }
+  .code-fn { display: block; font-family: var(--font-mono); font-size: 11.5px; color: var(--text-muted); margin-bottom: 7px; padding-bottom: 7px; border-bottom: 1px solid var(--border); }
+
+  /* v3: Related/PrevNext as list cards */
+  .related-section { margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--border); }
+  .related-section h3 { font-size: 16px; font-weight: 700; margin-bottom: 16px; }
+  .list-card { display: grid; grid-template-columns: 120px 1fr; background: var(--bg-card); border: 1px solid var(--border); border-radius: 9px; overflow: hidden; transition: all .2s; cursor: pointer; margin-bottom: 10px; }
+  .list-card:hover { border-color: var(--accent); box-shadow: var(--card-shadow-hover); transform: translateY(-1px); }
+  .list-card-thumb { background: var(--bg-secondary); position: relative; min-height: 90px; }
+  .list-card-thumb .art-thumb-g, .list-card-thumb .art-thumb-p { position: absolute; inset: 0; }
+  .list-card-thumb .art-thumb-g { background: linear-gradient(135deg, rgba(4,120,87,0.07) 0%, rgba(5,150,105,0.07) 100%); }
+  .list-card-thumb .art-thumb-p { background-image: linear-gradient(rgba(0,0,0,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.02) 1px, transparent 1px); background-size: 14px 14px; }
+  .list-card-thumb-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); font-size: 22px; opacity: 0.2; }
+  .list-card-body { padding: 14px 18px; display: flex; flex-direction: column; justify-content: center; }
+  .list-card-body h4 { font-size: 14px; font-weight: 600; line-height: 1.4; margin-bottom: 4px; }
+  .list-card-body .lc-meta { font-size: 11.5px; color: var(--text-muted); font-family: var(--font-mono); display: flex; gap: 10px; align-items: center; }
+  .list-card-body .lc-meta i { font-size: 10px; }
+  .list-card-body .lc-tags { display: flex; gap: 4px; margin-top: 6px; }
+  .list-card-body .lc-tags .tag { font-size: 10px; padding: 1px 7px; }
+
+  /* v3: Prev/Next section */
+  .pn-section { margin-top: 32px; padding-top: 28px; border-top: 1px solid var(--border); }
+  .pn-section h3 { font-size: 16px; font-weight: 700; margin-bottom: 16px; }
+  .pn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .pn-label-inline { font-size: 11px; color: var(--text-muted); font-family: var(--font-mono); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 2px; }
+
+  /* TOC */
+  .toc-sidebar { position: sticky; top: 130px; }
+  .toc-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 11px; padding: 18px; }
+  .toc-title { font-size: 12px; font-weight: 600; margin-bottom: 14px; font-family: var(--font-mono); text-transform: uppercase; letter-spacing: .05em; color: var(--text-muted); }
+  .toc-list { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+  .toc-list a { font-size: 12.5px; color: var(--text-muted); text-decoration: none; transition: color .2s; display: block; padding-left: 11px; border-left: 2px solid var(--border); }
+  .toc-list a:hover { color: var(--text-primary); border-left-color: var(--accent); }
+  .toc-list a.active { color: var(--accent); border-left-color: var(--accent); }
+
+  /* ===== About ===== */
+  .about-hero { display: grid; grid-template-columns: 180px 1fr; gap: 36px; align-items: start; margin-bottom: 56px; }
+  .avatar { width: 180px; height: 180px; border-radius: 14px; background: var(--bg-secondary); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 56px; color: var(--text-muted); position: relative; overflow: hidden; }
+  .avatar::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, var(--accent-glow) 0%, transparent 50%); }
+  .about-info h2 { font-size: 28px; font-weight: 800; margin-bottom: 3px; letter-spacing: -0.02em; }
+  .about-role { font-family: var(--font-mono); color: var(--accent); font-size: 13px; margin-bottom: 16px; }
+  .about-bio { color: var(--text-secondary); font-size: 14.5px; line-height: 1.8; margin-bottom: 20px; }
+  .social-links { display: flex; gap: 8px; }
+  .social-link { width: 36px; height: 36px; border: 1px solid var(--border); border-radius: 7px; display: flex; align-items: center; justify-content: center; color: var(--text-muted); text-decoration: none; transition: all .2s; font-size: 16px; }
+  .social-link:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-glow); }
+
+  /* Principles */
+  .principles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; margin-bottom: 56px; }
+  .principle-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 11px; padding: 22px; transition: all .2s; }
+  .principle-card:hover { border-color: var(--border-hover); box-shadow: var(--card-shadow-hover); }
+  .principle-icon { font-size: 24px; margin-bottom: 10px; }
+  .principle-card h4 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+  .principle-card p { color: var(--text-secondary); font-size: 13.5px; line-height: 1.6; }
+
+  /* Toolbox */
+  .toolbox-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+  .toolbox-cat { background: var(--bg-card); border: 1px solid var(--border); border-radius: 11px; padding: 20px; }
+  .toolbox-cat h4 { font-size: 13px; font-weight: 600; margin-bottom: 14px; display: flex; align-items: center; gap: 7px; }
+  .toolbox-items { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tb-item { padding: 5px 11px; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 5px; font-size: 12.5px; color: var(--text-secondary); font-family: var(--font-mono); transition: all .2s; }
+  .tb-item:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-glow); }
+
+  /* ===== Footer ===== */
+  .site-footer { border-top: 1px solid var(--border); padding: 40px 24px; margin-top: 72px; }
+  .footer-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+  .footer-left { display: flex; flex-direction: column; gap: 6px; }
+  .footer-logo { font-family: var(--font-mono); font-size: 15px; font-weight: 700; color: var(--text-primary); }
+  .footer-logo .a { color: var(--accent); }
+  .footer-copy { font-size: 12px; color: var(--text-muted); }
+  .footer-icons { display: flex; gap: 8px; }
+  .footer-icon { width: 34px; height: 34px; border: 1px solid var(--border); border-radius: 7px; display: flex; align-items: center; justify-content: center; color: var(--text-muted); text-decoration: none; transition: all .2s; font-size: 16px; }
+  .footer-icon:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-glow); }
+  /* Zenn/Qiita inline SVG icons in footer */
+  .footer-icon svg { width: 16px; height: 16px; fill: currentColor; }
+
+  /* ===== Design Notes ===== */
+  .dn-section { background: var(--bg-secondary); border-top: 1px solid var(--border); padding: 72px 24px; }
+  .dn-inner { max-width: 1200px; margin: 0 auto; }
+  .dn-inner h2 { font-size: 26px; font-weight: 700; margin-bottom: 28px; letter-spacing: -0.02em; }
+  .notes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px; }
+  .note-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 11px; padding: 22px; }
+  .note-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 10px; }
+  .note-card p, .note-card ul { color: var(--text-secondary); font-size: 13.5px; line-height: 1.7; }
+  .note-card ul { padding-left: 18px; }
+  .palette { display: flex; gap: 10px; margin: 16px 0; flex-wrap: wrap; }
+  .swatch { width: 56px; height: 56px; border-radius: 9px; border: 1px solid var(--border); position: relative; }
+  .swatch::after { content: attr(data-label); position: absolute; bottom: 0; left: 0; right: 0; padding: 2px; font-size: 8px; font-family: var(--font-mono); color: white; background: rgba(0,0,0,0.5); text-align: center; border-radius: 0 0 8px 8px; }
+
+  @media (max-width: 768px) {
+    .hero-inner { grid-template-columns: 1fr; }
+    .hero-visual { display: none; }
+    .about-hero { grid-template-columns: 1fr; }
+    .art-detail { grid-template-columns: 1fr; }
+    .toc-sidebar { display: none; }
+    .proj-grid, .art-grid { grid-template-columns: 1fr; }
+    .list-view .art-card { grid-template-columns: 1fr; }
+    .list-card { grid-template-columns: 100px 1fr; }
+    .pn-grid { grid-template-columns: 1fr; }
+    .notes-grid { grid-template-columns: 1fr; }
+    .principles-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Zenn / Qiita SVGs (hidden, for <use>) -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <symbol id="si-zenn" viewBox="0 0 24 24"><path d="M.264 23.771h4.984c.264 0 .498-.147.645-.352L19.614.874c.176-.293-.029-.645-.381-.645h-4.72c-.235 0-.44.117-.587.323L.03 23.361c-.088.176.029.41.234.41zM17.445 23.419l6.479-10.408c.176-.293-.029-.645-.381-.645h-4.691c-.176 0-.352.088-.44.235l-6.655 10.643c-.176.264.029.528.264.528h4.984c.205-.059.381-.147.44-.352z"/></symbol>
+  <symbol id="si-qiita" viewBox="0 0 24 24"><path d="M7.94 11.48a3.6 3.6 0 1 0 0-7.2 3.6 3.6 0 0 0 0 7.2m0-5.99a2.4 2.4 0 1 1 0 4.79 2.4 2.4 0 0 1 0-4.79m8.07 8.44a4.32 4.32 0 1 0 0-8.64 4.32 4.32 0 0 0 0 8.64m0-7.2a2.88 2.88 0 1 1 0 5.76 2.88 2.88 0 0 1 0-5.76m5.63 8.04-1.2-1.2a.6.6 0 0 0-.85.85l1.2 1.2a.6.6 0 0 0 .85-.85"/></symbol>
+</svg>
+
+<!-- Control Bar -->
+<div class="control-bar">
+  <h1><span>&gt;_</span> Rymlab Design Mockup <span>v3</span></h1>
+  <div class="controls">
+    <button class="ctrl-btn active" data-page="home">Home</button>
+    <button class="ctrl-btn" data-page="projects">Projects</button>
+    <button class="ctrl-btn" data-page="articles">Articles</button>
+    <button class="ctrl-btn" data-page="article-detail">Article Detail</button>
+    <button class="ctrl-btn" data-page="about">About</button>
+    <div class="ctrl-div"></div>
+    <button class="ctrl-btn active" id="t-light"><i class="fa-solid fa-sun"></i> Light</button>
+    <button class="ctrl-btn" id="t-dark"><i class="fa-solid fa-moon"></i> Dark</button>
+    <div class="ctrl-div"></div>
+    <button class="ctrl-btn" data-page="design-notes">Design Notes</button>
+  </div>
+</div>
+
+<div class="mockup-container">
+
+<!-- ==================== HOME ==================== -->
+<div class="page-section active" id="page-home">
+  <header class="site-header"><div class="header-inner">
+    <a class="logo">Rym<span class="a">lab</span></a>
+    <div class="header-right">
+      <nav><ul class="nav-links">
+        <li><a class="active">Home</a></li>
+        <li><a>Projects</a></li>
+        <li><a>Articles</a></li>
+        <li><a>About</a></li>
+      </ul></nav>
+      <div class="header-actions">
+        <button class="lang-toggle"><i class="fa-solid fa-globe"></i> JA</button>
+        <button class="theme-toggle"><i class="fa-solid fa-sun"></i><i class="fa-solid fa-moon"></i></button>
+      </div>
+    </div>
+  </div></header>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <div>
+        <h1>Empowering teams<br>with <span class="gt">better tooling</span></h1>
+        <!-- v3: cooler description -->
+        <p class="hero-desc">Ship faster. Break less. &mdash; CI/CD 最適化から Developer Portal 構築まで、開発チームのフローを加速するツールとシステムを設計・構築しています。</p>
+        <div class="hero-cta">
+          <a class="btn-p">Projects &rarr;</a>
+          <a class="btn-s">Articles</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="terminal">
+          <div class="t-bar"><div class="t-dot r"></div><div class="t-dot y"></div><div class="t-dot g"></div></div>
+          <div class="t-body">
+            <div><span class="pr">~</span> <span class="cm">whoami</span></div>
+            <div><span class="hl">Rym</span> &mdash; Productivity Engineer</div>
+            <div style="margin-top:10px"><span class="pr">~</span> <span class="cm">cat focus.json</span></div>
+            <div>{</div>
+            <div>&nbsp;&nbsp;<span class="hl">"mission"</span>: "Engineering Productivity",</div>
+            <div>&nbsp;&nbsp;<span class="hl">"areas"</span>: ["CI/CD", "DevEx", "Automation"],</div>
+            <div>&nbsp;&nbsp;<span class="hl">"tools"</span>: ["GitHub Actions", "Terraform", "Docker"]</div>
+            <div>}</div>
+            <div style="margin-top:10px"><span class="pr">~</span> <span class="cm">echo $STATUS</span></div>
+            <div><span class="ok">&#9679; Building better developer workflows</span></div>
+            <div style="margin-top:10px"><span class="pr">~</span> <span class="cursor"></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- v3: Featured Work (reverted from Recent Work) -->
+  <section class="section">
+    <p class="s-label">// Featured Projects</p>
+    <h2 class="s-title">Featured Work</h2>
+    <!-- v3: cooler description -->
+    <p class="s-desc">Less friction, more flow. &mdash; 開発者のワークフローを加速するために構築したツール群。</p>
+    <div class="proj-grid">
+      <!-- v3: removed GitHub links from proj-hd -->
+      <div class="proj-card">
+        <div class="proj-hd"><div class="proj-icon">&#9889;</div></div>
+        <div class="proj-role">Lead Engineer</div>
+        <h3>CI/CD Pipeline Optimizer</h3>
+        <p>ビルド時間を70%短縮するCI/CDパイプライン最適化ツール。キャッシュ戦略と並列実行の自動チューニング。</p>
+        <div class="proj-tags">
+          <span class="tag"><span class="tag-dot infra"></span>GitHub Actions</span>
+          <span class="tag"><span class="tag-dot lang"></span>TypeScript</span>
+          <span class="tag"><span class="tag-dot infra"></span>Docker</span>
+        </div>
+      </div>
+      <div class="proj-card">
+        <div class="proj-hd"><div class="proj-icon">&#128736;</div></div>
+        <div class="proj-role">Platform Engineer</div>
+        <h3>Developer Portal</h3>
+        <p>社内開発者ポータル。サービスカタログ、ドキュメント検索、オンボーディング自動化を統合。</p>
+        <div class="proj-tags">
+          <span class="tag"><span class="tag-dot fe"></span>Next.js</span>
+          <span class="tag"><span class="tag-dot be"></span>Go</span>
+          <span class="tag"><span class="tag-dot infra"></span>Backstage</span>
+        </div>
+      </div>
+      <div class="proj-card">
+        <div class="proj-hd"><div class="proj-icon">&#128202;</div></div>
+        <div class="proj-role">OSS Author</div>
+        <h3>DevMetrics Dashboard</h3>
+        <p>DORA メトリクス可視化ダッシュボード。デプロイ頻度、リードタイム、MTTR、変更失敗率を自動計測。</p>
+        <div class="proj-tags">
+          <span class="tag"><span class="tag-dot fe"></span>React</span>
+          <span class="tag"><span class="tag-dot be"></span>Python</span>
+          <span class="tag"><span class="tag-dot infra"></span>Grafana</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Latest Articles -->
+  <section class="section">
+    <p class="s-label">// Latest Articles</p>
+    <h2 class="s-title">Recent Articles</h2>
+    <!-- v3: cooler description -->
+    <p class="s-desc">Field notes from the trenches of developer productivity.</p>
+    <div class="art-grid">
+      <div class="art-card">
+        <div class="art-thumb"><div class="art-thumb-g"></div><div class="art-thumb-p"></div><div class="art-thumb-icon">&#9889;</div></div>
+        <div class="art-body">
+          <div class="art-meta">
+            <span class="meta-item"><i class="fa-regular fa-calendar"></i> 2026-03-15</span>
+            <span class="meta-item"><i class="fa-solid fa-pen-to-square"></i> 2026-03-20</span>
+            <span class="meta-item"><i class="fa-regular fa-clock"></i> 8 min</span>
+          </div>
+          <h3>GitHub Actions のキャッシュ戦略を徹底的に最適化する</h3>
+          <!-- v3: description hidden (SEO only) -->
+          <p class="art-desc">ビルド時間を70%短縮したキャッシュ設計のパターンと実測値を共有します。</p>
+          <div class="art-tags">
+            <span class="tag"><span class="tag-dot infra"></span>CI/CD</span>
+            <span class="tag"><span class="tag-dot perf"></span>Performance</span>
+          </div>
+        </div>
+      </div>
+      <div class="art-card">
+        <div class="art-thumb"><div class="art-thumb-g"></div><div class="art-thumb-p"></div><div class="art-thumb-icon">&#128736;</div></div>
+        <div class="art-body">
+          <div class="art-meta">
+            <span class="meta-item"><i class="fa-regular fa-calendar"></i> 2026-03-01</span>
+            <span class="meta-item"><i class="fa-solid fa-pen-to-square"></i> 2026-03-05</span>
+            <span class="meta-item"><i class="fa-regular fa-clock"></i> 12 min</span>
+          </div>
+          <h3>開発者オンボーディングを自動化して定着率を改善した話</h3>
+          <p class="art-desc">新規メンバーの環境構築を30分で完了させる自動化フローの設計と実装。</p>
+          <div class="art-tags">
+            <span class="tag"><span class="tag-dot tool"></span>DevEx</span>
+            <span class="tag"><span class="tag-dot infra"></span>Automation</span>
+          </div>
+        </div>
+      </div>
+      <div class="art-card">
+        <div class="art-thumb"><div class="art-thumb-g"></div><div class="art-thumb-p"></div><div class="art-thumb-icon">&#128200;</div></div>
+        <div class="art-body">
+          <div class="art-meta">
+            <span class="meta-item"><i class="fa-regular fa-calendar"></i> 2026-02-18</span>
+            <span class="meta-item"><i class="fa-solid fa-pen-to-square"></i> 2026-02-22</span>
+            <span class="meta-item"><i class="fa-regular fa-clock"></i> 10 min</span>
+          </div>
+          <h3>DORA メトリクスを導入して開発チームの健全性を可視化する</h3>
+          <p class="art-desc">Four Keys を実測し、ボトルネックを特定して改善サイクルを回す実践ガイド。</p>
+          <div class="art-tags">
+            <span class="tag"><span class="tag-dot perf"></span>Metrics</span>
+            <span class="tag"><span class="tag-dot devops"></span>DevOps</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer"><div class="footer-inner">
+    <div class="footer-left">
+      <div class="footer-logo">Rym<span class="a">lab</span></div>
+      <p class="footer-copy">&copy; 2026 Rymlab. All rights reserved.</p>
+    </div>
+    <div class="footer-icons">
+      <a class="footer-icon" title="GitHub"><i class="fa-brands fa-github"></i></a>
+      <a class="footer-icon" title="X"><i class="fa-brands fa-x-twitter"></i></a>
+      <a class="footer-icon" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+      <a class="footer-icon" title="Zenn"><svg><use href="#si-zenn"/></svg></a>
+      <a class="footer-icon" title="Qiita"><svg><use href="#si-qiita"/></svg></a>
+      <a class="footer-icon" title="RSS"><i class="fa-solid fa-rss"></i></a>
+    </div>
+  </div></footer>
+</div>
+
+<!-- ==================== PROJECTS ==================== -->
+<div class="page-section" id="page-projects">
+  <header class="site-header"><div class="header-inner">
+    <a class="logo">Rym<span class="a">lab</span></a>
+    <div class="header-right">
+      <nav><ul class="nav-links">
+        <li><a>Home</a></li>
+        <li><a class="active">Projects</a></li>
+        <li><a>Articles</a></li>
+        <li><a>About</a></li>
+      </ul></nav>
+      <div class="header-actions">
+        <button class="lang-toggle"><i class="fa-solid fa-globe"></i> JA</button>
+        <button class="theme-toggle"><i class="fa-solid fa-sun"></i><i class="fa-solid fa-moon"></i></button>
+      </div>
+    </div>
+  </div></header>
+
+  <section class="section">
+    <p class="s-label">// Projects</p>
+    <h2 class="s-title">All Projects</h2>
+    <!-- v3: cooler description -->
+    <p class="s-desc">Tools engineered to multiply team velocity.</p>
+    <div class="proj-grid">
+      <!-- v3: all GitHub links removed from cards -->
+      <div class="proj-card">
+        <div class="proj-hd"><div class="proj-icon">&#9889;</div></div>
+        <div class="proj-role">Lead Engineer</div>
+        <h3>CI/CD Pipeline Optimizer</h3>
+        <p>ビルド時間を70%短縮するCI/CDパイプライン最適化ツール。キャッシュ戦略と並列実行の自動チューニング。</p>
+        <div class="proj-tags">
+          <span class="tag"><span class="tag-dot infra"></span>GitHub Actions</span>
+          <span class="tag"><span class="tag-dot lang"></span>TypeScript</span>
+          <span class="tag"><span class="tag-dot infra"></span>Docker</span>
+        </div>
+      </div>
+      <div class="proj-card">
+        <div class="proj-hd"><div class="proj-icon">&#128736;</div></div>
+        <div class="proj-role">Platform Engineer</div>
+        <h3>Developer Portal</h3>
+        <p>社内開発者ポータル。サービスカタログ、ドキュメント検索、オンボーディング自動化を統合。</p>
+        <div class="proj-tags">
+          <span class="tag"><span class="tag-dot fe"></span>Next.js</span>
+          <span class="tag"><span class="tag-dot be"></span>Go</span>
+          <span class="tag"><span class="tag-dot infra"></span>Backstage</span>
+        </div>
+      </div>
+      <div class="proj-card">
+        <div class="proj-hd"><div class="proj-icon">&#128202;</div></div>
+        <div class="proj-role">OSS Author</div>
+        <h3>DevMetrics Dashboard</h3>
+        <p>DORA メトリクス可視化ダッシュボード。デプロイ頻度、リードタイム、MTTR、変更失敗率を自動計測。</p>
+        <div class="proj-tags">
+          <span class="tag"><span class="tag-dot fe"></span>React</span>
+          <span class="tag"><span class="tag-dot be"></span>Python</span>
+          <span class="tag"><span class="tag-dot infra"></span>Grafana</span>
+        </div>
+      </div>
+      <div class="proj-card">
+        <div class="proj-hd"><div class="proj-icon">&#128295;</div></div>
+        <div class="proj-role">Infrastructure Engineer</div>
+        <h3>IaC Template Generator</h3>
+        <p>Terraformモジュールを対話的に生成するCLIツール。社内標準に準拠したインフラ構成を数分でセットアップ。</p>
+        <div class="proj-tags">
+          <span class="tag"><span class="tag-dot infra"></span>Terraform</span>
+          <span class="tag"><span class="tag-dot be"></span>Go</span>
+          <span class="tag"><span class="tag-dot infra"></span>AWS</span>
+        </div>
+      </div>
+      <div class="proj-card">
+        <div class="proj-hd"><div class="proj-icon">&#128270;</div></div>
+        <div class="proj-role">Full-stack Developer</div>
+        <h3>Incident Response Bot</h3>
+        <p>Slack連携のインシデント対応Bot。アラート集約、エスカレーション、ポストモーテム自動生成。</p>
+        <div class="proj-tags">
+          <span class="tag"><span class="tag-dot lang"></span>TypeScript</span>
+          <span class="tag"><span class="tag-dot tool"></span>Slack API</span>
+          <span class="tag"><span class="tag-dot be"></span>PostgreSQL</span>
+        </div>
+      </div>
+      <div class="proj-card">
+        <div class="proj-hd"><div class="proj-icon">&#128230;</div></div>
+        <div class="proj-role">OSS Author</div>
+        <h3>Config Validator</h3>
+        <p>ゼロ依存の設定ファイルバリデーションライブラリ。YAML/TOML/JSON対応、CI組み込み可能。</p>
+        <div class="proj-tags">
+          <span class="tag"><span class="tag-dot lang"></span>TypeScript</span>
+          <span class="tag"><span class="tag-dot test"></span>Vitest</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer"><div class="footer-inner">
+    <div class="footer-left">
+      <div class="footer-logo">Rym<span class="a">lab</span></div>
+      <p class="footer-copy">&copy; 2026 Rymlab. All rights reserved.</p>
+    </div>
+    <div class="footer-icons">
+      <a class="footer-icon" title="GitHub"><i class="fa-brands fa-github"></i></a>
+      <a class="footer-icon" title="X"><i class="fa-brands fa-x-twitter"></i></a>
+      <a class="footer-icon" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+      <a class="footer-icon" title="Zenn"><svg><use href="#si-zenn"/></svg></a>
+      <a class="footer-icon" title="Qiita"><svg><use href="#si-qiita"/></svg></a>
+      <a class="footer-icon" title="RSS"><i class="fa-solid fa-rss"></i></a>
+    </div>
+  </div></footer>
+</div>
+
+<!-- ==================== ARTICLES ==================== -->
+<div class="page-section" id="page-articles">
+  <header class="site-header"><div class="header-inner">
+    <a class="logo">Rym<span class="a">lab</span></a>
+    <div class="header-right">
+      <nav><ul class="nav-links">
+        <li><a>Home</a></li>
+        <li><a>Projects</a></li>
+        <li><a class="active">Articles</a></li>
+        <li><a>About</a></li>
+      </ul></nav>
+      <div class="header-actions">
+        <button class="lang-toggle"><i class="fa-solid fa-globe"></i> JA</button>
+        <button class="theme-toggle"><i class="fa-solid fa-sun"></i><i class="fa-solid fa-moon"></i></button>
+      </div>
+    </div>
+  </div></header>
+
+  <section class="section">
+    <p class="s-label">// Articles</p>
+    <h2 class="s-title">All Articles</h2>
+    <p class="s-desc">Insights on developer productivity, automation, and modern engineering practices.</p>
+
+    <div class="filter-bar">
+      <div class="filter-row">
+        <div class="search-wrap">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" class="search-input" placeholder="Search articles...">
+        </div>
+        <div class="view-toggle">
+          <button class="view-btn active" id="v-grid" title="Grid"><i class="fa-solid fa-grip"></i></button>
+          <button class="view-btn" id="v-list" title="List"><i class="fa-solid fa-list"></i></button>
+        </div>
+      </div>
+      <!-- v3: filter tags with icons -->
+      <div class="filter-tags">
+        <button class="f-tag active"><i class="fa-solid fa-layer-group"></i> All</button>
+        <button class="f-tag"><i class="fa-solid fa-gears"></i> CI/CD</button>
+        <button class="f-tag"><i class="fa-solid fa-wand-magic-sparkles"></i> DevEx</button>
+        <button class="f-tag"><i class="fa-solid fa-robot"></i> Automation</button>
+        <button class="f-tag"><i class="fa-solid fa-gauge-high"></i> Performance</button>
+        <button class="f-tag"><i class="fa-solid fa-infinity"></i> DevOps</button>
+        <button class="f-tag"><i class="fa-solid fa-code"></i> TypeScript</button>
+        <button class="f-tag"><i class="fa-solid fa-server"></i> Infrastructure</button>
+      </div>
+    </div>
+
+    <div class="art-grid" id="articles-grid">
+      <div class="art-card">
+        <div class="art-thumb"><div class="art-thumb-g"></div><div class="art-thumb-p"></div><div class="art-thumb-icon">&#9889;</div></div>
+        <div class="art-body">
+          <div class="art-meta">
+            <span class="meta-item"><i class="fa-regular fa-calendar"></i> 2026-03-15</span>
+            <span class="meta-item"><i class="fa-solid fa-pen-to-square"></i> 2026-03-20</span>
+            <span class="meta-item"><i class="fa-regular fa-clock"></i> 8 min</span>
+          </div>
+          <h3>GitHub Actions のキャッシュ戦略を徹底的に最適化する</h3>
+          <p class="art-desc">ビルド時間を70%短縮したキャッシュ設計のパターンと実測値を共有。</p>
+          <div class="art-tags"><span class="tag"><span class="tag-dot infra"></span>CI/CD</span><span class="tag"><span class="tag-dot perf"></span>Performance</span></div>
+        </div>
+      </div>
+      <div class="art-card">
+        <div class="art-thumb"><div class="art-thumb-g"></div><div class="art-thumb-p"></div><div class="art-thumb-icon">&#128736;</div></div>
+        <div class="art-body">
+          <div class="art-meta">
+            <span class="meta-item"><i class="fa-regular fa-calendar"></i> 2026-03-01</span>
+            <span class="meta-item"><i class="fa-solid fa-pen-to-square"></i> 2026-03-05</span>
+            <span class="meta-item"><i class="fa-regular fa-clock"></i> 12 min</span>
+          </div>
+          <h3>開発者オンボーディングを自動化して定着率を改善した話</h3>
+          <p class="art-desc">新規メンバーの環境構築を30分で完了させる自動化フローの設計と実装。</p>
+          <div class="art-tags"><span class="tag"><span class="tag-dot tool"></span>DevEx</span><span class="tag"><span class="tag-dot infra"></span>Automation</span></div>
+        </div>
+      </div>
+      <div class="art-card">
+        <div class="art-thumb"><div class="art-thumb-g"></div><div class="art-thumb-p"></div><div class="art-thumb-icon">&#128200;</div></div>
+        <div class="art-body">
+          <div class="art-meta">
+            <span class="meta-item"><i class="fa-regular fa-calendar"></i> 2026-02-18</span>
+            <span class="meta-item"><i class="fa-solid fa-pen-to-square"></i> 2026-02-22</span>
+            <span class="meta-item"><i class="fa-regular fa-clock"></i> 10 min</span>
+          </div>
+          <h3>DORA メトリクスを導入して開発チームの健全性を可視化する</h3>
+          <p class="art-desc">Four Keys を実測し、ボトルネックを特定して改善サイクルを回す実践ガイド。</p>
+          <div class="art-tags"><span class="tag"><span class="tag-dot perf"></span>Metrics</span><span class="tag"><span class="tag-dot devops"></span>DevOps</span></div>
+        </div>
+      </div>
+      <div class="art-card">
+        <div class="art-thumb"><div class="art-thumb-g"></div><div class="art-thumb-p"></div><div class="art-thumb-icon">&#128295;</div></div>
+        <div class="art-body">
+          <div class="art-meta">
+            <span class="meta-item"><i class="fa-regular fa-calendar"></i> 2026-02-05</span>
+            <span class="meta-item"><i class="fa-solid fa-pen-to-square"></i> 2026-02-10</span>
+            <span class="meta-item"><i class="fa-regular fa-clock"></i> 6 min</span>
+          </div>
+          <h3>Terraform モジュール設計のベストプラクティス</h3>
+          <p class="art-desc">再利用可能なTerraformモジュールの設計パターンと、チーム運用の勘所。</p>
+          <div class="art-tags"><span class="tag"><span class="tag-dot infra"></span>Terraform</span><span class="tag"><span class="tag-dot infra"></span>Infrastructure</span></div>
+        </div>
+      </div>
+      <div class="art-card">
+        <div class="art-thumb"><div class="art-thumb-g"></div><div class="art-thumb-p"></div><div class="art-thumb-icon">&#128302;</div></div>
+        <div class="art-body">
+          <div class="art-meta">
+            <span class="meta-item"><i class="fa-regular fa-calendar"></i> 2026-01-22</span>
+            <span class="meta-item"><i class="fa-solid fa-pen-to-square"></i> 2026-01-28</span>
+            <span class="meta-item"><i class="fa-regular fa-clock"></i> 15 min</span>
+          </div>
+          <h3>Monorepo における依存関係管理の設計戦略</h3>
+          <p class="art-desc">Turborepo/Nx を使った大規模 monorepo の依存管理と CI 最適化。</p>
+          <div class="art-tags"><span class="tag"><span class="tag-dot lang"></span>TypeScript</span><span class="tag"><span class="tag-dot infra"></span>CI/CD</span></div>
+        </div>
+      </div>
+      <div class="art-card">
+        <div class="art-thumb"><div class="art-thumb-g"></div><div class="art-thumb-p"></div><div class="art-thumb-icon">&#128640;</div></div>
+        <div class="art-body">
+          <div class="art-meta">
+            <span class="meta-item"><i class="fa-regular fa-calendar"></i> 2026-01-10</span>
+            <span class="meta-item"><i class="fa-solid fa-pen-to-square"></i> 2026-01-15</span>
+            <span class="meta-item"><i class="fa-regular fa-clock"></i> 7 min</span>
+          </div>
+          <h3>Feature Flags で安全にリリースする仕組みを構築する</h3>
+          <p class="art-desc">段階的リリースを実現するFeature Flagsの設計と、運用上の注意点。</p>
+          <div class="art-tags"><span class="tag"><span class="tag-dot devops"></span>DevOps</span><span class="tag"><span class="tag-dot release"></span>Release</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pagination">
+      <button class="pg-btn">&larr;</button>
+      <button class="pg-btn active">1</button>
+      <button class="pg-btn">2</button>
+      <button class="pg-btn">3</button>
+      <button class="pg-btn">&rarr;</button>
+    </div>
+  </section>
+
+  <footer class="site-footer"><div class="footer-inner">
+    <div class="footer-left">
+      <div class="footer-logo">Rym<span class="a">lab</span></div>
+      <p class="footer-copy">&copy; 2026 Rymlab. All rights reserved.</p>
+    </div>
+    <div class="footer-icons">
+      <a class="footer-icon" title="GitHub"><i class="fa-brands fa-github"></i></a>
+      <a class="footer-icon" title="X"><i class="fa-brands fa-x-twitter"></i></a>
+      <a class="footer-icon" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+      <a class="footer-icon" title="Zenn"><svg><use href="#si-zenn"/></svg></a>
+      <a class="footer-icon" title="Qiita"><svg><use href="#si-qiita"/></svg></a>
+      <a class="footer-icon" title="RSS"><i class="fa-solid fa-rss"></i></a>
+    </div>
+  </div></footer>
+</div>
+
+<!-- ==================== ARTICLE DETAIL ==================== -->
+<div class="page-section" id="page-article-detail">
+  <header class="site-header"><div class="header-inner">
+    <a class="logo">Rym<span class="a">lab</span></a>
+    <div class="header-right">
+      <nav><ul class="nav-links">
+        <li><a>Home</a></li>
+        <li><a>Projects</a></li>
+        <li><a class="active">Articles</a></li>
+        <li><a>About</a></li>
+      </ul></nav>
+      <div class="header-actions">
+        <button class="lang-toggle"><i class="fa-solid fa-globe"></i> JA</button>
+        <button class="theme-toggle"><i class="fa-solid fa-sun"></i><i class="fa-solid fa-moon"></i></button>
+      </div>
+    </div>
+  </div></header>
+
+  <section class="section">
+    <div class="art-detail">
+      <div class="art-content">
+        <!-- v3: eyecatch smaller (180px) -->
+        <div class="art-eyecatch">
+          <div class="art-thumb-g"></div>
+          <div class="art-thumb-p"></div>
+          <div class="art-eyecatch-icon">&#9889;</div>
+        </div>
+
+        <h1>GitHub Actions のキャッシュ戦略を徹底的に最適化する</h1>
+
+        <!-- Tags below title -->
+        <div class="art-tags" style="margin: 12px 0 16px;">
+          <span class="tag"><span class="tag-dot infra"></span>CI/CD</span>
+          <span class="tag"><span class="tag-dot perf"></span>Performance</span>
+          <span class="tag"><span class="tag-dot infra"></span>GitHub Actions</span>
+        </div>
+
+        <div class="art-hd-meta">
+          <div class="author-chip">
+            <div class="author-av">R</div>
+            <span>Rym</span>
+          </div>
+          <span class="meta-item"><i class="fa-regular fa-calendar"></i> 2026-03-15</span>
+          <span class="meta-item"><i class="fa-solid fa-pen-to-square"></i> 2026-03-20</span>
+          <span class="meta-item"><i class="fa-regular fa-clock"></i> 8 min read</span>
+        </div>
+
+        <div class="prose">
+          <h2>はじめに</h2>
+          <p>GitHub Actions のビルドが遅い &mdash; これは多くのチームが抱える課題です。本記事では、キャッシュ戦略の最適化によりビルド時間を70%短縮した実践的なアプローチを紹介します。</p>
+          <h2>キャッシュの基本戦略</h2>
+          <p><code>actions/cache</code> の適切な設定は、CI/CDパイプラインのパフォーマンスに直結します。キーの設計とリストア戦略がポイントです。</p>
+          <pre><code><span class="code-fn">.github/workflows/ci.yml</span><span style="color:#34d399;">- uses:</span> actions/cache@v4
+  <span style="color:#34d399;">with:</span>
+    <span style="color:#6ee7b7;">path:</span> |
+      node_modules
+      .next/cache
+    <span style="color:#6ee7b7;">key:</span> ${{ runner.os }}-deps-${{ hashFiles('bun.lock') }}
+    <span style="color:#6ee7b7;">restore-keys:</span> |
+      ${{ runner.os }}-deps-</code></pre>
+          <h2>並列実行の最適化</h2>
+          <p>テスト分割と <code>matrix</code> ストラテジーを組み合わせることで、さらなる高速化が可能です。Sharding パターンを活用しましょう。</p>
+          <h2>計測結果</h2>
+          <p>最適化前後の比較結果です。特に依存関係のキャッシュヒット率が大幅に向上し、コールドスタートの発生頻度が減少しました。</p>
+          <h2>まとめ</h2>
+          <p>キャッシュ戦略の最適化は、開発チーム全体の生産性に直結する重要な投資です。計測 &rarr; 改善 &rarr; 計測のサイクルを回し、継続的にパフォーマンスを向上させましょう。</p>
+        </div>
+
+        <!-- v3: Related Articles as list cards -->
+        <div class="related-section">
+          <h3>Related Articles</h3>
+          <div class="list-card">
+            <div class="list-card-thumb">
+              <div class="art-thumb-g"></div><div class="art-thumb-p"></div>
+              <div class="list-card-thumb-icon">&#128302;</div>
+            </div>
+            <div class="list-card-body">
+              <h4>Monorepo における依存関係管理の設計戦略</h4>
+              <div class="lc-meta">
+                <span><i class="fa-regular fa-calendar"></i> 2026-01-22</span>
+                <span><i class="fa-regular fa-clock"></i> 15 min</span>
+              </div>
+              <div class="lc-tags">
+                <span class="tag"><span class="tag-dot lang"></span>TypeScript</span>
+                <span class="tag"><span class="tag-dot infra"></span>CI/CD</span>
+              </div>
+            </div>
+          </div>
+          <div class="list-card">
+            <div class="list-card-thumb">
+              <div class="art-thumb-g"></div><div class="art-thumb-p"></div>
+              <div class="list-card-thumb-icon">&#128640;</div>
+            </div>
+            <div class="list-card-body">
+              <h4>Feature Flags で安全にリリースする仕組みを構築する</h4>
+              <div class="lc-meta">
+                <span><i class="fa-regular fa-calendar"></i> 2026-01-10</span>
+                <span><i class="fa-regular fa-clock"></i> 7 min</span>
+              </div>
+              <div class="lc-tags">
+                <span class="tag"><span class="tag-dot devops"></span>DevOps</span>
+                <span class="tag"><span class="tag-dot release"></span>Release</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- v3: Prev/Next with headings and list cards -->
+        <div class="pn-section">
+          <h3>More Articles</h3>
+          <div class="pn-grid">
+            <div>
+              <div class="pn-label-inline">&larr; Previous Article</div>
+              <div class="list-card">
+                <div class="list-card-thumb">
+                  <div class="art-thumb-g"></div><div class="art-thumb-p"></div>
+                  <div class="list-card-thumb-icon">&#128736;</div>
+                </div>
+                <div class="list-card-body">
+                  <h4>開発者オンボーディングを自動化して定着率を改善した話</h4>
+                  <div class="lc-meta">
+                    <span><i class="fa-regular fa-calendar"></i> 2026-03-01</span>
+                    <span><i class="fa-regular fa-clock"></i> 12 min</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="pn-label-inline" style="text-align:right">Next Article &rarr;</div>
+              <div class="list-card">
+                <div class="list-card-thumb">
+                  <div class="art-thumb-g"></div><div class="art-thumb-p"></div>
+                  <div class="list-card-thumb-icon">&#128200;</div>
+                </div>
+                <div class="list-card-body">
+                  <h4>DORA メトリクスを導入して開発チームの健全性を可視化する</h4>
+                  <div class="lc-meta">
+                    <span><i class="fa-regular fa-calendar"></i> 2026-02-18</span>
+                    <span><i class="fa-regular fa-clock"></i> 10 min</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="toc-sidebar">
+        <div class="toc-card">
+          <p class="toc-title">Table of Contents</p>
+          <ul class="toc-list">
+            <li><a class="active">はじめに</a></li>
+            <li><a>キャッシュの基本戦略</a></li>
+            <li><a>並列実行の最適化</a></li>
+            <li><a>計測結果</a></li>
+            <li><a>まとめ</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer"><div class="footer-inner">
+    <div class="footer-left">
+      <div class="footer-logo">Rym<span class="a">lab</span></div>
+      <p class="footer-copy">&copy; 2026 Rymlab. All rights reserved.</p>
+    </div>
+    <div class="footer-icons">
+      <a class="footer-icon" title="GitHub"><i class="fa-brands fa-github"></i></a>
+      <a class="footer-icon" title="X"><i class="fa-brands fa-x-twitter"></i></a>
+      <a class="footer-icon" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+      <a class="footer-icon" title="Zenn"><svg><use href="#si-zenn"/></svg></a>
+      <a class="footer-icon" title="Qiita"><svg><use href="#si-qiita"/></svg></a>
+      <a class="footer-icon" title="RSS"><i class="fa-solid fa-rss"></i></a>
+    </div>
+  </div></footer>
+</div>
+
+<!-- ==================== ABOUT ==================== -->
+<div class="page-section" id="page-about">
+  <header class="site-header"><div class="header-inner">
+    <a class="logo">Rym<span class="a">lab</span></a>
+    <div class="header-right">
+      <nav><ul class="nav-links">
+        <li><a>Home</a></li>
+        <li><a>Projects</a></li>
+        <li><a>Articles</a></li>
+        <li><a class="active">About</a></li>
+      </ul></nav>
+      <div class="header-actions">
+        <button class="lang-toggle"><i class="fa-solid fa-globe"></i> JA</button>
+        <button class="theme-toggle"><i class="fa-solid fa-sun"></i><i class="fa-solid fa-moon"></i></button>
+      </div>
+    </div>
+  </div></header>
+
+  <section class="section">
+    <div class="about-hero">
+      <div class="avatar">&#128104;&#8205;&#128187;</div>
+      <div class="about-info">
+        <h2>Rym</h2>
+        <p class="about-role">Productivity Engineer &mdash; Tokyo, Japan</p>
+        <p class="about-bio">開発チームの生産性を最大化することに情熱を注いでいます。CI/CDパイプラインの最適化、開発者ツールの設計、インフラ自動化を通じて、エンジニアがコードに集中できる環境を構築します。「計測し、自動化し、改善する」を信条に、日々の開発ワークフローをより良くすることが私のミッションです。</p>
+        <div class="social-links">
+          <a class="social-link" title="GitHub"><i class="fa-brands fa-github"></i></a>
+          <a class="social-link" title="X"><i class="fa-brands fa-x-twitter"></i></a>
+          <a class="social-link" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a class="social-link" title="Zenn"><svg style="width:18px;height:18px;fill:currentColor"><use href="#si-zenn"/></svg></a>
+          <a class="social-link" title="Qiita"><svg style="width:18px;height:18px;fill:currentColor"><use href="#si-qiita"/></svg></a>
+        </div>
+      </div>
+    </div>
+
+    <p class="s-label">// Engineering Principles</p>
+    <h2 class="s-title">What I Value</h2>
+    <p class="s-desc" style="margin-bottom: 24px;">エンジニアリングにおいて大切にしている原則。</p>
+    <div class="principles-grid">
+      <div class="principle-card">
+        <div class="principle-icon">&#128260;</div>
+        <h4>Automate Relentlessly</h4>
+        <p>手作業を見つけたら自動化を考える。繰り返しの作業はシステムに任せ、人はクリエイティブな仕事に集中する。</p>
+      </div>
+      <!-- v3: changed from "Measure First" -->
+      <div class="principle-card">
+        <div class="principle-icon">&#129300;</div>
+        <h4>Question Assumptions</h4>
+        <p>前提を常に疑う。「なぜそうなっているのか」を問い続けることで、本質的な課題と最適な解決策が見えてくる。</p>
+      </div>
+      <div class="principle-card">
+        <div class="principle-icon">&#127919;</div>
+        <h4>Developer Experience</h4>
+        <p>開発者の生産性を最大化するツールと環境を提供する。優れた DX は、優れたプロダクトにつながる。</p>
+      </div>
+      <div class="principle-card">
+        <div class="principle-icon">&#128300;</div>
+        <h4>Continuous Improvement</h4>
+        <p>小さな改善を積み重ねる。1%の改善を100回繰り返せば、劇的な変化が生まれる。</p>
+      </div>
+    </div>
+
+    <p class="s-label">// Toolbox</p>
+    <h2 class="s-title">Tech Stack</h2>
+    <p class="s-desc" style="margin-bottom: 24px;">日常的に使っている技術やツール。</p>
+    <div class="toolbox-grid">
+      <div class="toolbox-cat">
+        <h4>&#9889; Platform & CI/CD</h4>
+        <div class="toolbox-items">
+          <span class="tb-item">GitHub Actions</span>
+          <span class="tb-item">Terraform</span>
+          <span class="tb-item">Docker</span>
+          <span class="tb-item">AWS</span>
+          <span class="tb-item">Vercel</span>
+        </div>
+      </div>
+      <div class="toolbox-cat">
+        <h4>&#128187; Languages</h4>
+        <div class="toolbox-items">
+          <span class="tb-item">TypeScript</span>
+          <span class="tb-item">Go</span>
+          <span class="tb-item">Python</span>
+          <span class="tb-item">Bash</span>
+        </div>
+      </div>
+      <div class="toolbox-cat">
+        <h4>&#9881; Frontend & Backend</h4>
+        <div class="toolbox-items">
+          <span class="tb-item">Next.js</span>
+          <span class="tb-item">React</span>
+          <span class="tb-item">Hono</span>
+          <span class="tb-item">PostgreSQL</span>
+          <span class="tb-item">Redis</span>
+        </div>
+      </div>
+      <div class="toolbox-cat">
+        <h4>&#128736; Tools & Observability</h4>
+        <div class="toolbox-items">
+          <span class="tb-item">Grafana</span>
+          <span class="tb-item">Datadog</span>
+          <span class="tb-item">Linear</span>
+          <span class="tb-item">Neovim</span>
+          <span class="tb-item">Claude Code</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer"><div class="footer-inner">
+    <div class="footer-left">
+      <div class="footer-logo">Rym<span class="a">lab</span></div>
+      <p class="footer-copy">&copy; 2026 Rymlab. All rights reserved.</p>
+    </div>
+    <div class="footer-icons">
+      <a class="footer-icon" title="GitHub"><i class="fa-brands fa-github"></i></a>
+      <a class="footer-icon" title="X"><i class="fa-brands fa-x-twitter"></i></a>
+      <a class="footer-icon" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+      <a class="footer-icon" title="Zenn"><svg><use href="#si-zenn"/></svg></a>
+      <a class="footer-icon" title="Qiita"><svg><use href="#si-qiita"/></svg></a>
+      <a class="footer-icon" title="RSS"><i class="fa-solid fa-rss"></i></a>
+    </div>
+  </div></footer>
+</div>
+
+<!-- ==================== DESIGN NOTES ==================== -->
+<div class="page-section" id="page-design-notes">
+  <div class="dn-section" style="margin-top:0;border-top:none;">
+    <div class="dn-inner">
+      <p class="s-label">// Design System</p>
+      <h2>Design Notes &mdash; v3 Changes</h2>
+      <div class="notes-grid">
+        <div class="note-card">
+          <h3>&#127912; v3 Color Shift &mdash; Deeper Green</h3>
+          <p>ライトモードの背景を暗め・グリーン寄りに調整。目に優しいトーンに。</p>
+          <div class="palette">
+            <div class="swatch" style="background:#047857" data-label="accent"></div>
+            <div class="swatch" style="background:#059669" data-label="accent-2"></div>
+            <div class="swatch" style="background:#34d399" data-label="dark-acc"></div>
+            <div class="swatch" style="background:#eaefeb" data-label="light-bg"></div>
+            <div class="swatch" style="background:#f2f5f3" data-label="light-card"></div>
+            <div class="swatch" style="background:#080f0c" data-label="dark-bg"></div>
+          </div>
+          <p style="margin-top:10px"><strong>v2 &rarr; v3:</strong> bg-primary #f8faf9 &rarr; #eaefeb, bg-card #fff &rarr; #f2f5f3</p>
+        </div>
+
+        <div class="note-card">
+          <h3>&#10024; v2 &rarr; v3 Diff</h3>
+          <ul>
+            <li>ライトモード <strong>背景をダークグリーン寄り</strong> に</li>
+            <li>テーマ切替: <strong><i class="fa-solid fa-sun"></i> / <i class="fa-solid fa-moon"></i></strong> アイコンに</li>
+            <li>言語切替: <strong><i class="fa-solid fa-globe"></i></strong> アイコン + 言語コード</li>
+            <li>フッター: <strong>Font Awesome 6</strong> ブランドアイコン + Simple Icons SVG</li>
+            <li>Hero Articles ボタン: <strong>アクセントカラーborder</strong> で視認性UP</li>
+            <li>記事カード <strong>説明文非表示</strong>（SEO用のみ）</li>
+            <li>"Recent Work" &rarr; <strong>"Featured Work"</strong> に戻し</li>
+            <li>各セクション説明文を <strong>スタイリッシュに</strong> 刷新</li>
+            <li>プロジェクトカード <strong>GitHub リンク削除</strong></li>
+            <li>タグフィルターに <strong>FA アイコン</strong> 追加</li>
+            <li>アイキャッチ <strong>240px &rarr; 180px</strong> に縮小</li>
+            <li>Related Articles を <strong>リスト形式カード</strong> に</li>
+            <li>Prev/Next に <strong>見出し</strong> + <strong>リスト形式カード</strong></li>
+            <li>Measure First &rarr; <strong>Question Assumptions</strong></li>
+          </ul>
+        </div>
+
+        <div class="note-card">
+          <h3>&#128196; Tag Dot Color &mdash; Technology Layer</h3>
+          <p>タグドットの色は<strong>技術レイヤー</strong>で分類:</p>
+          <ul>
+            <li><span style="color:#10b981">&#9679;</span> <strong>Frontend</strong> &mdash; UI フレームワーク (React, Next.js, Vue)</li>
+            <li><span style="color:#3b82f6">&#9679;</span> <strong>Backend</strong> &mdash; サーバー/DB/API (Go, PostgreSQL, Hono)</li>
+            <li><span style="color:#8b5cf6">&#9679;</span> <strong>Infrastructure / DevOps</strong> &mdash; CI/CD, IaC (AWS, Docker, Terraform, GitHub Actions)</li>
+            <li><span style="color:#f59e0b">&#9679;</span> <strong>Languages</strong> &mdash; プログラミング言語 (TypeScript, Python)</li>
+            <li><span style="color:#ec4899">&#9679;</span> <strong>Tools / DX</strong> &mdash; 開発者ツール (Slack API, Backstage, DevEx)</li>
+            <li><span style="color:#ef4444">&#9679;</span> <strong>Security</strong> &mdash; セキュリティ関連</li>
+            <li><span style="color:#06b6d4">&#9679;</span> <strong>Performance / Metrics</strong> &mdash; 計測・最適化</li>
+            <li><span style="color:#f97316">&#9679;</span> <strong>Testing</strong> &mdash; テスト関連</li>
+          </ul>
+        </div>
+
+        <div class="note-card">
+          <h3>&#127760; Icon Libraries Used</h3>
+          <ul>
+            <li><strong>Font Awesome 6 Free</strong> (CDN) &mdash; UI icons + brand icons</li>
+            <li><strong>Simple Icons</strong> (inline SVG) &mdash; Zenn, Qiita</li>
+          </ul>
+          <p style="margin-top:8px">FA brands: <i class="fa-brands fa-github"></i> GitHub, <i class="fa-brands fa-x-twitter"></i> X, <i class="fa-brands fa-linkedin-in"></i> LinkedIn, <i class="fa-solid fa-rss"></i> RSS</p>
+          <p>Simple Icons SVG: Zenn, Qiita (FA未収録のため)</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /mockup-container -->
+
+<script>
+  document.querySelectorAll('.ctrl-btn[data-page]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.ctrl-btn[data-page]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
+      document.getElementById('page-' + btn.dataset.page).classList.add('active');
+      window.scrollTo(0, 0);
+    });
+  });
+  document.getElementById('t-light').addEventListener('click', () => {
+    document.body.classList.remove('dark');
+    document.getElementById('t-light').classList.add('active');
+    document.getElementById('t-dark').classList.remove('active');
+  });
+  document.getElementById('t-dark').addEventListener('click', () => {
+    document.body.classList.add('dark');
+    document.getElementById('t-dark').classList.add('active');
+    document.getElementById('t-light').classList.remove('active');
+  });
+  document.getElementById('v-grid')?.addEventListener('click', () => {
+    document.getElementById('articles-grid').classList.remove('list-view');
+    document.getElementById('v-grid').classList.add('active');
+    document.getElementById('v-list').classList.remove('active');
+  });
+  document.getElementById('v-list')?.addEventListener('click', () => {
+    document.getElementById('articles-grid').classList.add('list-view');
+    document.getElementById('v-list').classList.add('active');
+    document.getElementById('v-grid').classList.remove('active');
+  });
+</script>
+</body>
+</html>

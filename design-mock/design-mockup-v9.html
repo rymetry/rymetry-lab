@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rymlab — Design Mockup v9</title>
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --font-sans: 'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'JetBrains Mono', 'PlemolJP HS', 'Fira Code', monospace;
+    /* v7: neutral white base — green is accent only */
+    --bg-primary: #fafafa;
+    --bg-secondary: #f4f4f5;
+    --bg-card: #ffffff;
+    --bg-code: #f4f4f5;
+    --text-primary: #111827;
+    --text-secondary: #4b5563;
+    --text-muted: #6b7280;
+    --border: #e5e7eb;
+    --border-hover: #d1d5db;
+    --accent: #047857;
+    --accent-2: #10b981;
+    --accent-glow: rgba(4, 120, 87, 0.1);
+    --accent-gradient: linear-gradient(135deg, #065f46, #10b981);
+    --hero-bg: linear-gradient(180deg, #f0fdf8 0%, #fafafa 100%); /* v7: subtle green fade into neutral */
+    --card-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06);
+    --card-shadow-hover: 0 4px 16px rgba(4,120,87,0.1), 0 2px 4px rgba(0,0,0,0.04);
+    --dot-color: rgba(4, 120, 87, 0.05);
+    --tag-bg: #ecfdf5;
+    --tag-text: #065f46;
+    --tag-border: #a7f3d0;
+  }
+  .dark {
+    --bg-primary: #09090b;
+    --bg-secondary: #18181b;
+    --bg-card: #1c1c20;
+    --bg-code: #26262b;
+    --text-primary: #fafafa;
+    --text-secondary: #b4b4bd;
+    --text-muted: #8b8b95;
+    --border: #2a2a2f;
+    --border-hover: #3f3f46;
+    /* v7: teal shift — lower saturation, easier on eyes */
+    --accent: #5eead4;
+    --accent-2: #99f6e4;
+    --accent-glow: rgba(94, 234, 212, 0.1);
+    --accent-gradient: linear-gradient(135deg, #0d9488, #5eead4);
+    --hero-bg: linear-gradient(180deg, #0c0e0e 0%, #09090b 100%);
+    --card-shadow: 0 1px 3px rgba(0,0,0,0.4);
+    --card-shadow-hover: 0 4px 20px rgba(94,234,212,0.1), 0 2px 4px rgba(0,0,0,0.3);
+    --dot-color: rgba(94, 234, 212, 0.06);
+    --tag-bg: rgba(94, 234, 212, 0.07);
+    --tag-text: #99f6e4;
+    --tag-border: rgba(94, 234, 212, 0.18);
+  }
+  html { scroll-behavior: smooth; } /* v8: smooth scroll */
+  body { font-family: var(--font-sans); background: var(--bg-primary); color: var(--text-primary); line-height: 1.7; transition: background .3s, color .3s; overflow-x: hidden; }
+  /* v6: focus-visible for accessibility */
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+  iconify-icon { vertical-align: middle; display: inline-flex; }
+  /* v6: skip link */
+  .skip-link { position: absolute; top: -100%; left: 16px; padding: 8px 16px; background: var(--accent); color: white; border-radius: 0 0 6px 6px; z-index: 9999; font-size: 13px; text-decoration: none; }
+  .skip-link:focus { top: 0; }
+
+  /* ===== Control Bar ===== */
+  .control-bar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(9,9,11,0.96); backdrop-filter: blur(12px); padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.08); color: #fafafa; }
+  .control-bar h1 { font-size: 13px; font-weight: 600; font-family: var(--font-mono); }
+  .control-bar h1 span { color: #34d399; }
+  .controls { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+  .ctrl-btn { padding: 5px 12px; border: 1px solid rgba(255,255,255,0.12); border-radius: 5px; background: transparent; color: #a1a1aa; font-size: 12px; cursor: pointer; transition: border-color .2s, color .2s, background .2s; white-space: nowrap; }
+  .ctrl-btn:hover { border-color: #34d399; color: #fafafa; }
+  .ctrl-btn.active { background: rgba(52,211,153,0.12); border-color: #34d399; color: #34d399; }
+  .ctrl-div { width: 1px; height: 18px; background: rgba(255,255,255,0.08); margin: 0 2px; }
+
+  .mockup-container { padding-top: 50px; }
+  .page-section { display: none; }
+  .page-section.active { display: block; }
+
+  /* ===== Header ===== */
+  .site-header { position: sticky; top: 50px; z-index: 100; background: rgba(250,250,250,0.85); backdrop-filter: blur(16px) saturate(180%); border-bottom: 1px solid var(--border); transition: background .3s; }
+  .dark .site-header { background: rgba(9,9,11,0.85); }
+  .header-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; height: 60px; display: flex; align-items: center; justify-content: space-between; }
+  .logo { font-family: var(--font-mono); font-size: 18px; font-weight: 800; color: var(--text-primary); text-decoration: none; letter-spacing: -0.04em; }
+  .logo .a { color: var(--accent); }
+  .header-right { display: flex; align-items: center; gap: 28px; }
+  .nav-links { display: flex; gap: 28px; list-style: none; }
+  .nav-links a { text-decoration: none; color: var(--text-secondary); font-size: 14px; font-weight: 500; transition: color .2s; position: relative; cursor: pointer; }
+  .nav-links a:hover { color: var(--text-primary); }
+  .nav-links a.active { color: var(--accent); }
+  .nav-links a.active::after { content: ''; position: absolute; bottom: -19px; left: 0; right: 0; height: 2px; background: var(--accent-gradient); border-radius: 1px; }
+  .header-actions { display: flex; gap: 8px; align-items: center; }
+  .lang-toggle { display: flex; align-items: center; gap: 5px; padding: 5px 10px; border: 1px solid var(--border); border-radius: 6px; background: transparent; color: var(--text-muted); font-size: 12px; font-family: var(--font-mono); cursor: pointer; transition: border-color .2s, color .2s; }
+  .lang-toggle:hover { border-color: var(--accent); color: var(--accent); }
+  .lang-toggle iconify-icon { font-size: 14px; }
+  .theme-toggle { width: 34px; height: 34px; border: 1px solid var(--border); border-radius: 7px; background: transparent; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: border-color .2s, color .2s; }
+  .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+  .theme-toggle iconify-icon { font-size: 16px; }
+  .theme-toggle .icon-moon { display: none; }
+  .dark .theme-toggle .icon-sun { display: none; }
+  .dark .theme-toggle .icon-moon { display: inline; }
+  /* v9: hamburger menu with icon toggle + overlay */
+  .menu-btn { display: none; width: 34px; height: 34px; border: 1px solid var(--border); border-radius: 7px; background: transparent; color: var(--text-muted); cursor: pointer; align-items: center; justify-content: center; transition: border-color .2s, color .2s; position: relative; z-index: 101; }
+  .menu-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .menu-btn iconify-icon { font-size: 18px; }
+  .menu-btn .icon-close { display: none; }
+  .menu-btn.is-open .icon-menu { display: none; }
+  .menu-btn.is-open .icon-close { display: inline-flex; }
+  .mobile-nav { display: none; }
+  .mobile-nav.open { display: flex; flex-direction: column; position: absolute; top: 60px; left: 0; right: 0; background: var(--bg-card); border-bottom: 1px solid var(--border); box-shadow: 0 8px 24px rgba(0,0,0,0.1); padding: 16px 24px; gap: 4px; z-index: 100; }
+  .dark .mobile-nav.open { box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
+  .mobile-nav a { display: block; padding: 10px 0; color: var(--text-secondary); text-decoration: none; font-size: 15px; font-weight: 500; border-bottom: 1px solid var(--border); transition: color .2s; cursor: pointer; }
+  .mobile-nav a:last-child { border-bottom: none; }
+  .mobile-nav a:hover { color: var(--accent); }
+  .mobile-nav a.active { color: var(--accent); }
+  /* v9: overlay backdrop */
+  .menu-overlay { display: none; position: fixed; left: 0; right: 0; bottom: 0; top: 110px; background: rgba(0,0,0,0.3); z-index: 98; backdrop-filter: blur(2px); }
+  .menu-overlay.open { display: block; }
+  .dark .menu-overlay.open { background: rgba(0,0,0,0.5); }
+
+  /* ===== Hero ===== */
+  .hero { background: var(--hero-bg); position: relative; overflow: hidden; padding: 80px 0 64px; }
+  .hero::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(circle at 1px 1px, var(--dot-color) 1px, transparent 0); background-size: 28px 28px; }
+  .hero::after { content: ''; position: absolute; top: -40%; right: -15%; width: 500px; height: 500px; background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%); }
+  .hero-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+  .hero h1 { font-size: clamp(32px, 4.5vw, 52px); font-weight: 800; line-height: 1.15; letter-spacing: -0.03em; margin-bottom: 18px; }
+  .hero h1 .gt { background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .hero-desc { font-size: 16px; color: var(--text-secondary); line-height: 1.8; margin-bottom: 28px; }
+  .hero-cta { display: flex; gap: 12px; }
+  .btn-p { display: inline-flex; align-items: center; gap: 8px; padding: 11px 22px; background: var(--accent-gradient); color: white; border: none; border-radius: 9px; font-size: 14px; font-weight: 600; cursor: pointer; transition: transform .2s, box-shadow .2s; text-decoration: none; }
+  .btn-p:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(4,120,87,0.3); }
+  .btn-s { display: inline-flex; align-items: center; gap: 8px; padding: 11px 22px; background: var(--bg-card); color: var(--accent); border: 1.5px solid var(--accent); border-radius: 9px; font-size: 14px; font-weight: 600; cursor: pointer; transition: background .2s, border-color .2s; text-decoration: none; }
+  .btn-s:hover { background: var(--accent-glow); border-color: var(--accent-2); }
+
+  /* Terminal */
+  .hero-visual { display: flex; justify-content: flex-end; }
+  .terminal { background: #09090b; border: 1px solid #2a2a2f; border-radius: 11px; width: 100%; max-width: 460px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.25); }
+  .dark .terminal { border-color: #3f3f46; } /* v6: brighter border in dark */
+  .t-bar { padding: 10px 14px; display: flex; gap: 7px; border-bottom: 1px solid #2a2a2f; }
+  .t-dot { width: 11px; height: 11px; border-radius: 50%; }
+  .t-dot.r { background: #ef4444; } .t-dot.y { background: #eab308; } .t-dot.g { background: #22c55e; }
+  .t-body { padding: 18px; font-family: var(--font-mono); font-size: 12.5px; line-height: 1.8; color: #a1a1aa; }
+  /* v7: terminal colors — teal palette */
+  .t-body .pr { color: #5eead4; } .t-body .cm { color: #fafafa; } .t-body .hl { color: #99f6e4; } .t-body .ok { color: #34d399; } .t-body .dim { color: #71717a; }
+  .cursor { display: inline-block; width: 7px; height: 15px; background: #5eead4; animation: blink 1.2s infinite; vertical-align: middle; margin-left: 3px; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+  /* v6: Mobile mini terminal */
+  .terminal-mobile { display: none; }
+
+  /* ===== Sections ===== */
+  .section { padding: 72px 24px; max-width: 1200px; margin: 0 auto; }
+  /* v8: section-alt with smooth top transition */
+  .section-alt { background: var(--bg-secondary); border-top: 1px solid var(--border); }
+  .s-label { font-family: var(--font-mono); font-size: 12px; color: var(--accent); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 6px; }
+  .s-title { font-size: clamp(22px, 3vw, 32px); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 12px; }
+  .s-desc { color: var(--text-secondary); font-size: 15px; margin-bottom: 40px; max-width: 600px; line-height: 1.7; }
+  .s-desc-en { font-weight: 500; color: var(--text-primary); } /* v6: 600→500 */
+
+  /* ===== Tags ===== */
+  .tag { display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px; background: var(--tag-bg); border: 1px solid var(--tag-border); border-radius: 4px; font-size: 11px; color: var(--tag-text); font-family: var(--font-mono); }
+  .tag iconify-icon { font-size: 11px; flex-shrink: 0; }
+  .tag .ti-fe { color: #10b981; } .tag .ti-be { color: #3b82f6; } .tag .ti-infra { color: #8b5cf6; }
+  .tag .ti-lang { color: #f59e0b; } .tag .ti-tool { color: #ec4899; } .tag .ti-sec { color: #ef4444; }
+  .tag .ti-perf { color: #06b6d4; } .tag .ti-test { color: #f97316; } .tag .ti-devops { color: #8b5cf6; }
+  .tag .ti-release { color: #a855f7; }
+
+  /* ===== Card base ===== */
+  .card-hover { background: var(--bg-card); border: 1px solid var(--border); border-radius: 11px; position: relative; overflow: hidden; cursor: pointer; /* v6: clickable */ transition: transform .25s, box-shadow .25s, border-color .25s; /* v6: specific props */ }
+  .card-hover::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--accent-gradient); opacity: 0; transition: opacity .25s; z-index: 1; }
+  .card-hover:hover { border-color: var(--border-hover); box-shadow: var(--card-shadow-hover); transform: translateY(-2px); }
+  .card-hover:hover::before { opacity: 1; }
+  /* v6: title turns accent on hover, arrow appears */
+  .card-hover:hover h3 { color: var(--accent); }
+  .card-hover h3 { transition: color .2s; }
+  .card-title-arrow { opacity: 0; transition: opacity .2s, transform .2s; display: inline; font-size: 0.85em; margin-left: 4px; color: var(--accent); }
+  .card-hover:hover .card-title-arrow { opacity: 1; transform: translateX(2px); }
+
+  /* ===== Project Cards ===== */
+  .proj-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; } /* v6: 340→320 */
+  /* v8: flex column for equal-height cards */
+  .proj-card { padding: 24px; display: flex; flex-direction: column; }
+  .proj-hd { margin-bottom: 14px; }
+  .proj-icon { width: 38px; height: 38px; background: var(--accent-glow); border: 1px solid var(--tag-border); border-radius: 9px; display: flex; align-items: center; justify-content: center; color: var(--accent); }
+  .proj-icon iconify-icon { font-size: 18px; }
+  .proj-role { font-family: var(--font-mono); font-size: 11.5px; color: var(--accent); margin-bottom: 12px; }
+  .proj-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 6px; }
+  .proj-card p { color: var(--text-secondary); font-size: 13.5px; line-height: 1.6; margin-bottom: 16px; flex-grow: 1; }
+  .proj-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: auto; }
+
+  /* ===== Article Cards ===== */
+  .art-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
+  .art-grid.list-view { grid-template-columns: 1fr; transition: none; }
+  .art-thumb { height: 160px; background: var(--bg-secondary); position: relative; overflow: hidden; }
+  .art-thumb-g { position: absolute; inset: 0; }
+  .light-thumb-g { background: linear-gradient(135deg, rgba(4,120,87,0.06) 0%, rgba(5,150,105,0.06) 100%); }
+  .dark .art-thumb-g, .art-thumb-g { background: linear-gradient(135deg, rgba(4,120,87,0.06) 0%, rgba(5,150,105,0.06) 100%); }
+  .dark .art-thumb-g { background: linear-gradient(135deg, rgba(94,234,212,0.14) 0%, rgba(45,212,191,0.14) 100%); } /* v8: more visible in dark */
+  .art-thumb-p { position: absolute; inset: 0; background-image: linear-gradient(rgba(0,0,0,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.02) 1px, transparent 1px); background-size: 18px 18px; }
+  .art-thumb-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); font-size: 36px; opacity: 0.2; }
+  .art-body { padding: 20px; }
+  .art-meta { display: flex; gap: 14px; margin-bottom: 10px; font-size: 12px; color: var(--text-muted); font-family: var(--font-mono); align-items: center; }
+  .art-meta .meta-item { display: inline-flex; align-items: center; gap: 4px; }
+  .art-meta iconify-icon { font-size: 12px; }
+  .art-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; line-height: 1.4; } /* v6: mb 10→8 */
+  .art-card .art-desc { display: none; }
+  .art-tags { display: flex; gap: 5px; flex-wrap: wrap; }
+
+  .list-view .art-card { display: grid; grid-template-columns: 200px 1fr; }
+  .list-view .art-thumb { height: 100%; min-height: 140px; }
+  .list-view .art-body { padding: 20px 24px; display: flex; flex-direction: column; justify-content: center; }
+
+  /* View toggle */
+  .view-toggle { display: flex; gap: 4px; margin-left: auto; }
+  .view-btn { width: 34px; height: 34px; border: 1px solid var(--border); border-radius: 6px; background: transparent; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: border-color .2s, color .2s, background .2s; }
+  .view-btn iconify-icon { font-size: 16px; }
+  .view-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .view-btn.active { background: var(--tag-bg); border-color: var(--tag-border); color: var(--tag-text); }
+
+  /* ===== Filter ===== */
+  .filter-bar { display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px; }
+  .filter-row { display: flex; gap: 10px; align-items: center; }
+  .search-wrap { position: relative; flex: 1; }
+  .search-wrap iconify-icon { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 14px; }
+  .search-input { width: 100%; padding: 9px 14px 9px 38px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 7px; font-size: 13px; color: var(--text-primary); outline: none; transition: border-color .2s; font-family: var(--font-sans); }
+  .search-input:focus { border-color: var(--accent); }
+  .filter-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .f-tag { padding: 6px 14px; border: 1px solid var(--border); border-radius: 7px; background: transparent; color: var(--text-secondary); font-size: 12.5px; cursor: pointer; transition: border-color .2s, color .2s, background .2s; font-family: var(--font-sans); display: inline-flex; align-items: center; gap: 5px; }
+  .f-tag iconify-icon { font-size: 13px; }
+  .f-tag:hover { border-color: var(--accent); color: var(--accent); }
+  .f-tag.active { background: var(--tag-bg); border-color: var(--tag-border); color: var(--tag-text); }
+
+  /* ===== Pagination ===== */
+  .pagination { display: flex; gap: 6px; justify-content: center; align-items: center; margin-top: 40px; }
+  .pg-btn { width: 36px; height: 36px; border: 1px solid var(--border); border-radius: 7px; background: transparent; color: var(--text-secondary); font-size: 13px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: border-color .2s, color .2s, background .2s; }
+  .pg-btn iconify-icon { font-size: 14px; }
+  .pg-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .pg-btn.active { background: var(--accent-gradient); color: white; border-color: transparent; }
+  /* v6: pagination info */
+  .pg-info { font-size: 12px; color: var(--text-muted); font-family: var(--font-mono); margin: 0 8px; }
+
+  /* ===== Article Detail ===== */
+  .art-detail { display: grid; grid-template-columns: 1fr 240px; gap: 40px; align-items: start; } /* v6: TOC 220→240 */
+  .art-content { background: var(--bg-card); border: 1px solid var(--border); border-radius: 11px; padding: 36px; }
+  .art-eyecatch { width: 100%; height: 180px; background: var(--bg-secondary); border-radius: 9px; margin-bottom: 24px; position: relative; overflow: hidden; }
+  .art-eyecatch .art-thumb-g { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(4,120,87,0.08) 0%, rgba(5,150,105,0.08) 100%); }
+  .dark .art-eyecatch .art-thumb-g { background: linear-gradient(135deg, rgba(94,234,212,0.1) 0%, rgba(45,212,191,0.1) 100%); }
+  .art-eyecatch .art-thumb-p { position: absolute; inset: 0; background-image: linear-gradient(rgba(0,0,0,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.02) 1px, transparent 1px); background-size: 20px 20px; }
+  .art-eyecatch-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); font-size: 38px; opacity: 0.18; }
+  .art-content h1 { font-size: 26px; font-weight: 800; margin-bottom: 14px; letter-spacing: -0.02em; line-height: 1.35; }
+  .art-hd-meta { display: flex; gap: 16px; align-items: center; padding-bottom: 20px; margin-bottom: 28px; border-bottom: 1px solid var(--border); font-size: 12.5px; color: var(--text-muted); flex-wrap: wrap; }
+  .art-hd-meta iconify-icon { font-size: 12px; }
+  .author-chip { display: flex; align-items: center; gap: 7px; }
+  .author-av { width: 26px; height: 26px; border-radius: 50%; background: var(--accent-glow); border: 1px solid var(--tag-border); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: var(--accent); }
+  .meta-item { display: inline-flex; align-items: center; gap: 4px; }
+  .prose h2 { font-size: 20px; font-weight: 700; margin: 28px 0 14px; }
+  .prose p { color: var(--text-secondary); font-size: 14.5px; line-height: 1.8; margin-bottom: 18px; }
+  .prose pre { background: var(--bg-code); border: 1px solid var(--border); border-radius: 7px; padding: 18px; margin: 20px 0; overflow-x: auto; font-family: var(--font-mono); font-size: 12.5px; line-height: 1.7; color: var(--text-secondary); }
+  .prose code { font-family: var(--font-mono); font-size: 12.5px; background: var(--bg-code); padding: 2px 5px; border-radius: 3px; color: var(--accent); }
+  .code-fn { display: block; font-family: var(--font-mono); font-size: 11.5px; color: var(--text-muted); margin-bottom: 7px; padding-bottom: 7px; border-bottom: 1px solid var(--border); }
+
+  /* List cards */
+  .related-section { margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--border); }
+  .related-section h3 { font-size: 16px; font-weight: 700; margin-bottom: 16px; }
+  .list-card { display: grid; grid-template-columns: 120px 1fr; background: var(--bg-card); border: 1px solid var(--border); border-radius: 9px; overflow: hidden; cursor: pointer; margin-bottom: 10px; position: relative; transition: transform .2s, box-shadow .2s, border-color .2s; }
+  /* v6: list-card also gets green top bar */
+  .list-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--accent-gradient); opacity: 0; transition: opacity .2s; z-index: 1; }
+  .list-card:hover { border-color: var(--accent); box-shadow: var(--card-shadow-hover); transform: translateY(-1px); }
+  .list-card:hover::before { opacity: 1; }
+  .list-card-thumb { background: var(--bg-secondary); position: relative; min-height: 90px; }
+  .list-card-thumb .art-thumb-g { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(4,120,87,0.06) 0%, rgba(5,150,105,0.06) 100%); }
+  .list-card-thumb .art-thumb-p { position: absolute; inset: 0; background-image: linear-gradient(rgba(0,0,0,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.02) 1px, transparent 1px); background-size: 14px 14px; }
+  .list-card-thumb-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); font-size: 22px; opacity: 0.2; }
+  .list-card-body { padding: 14px 18px; display: flex; flex-direction: column; justify-content: center; }
+  .list-card-body h4 { font-size: 14px; font-weight: 600; line-height: 1.4; margin-bottom: 4px; }
+  .list-card-body .lc-meta { font-size: 11.5px; color: var(--text-muted); font-family: var(--font-mono); display: flex; gap: 10px; align-items: center; }
+  .list-card-body .lc-meta iconify-icon { font-size: 11px; }
+  .list-card-body .lc-tags { display: flex; gap: 4px; margin-top: 6px; }
+  .list-card-body .lc-tags .tag { font-size: 10px; padding: 1px 7px; }
+  .list-card-body .lc-tags .tag iconify-icon { font-size: 9px; }
+
+  .pn-section { margin-top: 32px; padding-top: 28px; border-top: 1px solid var(--border); }
+  .pn-section h3 { font-size: 16px; font-weight: 700; margin-bottom: 16px; }
+  .pn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .pn-grid .list-card { max-width: 480px; }
+  /* v9: right-align next article card */
+  .pn-grid > *:last-child { display: flex; flex-direction: column; align-items: flex-end; }
+  .pn-grid > *:last-child .pn-label-inline { justify-content: flex-end; }
+  .pn-grid > *:last-child .list-card { width: 100%; }
+  .pn-label-inline { font-size: 11px; color: var(--text-muted); font-family: var(--font-mono); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 6px; display: flex; align-items: center; gap: 4px; }
+  .pn-label-inline iconify-icon { font-size: 12px; }
+
+  /* TOC */
+  .toc-sidebar { position: sticky; top: 130px; }
+  .toc-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 11px; padding: 18px; }
+  .toc-title { font-size: 12px; font-weight: 600; margin-bottom: 14px; font-family: var(--font-mono); text-transform: uppercase; letter-spacing: .05em; color: var(--text-muted); }
+  .toc-list { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+  .toc-list a { font-size: 12.5px; color: var(--text-muted); text-decoration: none; transition: color .2s; display: block; padding-left: 11px; border-left: 2px solid var(--border); }
+  .toc-list a:hover { color: var(--text-primary); border-left-color: var(--accent); }
+  .toc-list a.active { color: var(--accent); border-left-color: var(--accent); }
+
+  /* ===== About ===== */
+  .about-hero { display: grid; grid-template-columns: 180px 1fr; gap: 36px; align-items: start; margin-bottom: 56px; }
+  .avatar { width: 180px; height: 180px; border-radius: 14px; background: var(--bg-secondary); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 56px; position: relative; overflow: hidden; }
+  .avatar::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, var(--accent-glow) 0%, transparent 50%); }
+  .about-info h2 { font-size: 28px; font-weight: 800; margin-bottom: 3px; }
+  .about-role { font-family: var(--font-mono); color: var(--accent); font-size: 13px; margin-bottom: 16px; }
+  /* v6: bio split into paragraphs */
+  .about-bio { color: var(--text-secondary); font-size: 14.5px; line-height: 1.8; margin-bottom: 20px; }
+  .about-bio p { margin-bottom: 10px; }
+  .about-bio strong { color: var(--text-primary); font-weight: 600; }
+  .social-links { display: flex; gap: 8px; }
+  /* v6: unified size with footer (34px) */
+  .social-link { width: 34px; height: 34px; border: 1px solid var(--border); border-radius: 7px; display: flex; align-items: center; justify-content: center; color: var(--text-muted); text-decoration: none; transition: border-color .2s, color .2s, background .2s; }
+  .social-link:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-glow); }
+  .social-link iconify-icon { font-size: 16px; }
+
+  .principles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; margin-bottom: 56px; }
+  .principle-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 11px; padding: 22px; transition: border-color .2s, box-shadow .2s; }
+  .principle-card:hover { border-color: var(--border-hover); box-shadow: var(--card-shadow-hover); }
+  .principle-icon { font-size: 28px; margin-bottom: 10px; }
+  .principle-card h4 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+  .principle-card p { color: var(--text-secondary); font-size: 13.5px; line-height: 1.6; }
+
+  .toolbox-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+  .toolbox-cat { background: var(--bg-card); border: 1px solid var(--border); border-radius: 11px; padding: 20px; }
+  .toolbox-cat h4 { font-size: 13px; font-weight: 600; margin-bottom: 14px; display: flex; align-items: center; gap: 7px; }
+  .toolbox-items { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tb-item { padding: 5px 11px; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 5px; font-size: 12.5px; color: var(--text-secondary); font-family: var(--font-mono); transition: border-color .2s, color .2s, background .2s; }
+  .tb-item:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-glow); }
+
+  /* ===== Footer ===== */
+  .site-footer { border-top: 1px solid var(--border); padding: 40px 24px; }
+  .footer-inner { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; }
+  .footer-left { display: flex; flex-direction: column; gap: 6px; }
+  .footer-logo { font-family: var(--font-mono); font-size: 15px; font-weight: 700; color: var(--text-primary); }
+  .footer-logo .a { color: var(--accent); }
+  .footer-copy { font-size: 12px; color: var(--text-muted); }
+  .footer-icons { display: flex; gap: 8px; }
+  .footer-icon { width: 34px; height: 34px; border: 1px solid var(--border); border-radius: 7px; display: flex; align-items: center; justify-content: center; color: var(--text-muted); text-decoration: none; transition: border-color .2s, color .2s, background .2s; }
+  .footer-icon:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-glow); }
+  .footer-icon iconify-icon { font-size: 16px; }
+
+  /* ===== Design Notes ===== */
+  .dn-section { background: var(--bg-secondary); border-top: 1px solid var(--border); padding: 72px 24px; }
+  .dn-inner { max-width: 1200px; margin: 0 auto; }
+  .dn-inner h2 { font-size: 26px; font-weight: 700; margin-bottom: 28px; }
+  .notes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px; }
+  .note-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 11px; padding: 22px; }
+  .note-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 10px; }
+  .note-card p, .note-card ul { color: var(--text-secondary); font-size: 13.5px; line-height: 1.7; }
+  .note-card ul { padding-left: 18px; }
+  .palette { display: flex; gap: 10px; margin: 16px 0; flex-wrap: wrap; }
+  .swatch { width: 56px; height: 56px; border-radius: 9px; border: 1px solid var(--border); position: relative; }
+  .swatch::after { content: attr(data-label); position: absolute; bottom: 0; left: 0; right: 0; padding: 2px; font-size: 8px; font-family: var(--font-mono); color: white; background: rgba(0,0,0,0.5); text-align: center; border-radius: 0 0 8px 8px; }
+
+  /* ===== Responsive ===== */
+  @media (max-width: 1024px) {
+    .hero-inner { gap: 32px; }
+    .art-detail { grid-template-columns: 1fr; }
+    .toc-sidebar { display: none; }
+    .pn-grid { grid-template-columns: 1fr; }
+    .proj-grid, .art-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+    .header-right { gap: 20px; }
+    .nav-links { gap: 20px; }
+    .section { padding: 56px 24px; }
+    .hero { padding: 64px 0 48px; }
+  }
+  @media (max-width: 768px) {
+    /* v8: hamburger menu */
+    .nav-links { display: none; }
+    .menu-btn { display: flex; }
+    .header-right { gap: 8px; }
+    .hero-inner { grid-template-columns: 1fr; }
+    .hero-visual .terminal { display: none; }
+    .terminal-mobile { display: block; background: #09090b; border: 1px solid #2a2a2f; border-radius: 9px; padding: 14px 18px; margin-top: 24px; font-family: var(--font-mono); font-size: 12px; color: #a1a1aa; line-height: 1.6; }
+    .terminal-mobile .pr { color: #5eead4; } .terminal-mobile .hl { color: #99f6e4; }
+    .about-hero { grid-template-columns: 1fr; text-align: center; }
+    .about-hero .avatar { margin: 0 auto; }
+    .about-hero .social-links { justify-content: center; }
+    .about-hero .about-bio { text-align: left; }
+    /* v8: let auto-fill handle columns instead of forcing 1fr */
+    .proj-grid, .art-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+    .list-view .art-card { display: grid; grid-template-columns: 140px 1fr; }
+    .list-view .art-thumb { min-height: 100px; }
+    .list-card { grid-template-columns: 100px 1fr; }
+    .notes-grid { grid-template-columns: 1fr; }
+    .principles-grid { grid-template-columns: 1fr 1fr; }
+    .filter-tags { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 4px; scrollbar-width: none; }
+    .filter-tags::-webkit-scrollbar { display: none; }
+    .filter-row { flex-wrap: wrap; }
+    .footer-inner { flex-direction: column; gap: 20px; text-align: center; padding: 0 16px; }
+    .footer-icons { justify-content: center; }
+    .section { padding: 48px 16px; }
+    .header-inner { padding: 0 16px; }
+    .hero-inner { padding: 0 16px; }
+    .hero { padding: 48px 0 40px; }
+    .s-title { margin-bottom: 8px; }
+    .s-desc { margin-bottom: 28px; }
+    .control-bar { padding: 8px 12px; }
+    .control-bar h1 { font-size: 11px; }
+    .ctrl-btn { padding: 4px 8px; font-size: 11px; }
+  }
+  @media (max-width: 480px) {
+    .principles-grid { grid-template-columns: 1fr; }
+    .proj-grid, .art-grid { grid-template-columns: 1fr; }
+    .list-view .art-card { grid-template-columns: 1fr; }
+    .list-card { grid-template-columns: 80px 1fr; }
+    .hero h1 { font-size: 28px; }
+    .toolbox-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<a href="#main-content" class="skip-link">Skip to content</a>
+
+<!-- Control Bar -->
+<div class="control-bar">
+  <h1><span>&gt;_</span> Rymlab <span>v9</span></h1>
+  <div class="controls">
+    <button class="ctrl-btn active" data-page="home">Home</button>
+    <button class="ctrl-btn" data-page="projects">Projects</button>
+    <button class="ctrl-btn" data-page="articles">Articles</button>
+    <button class="ctrl-btn" data-page="article-detail">Article Detail</button>
+    <button class="ctrl-btn" data-page="about">About</button>
+    <div class="ctrl-div"></div>
+    <button class="ctrl-btn active" id="t-light">Light</button>
+    <button class="ctrl-btn" id="t-dark">Dark</button>
+    <div class="ctrl-div"></div>
+    <button class="ctrl-btn" data-page="design-notes">Notes</button>
+  </div>
+</div>
+
+<div class="mockup-container" id="main-content">
+
+<!-- ==================== HOME ==================== -->
+<div class="page-section active" id="page-home">
+  <header class="site-header"><div class="header-inner">
+    <a class="logo">Rym<span class="a">lab</span></a>
+    <div class="header-right">
+      <nav><ul class="nav-links">
+        <li><a class="active">Home</a></li><li><a>Projects</a></li><li><a>Articles</a></li><li><a>About</a></li>
+      </ul></nav>
+      <div class="header-actions">
+        <button class="lang-toggle" aria-label="Switch language"><iconify-icon icon="lucide:globe"></iconify-icon> JA</button>
+        <button class="theme-toggle" aria-label="Toggle theme"><iconify-icon icon="lucide:sun" class="icon-sun"></iconify-icon><iconify-icon icon="lucide:moon" class="icon-moon"></iconify-icon></button>
+        <button class="menu-btn" aria-label="Toggle menu"><iconify-icon icon="lucide:menu" class="icon-menu"></iconify-icon><iconify-icon icon="lucide:x" class="icon-close"></iconify-icon></button>
+      </div>
+    </div>
+  </div><nav class="mobile-nav"><a class="active">Home</a><a>Projects</a><a>Articles</a><a>About</a></nav><div class="menu-overlay"></div></header>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <div>
+        <!-- v6: "Break it" → "Prove it" -->
+        <h1>Build it. Prove it.<br><span class="gt">Write about it.</span></h1>
+        <p class="hero-desc">開発したツールや検証した技術、そこから得た学びを、再現性のあるナレッジとして発信しています。プロダクティビティエンジニアリングの現場から、実践的な知見をお届けします。</p>
+        <div class="hero-cta">
+          <a class="btn-p">Projects &rarr;</a>
+          <a class="btn-s">Articles</a>
+        </div>
+        <!-- v6: mobile mini terminal -->
+        <div class="terminal-mobile">
+          <span class="pr">~</span> <span class="hl">Rym</span> &mdash; Productivity Engineer<br>
+          <span class="pr">~</span> Build it. Prove it. Write about it.
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="terminal">
+          <div class="t-bar"><div class="t-dot r"></div><div class="t-dot y"></div><div class="t-dot g"></div></div>
+          <!-- v6: terminal content aligned with hero message -->
+          <div class="t-body">
+            <div><span class="pr">~</span> <span class="cm">whoami</span></div>
+            <div><span class="hl">Rym</span> &mdash; Productivity Engineer</div>
+            <div style="margin-top:10px"><span class="pr">~</span> <span class="cm">cat latest.log</span></div>
+            <div><span class="dim">[build]</span> CI/CD Pipeline Optimizer &rarr; <span class="ok">70% faster</span></div>
+            <div><span class="dim">[prove]</span> Cache hit rate: <span class="ok">94.2%</span></div>
+            <div><span class="dim">[write]</span> Published: <span class="hl">"GitHub Actions Cache Guide"</span></div>
+            <div style="margin-top:10px"><span class="pr">~</span> <span class="cm">echo $MISSION</span></div>
+            <div><span class="ok">&#9679; Build it. Prove it. Write about it.</span></div>
+            <div style="margin-top:10px"><span class="pr">~</span> <span class="cursor"></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Work -->
+  <section class="section">
+    <p class="s-label">// Featured Projects</p>
+    <h2 class="s-title">Featured Work</h2>
+    <p class="s-desc"><span class="s-desc-en">Less friction, more flow.</span> &mdash; 開発者のワークフローを加速するために構築したツール群。</p>
+    <div class="proj-grid">
+      <div class="proj-card card-hover">
+        <div class="proj-hd"><div class="proj-icon"><iconify-icon icon="lucide:zap"></iconify-icon></div></div>
+        <div class="proj-role">Lead Engineer</div>
+        <h3>CI/CD Pipeline Optimizer <span class="card-title-arrow">&rarr;</span></h3>
+        <p>ビルド時間を70%短縮するCI/CDパイプライン最適化ツール。キャッシュ戦略と並列実行の自動チューニング。</p>
+        <div class="proj-tags">
+          <span class="tag"><iconify-icon icon="lucide:cloud" class="ti-infra"></iconify-icon>GitHub Actions</span>
+          <span class="tag"><iconify-icon icon="lucide:code" class="ti-lang"></iconify-icon>TypeScript</span>
+          <span class="tag"><iconify-icon icon="lucide:container" class="ti-infra"></iconify-icon>Docker</span>
+        </div>
+      </div>
+      <div class="proj-card card-hover">
+        <div class="proj-hd"><div class="proj-icon"><iconify-icon icon="lucide:layout-dashboard"></iconify-icon></div></div>
+        <div class="proj-role">Platform Engineer</div>
+        <h3>Developer Portal <span class="card-title-arrow">&rarr;</span></h3>
+        <p>社内開発者ポータル。サービスカタログ、ドキュメント検索、オンボーディング自動化を統合。</p>
+        <div class="proj-tags">
+          <span class="tag"><iconify-icon icon="lucide:monitor" class="ti-fe"></iconify-icon>Next.js</span>
+          <span class="tag"><iconify-icon icon="lucide:server" class="ti-be"></iconify-icon>Go</span>
+          <span class="tag"><iconify-icon icon="lucide:cloud" class="ti-infra"></iconify-icon>Backstage</span>
+        </div>
+      </div>
+      <div class="proj-card card-hover">
+        <div class="proj-hd"><div class="proj-icon"><iconify-icon icon="lucide:bar-chart-3"></iconify-icon></div></div>
+        <div class="proj-role">OSS Author</div>
+        <h3>DevMetrics Dashboard <span class="card-title-arrow">&rarr;</span></h3>
+        <p>DORA メトリクス可視化ダッシュボード。デプロイ頻度、リードタイム、MTTR、変更失敗率を自動計測。</p>
+        <div class="proj-tags">
+          <span class="tag"><iconify-icon icon="lucide:monitor" class="ti-fe"></iconify-icon>React</span>
+          <span class="tag"><iconify-icon icon="lucide:code" class="ti-lang"></iconify-icon>Python</span>
+          <span class="tag"><iconify-icon icon="lucide:bar-chart-3" class="ti-perf"></iconify-icon>Grafana</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- v6: section-alt for visual separation -->
+  <div class="section-alt">
+  <section class="section" style="padding-top: 64px; padding-bottom: 64px;">
+    <p class="s-label">// Latest Articles</p>
+    <h2 class="s-title">Recent Articles</h2>
+    <p class="s-desc"><span class="s-desc-en">Field notes from the trenches of developer productivity.</span> &mdash; 開発生産性の現場から得た知見。</p>
+    <div class="art-grid">
+      <div class="art-card card-hover">
+        <div class="art-thumb"><div class="art-thumb-g"></div><div class="art-thumb-p"></div><div class="art-thumb-icon"><iconify-icon icon="lucide:zap" style="font-size:36px"></iconify-icon></div></div>
+        <div class="art-body">
+          <div class="art-meta">
+            <span class="meta-item"><iconify-icon icon="lucide:calendar"></iconify-icon> 2026-03-15</span>
+            <span class="meta-item"><iconify-icon icon="lucide:pen-line"></iconify-icon> 2026-03-20</span>
+            <span class="meta-item"><iconify-icon icon="lucide:clock"></iconify-icon> 8 min</span>
+          </div>
+          <h3>GitHub Actions のキャッシュ戦略を徹底的に最適化する <span class="card-title-arrow">&rarr;</span></h3>
+          <div class="art-tags">
+            <span class="tag"><iconify-icon icon="lucide:git-branch" class="ti-infra"></iconify-icon>CI/CD</span>
+            <span class="tag"><iconify-icon icon="lucide:gauge" class="ti-perf"></iconify-icon>Performance</span>
+          </div>
+        </div>
+      </div>
+      <div class="art-card card-hover">
+        <div class="art-thumb"><div class="art-thumb-g"></div><div class="art-thumb-p"></div><div class="art-thumb-icon"><iconify-icon icon="lucide:users" style="font-size:36px"></iconify-icon></div></div>
+        <div class="art-body">
+          <div class="art-meta">
+            <span class="meta-item"><iconify-icon icon="lucide:calendar"></iconify-icon> 2026-03-01</span>
+            <span class="meta-item"><iconify-icon icon="lucide:pen-line"></iconify-icon> 2026-03-05</span>
+            <span class="meta-item"><iconify-icon icon="lucide:clock"></iconify-icon> 12 min</span>
+          </div>
+          <h3>開発者オンボーディングを自動化して定着率を改善した話 <span class="card-title-arrow">&rarr;</span></h3>
+          <div class="art-tags">
+            <span class="tag"><iconify-icon icon="lucide:sparkles" class="ti-tool"></iconify-icon>DevEx</span>
+            <span class="tag"><iconify-icon icon="lucide:bot" class="ti-infra"></iconify-icon>Automation</span>
+          </div>
+        </div>
+      </div>
+      <div class="art-card card-hover">
+        <div class="art-thumb"><div class="art-thumb-g"></div><div class="art-thumb-p"></div><div class="art-thumb-icon"><iconify-icon icon="lucide:bar-chart-3" style="font-size:36px"></iconify-icon></div></div>
+        <div class="art-body">
+          <div class="art-meta">
+            <span class="meta-item"><iconify-icon icon="lucide:calendar"></iconify-icon> 2026-02-18</span>
+            <span class="meta-item"><iconify-icon icon="lucide:pen-line"></iconify-icon> 2026-02-22</span>
+            <span class="meta-item"><iconify-icon icon="lucide:clock"></iconify-icon> 10 min</span>
+          </div>
+          <h3>DORA メトリクスを導入して開発チームの健全性を可視化する <span class="card-title-arrow">&rarr;</span></h3>
+          <div class="art-tags">
+            <span class="tag"><iconify-icon icon="lucide:bar-chart-3" class="ti-perf"></iconify-icon>Metrics</span>
+            <span class="tag"><iconify-icon icon="lucide:infinity" class="ti-devops"></iconify-icon>DevOps</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  </div>
+
+  <footer class="site-footer"><div class="footer-inner">
+    <div class="footer-left"><div class="footer-logo">Rym<span class="a">lab</span></div><p class="footer-copy">&copy; 2026 Rymlab. All rights reserved.</p></div>
+    <div class="footer-icons">
+      <a class="footer-icon" title="GitHub" aria-label="GitHub"><iconify-icon icon="simple-icons:github"></iconify-icon></a>
+      <a class="footer-icon" title="X" aria-label="X"><iconify-icon icon="simple-icons:x"></iconify-icon></a>
+      <a class="footer-icon" title="LinkedIn" aria-label="LinkedIn"><iconify-icon icon="simple-icons:linkedin"></iconify-icon></a>
+      <a class="footer-icon" title="Zenn" aria-label="Zenn"><iconify-icon icon="simple-icons:zenn"></iconify-icon></a>
+      <a class="footer-icon" title="Qiita" aria-label="Qiita"><iconify-icon icon="simple-icons:qiita"></iconify-icon></a>
+      <a class="footer-icon" title="RSS" aria-label="RSS"><iconify-icon icon="lucide:rss"></iconify-icon></a>
+    </div>
+  </div></footer>
+</div>
+
+<!-- ==================== PROJECTS ==================== -->
+<div class="page-section" id="page-projects">
+  <header class="site-header"><div class="header-inner"><a class="logo">Rym<span class="a">lab</span></a><div class="header-right"><nav><ul class="nav-links"><li><a>Home</a></li><li><a class="active">Projects</a></li><li><a>Articles</a></li><li><a>About</a></li></ul></nav><div class="header-actions"><button class="lang-toggle" aria-label="Switch language"><iconify-icon icon="lucide:globe"></iconify-icon> JA</button><button class="theme-toggle" aria-label="Toggle theme"><iconify-icon icon="lucide:sun" class="icon-sun"></iconify-icon><iconify-icon icon="lucide:moon" class="icon-moon"></iconify-icon></button>
+        <button class="menu-btn" aria-label="Toggle menu"><iconify-icon icon="lucide:menu" class="icon-menu"></iconify-icon><iconify-icon icon="lucide:x" class="icon-close"></iconify-icon></button></div></div></div><nav class="mobile-nav"><a class="active">Home</a><a>Projects</a><a>Articles</a><a>About</a></nav><div class="menu-overlay"></div></header>
+
+  <section class="section">
+    <p class="s-label">// Projects</p>
+    <h2 class="s-title">All Projects</h2>
+    <p class="s-desc"><span class="s-desc-en">Tools engineered to multiply team velocity.</span> &mdash; チームの速度を加速させるために設計・構築したツール群。</p>
+    <div class="proj-grid">
+      <div class="proj-card card-hover"><div class="proj-hd"><div class="proj-icon"><iconify-icon icon="lucide:zap"></iconify-icon></div></div><div class="proj-role">Lead Engineer</div><h3>CI/CD Pipeline Optimizer <span class="card-title-arrow">&rarr;</span></h3><p>ビルド時間を70%短縮するCI/CDパイプライン最適化ツール。キャッシュ戦略と並列実行の自動チューニング。</p><div class="proj-tags"><span class="tag"><iconify-icon icon="lucide:cloud" class="ti-infra"></iconify-icon>GitHub Actions</span><span class="tag"><iconify-icon icon="lucide:code" class="ti-lang"></iconify-icon>TypeScript</span><span class="tag"><iconify-icon icon="lucide:container" class="ti-infra"></iconify-icon>Docker</span></div></div>
+      <div class="proj-card card-hover"><div class="proj-hd"><div class="proj-icon"><iconify-icon icon="lucide:layout-dashboard"></iconify-icon></div></div><div class="proj-role">Platform Engineer</div><h3>Developer Portal <span class="card-title-arrow">&rarr;</span></h3><p>社内開発者ポータル。サービスカタログ、ドキュメント検索、オンボーディング自動化を統合。</p><div class="proj-tags"><span class="tag"><iconify-icon icon="lucide:monitor" class="ti-fe"></iconify-icon>Next.js</span><span class="tag"><iconify-icon icon="lucide:server" class="ti-be"></iconify-icon>Go</span><span class="tag"><iconify-icon icon="lucide:cloud" class="ti-infra"></iconify-icon>Backstage</span></div></div>
+      <div class="proj-card card-hover"><div class="proj-hd"><div class="proj-icon"><iconify-icon icon="lucide:bar-chart-3"></iconify-icon></div></div><div class="proj-role">OSS Author</div><h3>DevMetrics Dashboard <span class="card-title-arrow">&rarr;</span></h3><p>DORA メトリクス可視化ダッシュボード。デプロイ頻度、リードタイム、MTTR、変更失敗率を自動計測。</p><div class="proj-tags"><span class="tag"><iconify-icon icon="lucide:monitor" class="ti-fe"></iconify-icon>React</span><span class="tag"><iconify-icon icon="lucide:code" class="ti-lang"></iconify-icon>Python</span><span class="tag"><iconify-icon icon="lucide:bar-chart-3" class="ti-perf"></iconify-icon>Grafana</span></div></div>
+      <div class="proj-card card-hover"><div class="proj-hd"><div class="proj-icon"><iconify-icon icon="lucide:terminal"></iconify-icon></div></div><div class="proj-role">Infrastructure Engineer</div><h3>IaC Template Generator <span class="card-title-arrow">&rarr;</span></h3><p>Terraformモジュールを対話的に生成するCLIツール。社内標準に準拠したインフラ構成を数分でセットアップ。</p><div class="proj-tags"><span class="tag"><iconify-icon icon="lucide:cloud" class="ti-infra"></iconify-icon>Terraform</span><span class="tag"><iconify-icon icon="lucide:server" class="ti-be"></iconify-icon>Go</span><span class="tag"><iconify-icon icon="lucide:cloud" class="ti-infra"></iconify-icon>AWS</span></div></div>
+      <div class="proj-card card-hover"><div class="proj-hd"><div class="proj-icon"><iconify-icon icon="lucide:message-circle"></iconify-icon></div></div><div class="proj-role">Full-stack Developer</div><h3>Incident Response Bot <span class="card-title-arrow">&rarr;</span></h3><p>Slack連携のインシデント対応Bot。アラート集約、エスカレーション、ポストモーテム自動生成。</p><div class="proj-tags"><span class="tag"><iconify-icon icon="lucide:code" class="ti-lang"></iconify-icon>TypeScript</span><span class="tag"><iconify-icon icon="lucide:wrench" class="ti-tool"></iconify-icon>Slack API</span><span class="tag"><iconify-icon icon="lucide:database" class="ti-be"></iconify-icon>PostgreSQL</span></div></div>
+      <div class="proj-card card-hover"><div class="proj-hd"><div class="proj-icon"><iconify-icon icon="lucide:package"></iconify-icon></div></div><div class="proj-role">OSS Author</div><h3>Config Validator <span class="card-title-arrow">&rarr;</span></h3><p>ゼロ依存の設定ファイルバリデーションライブラリ。YAML/TOML/JSON対応、CI組み込み可能。</p><div class="proj-tags"><span class="tag"><iconify-icon icon="lucide:code" class="ti-lang"></iconify-icon>TypeScript</span><span class="tag"><iconify-icon icon="lucide:flask-conical" class="ti-test"></iconify-icon>Vitest</span></div></div>
+    </div>
+  </section>
+
+  <footer class="site-footer"><div class="footer-inner"><div class="footer-left"><div class="footer-logo">Rym<span class="a">lab</span></div><p class="footer-copy">&copy; 2026 Rymlab. All rights reserved.</p></div><div class="footer-icons"><a class="footer-icon" aria-label="GitHub"><iconify-icon icon="simple-icons:github"></iconify-icon></a><a class="footer-icon" aria-label="X"><iconify-icon icon="simple-icons:x"></iconify-icon></a><a class="footer-icon" aria-label="LinkedIn"><iconify-icon icon="simple-icons:linkedin"></iconify-icon></a><a class="footer-icon" aria-label="Zenn"><iconify-icon icon="simple-icons:zenn"></iconify-icon></a><a class="footer-icon" aria-label="Qiita"><iconify-icon icon="simple-icons:qiita"></iconify-icon></a><a class="footer-icon" aria-label="RSS"><iconify-icon icon="lucide:rss"></iconify-icon></a></div></div></footer>
+</div>
+
+<!-- ==================== ARTICLES ==================== -->
+<div class="page-section" id="page-articles">
+  <header class="site-header"><div class="header-inner"><a class="logo">Rym<span class="a">lab</span></a><div class="header-right"><nav><ul class="nav-links"><li><a>Home</a></li><li><a>Projects</a></li><li><a class="active">Articles</a></li><li><a>About</a></li></ul></nav><div class="header-actions"><button class="lang-toggle" aria-label="Switch language"><iconify-icon icon="lucide:globe"></iconify-icon> JA</button><button class="theme-toggle" aria-label="Toggle theme"><iconify-icon icon="lucide:sun" class="icon-sun"></iconify-icon><iconify-icon icon="lucide:moon" class="icon-moon"></iconify-icon></button>
+        <button class="menu-btn" aria-label="Toggle menu"><iconify-icon icon="lucide:menu" class="icon-menu"></iconify-icon><iconify-icon icon="lucide:x" class="icon-close"></iconify-icon></button></div></div></div><nav class="mobile-nav"><a class="active">Home</a><a>Projects</a><a>Articles</a><a>About</a></nav><div class="menu-overlay"></div></header>
+
+  <section class="section">
+    <p class="s-label">// Articles</p>
+    <h2 class="s-title">All Articles</h2>
+    <p class="s-desc"><span class="s-desc-en">Insights on developer productivity, automation, and modern engineering.</span> &mdash; 生産性・自動化・エンジニアリングの最前線から。</p>
+
+    <div class="filter-bar">
+      <div class="filter-row">
+        <div class="search-wrap">
+          <iconify-icon icon="lucide:search"></iconify-icon>
+          <input type="text" class="search-input" placeholder="Search articles..." aria-label="Search articles">
+        </div>
+        <div class="view-toggle">
+          <button class="view-btn active" id="v-grid" title="Grid view" aria-label="Grid view"><iconify-icon icon="lucide:layout-grid"></iconify-icon></button>
+          <button class="view-btn" id="v-list" title="List view" aria-label="List view"><iconify-icon icon="lucide:list"></iconify-icon></button>
+        </div>
+      </div>
+      <div class="filter-tags">
+        <button class="f-tag active"><iconify-icon icon="lucide:layers"></iconify-icon> All</button>
+        <button class="f-tag"><iconify-icon icon="lucide:git-branch"></iconify-icon> CI/CD</button>
+        <button class="f-tag"><iconify-icon icon="lucide:sparkles"></iconify-icon> DevEx</button>
+        <button class="f-tag"><iconify-icon icon="lucide:bot"></iconify-icon> Automation</button>
+        <button class="f-tag"><iconify-icon icon="lucide:gauge"></iconify-icon> Performance</button>
+        <button class="f-tag"><iconify-icon icon="lucide:infinity"></iconify-icon> DevOps</button>
+        <button class="f-tag"><iconify-icon icon="lucide:code"></iconify-icon> TypeScript</button>
+        <button class="f-tag"><iconify-icon icon="lucide:server"></iconify-icon> Infrastructure</button>
+      </div>
+    </div>
+
+    <div class="art-grid" id="articles-grid">
+      <div class="art-card card-hover"><div class="art-thumb"><div class="art-thumb-g"></div><div class="art-thumb-p"></div><div class="art-thumb-icon"><iconify-icon icon="lucide:zap" style="font-size:36px"></iconify-icon></div></div><div class="art-body"><div class="art-meta"><span class="meta-item"><iconify-icon icon="lucide:calendar"></iconify-icon> 2026-03-15</span><span class="meta-item"><iconify-icon icon="lucide:pen-line"></iconify-icon> 2026-03-20</span><span class="meta-item"><iconify-icon icon="lucide:clock"></iconify-icon> 8 min</span></div><h3>GitHub Actions のキャッシュ戦略を徹底的に最適化する <span class="card-title-arrow">&rarr;</span></h3><div class="art-tags"><span class="tag"><iconify-icon icon="lucide:git-branch" class="ti-infra"></iconify-icon>CI/CD</span><span class="tag"><iconify-icon icon="lucide:gauge" class="ti-perf"></iconify-icon>Performance</span></div></div></div>
+      <div class="art-card card-hover"><div class="art-thumb"><div class="art-thumb-g"></div><div class="art-thumb-p"></div><div class="art-thumb-icon"><iconify-icon icon="lucide:users" style="font-size:36px"></iconify-icon></div></div><div class="art-body"><div class="art-meta"><span class="meta-item"><iconify-icon icon="lucide:calendar"></iconify-icon> 2026-03-01</span><span class="meta-item"><iconify-icon icon="lucide:pen-line"></iconify-icon> 2026-03-05</span><span class="meta-item"><iconify-icon icon="lucide:clock"></iconify-icon> 12 min</span></div><h3>開発者オンボーディングを自動化して定着率を改善した話 <span class="card-title-arrow">&rarr;</span></h3><div class="art-tags"><span class="tag"><iconify-icon icon="lucide:sparkles" class="ti-tool"></iconify-icon>DevEx</span><span class="tag"><iconify-icon icon="lucide:bot" class="ti-infra"></iconify-icon>Automation</span></div></div></div>
+      <div class="art-card card-hover"><div class="art-thumb"><div class="art-thumb-g"></div><div class="art-thumb-p"></div><div class="art-thumb-icon"><iconify-icon icon="lucide:bar-chart-3" style="font-size:36px"></iconify-icon></div></div><div class="art-body"><div class="art-meta"><span class="meta-item"><iconify-icon icon="lucide:calendar"></iconify-icon> 2026-02-18</span><span class="meta-item"><iconify-icon icon="lucide:pen-line"></iconify-icon> 2026-02-22</span><span class="meta-item"><iconify-icon icon="lucide:clock"></iconify-icon> 10 min</span></div><h3>DORA メトリクスを導入して開発チームの健全性を可視化する <span class="card-title-arrow">&rarr;</span></h3><div class="art-tags"><span class="tag"><iconify-icon icon="lucide:bar-chart-3" class="ti-perf"></iconify-icon>Metrics</span><span class="tag"><iconify-icon icon="lucide:infinity" class="ti-devops"></iconify-icon>DevOps</span></div></div></div>
+      <div class="art-card card-hover"><div class="art-thumb"><div class="art-thumb-g"></div><div class="art-thumb-p"></div><div class="art-thumb-icon"><iconify-icon icon="lucide:cloud" style="font-size:36px"></iconify-icon></div></div><div class="art-body"><div class="art-meta"><span class="meta-item"><iconify-icon icon="lucide:calendar"></iconify-icon> 2026-02-05</span><span class="meta-item"><iconify-icon icon="lucide:pen-line"></iconify-icon> 2026-02-10</span><span class="meta-item"><iconify-icon icon="lucide:clock"></iconify-icon> 6 min</span></div><h3>Terraform モジュール設計のベストプラクティス <span class="card-title-arrow">&rarr;</span></h3><div class="art-tags"><span class="tag"><iconify-icon icon="lucide:cloud" class="ti-infra"></iconify-icon>Terraform</span><span class="tag"><iconify-icon icon="lucide:server" class="ti-infra"></iconify-icon>Infrastructure</span></div></div></div>
+      <div class="art-card card-hover"><div class="art-thumb"><div class="art-thumb-g"></div><div class="art-thumb-p"></div><div class="art-thumb-icon"><iconify-icon icon="lucide:git-merge" style="font-size:36px"></iconify-icon></div></div><div class="art-body"><div class="art-meta"><span class="meta-item"><iconify-icon icon="lucide:calendar"></iconify-icon> 2026-01-22</span><span class="meta-item"><iconify-icon icon="lucide:pen-line"></iconify-icon> 2026-01-28</span><span class="meta-item"><iconify-icon icon="lucide:clock"></iconify-icon> 15 min</span></div><h3>Monorepo における依存関係管理の設計戦略 <span class="card-title-arrow">&rarr;</span></h3><div class="art-tags"><span class="tag"><iconify-icon icon="lucide:code" class="ti-lang"></iconify-icon>TypeScript</span><span class="tag"><iconify-icon icon="lucide:git-branch" class="ti-infra"></iconify-icon>CI/CD</span></div></div></div>
+      <div class="art-card card-hover"><div class="art-thumb"><div class="art-thumb-g"></div><div class="art-thumb-p"></div><div class="art-thumb-icon"><iconify-icon icon="lucide:rocket" style="font-size:36px"></iconify-icon></div></div><div class="art-body"><div class="art-meta"><span class="meta-item"><iconify-icon icon="lucide:calendar"></iconify-icon> 2026-01-10</span><span class="meta-item"><iconify-icon icon="lucide:pen-line"></iconify-icon> 2026-01-15</span><span class="meta-item"><iconify-icon icon="lucide:clock"></iconify-icon> 7 min</span></div><h3>Feature Flags で安全にリリースする仕組みを構築する <span class="card-title-arrow">&rarr;</span></h3><div class="art-tags"><span class="tag"><iconify-icon icon="lucide:infinity" class="ti-devops"></iconify-icon>DevOps</span><span class="tag"><iconify-icon icon="lucide:rocket" class="ti-release"></iconify-icon>Release</span></div></div></div>
+    </div>
+
+    <div class="pagination">
+      <button class="pg-btn" aria-label="Previous page"><iconify-icon icon="lucide:chevron-left"></iconify-icon></button>
+      <button class="pg-btn active">1</button>
+      <button class="pg-btn">2</button>
+      <button class="pg-btn">3</button>
+      <button class="pg-btn" aria-label="Next page"><iconify-icon icon="lucide:chevron-right"></iconify-icon></button>
+      <span class="pg-info">6 articles</span> <!-- v6: page info -->
+    </div>
+  </section>
+
+  <footer class="site-footer"><div class="footer-inner"><div class="footer-left"><div class="footer-logo">Rym<span class="a">lab</span></div><p class="footer-copy">&copy; 2026 Rymlab. All rights reserved.</p></div><div class="footer-icons"><a class="footer-icon" aria-label="GitHub"><iconify-icon icon="simple-icons:github"></iconify-icon></a><a class="footer-icon" aria-label="X"><iconify-icon icon="simple-icons:x"></iconify-icon></a><a class="footer-icon" aria-label="LinkedIn"><iconify-icon icon="simple-icons:linkedin"></iconify-icon></a><a class="footer-icon" aria-label="Zenn"><iconify-icon icon="simple-icons:zenn"></iconify-icon></a><a class="footer-icon" aria-label="Qiita"><iconify-icon icon="simple-icons:qiita"></iconify-icon></a><a class="footer-icon" aria-label="RSS"><iconify-icon icon="lucide:rss"></iconify-icon></a></div></div></footer>
+</div>
+
+<!-- ==================== ARTICLE DETAIL ==================== -->
+<div class="page-section" id="page-article-detail">
+  <header class="site-header"><div class="header-inner"><a class="logo">Rym<span class="a">lab</span></a><div class="header-right"><nav><ul class="nav-links"><li><a>Home</a></li><li><a>Projects</a></li><li><a class="active">Articles</a></li><li><a>About</a></li></ul></nav><div class="header-actions"><button class="lang-toggle" aria-label="Switch language"><iconify-icon icon="lucide:globe"></iconify-icon> JA</button><button class="theme-toggle" aria-label="Toggle theme"><iconify-icon icon="lucide:sun" class="icon-sun"></iconify-icon><iconify-icon icon="lucide:moon" class="icon-moon"></iconify-icon></button>
+        <button class="menu-btn" aria-label="Toggle menu"><iconify-icon icon="lucide:menu" class="icon-menu"></iconify-icon><iconify-icon icon="lucide:x" class="icon-close"></iconify-icon></button></div></div></div><nav class="mobile-nav"><a class="active">Home</a><a>Projects</a><a>Articles</a><a>About</a></nav><div class="menu-overlay"></div></header>
+
+  <section class="section">
+    <div class="art-detail">
+      <div class="art-content">
+        <div class="art-eyecatch"><div class="art-thumb-g"></div><div class="art-thumb-p"></div><div class="art-eyecatch-icon"><iconify-icon icon="lucide:zap" style="font-size:38px"></iconify-icon></div></div>
+        <h1>GitHub Actions のキャッシュ戦略を徹底的に最適化する</h1>
+        <div class="art-tags" style="margin: 12px 0 16px;">
+          <span class="tag"><iconify-icon icon="lucide:git-branch" class="ti-infra"></iconify-icon>CI/CD</span>
+          <span class="tag"><iconify-icon icon="lucide:gauge" class="ti-perf"></iconify-icon>Performance</span>
+          <span class="tag"><iconify-icon icon="lucide:cloud" class="ti-infra"></iconify-icon>GitHub Actions</span>
+        </div>
+        <div class="art-hd-meta">
+          <div class="author-chip"><div class="author-av">R</div><span>Rym</span></div>
+          <span class="meta-item"><iconify-icon icon="lucide:calendar"></iconify-icon> 2026-03-15</span>
+          <span class="meta-item"><iconify-icon icon="lucide:pen-line"></iconify-icon> 2026-03-20</span>
+          <span class="meta-item"><iconify-icon icon="lucide:clock"></iconify-icon> 8 min read</span>
+        </div>
+        <div class="prose">
+          <h2>はじめに</h2>
+          <p>GitHub Actions のビルドが遅い &mdash; これは多くのチームが抱える課題です。本記事では、キャッシュ戦略の最適化によりビルド時間を70%短縮した実践的なアプローチを紹介します。</p>
+          <h2>キャッシュの基本戦略</h2>
+          <p><code>actions/cache</code> の適切な設定は、CI/CDパイプラインのパフォーマンスに直結します。キーの設計とリストア戦略がポイントです。</p>
+          <pre><code><span class="code-fn">.github/workflows/ci.yml</span><span style="color:#34d399;">- uses:</span> actions/cache@v4
+  <span style="color:#34d399;">with:</span>
+    <span style="color:#6ee7b7;">path:</span> |
+      node_modules
+      .next/cache
+    <span style="color:#6ee7b7;">key:</span> ${{ runner.os }}-deps-${{ hashFiles('bun.lock') }}
+    <span style="color:#6ee7b7;">restore-keys:</span> |
+      ${{ runner.os }}-deps-</code></pre>
+          <h2>並列実行の最適化</h2>
+          <p>テスト分割と <code>matrix</code> ストラテジーを組み合わせることで、さらなる高速化が可能です。</p>
+          <h2>計測結果</h2>
+          <p>最適化前後で依存関係のキャッシュヒット率が大幅に向上し、コールドスタートの発生頻度が減少しました。</p>
+          <h2>まとめ</h2>
+          <p>キャッシュ戦略の最適化は、開発チーム全体の生産性に直結する重要な投資です。</p>
+        </div>
+
+        <div class="related-section">
+          <h3>Related Articles</h3>
+          <div class="list-card"><div class="list-card-thumb"><div class="art-thumb-g"></div><div class="art-thumb-p"></div><div class="list-card-thumb-icon"><iconify-icon icon="lucide:git-merge" style="font-size:22px"></iconify-icon></div></div><div class="list-card-body"><h4>Monorepo における依存関係管理の設計戦略</h4><div class="lc-meta"><span><iconify-icon icon="lucide:calendar"></iconify-icon> 2026-01-22</span><span><iconify-icon icon="lucide:clock"></iconify-icon> 15 min</span></div><div class="lc-tags"><span class="tag"><iconify-icon icon="lucide:code" class="ti-lang"></iconify-icon>TypeScript</span><span class="tag"><iconify-icon icon="lucide:git-branch" class="ti-infra"></iconify-icon>CI/CD</span></div></div></div>
+          <div class="list-card"><div class="list-card-thumb"><div class="art-thumb-g"></div><div class="art-thumb-p"></div><div class="list-card-thumb-icon"><iconify-icon icon="lucide:rocket" style="font-size:22px"></iconify-icon></div></div><div class="list-card-body"><h4>Feature Flags で安全にリリースする仕組みを構築する</h4><div class="lc-meta"><span><iconify-icon icon="lucide:calendar"></iconify-icon> 2026-01-10</span><span><iconify-icon icon="lucide:clock"></iconify-icon> 7 min</span></div><div class="lc-tags"><span class="tag"><iconify-icon icon="lucide:infinity" class="ti-devops"></iconify-icon>DevOps</span><span class="tag"><iconify-icon icon="lucide:rocket" class="ti-release"></iconify-icon>Release</span></div></div></div>
+        </div>
+
+        <div class="pn-section">
+          <h3>More Articles</h3>
+          <div class="pn-grid">
+            <div><div class="pn-label-inline"><iconify-icon icon="lucide:arrow-left"></iconify-icon> Previous Article</div><div class="list-card"><div class="list-card-thumb"><div class="art-thumb-g"></div><div class="art-thumb-p"></div><div class="list-card-thumb-icon"><iconify-icon icon="lucide:users" style="font-size:22px"></iconify-icon></div></div><div class="list-card-body"><h4>開発者オンボーディングを自動化して定着率を改善した話</h4><div class="lc-meta"><span><iconify-icon icon="lucide:calendar"></iconify-icon> 2026-03-01</span><span><iconify-icon icon="lucide:clock"></iconify-icon> 12 min</span></div><div class="lc-tags"><span class="tag"><iconify-icon icon="lucide:sparkles" class="ti-tool"></iconify-icon>DevEx</span><span class="tag"><iconify-icon icon="lucide:bot" class="ti-infra"></iconify-icon>Automation</span></div></div></div></div>
+            <div><div class="pn-label-inline" style="justify-content:flex-end">Next Article <iconify-icon icon="lucide:arrow-right"></iconify-icon></div><div class="list-card"><div class="list-card-thumb"><div class="art-thumb-g"></div><div class="art-thumb-p"></div><div class="list-card-thumb-icon"><iconify-icon icon="lucide:bar-chart-3" style="font-size:22px"></iconify-icon></div></div><div class="list-card-body"><h4>DORA メトリクスを導入して開発チームの健全性を可視化する</h4><div class="lc-meta"><span><iconify-icon icon="lucide:calendar"></iconify-icon> 2026-02-18</span><span><iconify-icon icon="lucide:clock"></iconify-icon> 10 min</span></div><div class="lc-tags"><span class="tag"><iconify-icon icon="lucide:bar-chart-3" class="ti-perf"></iconify-icon>Metrics</span><span class="tag"><iconify-icon icon="lucide:infinity" class="ti-devops"></iconify-icon>DevOps</span></div></div></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="toc-sidebar"><div class="toc-card"><p class="toc-title">Table of Contents</p><ul class="toc-list"><li><a class="active">はじめに</a></li><li><a>キャッシュの基本戦略</a></li><li><a>並列実行の最適化</a></li><li><a>計測結果</a></li><li><a>まとめ</a></li></ul></div></div>
+    </div>
+  </section>
+
+  <footer class="site-footer"><div class="footer-inner"><div class="footer-left"><div class="footer-logo">Rym<span class="a">lab</span></div><p class="footer-copy">&copy; 2026 Rymlab. All rights reserved.</p></div><div class="footer-icons"><a class="footer-icon" aria-label="GitHub"><iconify-icon icon="simple-icons:github"></iconify-icon></a><a class="footer-icon" aria-label="X"><iconify-icon icon="simple-icons:x"></iconify-icon></a><a class="footer-icon" aria-label="LinkedIn"><iconify-icon icon="simple-icons:linkedin"></iconify-icon></a><a class="footer-icon" aria-label="Zenn"><iconify-icon icon="simple-icons:zenn"></iconify-icon></a><a class="footer-icon" aria-label="Qiita"><iconify-icon icon="simple-icons:qiita"></iconify-icon></a><a class="footer-icon" aria-label="RSS"><iconify-icon icon="lucide:rss"></iconify-icon></a></div></div></footer>
+</div>
+
+<!-- ==================== ABOUT ==================== -->
+<div class="page-section" id="page-about">
+  <header class="site-header"><div class="header-inner"><a class="logo">Rym<span class="a">lab</span></a><div class="header-right"><nav><ul class="nav-links"><li><a>Home</a></li><li><a>Projects</a></li><li><a>Articles</a></li><li><a class="active">About</a></li></ul></nav><div class="header-actions"><button class="lang-toggle" aria-label="Switch language"><iconify-icon icon="lucide:globe"></iconify-icon> JA</button><button class="theme-toggle" aria-label="Toggle theme"><iconify-icon icon="lucide:sun" class="icon-sun"></iconify-icon><iconify-icon icon="lucide:moon" class="icon-moon"></iconify-icon></button>
+        <button class="menu-btn" aria-label="Toggle menu"><iconify-icon icon="lucide:menu" class="icon-menu"></iconify-icon><iconify-icon icon="lucide:x" class="icon-close"></iconify-icon></button></div></div></div><nav class="mobile-nav"><a class="active">Home</a><a>Projects</a><a>Articles</a><a>About</a></nav><div class="menu-overlay"></div></header>
+
+  <section class="section">
+    <div class="about-hero">
+      <div class="avatar">&#128104;&#8205;&#128187;</div>
+      <div class="about-info">
+        <h2>Rym</h2>
+        <p class="about-role">Productivity Engineer &mdash; Tokyo, Japan</p>
+        <!-- v6: bio split into paragraphs with bold keywords -->
+        <div class="about-bio">
+          <p>開発チームの生産性を最大化することに情熱を注いでいます。<strong>CI/CDパイプラインの最適化</strong>、<strong>開発者ツールの設計</strong>、<strong>インフラ自動化</strong>を通じて、エンジニアがコードに集中できる環境を構築します。</p>
+          <p>「計測し、自動化し、改善する」を信条に、日々の開発ワークフローをより良くすることが私のミッションです。</p>
+        </div>
+        <div class="social-links">
+          <a class="social-link" aria-label="GitHub"><iconify-icon icon="simple-icons:github"></iconify-icon></a>
+          <a class="social-link" aria-label="X"><iconify-icon icon="simple-icons:x"></iconify-icon></a>
+          <a class="social-link" aria-label="LinkedIn"><iconify-icon icon="simple-icons:linkedin"></iconify-icon></a>
+          <a class="social-link" aria-label="Zenn"><iconify-icon icon="simple-icons:zenn"></iconify-icon></a>
+          <a class="social-link" aria-label="Qiita"><iconify-icon icon="simple-icons:qiita"></iconify-icon></a>
+        </div>
+      </div>
+    </div>
+
+    <p class="s-label">// Engineering Principles</p>
+    <h2 class="s-title">What I Value</h2>
+    <p class="s-desc" style="margin-bottom: 24px;"><span class="s-desc-en">The compass that guides my engineering decisions.</span> &mdash; エンジニアリングにおいて大切にしていること。</p>
+    <div class="principles-grid">
+      <div class="principle-card"><div class="principle-icon">&#9889;</div><h4>Automate Relentlessly</h4><p>手作業を見つけたら自動化を考える。繰り返しの作業はシステムに任せ、人はクリエイティブな仕事に集中する。</p></div>
+      <div class="principle-card"><div class="principle-icon">&#128161;</div><h4>Question Assumptions</h4><p>前提を常に疑う。「なぜそうなっているのか」を問い続けることで、本質的な課題と最適な解決策が見えてくる。</p></div>
+      <div class="principle-card"><div class="principle-icon">&#10024;</div><h4>Developer Experience</h4><p>開発者の生産性を最大化するツールと環境を提供する。優れた DX は、優れたプロダクトにつながる。</p></div>
+      <div class="principle-card"><div class="principle-icon">&#128640;</div><h4>Continuous Improvement</h4><p>小さな改善を積み重ねる。1%の改善を100回繰り返せば、劇的な変化が生まれる。</p></div>
+    </div>
+
+    <p class="s-label">// Toolbox</p>
+    <h2 class="s-title">Tech Stack</h2>
+    <p class="s-desc" style="margin-bottom: 24px;"><span class="s-desc-en">Tools of the trade.</span> &mdash; 日々の開発で使っている技術とツール。</p>
+    <div class="toolbox-grid">
+      <div class="toolbox-cat"><h4>&#9889; Platform & CI/CD</h4><div class="toolbox-items"><span class="tb-item">GitHub Actions</span><span class="tb-item">Terraform</span><span class="tb-item">Docker</span><span class="tb-item">AWS</span><span class="tb-item">Vercel</span></div></div>
+      <div class="toolbox-cat"><h4>&#128187; Languages</h4><div class="toolbox-items"><span class="tb-item">TypeScript</span><span class="tb-item">Go</span><span class="tb-item">Python</span><span class="tb-item">Bash</span></div></div>
+      <div class="toolbox-cat"><h4>&#9881; Frontend & Backend</h4><div class="toolbox-items"><span class="tb-item">Next.js</span><span class="tb-item">React</span><span class="tb-item">Hono</span><span class="tb-item">PostgreSQL</span><span class="tb-item">Redis</span></div></div>
+      <div class="toolbox-cat"><h4>&#128736; Tools & Observability</h4><div class="toolbox-items"><span class="tb-item">Grafana</span><span class="tb-item">Datadog</span><span class="tb-item">Linear</span><span class="tb-item">Neovim</span><span class="tb-item">Claude Code</span></div></div>
+    </div>
+  </section>
+
+  <footer class="site-footer"><div class="footer-inner"><div class="footer-left"><div class="footer-logo">Rym<span class="a">lab</span></div><p class="footer-copy">&copy; 2026 Rymlab. All rights reserved.</p></div><div class="footer-icons"><a class="footer-icon" aria-label="GitHub"><iconify-icon icon="simple-icons:github"></iconify-icon></a><a class="footer-icon" aria-label="X"><iconify-icon icon="simple-icons:x"></iconify-icon></a><a class="footer-icon" aria-label="LinkedIn"><iconify-icon icon="simple-icons:linkedin"></iconify-icon></a><a class="footer-icon" aria-label="Zenn"><iconify-icon icon="simple-icons:zenn"></iconify-icon></a><a class="footer-icon" aria-label="Qiita"><iconify-icon icon="simple-icons:qiita"></iconify-icon></a><a class="footer-icon" aria-label="RSS"><iconify-icon icon="lucide:rss"></iconify-icon></a></div></div></footer>
+</div>
+
+<!-- ==================== DESIGN NOTES ==================== -->
+<div class="page-section" id="page-design-notes">
+  <div class="dn-section" style="margin-top:0;border-top:none;">
+    <div class="dn-inner">
+      <p class="s-label">// Design System</p>
+      <h2>v7 &mdash; Color & Responsive</h2>
+      <div class="notes-grid">
+        <div class="note-card">
+          <h3>v7: Light Mode &mdash; Neutral White</h3>
+          <ul>
+            <li><code>--bg-primary</code>: #fafcfb &rarr; <strong>#fafafa</strong> (ニュートラル白)</li>
+            <li><code>--bg-secondary</code>: #f1f5f3 &rarr; <strong>#f4f4f5</strong> (zinc-100)</li>
+            <li><code>--bg-code</code>: #f4f7f5 &rarr; <strong>#f4f4f5</strong></li>
+            <li><code>--hero-bg</code>: #f0fdf4 &rarr; <strong>#f0fdf8</strong> (Hero だけ薄緑tint維持)</li>
+            <li>グリーンは<strong>アクセント要素のみ</strong>に限定</li>
+          </ul>
+        </div>
+        <div class="note-card">
+          <h3>v7: Dark Mode &mdash; Teal Shift</h3>
+          <ul>
+            <li><code>--accent</code>: #34d399 &rarr; <strong>#5eead4</strong> (teal-300, 低彩度)</li>
+            <li><code>--accent-2</code>: #6ee7b7 &rarr; <strong>#99f6e4</strong> (teal-200)</li>
+            <li><code>--tag-text</code>: #6ee7b7 &rarr; <strong>#99f6e4</strong></li>
+            <li><code>--accent-gradient</code>: #0d9488 &rarr; #5eead4</li>
+            <li>glow/shadow/dot 全て <strong>teal ベース</strong> に統一</li>
+            <li>ターミナル内テキスト色も teal に統一</li>
+            <li>効果: 彩度↓ + 青み↑ = <strong>目に優しく、長時間閲覧に耐える</strong></li>
+          </ul>
+        </div>
+        <div class="note-card">
+          <h3>v7: Responsive 強化</h3>
+          <ul>
+            <li><strong>1024px</strong>: グリッド minmax 調整、nav gap 縮小、section padding 縮小</li>
+            <li><strong>768px</strong>: padding 24px→16px、About 中央揃え、nav 縮小、control bar 圧縮</li>
+            <li><strong>480px</strong>: hero h1 28px、nav 12px gap、list-card thumb 80px、toolbox 1列</li>
+            <li>フッター: モバイルで中央揃え + アイコン中央配置</li>
+          </ul>
+        </div>
+        <div class="note-card">
+          <h3>v6 から継続</h3>
+          <ul>
+            <li>Accessibility: focus-visible, aria-label, skip link</li>
+            <li>text-muted コントラスト修正 (Light 5.0:1)</li>
+            <li>カード cursor:pointer + ホバー矢印</li>
+            <li>プロジェクトアイコン Iconify 統一</li>
+            <li>"Break it" &rarr; "Prove it"</li>
+            <li>transition: all &rarr; 具体プロパティ指定</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+  document.querySelectorAll('.ctrl-btn[data-page]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.ctrl-btn[data-page]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
+      document.getElementById('page-' + btn.dataset.page).classList.add('active');
+      window.scrollTo(0, 0);
+    });
+  });
+  document.getElementById('t-light').addEventListener('click', () => {
+    document.body.classList.remove('dark');
+    document.getElementById('t-light').classList.add('active');
+    document.getElementById('t-dark').classList.remove('active');
+  });
+  document.getElementById('t-dark').addEventListener('click', () => {
+    document.body.classList.add('dark');
+    document.getElementById('t-dark').classList.add('active');
+    document.getElementById('t-light').classList.remove('active');
+  });
+  document.getElementById('v-grid')?.addEventListener('click', () => {
+    document.getElementById('articles-grid').classList.remove('list-view');
+    document.getElementById('v-grid').classList.add('active');
+    document.getElementById('v-list').classList.remove('active');
+  });
+  document.getElementById('v-list')?.addEventListener('click', () => {
+    document.getElementById('articles-grid').classList.add('list-view');
+    document.getElementById('v-list').classList.add('active');
+    document.getElementById('v-grid').classList.remove('active');
+  });
+  // v9: hamburger menu toggle with icon swap + overlay
+  document.querySelectorAll('.menu-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const header = btn.closest('.site-header');
+      const nav = header.querySelector('.mobile-nav');
+      const overlay = header.querySelector('.menu-overlay');
+      const isOpen = nav.classList.toggle('open');
+      btn.classList.toggle('is-open', isOpen);
+      if (overlay) overlay.classList.toggle('open', isOpen);
+    });
+  });
+  document.querySelectorAll('.menu-overlay').forEach(ov => {
+    ov.addEventListener('click', () => {
+      const header = ov.closest('.site-header');
+      header.querySelector('.mobile-nav').classList.remove('open');
+      header.querySelector('.menu-btn').classList.remove('is-open');
+      ov.classList.remove('open');
+    });
+  });
+</script>
+</body>
+</html>
