@@ -26,13 +26,13 @@ export function Header() {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-background/85 backdrop-blur-[16px] backdrop-saturate-[180%] transition-colors duration-300">
+    <header className="sticky top-0 z-50 border-b border-border bg-background/85 backdrop-blur-lg backdrop-saturate-[180%] transition-colors duration-300">
       <div className="mx-auto flex h-15 max-w-[1200px] items-center justify-between px-4 md:px-6">
         {/* Logo */}
         <Link
           href="/"
           aria-label="Rymlab — ホームへ"
-          className="font-mono text-lg font-extrabold tracking-[-0.04em]"
+          className="font-mono text-lg font-extrabold tracking-tighter"
         >
           Rym<span className="text-primary">lab</span>
         </Link>
@@ -49,7 +49,7 @@ export function Header() {
                       'relative text-sm font-medium transition-colors duration-200',
                       isActive(pathname, href)
                         ? 'text-primary after:absolute after:-bottom-[19px] after:left-0 after:right-0 after:h-0.5 after:rounded-[1px] after:bg-[image:var(--accent-gradient)]'
-                        : 'text-muted-foreground hover:text-foreground',
+                        : 'text-text-secondary hover:text-foreground',
                     )}
                   >
                     {label}
