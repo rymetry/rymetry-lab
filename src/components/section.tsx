@@ -8,9 +8,9 @@ interface SectionContainerProps {
 
 export function SectionContainer({ children, className, alt }: SectionContainerProps) {
   const inner = (
-    <div className={cn('mx-auto max-w-[1200px] px-6 py-18 max-lg:py-14 max-md:px-4 max-md:py-12', className)}>
+    <section className={cn('mx-auto max-w-[1200px] px-6 py-18 max-lg:py-14 max-md:px-4 max-md:py-12', className)}>
       {children}
-    </div>
+    </section>
   );
 
   if (alt) {
