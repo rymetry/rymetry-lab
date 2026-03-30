@@ -1,47 +1,57 @@
 import type { Article } from '@/types/article';
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { CloudIcon, CodeIcon, MonitorIcon, WrenchIcon, ZapIcon } from 'lucide-react';
+import {
+  BarChart3Icon,
+  BotIcon,
+  GaugeIcon,
+  GitBranchIcon,
+  SparklesIcon,
+  UsersIcon,
+  ZapIcon,
+} from 'lucide-react';
 import { ArticleCard } from './article-card';
 import { ThemeProvider } from './theme-provider';
 
 const sampleArticle: Article = {
-  slug: 'nextjs-cache-strategy',
-  title: 'Next.js 16 の use cache ディレクティブで ISR を超える',
+  slug: 'github-actions-cache',
+  title: 'GitHub Actions のキャッシュ戦略を徹底的に最適化する',
   publishedAt: '2026-03-15',
   updatedAt: '2026-03-20',
   readingTime: '8 min',
   thumbnailIcon: ZapIcon,
   thumbnailVariant: 'v1',
   tags: [
-    { label: 'Next.js', category: 'frontend', icon: MonitorIcon },
-    { label: 'TypeScript', category: 'languages', icon: CodeIcon },
+    { label: 'CI/CD', category: 'infra', icon: GitBranchIcon },
+    { label: 'Performance', category: 'performance', icon: GaugeIcon },
   ],
 };
 
 const sampleArticles: Article[] = [
   sampleArticle,
   {
-    slug: 'tailwind-v4-migration',
-    title: 'Tailwind CSS v4 移行ガイド — @theme inline と CSS-first 設定',
-    publishedAt: '2026-03-10',
+    slug: 'developer-onboarding',
+    title: '開発者オンボーディングを自動化して定着率を改善した話',
+    publishedAt: '2026-03-01',
+    updatedAt: '2026-03-05',
     readingTime: '12 min',
-    thumbnailIcon: WrenchIcon,
+    thumbnailIcon: UsersIcon,
     thumbnailVariant: 'v2',
     tags: [
-      { label: 'Tailwind', category: 'tools', icon: WrenchIcon },
-      { label: 'CSS', category: 'frontend', icon: MonitorIcon },
+      { label: 'DevEx', category: 'tools', icon: SparklesIcon },
+      { label: 'Automation', category: 'infra', icon: BotIcon },
     ],
   },
   {
-    slug: 'aws-ecs-deploy',
-    title: 'ECS Fargate で Next.js をゼロダウンタイムデプロイする',
-    publishedAt: '2026-02-28',
-    readingTime: '15 min',
-    thumbnailIcon: CloudIcon,
+    slug: 'dora-metrics',
+    title: 'DORA メトリクスを導入して開発チームの健全性を可視化する',
+    publishedAt: '2026-02-18',
+    updatedAt: '2026-02-22',
+    readingTime: '10 min',
+    thumbnailIcon: BarChart3Icon,
     thumbnailVariant: 'v3',
     tags: [
-      { label: 'AWS', category: 'infra', icon: CloudIcon },
-      { label: 'Docker', category: 'infra', icon: CloudIcon },
+      { label: 'Metrics', category: 'performance', icon: BarChart3Icon },
+      { label: 'DevOps', category: 'infra', icon: GitBranchIcon },
     ],
   },
 ];

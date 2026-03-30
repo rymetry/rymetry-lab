@@ -1,6 +1,6 @@
 import type { Article } from '@/types/article';
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { CloudIcon, CodeIcon, GitMergeIcon, MonitorIcon } from 'lucide-react';
+import { CodeIcon, GitBranchIcon, GitMergeIcon, RocketIcon } from 'lucide-react';
 import { ListCard } from './list-card';
 import { ThemeProvider } from './theme-provider';
 
@@ -13,16 +13,19 @@ const sampleArticles: Article[] = [
     thumbnailIcon: GitMergeIcon,
     tags: [
       { label: 'TypeScript', category: 'languages', icon: CodeIcon },
-      { label: 'Infra', category: 'infra', icon: CloudIcon },
+      { label: 'CI/CD', category: 'infra', icon: GitBranchIcon },
     ],
   },
   {
-    slug: 'react-19-patterns',
-    title: 'React 19 の新パターンと Server Components 活用法',
-    publishedAt: '2026-02-10',
-    readingTime: '10 min',
-    thumbnailIcon: MonitorIcon,
-    tags: [{ label: 'React', category: 'frontend', icon: MonitorIcon }],
+    slug: 'feature-flags',
+    title: 'Feature Flags で安全にリリースする仕組みを構築する',
+    publishedAt: '2026-01-10',
+    readingTime: '7 min',
+    thumbnailIcon: RocketIcon,
+    tags: [
+      { label: 'DevOps', category: 'infra', icon: GitBranchIcon },
+      { label: 'Release', category: 'release', icon: RocketIcon },
+    ],
   },
 ];
 
