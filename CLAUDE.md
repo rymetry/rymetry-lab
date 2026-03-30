@@ -15,9 +15,9 @@ Productivity Engineer "Rym" のポートフォリオ & 技術ブログ。Site: R
 | i18n | next-intl (Phase 3) / Dark Mode: next-themes |
 
 ## Fonts
-- **Display/EN**: Geist (`next/font/local`) → `--font-display`, `--font-sans`
-- **JP**: Noto Sans JP (`next/font/google`)
-- **Code**: PlemolJP HS (`next/font/local`, fallback: Geist Mono) → `--font-mono`
+- **Display/EN**: Geist (`next/font/google`) → `--font-display`
+- **JP**: Noto Sans JP (`next/font/google`) → `--font-sans-jp`
+- **Code**: PlemolJP HS (`next/font/local`, fallback: Geist Mono) → `--font-plemol` (composited as `--font-mono`)
 
 ## Design System
 最終デザイン: `design-mock/design-mockup-v11.html` (ブラウザで確認可能、コントロールバーでページ/テーマ切替)
@@ -90,7 +90,7 @@ Epics #1-#10 (`epic`), Tasks #11-#44 (`task`)
 - 実装順: セットアップ (#11-#16,#42) → Story 先行 → コンポーネント → ページ組み立て
 - Storybook: @storybook/nextjs-vite v10.3.x (Next.js 16 対応済), Tailwind v4 は @tailwindcss/vite で統合
 - Iconify: 実装時は @iconify/json でバンドル (CDN は FOUC リスク)
-- Geist: next/font/local 必須 (Google Fonts 非対応, モックは CDN 代用)
+- Geist: next/font/google (Next.js 16 で Google Fonts 対応済, モックは CDN 代用)
 - モック確認: `python3 -m http.server 8234` → localhost:8234/design-mock/design-mockup-v11.html
 
 ## Commands
