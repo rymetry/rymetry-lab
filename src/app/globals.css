@@ -99,8 +99,8 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-  --font-sans: var(--font-display);
-  --font-mono: var(--font-geist-mono, monospace);
+  --font-sans: var(--font-display), var(--font-sans-jp), sans-serif;
+  --font-mono: var(--font-plemol), var(--font-geist-mono), monospace;
 }
 
 @layer base {

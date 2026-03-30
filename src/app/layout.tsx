@@ -1,5 +1,30 @@
 import type { Metadata } from 'next';
+import { Geist, Geist_Mono, Noto_Sans_JP } from 'next/font/google';
+import localFont from 'next/font/local';
 import './globals.css';
+
+const geist = Geist({
+  variable: '--font-display',
+  subsets: ['latin'],
+});
+
+const geistMono = Geist_Mono({
+  variable: '--font-geist-mono',
+  subsets: ['latin'],
+});
+
+const notoSansJP = Noto_Sans_JP({
+  variable: '--font-sans-jp',
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800'],
+  display: 'swap',
+});
+
+const plemolJP = localFont({
+  src: './fonts/PlemolJPHS-Regular.woff2',
+  variable: '--font-mono',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: 'Rymlab',
@@ -12,7 +37,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ja" className="h-full antialiased" suppressHydrationWarning>
+    <html
+      lang="ja"
+      className={`${geist.variable} ${geistMono.variable} ${notoSansJP.variable} ${plemolJP.variable} h-full antialiased`}
+      suppressHydrationWarning
+    >
       <body className="min-h-full bg-background text-foreground">{children}</body>
     </html>
   );
