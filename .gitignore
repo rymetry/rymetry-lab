@@ -34,5 +34,17 @@ yarn-error.log*
 coverage/
 .nyc_output/
 
+# TypeScript
+*.tsbuildinfo
+
+# Vercel
+.vercel
+
+# PEM files
+*.pem
+
+# Storybook
+storybook-static/
+
 # Claude Code (personal settings)
 .claude/settings.local.json
