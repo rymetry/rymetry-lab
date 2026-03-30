@@ -1,4 +1,3 @@
-import { RssIcon } from 'lucide-react';
 import Link from 'next/link';
 
 import { cn } from '@/lib/utils';
@@ -10,13 +9,13 @@ import {
   ZennIcon,
 } from '@/components/icons/social-icons';
 
+// RSS は Issue #31 (RSS フィード実装) で追加予定
 const SOCIAL_LINKS = [
   { href: 'https://github.com/rymetry', label: 'GitHub', icon: GitHubIcon },
   { href: 'https://x.com/rymetry', label: 'X', icon: XIcon },
   { href: 'https://linkedin.com/in/rymetry', label: 'LinkedIn', icon: LinkedInIcon },
   { href: 'https://zenn.dev/rymetry', label: 'Zenn', icon: ZennIcon },
   { href: 'https://qiita.com/rymetry', label: 'Qiita', icon: QiitaIcon },
-  { href: '/feed.xml', label: 'RSS', icon: RssIcon },
 ] as const;
 
 export function Footer() {
