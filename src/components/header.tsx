@@ -3,7 +3,6 @@
 import { MenuIcon } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import {
@@ -22,9 +21,11 @@ const NAV_ITEMS = [
   { href: '/about', label: 'About' },
 ] as const;
 
-function isActive(pathname: string, href: string): boolean {
+/** Exact match for home ("/"), segment-boundary prefix match for other routes. */
+function isActive(pathname: string | null, href: string): boolean {
+  if (!pathname) return false;
   if (href === '/') return pathname === '/';
-  return pathname.startsWith(href);
+  return pathname === href || pathname.startsWith(`${href}/`);
 }
 
 export function Header() {
@@ -69,7 +70,7 @@ export function Header() {
             <ThemeToggle />
 
             {/* Mobile Menu */}
-            <Sheet>
+            <Sheet key={pathname}>
               <SheetTrigger asChild>
                 <Button
                   type="button"
