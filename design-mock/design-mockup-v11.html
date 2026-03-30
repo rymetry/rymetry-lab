@@ -134,15 +134,15 @@
   .menu-btn .icon-close { display: none; }
   .menu-btn.is-open .icon-menu { display: none; }
   .menu-btn.is-open .icon-close { display: inline-flex; }
-  .mobile-nav { display: none; }
-  .mobile-nav.open { display: flex; flex-direction: column; position: absolute; top: 60px; left: 0; right: 0; background: var(--bg-card); border-bottom: 1px solid var(--border); box-shadow: 0 8px 24px rgba(0,0,0,0.1); padding: 16px 24px; gap: 4px; z-index: 100; }
-  .dark .mobile-nav.open { box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
+  .mobile-nav { display: none; position: fixed; top: 0; right: 0; bottom: 0; width: 280px; background: var(--bg-card); border-left: 1px solid var(--border); box-shadow: -8px 0 24px rgba(0,0,0,0.1); padding: 80px 24px 24px; gap: 4px; z-index: 100; transform: translateX(100%); transition: transform 0.3s ease; }
+  .mobile-nav.open { display: flex; flex-direction: column; transform: translateX(0); }
+  .dark .mobile-nav.open { box-shadow: -8px 0 24px rgba(0,0,0,0.4); }
   .mobile-nav a { display: block; padding: 10px 0; color: var(--text-secondary); text-decoration: none; font-size: 15px; font-weight: 500; border-bottom: 1px solid var(--border); transition: color .2s; cursor: pointer; }
   .mobile-nav a:last-child { border-bottom: none; }
   .mobile-nav a:hover { color: var(--accent); }
   .mobile-nav a.active { color: var(--accent); }
   /* v9: overlay backdrop */
-  .menu-overlay { display: none; position: fixed; left: 0; right: 0; bottom: 0; top: 110px; background: rgba(0,0,0,0.3); z-index: 98; backdrop-filter: blur(2px); }
+  .menu-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.3); z-index: 98; backdrop-filter: blur(2px); }
   .menu-overlay.open { display: block; }
   .dark .menu-overlay.open { background: rgba(0,0,0,0.5); }
 
@@ -475,8 +475,8 @@
   <h1><span>&gt;_</span> Rymlab <span>v11</span></h1>
   <div class="controls">
     <button class="ctrl-btn active" data-page="home">Home</button>
-    <button class="ctrl-btn" data-page="projects">Projects</button>
     <button class="ctrl-btn" data-page="articles">Articles</button>
+    <button class="ctrl-btn" data-page="projects">Projects</button>
     <button class="ctrl-btn" data-page="article-detail">Article Detail</button>
     <button class="ctrl-btn" data-page="about">About</button>
     <div class="ctrl-div"></div>
@@ -495,7 +495,7 @@
     <a class="logo">Rym<span class="a">lab</span></a>
     <div class="header-right">
       <nav><ul class="nav-links">
-        <li><a class="active">Home</a></li><li><a>Projects</a></li><li><a>Articles</a></li><li><a>About</a></li>
+        <li><a class="active">Home</a></li><li><a>Articles</a></li><li><a>Projects</a></li><li><a>About</a></li>
       </ul></nav>
       <div class="header-actions">
         <button class="lang-toggle" aria-label="Switch language"><iconify-icon icon="lucide:globe"></iconify-icon> JA</button>
@@ -503,7 +503,7 @@
         <button class="menu-btn" aria-label="Toggle menu"><iconify-icon icon="lucide:menu" class="icon-menu"></iconify-icon><iconify-icon icon="lucide:x" class="icon-close"></iconify-icon></button>
       </div>
     </div>
-  </div><nav class="mobile-nav"><a class="active">Home</a><a>Projects</a><a>Articles</a><a>About</a></nav><div class="menu-overlay"></div></header>
+  </div><nav class="mobile-nav"><a class="active">Home</a><a>Articles</a><a>Projects</a><a>About</a></nav><div class="menu-overlay"></div></header>
 
   <section class="hero"><div class="hero-mesh"></div>
     <div class="hero-inner">
@@ -654,8 +654,8 @@
 
 <!-- ==================== PROJECTS ==================== -->
 <div class="page-section" id="page-projects">
-  <header class="site-header"><div class="header-inner"><a class="logo">Rym<span class="a">lab</span></a><div class="header-right"><nav><ul class="nav-links"><li><a>Home</a></li><li><a class="active">Projects</a></li><li><a>Articles</a></li><li><a>About</a></li></ul></nav><div class="header-actions"><button class="lang-toggle" aria-label="Switch language"><iconify-icon icon="lucide:globe"></iconify-icon> JA</button><button class="theme-toggle" aria-label="Toggle theme"><iconify-icon icon="lucide:sun" class="icon-sun"></iconify-icon><iconify-icon icon="lucide:moon" class="icon-moon"></iconify-icon></button>
-        <button class="menu-btn" aria-label="Toggle menu"><iconify-icon icon="lucide:menu" class="icon-menu"></iconify-icon><iconify-icon icon="lucide:x" class="icon-close"></iconify-icon></button></div></div></div><nav class="mobile-nav"><a class="active">Home</a><a>Projects</a><a>Articles</a><a>About</a></nav><div class="menu-overlay"></div></header>
+  <header class="site-header"><div class="header-inner"><a class="logo">Rym<span class="a">lab</span></a><div class="header-right"><nav><ul class="nav-links"><li><a>Home</a></li><li><a>Articles</a></li><li><a class="active">Projects</a></li><li><a>About</a></li></ul></nav><div class="header-actions"><button class="lang-toggle" aria-label="Switch language"><iconify-icon icon="lucide:globe"></iconify-icon> JA</button><button class="theme-toggle" aria-label="Toggle theme"><iconify-icon icon="lucide:sun" class="icon-sun"></iconify-icon><iconify-icon icon="lucide:moon" class="icon-moon"></iconify-icon></button>
+        <button class="menu-btn" aria-label="Toggle menu"><iconify-icon icon="lucide:menu" class="icon-menu"></iconify-icon><iconify-icon icon="lucide:x" class="icon-close"></iconify-icon></button></div></div></div><nav class="mobile-nav"><a class="active">Home</a><a>Articles</a><a>Projects</a><a>About</a></nav><div class="menu-overlay"></div></header>
 
   <section class="section">
     <p class="s-label">// Projects</p>
@@ -676,8 +676,8 @@
 
 <!-- ==================== ARTICLES ==================== -->
 <div class="page-section" id="page-articles">
-  <header class="site-header"><div class="header-inner"><a class="logo">Rym<span class="a">lab</span></a><div class="header-right"><nav><ul class="nav-links"><li><a>Home</a></li><li><a>Projects</a></li><li><a class="active">Articles</a></li><li><a>About</a></li></ul></nav><div class="header-actions"><button class="lang-toggle" aria-label="Switch language"><iconify-icon icon="lucide:globe"></iconify-icon> JA</button><button class="theme-toggle" aria-label="Toggle theme"><iconify-icon icon="lucide:sun" class="icon-sun"></iconify-icon><iconify-icon icon="lucide:moon" class="icon-moon"></iconify-icon></button>
-        <button class="menu-btn" aria-label="Toggle menu"><iconify-icon icon="lucide:menu" class="icon-menu"></iconify-icon><iconify-icon icon="lucide:x" class="icon-close"></iconify-icon></button></div></div></div><nav class="mobile-nav"><a class="active">Home</a><a>Projects</a><a>Articles</a><a>About</a></nav><div class="menu-overlay"></div></header>
+  <header class="site-header"><div class="header-inner"><a class="logo">Rym<span class="a">lab</span></a><div class="header-right"><nav><ul class="nav-links"><li><a>Home</a></li><li><a class="active">Articles</a></li><li><a>Projects</a></li><li><a>About</a></li></ul></nav><div class="header-actions"><button class="lang-toggle" aria-label="Switch language"><iconify-icon icon="lucide:globe"></iconify-icon> JA</button><button class="theme-toggle" aria-label="Toggle theme"><iconify-icon icon="lucide:sun" class="icon-sun"></iconify-icon><iconify-icon icon="lucide:moon" class="icon-moon"></iconify-icon></button>
+        <button class="menu-btn" aria-label="Toggle menu"><iconify-icon icon="lucide:menu" class="icon-menu"></iconify-icon><iconify-icon icon="lucide:x" class="icon-close"></iconify-icon></button></div></div></div><nav class="mobile-nav"><a class="active">Home</a><a>Articles</a><a>Projects</a><a>About</a></nav><div class="menu-overlay"></div></header>
 
   <section class="section">
     <p class="s-label">// Articles</p>
@@ -731,8 +731,8 @@
 
 <!-- ==================== ARTICLE DETAIL ==================== -->
 <div class="page-section" id="page-article-detail">
-  <header class="site-header"><div class="header-inner"><a class="logo">Rym<span class="a">lab</span></a><div class="header-right"><nav><ul class="nav-links"><li><a>Home</a></li><li><a>Projects</a></li><li><a class="active">Articles</a></li><li><a>About</a></li></ul></nav><div class="header-actions"><button class="lang-toggle" aria-label="Switch language"><iconify-icon icon="lucide:globe"></iconify-icon> JA</button><button class="theme-toggle" aria-label="Toggle theme"><iconify-icon icon="lucide:sun" class="icon-sun"></iconify-icon><iconify-icon icon="lucide:moon" class="icon-moon"></iconify-icon></button>
-        <button class="menu-btn" aria-label="Toggle menu"><iconify-icon icon="lucide:menu" class="icon-menu"></iconify-icon><iconify-icon icon="lucide:x" class="icon-close"></iconify-icon></button></div></div></div><nav class="mobile-nav"><a class="active">Home</a><a>Projects</a><a>Articles</a><a>About</a></nav><div class="menu-overlay"></div></header>
+  <header class="site-header"><div class="header-inner"><a class="logo">Rym<span class="a">lab</span></a><div class="header-right"><nav><ul class="nav-links"><li><a>Home</a></li><li><a class="active">Articles</a></li><li><a>Projects</a></li><li><a>About</a></li></ul></nav><div class="header-actions"><button class="lang-toggle" aria-label="Switch language"><iconify-icon icon="lucide:globe"></iconify-icon> JA</button><button class="theme-toggle" aria-label="Toggle theme"><iconify-icon icon="lucide:sun" class="icon-sun"></iconify-icon><iconify-icon icon="lucide:moon" class="icon-moon"></iconify-icon></button>
+        <button class="menu-btn" aria-label="Toggle menu"><iconify-icon icon="lucide:menu" class="icon-menu"></iconify-icon><iconify-icon icon="lucide:x" class="icon-close"></iconify-icon></button></div></div></div><nav class="mobile-nav"><a class="active">Home</a><a>Articles</a><a>Projects</a><a>About</a></nav><div class="menu-overlay"></div></header>
 
   <section class="section">
     <div class="art-detail">
@@ -794,8 +794,8 @@
 
 <!-- ==================== ABOUT ==================== -->
 <div class="page-section" id="page-about">
-  <header class="site-header"><div class="header-inner"><a class="logo">Rym<span class="a">lab</span></a><div class="header-right"><nav><ul class="nav-links"><li><a>Home</a></li><li><a>Projects</a></li><li><a>Articles</a></li><li><a class="active">About</a></li></ul></nav><div class="header-actions"><button class="lang-toggle" aria-label="Switch language"><iconify-icon icon="lucide:globe"></iconify-icon> JA</button><button class="theme-toggle" aria-label="Toggle theme"><iconify-icon icon="lucide:sun" class="icon-sun"></iconify-icon><iconify-icon icon="lucide:moon" class="icon-moon"></iconify-icon></button>
-        <button class="menu-btn" aria-label="Toggle menu"><iconify-icon icon="lucide:menu" class="icon-menu"></iconify-icon><iconify-icon icon="lucide:x" class="icon-close"></iconify-icon></button></div></div></div><nav class="mobile-nav"><a class="active">Home</a><a>Projects</a><a>Articles</a><a>About</a></nav><div class="menu-overlay"></div></header>
+  <header class="site-header"><div class="header-inner"><a class="logo">Rym<span class="a">lab</span></a><div class="header-right"><nav><ul class="nav-links"><li><a>Home</a></li><li><a>Articles</a></li><li><a>Projects</a></li><li><a class="active">About</a></li></ul></nav><div class="header-actions"><button class="lang-toggle" aria-label="Switch language"><iconify-icon icon="lucide:globe"></iconify-icon> JA</button><button class="theme-toggle" aria-label="Toggle theme"><iconify-icon icon="lucide:sun" class="icon-sun"></iconify-icon><iconify-icon icon="lucide:moon" class="icon-moon"></iconify-icon></button>
+        <button class="menu-btn" aria-label="Toggle menu"><iconify-icon icon="lucide:menu" class="icon-menu"></iconify-icon><iconify-icon icon="lucide:x" class="icon-close"></iconify-icon></button></div></div></div><nav class="mobile-nav"><a class="active">Home</a><a>Articles</a><a>Projects</a><a>About</a></nav><div class="menu-overlay"></div></header>
 
   <section class="section">
     <div class="about-hero">
