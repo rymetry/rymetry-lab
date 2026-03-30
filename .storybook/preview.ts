@@ -33,7 +33,9 @@ const preview: Preview = {
   decorators: [
     (Story, context) => {
       const theme = context.globals.theme ?? 'light';
-      document.documentElement.classList.toggle('dark', theme === 'dark');
+      if (typeof document !== 'undefined') {
+        document.documentElement.classList.toggle('dark', theme === 'dark');
+      }
       return Story();
     },
   ],
