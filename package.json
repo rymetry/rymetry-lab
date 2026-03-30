@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "echo 'ESLint not yet configured (see #12)'",
-    "test": "echo 'Tests not yet configured (see #10)'",
+    "test": "echo 'Tests not yet configured (see Epic #10)' && exit 1",
     "format": "echo 'Prettier not yet configured (see #12)'"
   },
   "dependencies": {
