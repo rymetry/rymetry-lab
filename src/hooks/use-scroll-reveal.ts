@@ -7,6 +7,10 @@ interface UseScrollRevealOptions {
   readonly once?: boolean;
 }
 
+/**
+ * IntersectionObserver で要素の可視性を検出し、.visible クラスを付与する。
+ * DOM classList を直接操作する（CSS 駆動アニメーションのため React state 不使用）。
+ */
 export function useScrollReveal<T extends HTMLElement>({
   threshold = 0.1,
   once = true,
@@ -16,6 +20,11 @@ export function useScrollReveal<T extends HTMLElement>({
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+
+    if (typeof IntersectionObserver === 'undefined') {
+      el.classList.add('visible');
+      return;
+    }
 
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       el.classList.add('visible');
@@ -35,7 +44,7 @@ export function useScrollReveal<T extends HTMLElement>({
     );
 
     observer.observe(el);
-    return () => observer.disconnect();
+    return () => observer.unobserve(el);
   }, [threshold, once]);
 
   return ref;
