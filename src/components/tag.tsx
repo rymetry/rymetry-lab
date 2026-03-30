@@ -16,7 +16,7 @@ export function Tag({ tag, size = 'default', className }: TagProps) {
       className={cn(
         'inline-flex items-center gap-1 rounded border font-mono',
         'bg-[var(--tag-bg)] text-[var(--tag-text)] border-[var(--tag-border)]',
-        size === 'default' && 'px-2.5 py-0.5 text-[11px]',
+        size === 'default' && 'px-[9px] py-[3px] text-[11px]',
         size === 'sm' && 'px-[7px] py-px text-[10px]',
         className,
       )}
