@@ -1,8 +1,8 @@
+import type { Project } from '@/types/project';
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { CloudIcon, CodeIcon, MonitorIcon, ServerIcon, WrenchIcon, ZapIcon } from 'lucide-react';
-import { ThemeProvider } from './theme-provider';
 import { ProjectCard } from './project-card';
-import type { Project } from '@/types/project';
+import { ThemeProvider } from './theme-provider';
 
 const sampleProject: Project = {
   slug: 'ci-cd-optimizer',

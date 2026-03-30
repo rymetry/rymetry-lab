@@ -1,6 +1,5 @@
 import Link from 'next/link';
 
-import { cn } from '@/lib/utils';
 import {
   GitHubIcon,
   LinkedInIcon,
@@ -8,6 +7,7 @@ import {
   XIcon,
   ZennIcon,
 } from '@/components/icons/social-icons';
+import { cn } from '@/lib/utils';
 
 // RSS は Issue #31 (RSS フィード実装) で追加予定
 const SOCIAL_LINKS = [
@@ -27,9 +27,7 @@ export function Footer() {
           <div className="font-mono text-[15px] font-bold">
             Rym<span className="text-primary">lab</span>
           </div>
-          <p className="text-xs text-muted-foreground">
-            &copy; 2026 Rymlab. All rights reserved.
-          </p>
+          <p className="text-xs text-muted-foreground">&copy; 2026 Rymlab. All rights reserved.</p>
         </div>
 
         {/* Social Icons */}

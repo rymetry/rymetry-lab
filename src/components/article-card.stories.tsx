@@ -1,8 +1,8 @@
+import type { Article } from '@/types/article';
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { CloudIcon, CodeIcon, MonitorIcon, WrenchIcon, ZapIcon } from 'lucide-react';
-import { ThemeProvider } from './theme-provider';
 import { ArticleCard } from './article-card';
-import type { Article } from '@/types/article';
+import { ThemeProvider } from './theme-provider';
 
 const sampleArticle: Article = {
   slug: 'nextjs-cache-strategy',

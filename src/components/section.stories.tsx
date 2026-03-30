@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { ThemeProvider } from './theme-provider';
 import { SectionContainer, SectionHeader } from './section';
+import { ThemeProvider } from './theme-provider';
 
 const meta = {
   title: 'Components/Section',

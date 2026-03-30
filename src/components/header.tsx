@@ -1,18 +1,12 @@
 'use client';
 
+import { ThemeToggle } from '@/components/theme-toggle';
+import { Button } from '@/components/ui/button';
+import { Sheet, SheetClose, SheetContent, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { cn } from '@/lib/utils';
 import { MenuIcon } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
-import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetTitle,
-  SheetTrigger,
-} from '@/components/ui/sheet';
-import { ThemeToggle } from '@/components/theme-toggle';
 
 const NAV_ITEMS = [
   { href: '/', label: 'Home' },
@@ -72,12 +66,7 @@ export function Header() {
             {/* Mobile Menu */}
             <Sheet key={pathname}>
               <SheetTrigger asChild>
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="icon"
-                  className="md:hidden"
-                >
+                <Button type="button" variant="outline" size="icon" className="md:hidden">
                   <MenuIcon className="size-[18px]" />
                   <span className="sr-only">メニューを開く</span>
                 </Button>

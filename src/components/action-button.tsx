@@ -9,7 +9,12 @@ interface ActionButtonProps {
   readonly className?: string;
 }
 
-export function ActionButton({ href, variant = 'primary', children, className }: ActionButtonProps) {
+export function ActionButton({
+  href,
+  variant = 'primary',
+  children,
+  className,
+}: ActionButtonProps) {
   const isExternal = href.startsWith('http');
 
   return (

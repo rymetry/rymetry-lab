@@ -1,8 +1,8 @@
+import type { Article } from '@/types/article';
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import { CloudIcon, CodeIcon, GitMergeIcon, MonitorIcon } from 'lucide-react';
-import { ThemeProvider } from './theme-provider';
 import { ListCard } from './list-card';
-import type { Article } from '@/types/article';
+import { ThemeProvider } from './theme-provider';
 
 const sampleArticles: Article[] = [
   {
@@ -22,9 +22,7 @@ const sampleArticles: Article[] = [
     publishedAt: '2026-02-10',
     readingTime: '10 min',
     thumbnailIcon: MonitorIcon,
-    tags: [
-      { label: 'React', category: 'frontend', icon: MonitorIcon },
-    ],
+    tags: [{ label: 'React', category: 'frontend', icon: MonitorIcon }],
   },
 ];
 
