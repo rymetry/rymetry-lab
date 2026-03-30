@@ -6,9 +6,11 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "echo 'ESLint not yet configured (see #12)'",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix",
     "test": "echo 'Tests not yet configured (see Epic #10)' && exit 1",
-    "format": "echo 'Prettier not yet configured (see #12)'"
+    "format": "prettier --write 'src/**/*.{ts,tsx,css,json}'",
+    "format:check": "prettier --check 'src/**/*.{ts,tsx,css,json}'"
   },
   "dependencies": {
     "next": "16.2.1",
@@ -20,6 +22,11 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "bun-types": "^1.2",
+    "eslint": "^9",
+    "eslint-config-next": "^16.2.1",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.8.1",
+    "prettier-plugin-organize-imports": "^4.3.0",
     "typescript": "^6.0.2"
   },
   "trustedDependencies": [
