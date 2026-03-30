@@ -1,8 +1,8 @@
 import Link from 'next/link';
 
+import { TagList } from '@/components/tag';
 import { cn } from '@/lib/utils';
 import type { Project } from '@/types/project';
-import { TagList } from '@/components/tag';
 
 interface ProjectCardProps {
   readonly project: Project;

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { ThemeProvider } from './theme-provider';
 import { Header } from './header';
+import { ThemeProvider } from './theme-provider';
 
 function ScrollArea({ children }: { children: React.ReactNode }) {
   return (

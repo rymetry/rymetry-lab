@@ -1,9 +1,9 @@
 import { CalendarIcon, ClockIcon, PenLineIcon } from 'lucide-react';
 import Link from 'next/link';
 
+import { TagList } from '@/components/tag';
 import { cn } from '@/lib/utils';
 import type { Article } from '@/types/article';
-import { TagList } from '@/components/tag';
 
 interface ArticleCardProps {
   readonly article: Article;

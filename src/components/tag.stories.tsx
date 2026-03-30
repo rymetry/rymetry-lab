@@ -1,3 +1,4 @@
+import type { Tag as TagType } from '@/types/tag';
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
 import {
   CloudIcon,
@@ -10,9 +11,8 @@ import {
   ShieldIcon,
   WrenchIcon,
 } from 'lucide-react';
-import { ThemeProvider } from './theme-provider';
 import { Tag, TagList } from './tag';
-import type { Tag as TagType } from '@/types/tag';
+import { ThemeProvider } from './theme-provider';
 
 const sampleTags: TagType[] = [
   { label: 'React', category: 'frontend', icon: MonitorIcon },
@@ -35,8 +35,7 @@ const meta = {
   parameters: {
     docs: {
       description: {
-        component:
-          'カテゴリ色アイコン付きタグ。カード内で使用。default / sm の 2 サイズ。',
+        component: 'カテゴリ色アイコン付きタグ。カード内で使用。default / sm の 2 サイズ。',
       },
     },
   },
