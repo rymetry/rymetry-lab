@@ -7,7 +7,7 @@ Productivity Engineer "Rym" のポートフォリオ & 技術ブログ。Site: R
 | Category | Technology |
 |----------|-----------|
 | Framework | Next.js 16 (App Router, `'use cache'`) |
-| Runtime | React 19, TypeScript 5 (strict), Bun |
+| Runtime | React 19, TypeScript 6 (strict), Bun |
 | Styling | Tailwind CSS v4, shadcn/ui (New York), Iconify (lucide + simple-icons) |
 | CMS | microCMS → unified (rehype-sanitize, rehype-prism-plus) |
 | Testing | Bun test (unit) + Playwright (E2E) + Storybook 10 (@storybook/nextjs-vite) |
