@@ -4,7 +4,7 @@ import type { DecoratorFunction } from 'storybook/internal/types';
 import { useEffect } from 'react';
 import '../src/app/globals.css';
 
-const withThemeClass: DecoratorFunction<ReactRenderer> = (Story, context) => {
+const WithThemeClass: DecoratorFunction<ReactRenderer> = (Story, context) => {
   const theme = context.globals.theme ?? 'light';
   useEffect(() => {
     document.documentElement.classList.toggle('dark', theme === 'dark');
@@ -41,7 +41,7 @@ const preview: Preview = {
   initialGlobals: {
     theme: 'light',
   },
-  decorators: [withThemeClass],
+  decorators: [WithThemeClass],
 };
 
 export default preview;
