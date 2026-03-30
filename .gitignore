@@ -47,6 +47,7 @@ coverage/
 storybook-static/
 
 # Claude Code (personal settings)
+.claude/worktrees/
 .claude/settings.local.json
 
 *storybook.log
