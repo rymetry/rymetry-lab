@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bunx prettier --write \"$CLAUDE_FILE_PATH\" 2>&1 || echo \"WARNING: Prettier failed on $CLAUDE_FILE_PATH\" >&2; exit 0",
+            "command": "[ -n \"$CLAUDE_FILE_PATH\" ] && [ -f \"$CLAUDE_FILE_PATH\" ] && bunx prettier --write \"$CLAUDE_FILE_PATH\" 2>&1 || echo \"WARNING: Prettier skipped (file: ${CLAUDE_FILE_PATH:-<empty>})\" >&2; exit 0",
             "timeout": 5000
           }
         ]
