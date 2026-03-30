@@ -38,3 +38,24 @@ export const Default: Story = {
     </div>
   ),
 };
+
+export const DarkMode: Story = {
+  args: {
+    children: null,
+  },
+  globals: { theme: 'dark' },
+  render: () => (
+    <div className="p-8">
+      <p className="mb-8 text-muted-foreground">下にスクロールしてください</p>
+      <div className="h-[80vh]" />
+      {[1, 2, 3].map((i) => (
+        <ScrollReveal key={i} className="mb-8">
+          <div className="rounded-lg border border-border bg-card p-8">
+            <h3 className="mb-2 text-lg font-bold">セクション {i}</h3>
+            <p className="text-muted-foreground">このカードはスクロールで表示されます。</p>
+          </div>
+        </ScrollReveal>
+      ))}
+    </div>
+  ),
+};

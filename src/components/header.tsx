@@ -70,7 +70,7 @@ export function Header() {
                   type="button"
                   variant="outline"
                   size="icon"
-                  className="md:hidden hover:bg-transparent hover:border-primary hover:text-primary"
+                  className="md:hidden hover:bg-transparent dark:hover:bg-transparent hover:border-primary hover:text-primary"
                 >
                   <MenuIcon className="size-[18px]" />
                   <span className="sr-only">メニューを開く</span>

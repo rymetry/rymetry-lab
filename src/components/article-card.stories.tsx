@@ -5,6 +5,7 @@ import {
   BotIcon,
   GaugeIcon,
   GitBranchIcon,
+  InfinityIcon,
   SparklesIcon,
   UsersIcon,
   ZapIcon,
@@ -50,7 +51,7 @@ const sampleArticles: Article[] = [
     thumbnailVariant: 'v3',
     tags: [
       { label: 'Metrics', category: 'performance', icon: BarChart3Icon },
-      { label: 'DevOps', category: 'infra', icon: GitBranchIcon },
+      { label: 'DevOps', category: 'infra', icon: InfinityIcon },
     ],
   },
 ];

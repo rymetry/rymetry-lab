@@ -4,6 +4,7 @@ import {
   BarChart3Icon,
   CloudIcon,
   CodeIcon,
+  ContainerIcon,
   LayoutDashboardIcon,
   MonitorIcon,
   ServerIcon,
@@ -21,7 +22,7 @@ const sampleProject: Project = {
   tags: [
     { label: 'GitHub Actions', category: 'infra', icon: CloudIcon },
     { label: 'TypeScript', category: 'languages', icon: CodeIcon },
-    { label: 'Docker', category: 'infra', icon: CloudIcon },
+    { label: 'Docker', category: 'infra', icon: ContainerIcon },
   ],
 };
 

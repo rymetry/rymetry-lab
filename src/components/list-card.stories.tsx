@@ -1,6 +1,6 @@
 import type { Article } from '@/types/article';
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { CodeIcon, GitBranchIcon, GitMergeIcon, RocketIcon } from 'lucide-react';
+import { CodeIcon, GitBranchIcon, GitMergeIcon, InfinityIcon, RocketIcon } from 'lucide-react';
 import { ListCard } from './list-card';
 
 const sampleArticles: Article[] = [
@@ -22,7 +22,7 @@ const sampleArticles: Article[] = [
     readingTime: '7 min',
     thumbnailIcon: RocketIcon,
     tags: [
-      { label: 'DevOps', category: 'infra', icon: GitBranchIcon },
+      { label: 'DevOps', category: 'infra', icon: InfinityIcon },
       { label: 'Release', category: 'release', icon: RocketIcon },
     ],
   },
