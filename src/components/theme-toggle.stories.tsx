@@ -31,6 +31,7 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {};
 
 export const OnDarkBackground: Story = {
+  globals: { theme: 'dark' },
   decorators: [
     (Story) => (
       <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>

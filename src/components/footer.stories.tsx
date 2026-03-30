@@ -33,6 +33,7 @@ export const Default: Story = {
 };
 
 export const DarkMode: Story = {
+  globals: { theme: 'dark' },
   decorators: [
     (Story) => (
       <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>

@@ -13,8 +13,8 @@ function createIcon(displayName: string, path: string) {
         height={size}
         viewBox="0 0 24 24"
         fill="currentColor"
-        aria-hidden="true"
         {...props}
+        aria-hidden="true"
       >
         <path d={path} />
       </svg>

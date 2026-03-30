@@ -29,7 +29,7 @@ export function Footer() {
             Rym<span className="text-primary">lab</span>
           </div>
           <p className="text-xs text-muted-foreground">
-            &copy; 2025 Rymlab. All rights reserved.
+            &copy; 2026 Rymlab. All rights reserved.
           </p>
         </div>
 
@@ -46,6 +46,7 @@ export function Footer() {
                 'flex size-[34px] items-center justify-center rounded-[7px] border border-border',
                 'text-muted-foreground transition-colors duration-200',
                 'hover:border-primary hover:text-primary hover:bg-[var(--accent-glow)]',
+                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
               )}
             >
               <Icon size={16} />
