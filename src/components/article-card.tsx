@@ -7,6 +7,7 @@ import type { Article } from '@/types/article';
 
 interface ArticleCardProps {
   readonly article: Article;
+  readonly href?: string;
   readonly className?: string;
 }
 
@@ -45,10 +46,10 @@ function ArticleThumbnail({
   );
 }
 
-export function ArticleCard({ article, className }: ArticleCardProps) {
+export function ArticleCard({ article, href, className }: ArticleCardProps) {
   return (
     <Link
-      href={`/articles/${article.slug}`}
+      href={href ?? `/articles/${article.slug}`}
       className={cn(
         'group relative flex flex-col overflow-hidden rounded-[11px] border border-border bg-card',
         'transition-all duration-[250ms]',
