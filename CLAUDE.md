@@ -20,24 +20,25 @@ Productivity Engineer "Rym" のポートフォリオ & 技術ブログ。Site: R
 - **Code**: PlemolJP HS (`next/font/local`, fallback: Geist Mono) → `--font-plemol` (composited as `--font-mono`)
 
 ## Design System
-最終デザイン: `design-mock/design-mockup-v11.html` (ブラウザで確認可能、コントロールバーでページ/テーマ切替)
+最終デザイン: `design-mock/design-mockup-v12.html` (ブラウザで確認可能、コントロールバーでページ/テーマ切替)
 
-### Colors (CSS Variables)
-**Light** — bg: #fafafa / card: #fff / accent: #0c6b58 / accent-2: #14b890 / gradient: #084c3e→#14b890
-**Dark** — bg: #09090b / card: #1a1a1f / accent: #5cd8c8 (teal) / accent-2: #94ede0 / gradient: #065a4e→#2db89a
-text-muted は WCAG AA 準拠。カラーは意図的に Tailwind プリセットからずらしている。
+### Colors — Palette D: Balanced Green 156°/154° (oklch)
+**Light** — bg: #fafafa / card: #fff / accent: oklch(0.52 0.11 156) / accent-2: oklch(0.55 0.12 156) / gradient: oklch(0.35 0.08 156)→oklch(0.55 0.12 156)
+**Dark** — bg: #09090b / card: #1a1a1f / accent: oklch(0.75 0.10 154) / accent-2: oklch(0.82 0.07 154) / gradient: oklch(0.34 0.07 154)→oklch(0.55 0.10 154)
+ダークモードは Hunt 効果補正で hue 154° (Light 156° から -2°)。アクセント・タグカテゴリ色は oklch 統一。ニュートラルトークン (bg, border 等) は hex 維持。text-muted は WCAG AA 準拠。
 
 ### Tags
 | Category | Color | Icon |
 |----------|-------|------|
-| Frontend | #10b981 | lucide:monitor |
-| Backend | #3b82f6 | lucide:server / database |
-| Infra/DevOps | #8b5cf6 | lucide:cloud / git-branch |
-| Languages | #f59e0b | lucide:code |
-| Tools/DX | #ec4899 | lucide:wrench / sparkles |
-| Perf/Metrics | #06b6d4 | lucide:gauge / bar-chart-3 |
-| Testing | #f97316 | lucide:flask-conical |
-| Release | #a855f7 | lucide:rocket |
+| Frontend | oklch(0.70 0.15 156) | lucide:monitor |
+| Backend | oklch(0.62 0.19 260) | lucide:server / database |
+| Infra/DevOps | oklch(0.61 0.22 293) | lucide:cloud / git-branch |
+| Languages | oklch(0.77 0.16 70) | lucide:code |
+| Tools/DX | oklch(0.66 0.21 354) | lucide:wrench / sparkles |
+| Security | oklch(0.64 0.21 25) | lucide:shield |
+| Perf/Metrics | oklch(0.71 0.13 215) | lucide:gauge / bar-chart-3 |
+| Testing | oklch(0.70 0.19 48) | lucide:flask-conical |
+| Release | oklch(0.63 0.23 304) | lucide:rocket |
 
 ### Animations
 - Hero: staggered fadeUp (0s/0.12s/0.24s/0.36s) + terminal typewriter (0.3s間隔) + float (6s, ±6px)
@@ -93,12 +94,12 @@ Epics #1-#10 (`epic`), Tasks #11-#44 (`task`)
 - Iconify: 実装時は @iconify/json でバンドル (CDN は FOUC リスク)。現状は lucide-react + インライン SVG (social icons) で統一
 
 ## Storybook Story ルール
-- **データはモック準拠**: Story のサンプルデータ（タイトル、説明、日付等）は `design-mock/design-mockup-v11.html` からコピーする。適当なプレースホルダーを使わない
+- **データはモック準拠**: Story のサンプルデータ（タイトル、説明、日付等）は `design-mock/design-mockup-v12.html` からコピーする。適当なプレースホルダーを使わない
 - **ThemeProvider は最小限**: `useTheme()` を直接/間接的に使用するコンポーネント (ThemeToggle, および ThemeToggle を内包する Header) のみ ThemeProvider でラップ。他は `preview.tsx` の `WithThemeClass` デコレータ + `globals: { theme: 'dark' }` でテーマ制御
 - **DarkMode Story**: 全コンポーネントに DarkMode variant を用意し、`globals: { theme: 'dark' }` を必ず設定する
 - **モック変更時は双方更新**: 実装の CSS 変数やスタイルを変更したら、モック HTML も同時に更新する
 - Geist: next/font/google (Next.js 16 で Google Fonts 対応済, モックは CDN 代用)
-- モック確認: `python3 -m http.server 8234` → localhost:8234/design-mock/design-mockup-v11.html
+- モック確認: `python3 -m http.server 8234` → localhost:8234/design-mock/design-mockup-v12.html
 
 ## Hooks Setup
 `.claude/settings.local.json` に以下を追加 (repo にはコミットしない):

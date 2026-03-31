@@ -18,13 +18,13 @@ export interface Tag {
 }
 
 export const TAG_CATEGORY_COLORS = {
-  frontend: '#10b981',
-  backend: '#3b82f6',
-  infra: '#8b5cf6',
-  languages: '#f59e0b',
-  tools: '#ec4899',
-  security: '#ef4444',
-  performance: '#06b6d4',
-  testing: '#f97316',
-  release: '#a855f7',
+  frontend: 'oklch(0.70 0.15 156)',
+  backend: 'oklch(0.62 0.19 260)',
+  infra: 'oklch(0.61 0.22 293)',
+  languages: 'oklch(0.77 0.16 70)',
+  tools: 'oklch(0.66 0.21 354)',
+  security: 'oklch(0.64 0.21 25)',
+  performance: 'oklch(0.71 0.13 215)',
+  testing: 'oklch(0.70 0.19 48)',
+  release: 'oklch(0.63 0.23 304)',
 } as const satisfies Record<TagCategory, string>;

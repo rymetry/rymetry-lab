@@ -2,43 +2,59 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* oklch color tokens require Chrome 111+, Firefox 113+, Safari 16.2+ */
+
 @layer base {
   :root {
-    /* shadcn/ui tokens (canonical source of truth) */
+    /* shadcn/ui tokens — accents use oklch, neutrals remain hex */
     --background: #fafafa;
     --foreground: #0f1a14;
     --card: #ffffff;
     --card-foreground: #0f1a14;
     --popover: #ffffff;
     --popover-foreground: #0f1a14;
-    --primary: #0c6b58;
+    /* oklch channel primitives (L C H — no alpha) */
+    --primary-ch: 0.52 0.11 156;
+    --accent-2-ch: 0.55 0.12 156;
+
+    --primary: oklch(var(--primary-ch));
     --primary-foreground: #ffffff;
     --secondary: #f3f4f6;
     --secondary-foreground: #0f1a14;
     --muted: #f3f4f6;
     --muted-foreground: #6a7585;
-    --accent: #0c6b58;
+    --accent: oklch(var(--primary-ch));
     --accent-foreground: #ffffff;
     --destructive: #ef4444;
     --destructive-foreground: #ffffff;
     --border: #e3e8ed;
     --input: #e3e8ed;
-    --ring: #0c6b58;
+    --ring: oklch(var(--primary-ch));
     --radius: 0.5rem;
 
     /* Design-specific tokens (no shadcn equivalent) */
     --text-secondary: #475464;
     --border-hover: #cdd5dc;
     --bg-code: #f3f4f6;
-    --accent-2: #14b890;
-    --accent-glow: rgba(12, 107, 88, 0.1);
-    --accent-gradient: linear-gradient(135deg, #084c3e, #14b890);
-    --hero-bg: linear-gradient(180deg, #eefbf6 0%, #fafafa 100%);
+    --accent-2: oklch(var(--accent-2-ch));
+    --accent-glow: oklch(0.52 0.035 156 / 0.09);
+    --accent-gradient: linear-gradient(135deg, oklch(0.35 0.08 156), oklch(var(--accent-2-ch)));
+    --hero-bg: linear-gradient(180deg, oklch(0.96 0.02 156) 0%, #fafafa 100%);
     --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.06);
-    --card-shadow-hover: 0 8px 24px rgba(12, 107, 88, 0.1), 0 2px 6px rgba(0, 0, 0, 0.04);
-    --tag-bg: #eafaf3;
-    --tag-text: #084c3e;
-    --tag-border: #a2dcc5;
+    --card-shadow-hover: 0 8px 24px oklch(0.52 0.05 156 / 0.10), 0 2px 6px rgba(0, 0, 0, 0.04);
+    --tag-bg: oklch(0.96 0.025 156);
+    --tag-text: oklch(0.34 0.08 156);
+    --tag-border: oklch(0.79 0.05 156);
+    /* Hero dot-grid pattern overlay */
+    --dot-color: oklch(0.52 0.03 156 / 0.05);
+
+    /* Thumbnail gradient overlays — v1/v2/v3 angle variants for article cards, sm for list cards */
+    --thumb-gradient-v1: linear-gradient(135deg, oklch(var(--primary-ch) / 0.06), oklch(var(--accent-2-ch) / 0.06));
+    --thumb-gradient-v2: linear-gradient(160deg, oklch(var(--primary-ch) / 0.08), oklch(var(--accent-2-ch) / 0.04));
+    --thumb-gradient-v3: linear-gradient(100deg, oklch(var(--accent-2-ch) / 0.04), oklch(var(--primary-ch) / 0.08));
+    --thumb-gradient-sm: linear-gradient(135deg, oklch(var(--primary-ch) / 0.06), oklch(var(--accent-2-ch) / 0.06));
+    /* Primary button shadow — dark uses lower opacity (0.2 vs 0.3) for subtlety */
+    --btn-primary-shadow: 0 4px 16px oklch(var(--primary-ch) / 0.3);
   }
 
   .dark {
@@ -48,32 +64,46 @@
     --card-foreground: #f4f4f5;
     --popover: #1a1a1f;
     --popover-foreground: #f4f4f5;
-    --primary: #5cd8c8;
+    /* oklch channel primitives (L C H — no alpha, hue 154° Hunt-corrected) */
+    --primary-ch: 0.75 0.10 154;
+    --accent-2-ch: 0.82 0.07 154;
+
+    --primary: oklch(var(--primary-ch));
     --primary-foreground: #09090b;
     --secondary: #131316;
     --secondary-foreground: #f4f4f5;
     --muted: #131316;
     --muted-foreground: #888d98;
-    --accent: #5cd8c8;
+    --accent: oklch(var(--primary-ch));
     --accent-foreground: #09090b;
     --destructive: #dc2626;
     --destructive-foreground: #f4f4f5;
     --border: #28282e;
     --input: #28282e;
-    --ring: #5cd8c8;
+    --ring: oklch(var(--primary-ch));
 
     --text-secondary: #b0b4be;
     --border-hover: #3a3a42;
     --bg-code: #222228;
-    --accent-2: #94ede0;
-    --accent-glow: rgba(92, 216, 200, 0.09);
-    --accent-gradient: linear-gradient(135deg, #065a4e, #2db89a);
+    --accent-2: oklch(var(--accent-2-ch));
+    --accent-glow: oklch(0.75 0.035 154 / 0.08);
+    --accent-gradient: linear-gradient(135deg, oklch(0.34 0.07 154), oklch(0.55 0.10 154));
     --hero-bg: linear-gradient(180deg, #0b0d0c 0%, #09090b 100%);
     --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-    --card-shadow-hover: 0 8px 24px rgba(92, 216, 200, 0.08), 0 2px 6px rgba(0, 0, 0, 0.3);
-    --tag-bg: rgba(92, 216, 200, 0.07);
-    --tag-text: #94ede0;
-    --tag-border: rgba(92, 216, 200, 0.16);
+    --card-shadow-hover: 0 8px 24px oklch(0.75 0.035 154 / 0.10), 0 2px 6px rgba(0, 0, 0, 0.3);
+    --tag-bg: oklch(0.25 0.025 154);
+    --tag-text: oklch(0.84 0.06 154);
+    --tag-border: oklch(0.39 0.04 154);
+    /* Hero dot-grid pattern overlay */
+    --dot-color: oklch(0.75 0.025 154 / 0.05);
+
+    /* Thumbnail gradient overlays — v1/v2/v3 angle variants for article cards, sm for list cards */
+    --thumb-gradient-v1: linear-gradient(135deg, oklch(var(--primary-ch) / 0.12), oklch(var(--accent-2-ch) / 0.12));
+    --thumb-gradient-v2: linear-gradient(160deg, oklch(var(--primary-ch) / 0.14), oklch(var(--accent-2-ch) / 0.06));
+    --thumb-gradient-v3: linear-gradient(100deg, oklch(var(--accent-2-ch) / 0.06), oklch(var(--primary-ch) / 0.14));
+    --thumb-gradient-sm: linear-gradient(135deg, oklch(var(--primary-ch) / 0.10), oklch(var(--accent-2-ch) / 0.10));
+    /* Primary button shadow */
+    --btn-primary-shadow: 0 4px 16px oklch(var(--primary-ch) / 0.2);
   }
 }
 

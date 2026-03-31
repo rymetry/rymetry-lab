@@ -23,12 +23,9 @@ function ArticleThumbnail({
       <div
         className={cn(
           'absolute inset-0',
-          variant === 'v1' &&
-            'bg-[linear-gradient(135deg,rgba(12,107,88,0.06)_0%,rgba(20,184,144,0.06)_100%)] dark:bg-[linear-gradient(135deg,rgba(92,216,200,0.12)_0%,rgba(45,212,191,0.12)_100%)]',
-          variant === 'v2' &&
-            'bg-[linear-gradient(160deg,rgba(12,107,88,0.08)_0%,rgba(20,184,144,0.04)_100%)] dark:bg-[linear-gradient(160deg,rgba(92,216,200,0.14)_0%,rgba(45,212,191,0.06)_100%)]',
-          variant === 'v3' &&
-            'bg-[linear-gradient(100deg,rgba(20,184,144,0.04)_0%,rgba(12,107,88,0.08)_100%)] dark:bg-[linear-gradient(100deg,rgba(45,212,191,0.06)_0%,rgba(92,216,200,0.14)_100%)]',
+          variant === 'v1' && 'bg-[image:var(--thumb-gradient-v1)]',
+          variant === 'v2' && 'bg-[image:var(--thumb-gradient-v2)]',
+          variant === 'v3' && 'bg-[image:var(--thumb-gradient-v3)]',
         )}
       />
       {/* Grid pattern */}
