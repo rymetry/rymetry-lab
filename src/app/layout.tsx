@@ -47,6 +47,14 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-full bg-background text-foreground">
+        {/* Ensure animated content is visible when JS is disabled */}
+        <noscript>
+          <style>
+            {
+              '.anim-up,.reveal,.t-line{opacity:1!important;transform:none!important;animation:none!important}'
+            }
+          </style>
+        </noscript>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
