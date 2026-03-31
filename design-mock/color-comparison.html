@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Color Comparison — 5-Way: Teal vs Emerald Teal vs Emerald vs Balanced Green vs Proposed Green</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/style.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-mono/style.min.css">
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --font-display: 'Geist', 'Noto Sans JP', sans-serif;
+    --font-sans: 'Geist', 'Noto Sans JP', sans-serif;
+    --font-mono: 'Geist Mono', monospace;
+  }
+
+  /* ======================================================
+     PALETTE A: Current Teal (165-170 hex)
+     ====================================================== */
+  .palette-current {
+    --bg-primary: #fafafa;
+    --bg-secondary: #f3f4f6;
+    --bg-card: #ffffff;
+    --text-primary: #0f1a14;
+    --text-secondary: #475464;
+    --text-muted: #6a7585;
+    --border: #e3e8ed;
+    --border-hover: #cdd5dc;
+    --accent: #0c6b58;
+    --accent-2: #14b890;
+    --accent-glow: rgba(12, 107, 88, 0.1);
+    --accent-gradient: linear-gradient(135deg, #084c3e, #14b890);
+    --hero-bg: linear-gradient(180deg, #eefbf6 0%, #fafafa 100%);
+    --card-shadow-hover: 0 8px 24px rgba(12,107,88,0.1), 0 2px 6px rgba(0,0,0,0.04);
+    --tag-bg: #eafaf3;
+    --tag-text: #084c3e;
+    --tag-border: #a2dcc5;
+    --dot-color: rgba(12, 107, 88, 0.04);
+  }
+  .palette-current.dark {
+    --bg-primary: #09090b;
+    --bg-secondary: #131316;
+    --bg-card: #1a1a1f;
+    --text-primary: #f4f4f5;
+    --text-secondary: #b0b4be;
+    --text-muted: #888d98;
+    --border: #28282e;
+    --border-hover: #3a3a42;
+    --accent: #5cd8c8;
+    --accent-2: #94ede0;
+    --accent-glow: rgba(92, 216, 200, 0.09);
+    --accent-gradient: linear-gradient(135deg, #065a4e, #2db89a);
+    --hero-bg: linear-gradient(180deg, #0b0d0c 0%, #09090b 100%);
+    --card-shadow-hover: 0 8px 24px rgba(92,216,200,0.08), 0 2px 6px rgba(0,0,0,0.3);
+    --tag-bg: rgba(92, 216, 200, 0.07);
+    --tag-text: #94ede0;
+    --tag-border: rgba(92, 216, 200, 0.16);
+    --dot-color: rgba(92, 216, 200, 0.05);
+  }
+
+  /* ======================================================
+     PALETTE B: Emerald Teal 160 (oklch)
+     ====================================================== */
+  .palette-teal160 {
+    --bg-primary: #fafafa;
+    --bg-secondary: #f3f4f6;
+    --bg-card: #ffffff;
+    --text-primary: #0f1a14;
+    --text-secondary: #475464;
+    --text-muted: #6a7585;
+    --border: #e3e8ed;
+    --border-hover: #cdd5dc;
+    --accent: oklch(0.50 0.13 160);
+    --accent-2: oklch(0.60 0.14 160);
+    --accent-glow: oklch(0.50 0.04 160 / 0.10);
+    --accent-gradient: linear-gradient(135deg, oklch(0.38 0.10 160), oklch(0.55 0.14 160));
+    --hero-bg: linear-gradient(180deg, oklch(0.97 0.02 160) 0%, #fafafa 100%);
+    --card-shadow-hover: 0 8px 24px oklch(0.50 0.06 160 / 0.12), 0 2px 6px rgba(0,0,0,0.04);
+    --tag-bg: oklch(0.96 0.03 160);
+    --tag-text: oklch(0.35 0.10 160);
+    --tag-border: oklch(0.80 0.06 160);
+    --dot-color: oklch(0.50 0.04 160 / 0.05);
+  }
+  .palette-teal160.dark {
+    --bg-primary: #09090b;
+    --bg-secondary: #131316;
+    --bg-card: #1a1a1f;
+    --text-primary: #f4f4f5;
+    --text-secondary: #b0b4be;
+    --text-muted: #888d98;
+    --border: #28282e;
+    --border-hover: #3a3a42;
+    --accent: oklch(0.75 0.11 160);
+    --accent-2: oklch(0.82 0.09 160);
+    --accent-glow: oklch(0.75 0.04 160 / 0.08);
+    --accent-gradient: linear-gradient(135deg, oklch(0.35 0.08 160), oklch(0.65 0.12 160));
+    --hero-bg: linear-gradient(180deg, #0b0d0c 0%, #09090b 100%);
+    --card-shadow-hover: 0 8px 24px oklch(0.75 0.04 160 / 0.10), 0 2px 6px rgba(0,0,0,0.3);
+    --tag-bg: oklch(0.25 0.03 160);
+    --tag-text: oklch(0.85 0.08 160);
+    --tag-border: oklch(0.40 0.05 160);
+    --dot-color: oklch(0.75 0.03 160 / 0.05);
+  }
+
+  /* ======================================================
+     PALETTE C: Emerald 150 (oklch)
+     ====================================================== */
+  .palette-emerald {
+    --bg-primary: #fafafa;
+    --bg-secondary: #f3f4f6;
+    --bg-card: #ffffff;
+    --text-primary: #0f1a14;
+    --text-secondary: #475464;
+    --text-muted: #6a7585;
+    --border: #e3e8ed;
+    --border-hover: #cdd5dc;
+    --accent: oklch(0.50 0.13 150);
+    --accent-2: oklch(0.60 0.14 150);
+    --accent-glow: oklch(0.50 0.04 150 / 0.10);
+    --accent-gradient: linear-gradient(135deg, oklch(0.38 0.10 150), oklch(0.55 0.14 150));
+    --hero-bg: linear-gradient(180deg, oklch(0.97 0.02 150) 0%, #fafafa 100%);
+    --card-shadow-hover: 0 8px 24px oklch(0.50 0.06 150 / 0.12), 0 2px 6px rgba(0,0,0,0.04);
+    --tag-bg: oklch(0.96 0.03 150);
+    --tag-text: oklch(0.35 0.10 150);
+    --tag-border: oklch(0.80 0.06 150);
+    --dot-color: oklch(0.50 0.04 150 / 0.05);
+  }
+  .palette-emerald.dark {
+    --bg-primary: #09090b;
+    --bg-secondary: #131316;
+    --bg-card: #1a1a1f;
+    --text-primary: #f4f4f5;
+    --text-secondary: #b0b4be;
+    --text-muted: #888d98;
+    --border: #28282e;
+    --border-hover: #3a3a42;
+    --accent: oklch(0.75 0.11 150);
+    --accent-2: oklch(0.82 0.09 150);
+    --accent-glow: oklch(0.75 0.04 150 / 0.08);
+    --accent-gradient: linear-gradient(135deg, oklch(0.35 0.08 150), oklch(0.65 0.12 150));
+    --hero-bg: linear-gradient(180deg, #0b0d0c 0%, #09090b 100%);
+    --card-shadow-hover: 0 8px 24px oklch(0.75 0.04 150 / 0.10), 0 2px 6px rgba(0,0,0,0.3);
+    --tag-bg: oklch(0.25 0.03 150);
+    --tag-text: oklch(0.85 0.08 150);
+    --tag-border: oklch(0.40 0.05 150);
+    --dot-color: oklch(0.75 0.03 150 / 0.05);
+  }
+
+  /* ======================================================
+     PALETTE D: Balanced Green (B light / C dark hybrid)
+     ====================================================== */
+  .palette-balanced {
+    --bg-primary: #fafafa;
+    --bg-secondary: #f3f4f6;
+    --bg-card: #ffffff;
+    --text-primary: #0f1a14;
+    --text-secondary: #475464;
+    --text-muted: #6a7585;
+    --border: #e3e8ed;
+    --border-hover: #cdd5dc;
+    --accent: oklch(0.52 0.11 156);
+    --accent-2: oklch(0.55 0.12 156);
+    --accent-glow: oklch(0.52 0.035 156 / 0.09);
+    --accent-gradient: linear-gradient(135deg, oklch(0.35 0.08 156), oklch(0.55 0.12 156));
+    --hero-bg: linear-gradient(180deg, oklch(0.96 0.02 156) 0%, #fafafa 100%);
+    --card-shadow-hover: 0 8px 24px oklch(0.52 0.05 156 / 0.10), 0 2px 6px rgba(0,0,0,0.04);
+    --tag-bg: oklch(0.96 0.025 156);
+    --tag-text: oklch(0.34 0.08 156);
+    --tag-border: oklch(0.79 0.05 156);
+    --dot-color: oklch(0.52 0.03 156 / 0.05);
+  }
+  .palette-balanced.dark {
+    --bg-primary: #09090b;
+    --bg-secondary: #131316;
+    --bg-card: #1a1a1f;
+    --text-primary: #f4f4f5;
+    --text-secondary: #b0b4be;
+    --text-muted: #888d98;
+    --border: #28282e;
+    --border-hover: #3a3a42;
+    --accent: oklch(0.75 0.10 154);
+    --accent-2: oklch(0.82 0.07 154);
+    --accent-glow: oklch(0.75 0.035 154 / 0.08);
+    --accent-gradient: linear-gradient(135deg, oklch(0.34 0.07 154), oklch(0.64 0.10 154));
+    --hero-bg: linear-gradient(180deg, #0b0d0c 0%, #09090b 100%);
+    --card-shadow-hover: 0 8px 24px oklch(0.75 0.035 154 / 0.10), 0 2px 6px rgba(0,0,0,0.3);
+    --tag-bg: oklch(0.25 0.025 154);
+    --tag-text: oklch(0.84 0.06 154);
+    --tag-border: oklch(0.39 0.04 154);
+    --dot-color: oklch(0.75 0.025 154 / 0.05);
+  }
+
+  /* ======================================================
+     PALETTE E: Proposed Green (original neutral proposal)
+     ====================================================== */
+  .palette-proposed {
+    --bg-primary: #fafafa;
+    --bg-secondary: #f3f4f6;
+    --bg-card: #ffffff;
+    --text-primary: #0f1a14;
+    --text-secondary: #475464;
+    --text-muted: #6a7585;
+    --border: #e3e8ed;
+    --border-hover: #cdd5dc;
+    --accent: oklch(0.52 0.11 156);
+    --accent-2: oklch(0.55 0.12 156);
+    --accent-glow: oklch(0.52 0.035 156 / 0.09);
+    --accent-gradient: linear-gradient(135deg, oklch(0.35 0.08 156), oklch(0.55 0.12 156));
+    --hero-bg: linear-gradient(180deg, oklch(0.96 0.02 156) 0%, #fafafa 100%);
+    --card-shadow-hover: 0 8px 24px oklch(0.52 0.05 156 / 0.10), 0 2px 6px rgba(0,0,0,0.04);
+    --tag-bg: oklch(0.96 0.025 156);
+    --tag-text: oklch(0.34 0.08 156);
+    --tag-border: oklch(0.79 0.05 156);
+    --dot-color: oklch(0.52 0.03 156 / 0.05);
+  }
+  .palette-proposed.dark {
+    --bg-primary: #09090b;
+    --bg-secondary: #131316;
+    --bg-card: #1a1a1f;
+    --text-primary: #f4f4f5;
+    --text-secondary: #b0b4be;
+    --text-muted: #888d98;
+    --border: #28282e;
+    --border-hover: #3a3a42;
+    --accent: oklch(0.75 0.09 156);
+    --accent-2: oklch(0.82 0.07 156);
+    --accent-glow: oklch(0.75 0.03 156 / 0.08);
+    --accent-gradient: linear-gradient(135deg, oklch(0.34 0.07 156), oklch(0.64 0.09 156));
+    --hero-bg: linear-gradient(180deg, #0b0d0c 0%, #09090b 100%);
+    --card-shadow-hover: 0 8px 24px oklch(0.75 0.03 156 / 0.10), 0 2px 6px rgba(0,0,0,0.3);
+    --tag-bg: oklch(0.25 0.02 156);
+    --tag-text: oklch(0.84 0.05 156);
+    --tag-border: oklch(0.39 0.03 156);
+    --dot-color: oklch(0.75 0.02 156 / 0.05);
+  }
+
+  /* ======== Control Bar ======== */
+  body { font-family: var(--font-sans); background: #09090b; color: #fafafa; }
+  .control-bar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(9,9,11,0.96); backdrop-filter: blur(12px); padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .control-bar h1 { font-size: 13px; font-weight: 600; font-family: var(--font-mono); }
+  .control-bar h1 span { color: #34d399; }
+  .controls { display: flex; gap: 6px; align-items: center; }
+  .ctrl-btn { padding: 5px 12px; border: 1px solid rgba(255,255,255,0.12); border-radius: 5px; background: transparent; color: #a1a1aa; font-size: 12px; cursor: pointer; transition: border-color .2s, color .2s, background .2s; white-space: nowrap; }
+  .ctrl-btn:hover { border-color: #34d399; color: #fafafa; }
+  .ctrl-btn.active { background: rgba(52,211,153,0.12); border-color: #34d399; color: #34d399; }
+
+  /* ======== Layout: 3-column ======== */
+  .compare-container { padding-top: 50px; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); min-height: 100vh; }
+  .compare-panel { overflow-y: auto; border-right: 1px solid rgba(255,255,255,0.06); }
+  .compare-panel:last-child { border-right: none; }
+
+  .panel-label { position: sticky; top: 0; z-index: 10; padding: 8px 16px; font-family: var(--font-mono); font-size: 11px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; border-bottom: 1px solid var(--border); backdrop-filter: blur(12px); display: flex; align-items: center; justify-content: space-between; }
+  .panel-label .hue-badge { font-size: 10px; font-weight: 400; opacity: 0.6; }
+  .palette-current .panel-label { background: rgba(250,250,250,0.9); color: #0c6b58; }
+  .palette-current.dark .panel-label { background: rgba(9,9,11,0.9); color: #5cd8c8; }
+  .palette-teal160 .panel-label { background: rgba(250,250,250,0.9); color: oklch(0.50 0.13 160); }
+  .palette-teal160.dark .panel-label { background: rgba(9,9,11,0.9); color: oklch(0.75 0.11 160); }
+  .palette-emerald .panel-label { background: rgba(250,250,250,0.9); color: oklch(0.50 0.13 150); }
+  .palette-emerald.dark .panel-label { background: rgba(9,9,11,0.9); color: oklch(0.75 0.11 150); }
+  .palette-balanced .panel-label { background: rgba(250,250,250,0.9); color: oklch(0.52 0.11 156); }
+  .palette-balanced.dark .panel-label { background: rgba(9,9,11,0.9); color: oklch(0.75 0.10 154); }
+  .palette-proposed .panel-label { background: rgba(250,250,250,0.9); color: oklch(0.52 0.11 156); }
+  .palette-proposed.dark .panel-label { background: rgba(9,9,11,0.9); color: oklch(0.75 0.09 156); }
+
+  .panel-content { background: var(--bg-primary); color: var(--text-primary); padding: 16px; min-height: calc(100vh - 82px); }
+
+  /* ======== Shared Component Styles ======== */
+  .demo-section { margin-bottom: 28px; }
+  .demo-section-title { font-family: var(--font-mono); font-size: 9px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+
+  /* Header */
+  .demo-header { background: var(--bg-card); border: 1px solid var(--border); border-radius: 9px; padding: 0 14px; height: 44px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .demo-logo { font-family: var(--font-mono); font-size: 14px; font-weight: 800; color: var(--text-primary); letter-spacing: -0.04em; }
+  .demo-logo .a { color: var(--accent); }
+  .demo-nav { display: flex; gap: 14px; list-style: none; }
+  .demo-nav a { text-decoration: none; color: var(--text-secondary); font-size: 11.5px; font-weight: 500; transition: color .2s; cursor: pointer; }
+  .demo-nav a:hover { color: var(--text-primary); }
+  .demo-nav a.active { color: var(--accent); }
+
+  /* Hero */
+  .demo-hero { background: var(--hero-bg); border: 1px solid var(--border); border-radius: 9px; padding: 24px 16px; position: relative; overflow: hidden; margin-bottom: 12px; }
+  .demo-hero::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(circle at 1px 1px, var(--dot-color) 1px, transparent 0); background-size: 28px 28px; }
+  .demo-hero-content { position: relative; z-index: 1; }
+  .demo-hero h2 { font-family: var(--font-display); font-size: 22px; font-weight: 800; line-height: 1.15; letter-spacing: -0.035em; margin-bottom: 8px; }
+  .demo-hero h2 .gt { background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .demo-hero p { font-size: 12.5px; color: var(--text-secondary); margin-bottom: 14px; line-height: 1.7; }
+
+  /* Buttons */
+  .demo-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+  .btn-p { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; background: var(--accent-gradient); color: white; border: none; border-radius: 7px; font-size: 12px; font-weight: 600; cursor: pointer; transition: transform .2s, box-shadow .2s; text-decoration: none; font-family: var(--font-sans); }
+  .btn-p:hover { transform: translateY(-1px); }
+  .btn-s { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; background: var(--bg-card); color: var(--accent); border: 1.5px solid var(--accent); border-radius: 7px; font-size: 12px; font-weight: 600; cursor: pointer; transition: background .2s; text-decoration: none; font-family: var(--font-sans); }
+  .btn-s:hover { background: var(--accent-glow); }
+  .btn-ghost { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; background: transparent; color: var(--accent); border: none; border-radius: 7px; font-size: 12px; font-weight: 600; cursor: pointer; font-family: var(--font-sans); }
+  .btn-ghost:hover { background: var(--accent-glow); }
+
+  /* Tags */
+  .demo-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+  .tag { display: inline-flex; align-items: center; gap: 4px; padding: 2px 7px; background: var(--tag-bg); border: 1px solid var(--tag-border); border-radius: 4px; font-size: 10px; color: var(--tag-text); font-family: var(--font-mono); }
+  .tag iconify-icon { font-size: 10px; flex-shrink: 0; }
+
+  /* Cards */
+  .demo-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 9px; padding: 16px; position: relative; overflow: hidden; cursor: pointer; transition: transform .25s, box-shadow .25s, border-color .25s; margin-bottom: 10px; }
+  .demo-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--accent-gradient); opacity: 0; transition: opacity .25s; z-index: 1; }
+  .demo-card:hover { border-color: var(--border-hover); box-shadow: var(--card-shadow-hover); transform: translateY(-2px); }
+  .demo-card:hover::before { opacity: 1; }
+  .demo-card:hover h3 { color: var(--accent); }
+  .card-icon { width: 30px; height: 30px; background: var(--accent-glow); border: 1px solid var(--tag-border); border-radius: 7px; display: flex; align-items: center; justify-content: center; color: var(--accent); margin-bottom: 8px; transition: transform .3s; }
+  .demo-card:hover .card-icon { transform: scale(1.08) rotate(-2deg); }
+  .card-icon iconify-icon { font-size: 14px; }
+  .card-role { font-family: var(--font-mono); font-size: 10px; color: var(--accent); margin-bottom: 6px; }
+  .demo-card h3 { font-family: var(--font-display); font-size: 13.5px; font-weight: 700; margin-bottom: 5px; letter-spacing: -0.01em; transition: color .2s; }
+  .card-arrow { opacity: 0; transition: opacity .2s; font-size: 0.85em; margin-left: 4px; color: var(--accent); }
+  .demo-card:hover .card-arrow { opacity: 1; }
+  .demo-card p { color: var(--text-secondary); font-size: 11.5px; line-height: 1.6; margin-bottom: 10px; }
+
+  /* Section label */
+  .s-label { font-family: var(--font-mono); font-size: 10px; color: var(--accent); text-transform: uppercase; letter-spacing: .1em; margin-bottom: 3px; }
+  .s-title { font-family: var(--font-display); font-size: 18px; font-weight: 700; letter-spacing: -0.025em; margin-bottom: 12px; }
+
+  /* Links */
+  .demo-link { color: var(--accent); text-decoration: none; font-size: 12px; font-weight: 500; border-bottom: 1px solid transparent; transition: border-color .2s; }
+  .demo-link:hover { border-bottom-color: var(--accent); }
+
+  /* Code */
+  .demo-code { font-family: var(--font-mono); font-size: 11px; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 7px; padding: 12px; color: var(--text-secondary); line-height: 1.7; }
+  .demo-code .kw { color: var(--accent); }
+
+  /* TOC */
+  .demo-toc { background: var(--bg-card); border: 1px solid var(--border); border-radius: 9px; padding: 14px; }
+  .toc-title { font-size: 10px; font-weight: 600; margin-bottom: 8px; font-family: var(--font-mono); text-transform: uppercase; letter-spacing: .05em; color: var(--text-muted); }
+  .toc-list { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+  .toc-list li { font-size: 11px; color: var(--text-muted); padding-left: 9px; border-left: 2px solid var(--border); transition: color .2s, border-color .2s; cursor: pointer; }
+  .toc-list li:hover { color: var(--text-primary); border-left-color: var(--accent); }
+  .toc-list li.active { color: var(--accent); border-left-color: var(--accent); }
+
+  /* Filter tags */
+  .f-tag { padding: 4px 10px; border: 1px solid var(--border); border-radius: 6px; background: transparent; color: var(--text-secondary); font-size: 11px; cursor: pointer; transition: border-color .2s, color .2s, background .2s; font-family: var(--font-sans); display: inline-flex; align-items: center; gap: 4px; }
+  .f-tag:hover { border-color: var(--accent); color: var(--accent); }
+  .f-tag.active { background: var(--tag-bg); border-color: var(--tag-border); color: var(--tag-text); }
+
+  /* Input */
+  .demo-input { width: 100%; padding: 7px 12px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; font-size: 12px; color: var(--text-primary); outline: none; transition: border-color .2s, box-shadow .2s; font-family: var(--font-sans); margin-bottom: 10px; }
+  .demo-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
+
+  /* Pagination */
+  .demo-pagination { display: flex; gap: 4px; }
+  .pg-btn { width: 28px; height: 28px; border: 1px solid var(--border); border-radius: 5px; background: transparent; color: var(--text-secondary); font-size: 11px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: border-color .2s, color .2s, background .2s; font-family: var(--font-sans); }
+  .pg-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .pg-btn.active { background: var(--accent-gradient); color: white; border-color: transparent; }
+
+  /* Social */
+  .social-link { width: 28px; height: 28px; border: 1px solid var(--border); border-radius: 6px; display: inline-flex; align-items: center; justify-content: center; color: var(--text-muted); text-decoration: none; transition: border-color .2s, color .2s, background .2s; }
+  .social-link:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-glow); }
+  .social-link iconify-icon { font-size: 13px; }
+
+  /* Terminal */
+  .demo-terminal { background: #09090b; border: 1px solid #2a2a2f; border-radius: 8px; overflow: hidden; }
+  .t-bar { padding: 7px 10px; display: flex; gap: 5px; border-bottom: 1px solid #2a2a2f; }
+  .t-dot { width: 9px; height: 9px; border-radius: 50%; }
+  .t-dot.r { background: #ef4444; } .t-dot.y { background: #eab308; } .t-dot.g { background: #22c55e; }
+  .t-body { padding: 12px; font-family: var(--font-mono); font-size: 10.5px; line-height: 1.8; color: #a1a1aa; }
+  .t-body .pr { color: var(--accent-2); }
+  .t-body .cm { color: #fafafa; }
+  .t-body .hl { color: var(--accent-2); }
+  .t-body .ok { color: var(--accent); }
+  .cursor { display: inline-block; width: 6px; height: 12px; background: var(--accent); animation: blink 1.2s infinite; vertical-align: middle; margin-left: 2px; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+  /* Swatch strip */
+  .swatch-strip { display: flex; gap: 4px; margin-bottom: 12px; }
+  .swatch { flex: 1; height: 32px; border-radius: 5px; border: 1px solid var(--border); position: relative; }
+  .swatch.s-accent { background: var(--accent); }
+  .swatch.s-accent-2 { background: var(--accent-2); }
+  .swatch.s-glow { background: var(--accent-glow); }
+  .swatch.s-tag-bg { background: var(--tag-bg); }
+  .swatch.s-tag-text { background: var(--tag-text); }
+  .swatch.s-gradient { background: var(--accent-gradient); }
+  .swatch-label { position: absolute; bottom: -16px; left: 0; font-size: 8px; font-family: var(--font-mono); color: var(--text-muted); white-space: nowrap; }
+
+  /* Footer area */
+  .demo-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 12px; border-top: 1px solid var(--border); }
+
+  /* Inline text */
+  .demo-prose { font-size: 12px; color: var(--text-secondary); line-height: 1.8; }
+  .demo-prose .accent-text { color: var(--accent); font-weight: 600; }
+
+  /* ======== Responsive ======== */
+  @media (max-width: 2000px) {
+    .compare-container { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  }
+  @media (max-width: 1600px) {
+    .compare-container { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+  @media (max-width: 1200px) {
+    .compare-container { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 800px) {
+    .compare-container { grid-template-columns: 1fr; }
+    .compare-panel { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .compare-panel:last-child { border-bottom: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="control-bar">
+  <h1><span>&gt;</span> 5-Way Color Comparison</h1>
+  <div class="controls">
+    <button class="ctrl-btn active" onclick="setTheme('light')">Light</button>
+    <button class="ctrl-btn" onclick="setTheme('dark')">Dark</button>
+  </div>
+</div>
+
+<div class="compare-container" id="compare">
+
+  <!-- ====== A: Current Teal 165-170 ====== -->
+  <div class="compare-panel palette-current" id="panel-current">
+    <div class="panel-label">
+      A. Current Teal
+      <span class="hue-badge">hex / hue 165-170</span>
+    </div>
+    <div class="panel-content">
+
+      <div class="demo-section">
+        <div class="demo-section-title">Swatches</div>
+        <div class="swatch-strip" style="margin-bottom: 24px;">
+          <div class="swatch s-accent"><span class="swatch-label">accent</span></div>
+          <div class="swatch s-accent-2"><span class="swatch-label">accent-2</span></div>
+          <div class="swatch s-gradient"><span class="swatch-label">gradient</span></div>
+          <div class="swatch s-tag-bg"><span class="swatch-label">tag-bg</span></div>
+          <div class="swatch s-tag-text"><span class="swatch-label">tag-text</span></div>
+          <div class="swatch s-glow"><span class="swatch-label">glow</span></div>
+        </div>
+      </div>
+
+      <div class="demo-section">
+        <div class="demo-section-title">Header</div>
+        <div class="demo-header">
+          <div class="demo-logo">Rym<span class="a">lab</span></div>
+          <ul class="demo-nav"><a class="active">Home</a><a>Projects</a><a>Articles</a><a>About</a></ul>
+        </div>
+      </div>
+
+      <div class="demo-section">
+        <div class="demo-section-title">Hero</div>
+        <div class="demo-hero">
+          <div class="demo-hero-content">
+            <h2>Building <span class="gt">Better</span><br>Developer Experience</h2>
+            <p>生産性を科学する。DX, 自動化, 計測。</p>
+            <div class="demo-btns">
+              <button class="btn-p"><iconify-icon icon="lucide:folder-open"></iconify-icon> Projects</button>
+              <button class="btn-s"><iconify-icon icon="lucide:book-open"></iconify-icon> Articles</button>
+              <button class="btn-ghost"><iconify-icon icon="lucide:user"></iconify-icon> About</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo-section">
+        <div class="demo-section-title">Terminal</div>
+        <div class="demo-terminal">
+          <div class="t-bar"><div class="t-dot r"></div><div class="t-dot y"></div><div class="t-dot g"></div></div>
+          <div class="t-body">
+            <div><span class="pr">$</span> <span class="cm">rym</span> init --workspace</div>
+            <div><span class="ok">OK</span> workspace initialized</div>
+            <div><span class="pr">$</span> <span class="cm">rym</span> measure --coverage</div>
+            <div><span class="hl">Coverage:</span> 94.2% <span class="ok">(+2.1%)</span></div>
+            <div><span class="pr">$</span> <span class="cursor"></span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo-section">
+        <div class="demo-section-title">Cards</div>
+        <div class="s-label">Featured Work</div>
+        <div class="s-title">Projects</div>
+        <div class="demo-card">
+          <div class="card-icon"><iconify-icon icon="lucide:gauge"></iconify-icon></div>
+          <div class="card-role">Creator / Lead</div>
+          <h3>Performance Dashboard<span class="card-arrow">-></span></h3>
+          <p>チームの生産性メトリクスをリアルタイムで可視化。</p>
+          <div class="demo-tags">
+            <span class="tag"><iconify-icon icon="lucide:monitor" style="color:#10b981"></iconify-icon> React</span>
+            <span class="tag"><iconify-icon icon="lucide:server" style="color:#3b82f6"></iconify-icon> Node.js</span>
+            <span class="tag"><iconify-icon icon="lucide:gauge" style="color:#06b6d4"></iconify-icon> Perf</span>
+          </div>
+        </div>
+        <div class="demo-card">
+          <div class="card-icon"><iconify-icon icon="lucide:sparkles"></iconify-icon></div>
+          <div class="card-role">Creator</div>
+          <h3>CI/CD Optimizer<span class="card-arrow">-></span></h3>
+          <p>ビルド時間を40%短縮した最適化ツール。</p>
+          <div class="demo-tags">
+            <span class="tag"><iconify-icon icon="lucide:cloud" style="color:#8b5cf6"></iconify-icon> DevOps</span>
+            <span class="tag"><iconify-icon icon="lucide:code" style="color:#f59e0b"></iconify-icon> Go</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo-section">
+        <div class="demo-section-title">Interactive</div>
+        <input class="demo-input" placeholder="Search articles...">
+        <div class="demo-tags" style="margin-bottom: 10px;">
+          <button class="f-tag active">All</button>
+          <button class="f-tag">Frontend</button>
+          <button class="f-tag">Backend</button>
+          <button class="f-tag">DevOps</button>
+        </div>
+        <div class="demo-pagination" style="margin-bottom: 10px;">
+          <button class="pg-btn">&lt;</button>
+          <button class="pg-btn active">1</button>
+          <button class="pg-btn">2</button>
+          <button class="pg-btn">3</button>
+          <button class="pg-btn">&gt;</button>
+        </div>
+        <div style="display: flex; gap: 5px;">
+          <a class="social-link"><iconify-icon icon="simple-icons:github"></iconify-icon></a>
+          <a class="social-link"><iconify-icon icon="simple-icons:x"></iconify-icon></a>
+          <a class="social-link"><iconify-icon icon="simple-icons:linkedin"></iconify-icon></a>
+          <a class="social-link"><iconify-icon icon="simple-icons:zenn"></iconify-icon></a>
+          <a class="social-link"><iconify-icon icon="lucide:rss"></iconify-icon></a>
+        </div>
+      </div>
+
+      <div class="demo-section">
+        <div class="demo-section-title">TOC</div>
+        <div class="demo-toc">
+          <div class="toc-title">On this page</div>
+          <ul class="toc-list">
+            <li class="active">Introduction</li>
+            <li>Architecture</li>
+            <li>Implementation</li>
+            <li>Performance</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="demo-section">
+        <div class="demo-section-title">Code</div>
+        <div class="demo-code">
+          <span class="kw">const</span> config = {<br>
+          &nbsp;&nbsp;metrics: <span class="kw">true</span>,<br>
+          &nbsp;&nbsp;coverage: <span class="kw">0.94</span>,<br>
+          }
+        </div>
+      </div>
+
+      <div class="demo-section">
+        <div class="demo-section-title">Inline Accent</div>
+        <p class="demo-prose">
+          This project uses <a class="demo-link" href="#">next-intl</a> for i18n and <a class="demo-link" href="#">rehype-prism-plus</a> for syntax highlighting. The <span class="accent-text">accent color</span> is used for links and interactive elements.
+        </p>
+      </div>
+
+      <div class="demo-section" style="margin-bottom: 0;">
+        <div class="demo-section-title">Footer</div>
+        <div class="demo-footer">
+          <div>
+            <div class="demo-logo" style="font-size: 12px; margin-bottom: 3px;">Rym<span class="a">lab</span></div>
+            <div style="font-size: 10px; color: var(--text-muted);">&copy; 2025 Rym</div>
+          </div>
+          <div style="display: flex; gap: 5px;">
+            <a class="social-link"><iconify-icon icon="simple-icons:github"></iconify-icon></a>
+            <a class="social-link"><iconify-icon icon="simple-icons:x"></iconify-icon></a>
+            <a class="social-link"><iconify-icon icon="lucide:rss"></iconify-icon></a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ====== B: Emerald Teal 160 ====== -->
+  <div class="compare-panel palette-teal160" id="panel-teal160">
+    <div class="panel-label">
+      B. Emerald Teal
+      <span class="hue-badge">oklch / hue 160</span>
+    </div>
+    <div class="panel-content">
+
+      <div class="demo-section">
+        <div class="demo-section-title">Swatches</div>
+        <div class="swatch-strip" style="margin-bottom: 24px;">
+          <div class="swatch s-accent"><span class="swatch-label">accent</span></div>
+          <div class="swatch s-accent-2"><span class="swatch-label">accent-2</span></div>
+          <div class="swatch s-gradient"><span class="swatch-label">gradient</span></div>
+          <div class="swatch s-tag-bg"><span class="swatch-label">tag-bg</span></div>
+          <div class="swatch s-tag-text"><span class="swatch-label">tag-text</span></div>
+          <div class="swatch s-glow"><span class="swatch-label">glow</span></div>
+        </div>
+      </div>
+
+      <div class="demo-section">
+        <div class="demo-section-title">Header</div>
+        <div class="demo-header">
+          <div class="demo-logo">Rym<span class="a">lab</span></div>
+          <ul class="demo-nav"><a class="active">Home</a><a>Projects</a><a>Articles</a><a>About</a></ul>
+        </div>
+      </div>
+
+      <div class="demo-section">
+        <div class="demo-section-title">Hero</div>
+        <div class="demo-hero">
+          <div class="demo-hero-content">
+            <h2>Building <span class="gt">Better</span><br>Developer Experience</h2>
+            <p>生産性を科学する。DX, 自動化, 計測。</p>
+            <div class="demo-btns">
+              <button class="btn-p"><iconify-icon icon="lucide:folder-open"></iconify-icon> Projects</button>
+              <button class="btn-s"><iconify-icon icon="lucide:book-open"></iconify-icon> Articles</button>
+              <button class="btn-ghost"><iconify-icon icon="lucide:user"></iconify-icon> About</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo-section">
+        <div class="demo-section-title">Terminal</div>
+        <div class="demo-terminal">
+          <div class="t-bar"><div class="t-dot r"></div><div class="t-dot y"></div><div class="t-dot g"></div></div>
+          <div class="t-body">
+            <div><span class="pr">$</span> <span class="cm">rym</span> init --workspace</div>
+            <div><span class="ok">OK</span> workspace initialized</div>
+            <div><span class="pr">$</span> <span class="cm">rym</span> measure --coverage</div>
+            <div><span class="hl">Coverage:</span> 94.2% <span class="ok">(+2.1%)</span></div>
+            <div><span class="pr">$</span> <span class="cursor"></span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo-section">
+        <div class="demo-section-title">Cards</div>
+        <div class="s-label">Featured Work</div>
+        <div class="s-title">Projects</div>
+        <div class="demo-card">
+          <div class="card-icon"><iconify-icon icon="lucide:gauge"></iconify-icon></div>
+          <div class="card-role">Creator / Lead</div>
+          <h3>Performance Dashboard<span class="card-arrow">-></span></h3>
+          <p>チームの生産性メトリクスをリアルタイムで可視化。</p>
+          <div class="demo-tags">
+            <span class="tag"><iconify-icon icon="lucide:monitor" style="color:#10b981"></iconify-icon> React</span>
+            <span class="tag"><iconify-icon icon="lucide:server" style="color:#3b82f6"></iconify-icon> Node.js</span>
+            <span class="tag"><iconify-icon icon="lucide:gauge" style="color:#06b6d4"></iconify-icon> Perf</span>
+          </div>
+        </div>
+        <div class="demo-card">
+          <div class="card-icon"><iconify-icon icon="lucide:sparkles"></iconify-icon></div>
+          <div class="card-role">Creator</div>
+          <h3>CI/CD Optimizer<span class="card-arrow">-></span></h3>
+          <p>ビルド時間を40%短縮した最適化ツール。</p>
+          <div class="demo-tags">
+            <span class="tag"><iconify-icon icon="lucide:cloud" style="color:#8b5cf6"></iconify-icon> DevOps</span>
+            <span class="tag"><iconify-icon icon="lucide:code" style="color:#f59e0b"></iconify-icon> Go</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo-section">
+        <div class="demo-section-title">Interactive</div>
+        <input class="demo-input" placeholder="Search articles...">
+        <div class="demo-tags" style="margin-bottom: 10px;">
+          <button class="f-tag active">All</button>
+          <button class="f-tag">Frontend</button>
+          <button class="f-tag">Backend</button>
+          <button class="f-tag">DevOps</button>
+        </div>
+        <div class="demo-pagination" style="margin-bottom: 10px;">
+          <button class="pg-btn">&lt;</button>
+          <button class="pg-btn active">1</button>
+          <button class="pg-btn">2</button>
+          <button class="pg-btn">3</button>
+          <button class="pg-btn">&gt;</button>
+        </div>
+        <div style="display: flex; gap: 5px;">
+          <a class="social-link"><iconify-icon icon="simple-icons:github"></iconify-icon></a>
+          <a class="social-link"><iconify-icon icon="simple-icons:x"></iconify-icon></a>
+          <a class="social-link"><iconify-icon icon="simple-icons:linkedin"></iconify-icon></a>
+          <a class="social-link"><iconify-icon icon="simple-icons:zenn"></iconify-icon></a>
+          <a class="social-link"><iconify-icon icon="lucide:rss"></iconify-icon></a>
+        </div>
+      </div>
+
+      <div class="demo-section">
+        <div class="demo-section-title">TOC</div>
+        <div class="demo-toc">
+          <div class="toc-title">On this page</div>
+          <ul class="toc-list">
+            <li class="active">Introduction</li>
+            <li>Architecture</li>
+            <li>Implementation</li>
+            <li>Performance</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="demo-section">
+        <div class="demo-section-title">Code</div>
+        <div class="demo-code">
+          <span class="kw">const</span> config = {<br>
+          &nbsp;&nbsp;metrics: <span class="kw">true</span>,<br>
+          &nbsp;&nbsp;coverage: <span class="kw">0.94</span>,<br>
+          }
+        </div>
+      </div>
+
+      <div class="demo-section">
+        <div class="demo-section-title">Inline Accent</div>
+        <p class="demo-prose">
+          This project uses <a class="demo-link" href="#">next-intl</a> for i18n and <a class="demo-link" href="#">rehype-prism-plus</a> for syntax highlighting. The <span class="accent-text">accent color</span> is used for links and interactive elements.
+        </p>
+      </div>
+
+      <div class="demo-section" style="margin-bottom: 0;">
+        <div class="demo-section-title">Footer</div>
+        <div class="demo-footer">
+          <div>
+            <div class="demo-logo" style="font-size: 12px; margin-bottom: 3px;">Rym<span class="a">lab</span></div>
+            <div style="font-size: 10px; color: var(--text-muted);">&copy; 2025 Rym</div>
+          </div>
+          <div style="display: flex; gap: 5px;">
+            <a class="social-link"><iconify-icon icon="simple-icons:github"></iconify-icon></a>
+            <a class="social-link"><iconify-icon icon="simple-icons:x"></iconify-icon></a>
+            <a class="social-link"><iconify-icon icon="lucide:rss"></iconify-icon></a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ====== C: Emerald 150 ====== -->
+  <div class="compare-panel palette-emerald" id="panel-emerald">
+    <div class="panel-label">
+      C. Emerald
+      <span class="hue-badge">oklch / hue 150</span>
+    </div>
+    <div class="panel-content">
+
+      <div class="demo-section">
+        <div class="demo-section-title">Swatches</div>
+        <div class="swatch-strip" style="margin-bottom: 24px;">
+          <div class="swatch s-accent"><span class="swatch-label">accent</span></div>
+          <div class="swatch s-accent-2"><span class="swatch-label">accent-2</span></div>
+          <div class="swatch s-gradient"><span class="swatch-label">gradient</span></div>
+          <div class="swatch s-tag-bg"><span class="swatch-label">tag-bg</span></div>
+          <div class="swatch s-tag-text"><span class="swatch-label">tag-text</span></div>
+          <div class="swatch s-glow"><span class="swatch-label">glow</span></div>
+        </div>
+      </div>
+
+      <div class="demo-section">
+        <div class="demo-section-title">Header</div>
+        <div class="demo-header">
+          <div class="demo-logo">Rym<span class="a">lab</span></div>
+          <ul class="demo-nav"><a class="active">Home</a><a>Projects</a><a>Articles</a><a>About</a></ul>
+        </div>
+      </div>
+
+      <div class="demo-section">
+        <div class="demo-section-title">Hero</div>
+        <div class="demo-hero">
+          <div class="demo-hero-content">
+            <h2>Building <span class="gt">Better</span><br>Developer Experience</h2>
+            <p>生産性を科学する。DX, 自動化, 計測。</p>
+            <div class="demo-btns">
+              <button class="btn-p"><iconify-icon icon="lucide:folder-open"></iconify-icon> Projects</button>
+              <button class="btn-s"><iconify-icon icon="lucide:book-open"></iconify-icon> Articles</button>
+              <button class="btn-ghost"><iconify-icon icon="lucide:user"></iconify-icon> About</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo-section">
+        <div class="demo-section-title">Terminal</div>
+        <div class="demo-terminal">
+          <div class="t-bar"><div class="t-dot r"></div><div class="t-dot y"></div><div class="t-dot g"></div></div>
+          <div class="t-body">
+            <div><span class="pr">$</span> <span class="cm">rym</span> init --workspace</div>
+            <div><span class="ok">OK</span> workspace initialized</div>
+            <div><span class="pr">$</span> <span class="cm">rym</span> measure --coverage</div>
+            <div><span class="hl">Coverage:</span> 94.2% <span class="ok">(+2.1%)</span></div>
+            <div><span class="pr">$</span> <span class="cursor"></span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo-section">
+        <div class="demo-section-title">Cards</div>
+        <div class="s-label">Featured Work</div>
+        <div class="s-title">Projects</div>
+        <div class="demo-card">
+          <div class="card-icon"><iconify-icon icon="lucide:gauge"></iconify-icon></div>
+          <div class="card-role">Creator / Lead</div>
+          <h3>Performance Dashboard<span class="card-arrow">-></span></h3>
+          <p>チームの生産性メトリクスをリアルタイムで可視化。</p>
+          <div class="demo-tags">
+            <span class="tag"><iconify-icon icon="lucide:monitor" style="color:#10b981"></iconify-icon> React</span>
+            <span class="tag"><iconify-icon icon="lucide:server" style="color:#3b82f6"></iconify-icon> Node.js</span>
+            <span class="tag"><iconify-icon icon="lucide:gauge" style="color:#06b6d4"></iconify-icon> Perf</span>
+          </div>
+        </div>
+        <div class="demo-card">
+          <div class="card-icon"><iconify-icon icon="lucide:sparkles"></iconify-icon></div>
+          <div class="card-role">Creator</div>
+          <h3>CI/CD Optimizer<span class="card-arrow">-></span></h3>
+          <p>ビルド時間を40%短縮した最適化ツール。</p>
+          <div class="demo-tags">
+            <span class="tag"><iconify-icon icon="lucide:cloud" style="color:#8b5cf6"></iconify-icon> DevOps</span>
+            <span class="tag"><iconify-icon icon="lucide:code" style="color:#f59e0b"></iconify-icon> Go</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo-section">
+        <div class="demo-section-title">Interactive</div>
+        <input class="demo-input" placeholder="Search articles...">
+        <div class="demo-tags" style="margin-bottom: 10px;">
+          <button class="f-tag active">All</button>
+          <button class="f-tag">Frontend</button>
+          <button class="f-tag">Backend</button>
+          <button class="f-tag">DevOps</button>
+        </div>
+        <div class="demo-pagination" style="margin-bottom: 10px;">
+          <button class="pg-btn">&lt;</button>
+          <button class="pg-btn active">1</button>
+          <button class="pg-btn">2</button>
+          <button class="pg-btn">3</button>
+          <button class="pg-btn">&gt;</button>
+        </div>
+        <div style="display: flex; gap: 5px;">
+          <a class="social-link"><iconify-icon icon="simple-icons:github"></iconify-icon></a>
+          <a class="social-link"><iconify-icon icon="simple-icons:x"></iconify-icon></a>
+          <a class="social-link"><iconify-icon icon="simple-icons:linkedin"></iconify-icon></a>
+          <a class="social-link"><iconify-icon icon="simple-icons:zenn"></iconify-icon></a>
+          <a class="social-link"><iconify-icon icon="lucide:rss"></iconify-icon></a>
+        </div>
+      </div>
+
+      <div class="demo-section">
+        <div class="demo-section-title">TOC</div>
+        <div class="demo-toc">
+          <div class="toc-title">On this page</div>
+          <ul class="toc-list">
+            <li class="active">Introduction</li>
+            <li>Architecture</li>
+            <li>Implementation</li>
+            <li>Performance</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="demo-section">
+        <div class="demo-section-title">Code</div>
+        <div class="demo-code">
+          <span class="kw">const</span> config = {<br>
+          &nbsp;&nbsp;metrics: <span class="kw">true</span>,<br>
+          &nbsp;&nbsp;coverage: <span class="kw">0.94</span>,<br>
+          }
+        </div>
+      </div>
+
+      <div class="demo-section">
+        <div class="demo-section-title">Inline Accent</div>
+        <p class="demo-prose">
+          This project uses <a class="demo-link" href="#">next-intl</a> for i18n and <a class="demo-link" href="#">rehype-prism-plus</a> for syntax highlighting. The <span class="accent-text">accent color</span> is used for links and interactive elements.
+        </p>
+      </div>
+
+      <div class="demo-section" style="margin-bottom: 0;">
+        <div class="demo-section-title">Footer</div>
+        <div class="demo-footer">
+          <div>
+            <div class="demo-logo" style="font-size: 12px; margin-bottom: 3px;">Rym<span class="a">lab</span></div>
+            <div style="font-size: 10px; color: var(--text-muted);">&copy; 2025 Rym</div>
+          </div>
+          <div style="display: flex; gap: 5px;">
+            <a class="social-link"><iconify-icon icon="simple-icons:github"></iconify-icon></a>
+            <a class="social-link"><iconify-icon icon="simple-icons:x"></iconify-icon></a>
+            <a class="social-link"><iconify-icon icon="lucide:rss"></iconify-icon></a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ====== D: Balanced Green ====== -->
+  <div class="compare-panel palette-balanced" id="panel-balanced">
+    <div class="panel-label">
+      D. Balanced Green
+      <span class="hue-badge">hybrid / B light, C dark</span>
+    </div>
+    <div class="panel-content">
+
+      <div class="demo-section">
+        <div class="demo-section-title">Swatches</div>
+        <div class="swatch-strip" style="margin-bottom: 24px;">
+          <div class="swatch s-accent"><span class="swatch-label">accent</span></div>
+          <div class="swatch s-accent-2"><span class="swatch-label">accent-2</span></div>
+          <div class="swatch s-gradient"><span class="swatch-label">gradient</span></div>
+          <div class="swatch s-tag-bg"><span class="swatch-label">tag-bg</span></div>
+          <div class="swatch s-tag-text"><span class="swatch-label">tag-text</span></div>
+          <div class="swatch s-glow"><span class="swatch-label">glow</span></div>
+        </div>
+      </div>
+
+      <div class="demo-section">
+        <div class="demo-section-title">Header</div>
+        <div class="demo-header">
+          <div class="demo-logo">Rym<span class="a">lab</span></div>
+          <ul class="demo-nav"><a class="active">Home</a><a>Projects</a><a>Articles</a><a>About</a></ul>
+        </div>
+      </div>
+
+      <div class="demo-section">
+        <div class="demo-section-title">Hero</div>
+        <div class="demo-hero">
+          <div class="demo-hero-content">
+            <h2>Building <span class="gt">Better</span><br>Developer Experience</h2>
+            <p>生産性を科学する。DX, 自動化, 計測。</p>
+            <div class="demo-btns">
+              <button class="btn-p"><iconify-icon icon="lucide:folder-open"></iconify-icon> Projects</button>
+              <button class="btn-s"><iconify-icon icon="lucide:book-open"></iconify-icon> Articles</button>
+              <button class="btn-ghost"><iconify-icon icon="lucide:user"></iconify-icon> About</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo-section">
+        <div class="demo-section-title">Terminal</div>
+        <div class="demo-terminal">
+          <div class="t-bar"><div class="t-dot r"></div><div class="t-dot y"></div><div class="t-dot g"></div></div>
+          <div class="t-body">
+            <div><span class="pr">$</span> <span class="cm">rym</span> init --workspace</div>
+            <div><span class="ok">OK</span> workspace initialized</div>
+            <div><span class="pr">$</span> <span class="cm">rym</span> measure --coverage</div>
+            <div><span class="hl">Coverage:</span> 94.2% <span class="ok">(+2.1%)</span></div>
+            <div><span class="pr">$</span> <span class="cursor"></span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo-section">
+        <div class="demo-section-title">Cards</div>
+        <div class="s-label">Featured Work</div>
+        <div class="s-title">Projects</div>
+        <div class="demo-card">
+          <div class="card-icon"><iconify-icon icon="lucide:gauge"></iconify-icon></div>
+          <div class="card-role">Creator / Lead</div>
+          <h3>Performance Dashboard<span class="card-arrow">-></span></h3>
+          <p>チームの生産性メトリクスをリアルタイムで可視化。</p>
+          <div class="demo-tags">
+            <span class="tag"><iconify-icon icon="lucide:monitor" style="color:#10b981"></iconify-icon> React</span>
+            <span class="tag"><iconify-icon icon="lucide:server" style="color:#3b82f6"></iconify-icon> Node.js</span>
+            <span class="tag"><iconify-icon icon="lucide:gauge" style="color:#06b6d4"></iconify-icon> Perf</span>
+          </div>
+        </div>
+        <div class="demo-card">
+          <div class="card-icon"><iconify-icon icon="lucide:sparkles"></iconify-icon></div>
+          <div class="card-role">Creator</div>
+          <h3>CI/CD Optimizer<span class="card-arrow">-></span></h3>
+          <p>ビルド時間を40%短縮した最適化ツール。</p>
+          <div class="demo-tags">
+            <span class="tag"><iconify-icon icon="lucide:cloud" style="color:#8b5cf6"></iconify-icon> DevOps</span>
+            <span class="tag"><iconify-icon icon="lucide:code" style="color:#f59e0b"></iconify-icon> Go</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo-section">
+        <div class="demo-section-title">Interactive</div>
+        <input class="demo-input" placeholder="Search articles...">
+        <div class="demo-tags" style="margin-bottom: 10px;">
+          <button class="f-tag active">All</button>
+          <button class="f-tag">Frontend</button>
+          <button class="f-tag">Backend</button>
+          <button class="f-tag">DevOps</button>
+        </div>
+        <div class="demo-pagination" style="margin-bottom: 10px;">
+          <button class="pg-btn">&lt;</button>
+          <button class="pg-btn active">1</button>
+          <button class="pg-btn">2</button>
+          <button class="pg-btn">3</button>
+          <button class="pg-btn">&gt;</button>
+        </div>
+        <div style="display: flex; gap: 5px;">
+          <a class="social-link"><iconify-icon icon="simple-icons:github"></iconify-icon></a>
+          <a class="social-link"><iconify-icon icon="simple-icons:x"></iconify-icon></a>
+          <a class="social-link"><iconify-icon icon="simple-icons:linkedin"></iconify-icon></a>
+          <a class="social-link"><iconify-icon icon="simple-icons:zenn"></iconify-icon></a>
+          <a class="social-link"><iconify-icon icon="lucide:rss"></iconify-icon></a>
+        </div>
+      </div>
+
+      <div class="demo-section">
+        <div class="demo-section-title">TOC</div>
+        <div class="demo-toc">
+          <div class="toc-title">On this page</div>
+          <ul class="toc-list">
+            <li class="active">Introduction</li>
+            <li>Architecture</li>
+            <li>Implementation</li>
+            <li>Performance</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="demo-section">
+        <div class="demo-section-title">Code</div>
+        <div class="demo-code">
+          <span class="kw">const</span> config = {<br>
+          &nbsp;&nbsp;metrics: <span class="kw">true</span>,<br>
+          &nbsp;&nbsp;coverage: <span class="kw">0.94</span>,<br>
+          }
+        </div>
+      </div>
+
+      <div class="demo-section">
+        <div class="demo-section-title">Inline Accent</div>
+        <p class="demo-prose">
+          This project uses <a class="demo-link" href="#">next-intl</a> for i18n and <a class="demo-link" href="#">rehype-prism-plus</a> for syntax highlighting. The <span class="accent-text">accent color</span> is used for links and interactive elements.
+        </p>
+      </div>
+
+      <div class="demo-section" style="margin-bottom: 0;">
+        <div class="demo-section-title">Footer</div>
+        <div class="demo-footer">
+          <div>
+            <div class="demo-logo" style="font-size: 12px; margin-bottom: 3px;">Rym<span class="a">lab</span></div>
+            <div style="font-size: 10px; color: var(--text-muted);">&copy; 2025 Rym</div>
+          </div>
+          <div style="display: flex; gap: 5px;">
+            <a class="social-link"><iconify-icon icon="simple-icons:github"></iconify-icon></a>
+            <a class="social-link"><iconify-icon icon="simple-icons:x"></iconify-icon></a>
+            <a class="social-link"><iconify-icon icon="lucide:rss"></iconify-icon></a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ====== E: Proposed Green ====== -->
+  <div class="compare-panel palette-proposed" id="panel-proposed">
+    <div class="panel-label">
+      E. Proposed Green
+      <span class="hue-badge">original proposal</span>
+    </div>
+    <div class="panel-content">
+
+      <div class="demo-section">
+        <div class="demo-section-title">Swatches</div>
+        <div class="swatch-strip" style="margin-bottom: 24px;">
+          <div class="swatch s-accent"><span class="swatch-label">accent</span></div>
+          <div class="swatch s-accent-2"><span class="swatch-label">accent-2</span></div>
+          <div class="swatch s-gradient"><span class="swatch-label">gradient</span></div>
+          <div class="swatch s-tag-bg"><span class="swatch-label">tag-bg</span></div>
+          <div class="swatch s-tag-text"><span class="swatch-label">tag-text</span></div>
+          <div class="swatch s-glow"><span class="swatch-label">glow</span></div>
+        </div>
+      </div>
+
+      <div class="demo-section">
+        <div class="demo-section-title">Header</div>
+        <div class="demo-header">
+          <div class="demo-logo">Rym<span class="a">lab</span></div>
+          <ul class="demo-nav"><a class="active">Home</a><a>Projects</a><a>Articles</a><a>About</a></ul>
+        </div>
+      </div>
+
+      <div class="demo-section">
+        <div class="demo-section-title">Hero</div>
+        <div class="demo-hero">
+          <div class="demo-hero-content">
+            <h2>Building <span class="gt">Better</span><br>Developer Experience</h2>
+            <p>生産性を科学する。DX, 自動化, 計測。</p>
+            <div class="demo-btns">
+              <button class="btn-p"><iconify-icon icon="lucide:folder-open"></iconify-icon> Projects</button>
+              <button class="btn-s"><iconify-icon icon="lucide:book-open"></iconify-icon> Articles</button>
+              <button class="btn-ghost"><iconify-icon icon="lucide:user"></iconify-icon> About</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo-section">
+        <div class="demo-section-title">Terminal</div>
+        <div class="demo-terminal">
+          <div class="t-bar"><div class="t-dot r"></div><div class="t-dot y"></div><div class="t-dot g"></div></div>
+          <div class="t-body">
+            <div><span class="pr">$</span> <span class="cm">rym</span> init --workspace</div>
+            <div><span class="ok">OK</span> workspace initialized</div>
+            <div><span class="pr">$</span> <span class="cm">rym</span> measure --coverage</div>
+            <div><span class="hl">Coverage:</span> 94.2% <span class="ok">(+2.1%)</span></div>
+            <div><span class="pr">$</span> <span class="cursor"></span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo-section">
+        <div class="demo-section-title">Cards</div>
+        <div class="s-label">Featured Work</div>
+        <div class="s-title">Projects</div>
+        <div class="demo-card">
+          <div class="card-icon"><iconify-icon icon="lucide:gauge"></iconify-icon></div>
+          <div class="card-role">Creator / Lead</div>
+          <h3>Performance Dashboard<span class="card-arrow">-></span></h3>
+          <p>チームの生産性メトリクスをリアルタイムで可視化。</p>
+          <div class="demo-tags">
+            <span class="tag"><iconify-icon icon="lucide:monitor" style="color:#10b981"></iconify-icon> React</span>
+            <span class="tag"><iconify-icon icon="lucide:server" style="color:#3b82f6"></iconify-icon> Node.js</span>
+            <span class="tag"><iconify-icon icon="lucide:gauge" style="color:#06b6d4"></iconify-icon> Perf</span>
+          </div>
+        </div>
+        <div class="demo-card">
+          <div class="card-icon"><iconify-icon icon="lucide:sparkles"></iconify-icon></div>
+          <div class="card-role">Creator</div>
+          <h3>CI/CD Optimizer<span class="card-arrow">-></span></h3>
+          <p>ビルド時間を40%短縮した最適化ツール。</p>
+          <div class="demo-tags">
+            <span class="tag"><iconify-icon icon="lucide:cloud" style="color:#8b5cf6"></iconify-icon> DevOps</span>
+            <span class="tag"><iconify-icon icon="lucide:code" style="color:#f59e0b"></iconify-icon> Go</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo-section">
+        <div class="demo-section-title">Interactive</div>
+        <input class="demo-input" placeholder="Search articles...">
+        <div class="demo-tags" style="margin-bottom: 10px;">
+          <button class="f-tag active">All</button>
+          <button class="f-tag">Frontend</button>
+          <button class="f-tag">Backend</button>
+          <button class="f-tag">DevOps</button>
+        </div>
+        <div class="demo-pagination" style="margin-bottom: 10px;">
+          <button class="pg-btn">&lt;</button>
+          <button class="pg-btn active">1</button>
+          <button class="pg-btn">2</button>
+          <button class="pg-btn">3</button>
+          <button class="pg-btn">&gt;</button>
+        </div>
+        <div style="display: flex; gap: 5px;">
+          <a class="social-link"><iconify-icon icon="simple-icons:github"></iconify-icon></a>
+          <a class="social-link"><iconify-icon icon="simple-icons:x"></iconify-icon></a>
+          <a class="social-link"><iconify-icon icon="simple-icons:linkedin"></iconify-icon></a>
+          <a class="social-link"><iconify-icon icon="simple-icons:zenn"></iconify-icon></a>
+          <a class="social-link"><iconify-icon icon="lucide:rss"></iconify-icon></a>
+        </div>
+      </div>
+
+      <div class="demo-section">
+        <div class="demo-section-title">TOC</div>
+        <div class="demo-toc">
+          <div class="toc-title">On this page</div>
+          <ul class="toc-list">
+            <li class="active">Introduction</li>
+            <li>Architecture</li>
+            <li>Implementation</li>
+            <li>Performance</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="demo-section">
+        <div class="demo-section-title">Code</div>
+        <div class="demo-code">
+          <span class="kw">const</span> config = {<br>
+          &nbsp;&nbsp;metrics: <span class="kw">true</span>,<br>
+          &nbsp;&nbsp;coverage: <span class="kw">0.94</span>,<br>
+          }
+        </div>
+      </div>
+
+      <div class="demo-section">
+        <div class="demo-section-title">Inline Accent</div>
+        <p class="demo-prose">
+          This project uses <a class="demo-link" href="#">next-intl</a> for i18n and <a class="demo-link" href="#">rehype-prism-plus</a> for syntax highlighting. The <span class="accent-text">accent color</span> is used for links and interactive elements.
+        </p>
+      </div>
+
+      <div class="demo-section" style="margin-bottom: 0;">
+        <div class="demo-section-title">Footer</div>
+        <div class="demo-footer">
+          <div>
+            <div class="demo-logo" style="font-size: 12px; margin-bottom: 3px;">Rym<span class="a">lab</span></div>
+            <div style="font-size: 10px; color: var(--text-muted);">&copy; 2025 Rym</div>
+          </div>
+          <div style="display: flex; gap: 5px;">
+            <a class="social-link"><iconify-icon icon="simple-icons:github"></iconify-icon></a>
+            <a class="social-link"><iconify-icon icon="simple-icons:x"></iconify-icon></a>
+            <a class="social-link"><iconify-icon icon="lucide:rss"></iconify-icon></a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+function setTheme(theme) {
+  const panels = document.querySelectorAll('.compare-panel');
+  const btns = document.querySelectorAll('.ctrl-btn');
+  panels.forEach(p => {
+    if (theme === 'dark') p.classList.add('dark');
+    else p.classList.remove('dark');
+  });
+  btns.forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>
