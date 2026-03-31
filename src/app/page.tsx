@@ -24,8 +24,12 @@ export default function Home() {
         />
         <ScrollReveal>
           <div className="grid grid-cols-[repeat(auto-fill,minmax(min(320px,100%),1fr))] gap-5">
-            {PROJECTS.map((project) => (
-              <ProjectCard key={project.slug} project={{ ...project, href: '#' }} />
+            {PROJECTS.map((project, i) => (
+              <ProjectCard
+                key={project.slug}
+                project={{ ...project, href: '#' }}
+                className={i >= 2 ? 'max-lg:hidden' : undefined}
+              />
             ))}
           </div>
         </ScrollReveal>
@@ -41,8 +45,13 @@ export default function Home() {
         />
         <ScrollReveal>
           <div className="grid grid-cols-[repeat(auto-fill,minmax(min(320px,100%),1fr))] gap-5">
-            {ARTICLES.map((article) => (
-              <ArticleCard key={article.slug} article={article} href="#" />
+            {ARTICLES.map((article, i) => (
+              <ArticleCard
+                key={article.slug}
+                article={article}
+                href="#"
+                className={i >= 2 ? 'max-lg:hidden' : undefined}
+              />
             ))}
           </div>
         </ScrollReveal>
