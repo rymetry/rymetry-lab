@@ -14,7 +14,7 @@ function ListCardThumbnail({ icon: Icon }: { readonly icon: Article['thumbnailIc
   return (
     <div className="relative min-h-[90px] bg-secondary">
       {/* Gradient overlay */}
-      <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(4,120,87,0.06)_0%,rgba(5,150,105,0.06)_100%)] dark:bg-[linear-gradient(135deg,rgba(92,216,200,0.10)_0%,rgba(45,212,191,0.10)_100%)]" />
+      <div className="absolute inset-0 bg-[image:var(--thumb-gradient-sm)]" />
       {/* Grid pattern */}
       <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[size:14px_14px]" />
       {/* Icon */}

@@ -27,7 +27,7 @@ export function ActionButton({
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
         variant === 'primary' && [
           'border-none bg-[image:var(--accent-gradient)] text-white',
-          'motion-safe:hover:-translate-y-px hover:shadow-[0_4px_16px_rgba(4,120,87,0.3)] dark:hover:shadow-[0_4px_16px_rgba(92,216,200,0.2)]',
+          'motion-safe:hover:-translate-y-px hover:shadow-[var(--btn-primary-shadow)]',
         ],
         variant === 'secondary' && [
           'border-[1.5px] border-primary bg-card text-primary',
