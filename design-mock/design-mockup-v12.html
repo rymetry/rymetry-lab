@@ -198,6 +198,21 @@
   .s-desc { color: var(--text-secondary); font-size: 15px; margin-bottom: 40px; max-width: 600px; line-height: 1.7; }
   .s-desc-en { font-weight: 500; color: var(--text-primary); } /* v6: 600→500 */
 
+  /* ===== Error Pages (404 / Error) ===== */
+  .error-hero { background: var(--hero-bg); position: relative; overflow: hidden; min-height: calc(100vh - 60px - 50px); display: flex; align-items: center; justify-content: center; }
+  .error-hero::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(circle at 1px 1px, var(--dot-color) 1px, transparent 0); background-size: 28px 28px; }
+  .error-hero::after { content: ''; position: absolute; top: -30%; right: -10%; width: 600px; height: 600px; background: radial-gradient(ellipse, oklch(0.52 0.11 156 / 0.08) 0%, transparent 60%); pointer-events: none; }
+  .error-hero .hero-mesh { position: absolute; bottom: -20%; left: -10%; width: 500px; height: 500px; background: radial-gradient(ellipse, oklch(0.55 0.12 156 / 0.05) 0%, transparent 60%); pointer-events: none; }
+  .error-inner { position: relative; z-index: 1; text-align: center; max-width: 560px; padding: 0 24px; }
+  .error-code { font-family: var(--font-mono); font-size: clamp(80px, 15vw, 140px); font-weight: 800; line-height: 1; letter-spacing: -0.04em; background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 12px; }
+  .error-title { font-family: var(--font-display); font-size: clamp(20px, 3vw, 28px); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 12px; }
+  .error-desc { color: var(--text-secondary); font-size: 15px; line-height: 1.7; margin-bottom: 16px; }
+  .error-digest { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); margin-bottom: 28px; }
+  .error-terminal { background: #09090b; border: 1px solid #2a2a2f; border-radius: 11px; overflow: hidden; text-align: left; max-width: 400px; margin: 0 auto 32px; box-shadow: 0 12px 32px -8px rgba(0,0,0,0.3); }
+  .dark .error-terminal { border-color: #3f3f46; }
+  .error-terminal .t-body { padding: 14px 18px; font-size: 12px; line-height: 1.8; }
+  .error-cta { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
   /* ===== Tags ===== */
   .tag { display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px; background: var(--tag-bg); border: 1px solid var(--tag-border); border-radius: 4px; font-size: 11px; color: var(--tag-text); font-family: var(--font-mono); }
   .tag iconify-icon { font-size: 11px; flex-shrink: 0; }
@@ -479,6 +494,8 @@
     <button class="ctrl-btn" data-page="projects">Projects</button>
     <button class="ctrl-btn" data-page="article-detail">Article Detail</button>
     <button class="ctrl-btn" data-page="about">About</button>
+    <button class="ctrl-btn" data-page="404">404</button>
+    <button class="ctrl-btn" data-page="error">Error</button>
     <div class="ctrl-div"></div>
     <button class="ctrl-btn active" id="t-light">Light</button>
     <button class="ctrl-btn" id="t-dark">Dark</button>
@@ -838,6 +855,72 @@
       <div class="toolbox-cat"><h4>&#128736; Tools & Observability</h4><div class="toolbox-items"><span class="tb-item">Grafana</span><span class="tb-item">Datadog</span><span class="tb-item">Linear</span><span class="tb-item">Neovim</span><span class="tb-item">Claude Code</span></div></div>
     </div>
   </section>
+
+  <footer class="site-footer"><div class="footer-inner"><div class="footer-left"><div class="footer-logo">Rym<span class="a">lab</span></div><p class="footer-copy">&copy; 2026 Rymlab. All rights reserved.</p></div><div class="footer-icons"><a class="footer-icon" aria-label="GitHub"><iconify-icon icon="simple-icons:github"></iconify-icon></a><a class="footer-icon" aria-label="X"><iconify-icon icon="simple-icons:x"></iconify-icon></a><a class="footer-icon" aria-label="LinkedIn"><iconify-icon icon="simple-icons:linkedin"></iconify-icon></a><a class="footer-icon" aria-label="Zenn"><iconify-icon icon="simple-icons:zenn"></iconify-icon></a><a class="footer-icon" aria-label="Qiita"><iconify-icon icon="simple-icons:qiita"></iconify-icon></a><a class="footer-icon" aria-label="RSS"><iconify-icon icon="lucide:rss"></iconify-icon></a></div></div></footer>
+</div>
+
+<!-- ==================== 404 NOT FOUND ==================== -->
+<div class="page-section" id="page-404">
+  <header class="site-header"><div class="header-inner"><a class="logo">Rym<span class="a">lab</span></a><div class="header-right"><nav><ul class="nav-links"><li><a>Home</a></li><li><a>Articles</a></li><li><a>Projects</a></li><li><a>About</a></li></ul></nav><div class="header-actions"><button class="lang-toggle" aria-label="Switch language"><iconify-icon icon="lucide:globe"></iconify-icon> JA</button><button class="theme-toggle" aria-label="Toggle theme"><iconify-icon icon="lucide:sun" class="icon-sun"></iconify-icon><iconify-icon icon="lucide:moon" class="icon-moon"></iconify-icon></button>
+        <button class="menu-btn" aria-label="Toggle menu"><iconify-icon icon="lucide:menu" class="icon-menu"></iconify-icon><iconify-icon icon="lucide:x" class="icon-close"></iconify-icon></button></div></div></div><nav class="mobile-nav"><a>Home</a><a>Articles</a><a>Projects</a><a>About</a></nav><div class="menu-overlay"></div></header>
+
+  <div class="error-hero">
+    <div class="hero-mesh" aria-hidden="true"></div>
+    <div class="error-inner">
+      <p class="s-label anim-up" style="margin-bottom:6px">// NOT_FOUND</p>
+      <p class="error-code anim-up anim-up-2" aria-hidden="true">404</p>
+      <h1 class="error-title anim-up anim-up-3">Page Not Found</h1>
+      <p class="error-desc anim-up anim-up-3" style="margin-bottom:28px">お探しのページは存在しないか、移動された可能性があります。</p>
+
+      <div class="error-terminal anim-up anim-up-3">
+        <div class="t-bar"><div class="t-dot r"></div><div class="t-dot y"></div><div class="t-dot g"></div></div>
+        <div class="t-body">
+          <div class="t-line"><span class="pr">~</span> <span class="cm">curl</span> /unknown-path</div>
+          <div class="t-line"><span class="dim">&rarr;</span> <span style="color:#ef4444">404</span>: Resource not found</div>
+          <div class="t-line" style="margin-top:8px"><span class="pr">~</span> <span class="cursor"></span></div>
+        </div>
+      </div>
+
+      <div class="error-cta anim-up anim-up-4">
+        <a class="btn-p">ホームに戻る &rarr;</a>
+        <a class="btn-s">記事を探す</a>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer"><div class="footer-inner"><div class="footer-left"><div class="footer-logo">Rym<span class="a">lab</span></div><p class="footer-copy">&copy; 2026 Rymlab. All rights reserved.</p></div><div class="footer-icons"><a class="footer-icon" aria-label="GitHub"><iconify-icon icon="simple-icons:github"></iconify-icon></a><a class="footer-icon" aria-label="X"><iconify-icon icon="simple-icons:x"></iconify-icon></a><a class="footer-icon" aria-label="LinkedIn"><iconify-icon icon="simple-icons:linkedin"></iconify-icon></a><a class="footer-icon" aria-label="Zenn"><iconify-icon icon="simple-icons:zenn"></iconify-icon></a><a class="footer-icon" aria-label="Qiita"><iconify-icon icon="simple-icons:qiita"></iconify-icon></a><a class="footer-icon" aria-label="RSS"><iconify-icon icon="lucide:rss"></iconify-icon></a></div></div></footer>
+</div>
+
+<!-- ==================== ERROR ==================== -->
+<div class="page-section" id="page-error">
+  <header class="site-header"><div class="header-inner"><a class="logo">Rym<span class="a">lab</span></a><div class="header-right"><nav><ul class="nav-links"><li><a>Home</a></li><li><a>Articles</a></li><li><a>Projects</a></li><li><a>About</a></li></ul></nav><div class="header-actions"><button class="lang-toggle" aria-label="Switch language"><iconify-icon icon="lucide:globe"></iconify-icon> JA</button><button class="theme-toggle" aria-label="Toggle theme"><iconify-icon icon="lucide:sun" class="icon-sun"></iconify-icon><iconify-icon icon="lucide:moon" class="icon-moon"></iconify-icon></button>
+        <button class="menu-btn" aria-label="Toggle menu"><iconify-icon icon="lucide:menu" class="icon-menu"></iconify-icon><iconify-icon icon="lucide:x" class="icon-close"></iconify-icon></button></div></div></div><nav class="mobile-nav"><a>Home</a><a>Articles</a><a>Projects</a><a>About</a></nav><div class="menu-overlay"></div></header>
+
+  <div class="error-hero">
+    <div class="hero-mesh" aria-hidden="true"></div>
+    <div class="error-inner">
+      <p class="s-label anim-up" style="margin-bottom:6px">// ERROR</p>
+      <p class="error-code anim-up anim-up-2" aria-hidden="true" style="font-size: clamp(48px, 10vw, 80px);">Error</p>
+      <h1 class="error-title anim-up anim-up-3">Something Went Wrong</h1>
+      <p class="error-desc anim-up anim-up-3">予期しないエラーが発生しました。しばらくしてからもう一度お試しください。</p>
+      <p class="error-digest anim-up anim-up-3">Error ID: NEXT_RSC_ERR_xK9m2</p>
+
+      <div class="error-terminal anim-up anim-up-3">
+        <div class="t-bar"><div class="t-dot r"></div><div class="t-dot y"></div><div class="t-dot g"></div></div>
+        <div class="t-body">
+          <div class="t-line"><span class="pr">~</span> <span class="cm">bun run</span> start</div>
+          <div class="t-line"><span style="color:#ef4444">Error</span>: Unexpected runtime exception</div>
+          <div class="t-line"><span class="dim">&rarr;</span> Process exited with code 1</div>
+          <div class="t-line" style="margin-top:8px"><span class="pr">~</span> <span class="cursor"></span></div>
+        </div>
+      </div>
+
+      <div class="error-cta anim-up anim-up-4">
+        <button class="btn-p">リトライ &#8635;</button>
+        <a class="btn-s">ホームに戻る</a>
+      </div>
+    </div>
+  </div>
 
   <footer class="site-footer"><div class="footer-inner"><div class="footer-left"><div class="footer-logo">Rym<span class="a">lab</span></div><p class="footer-copy">&copy; 2026 Rymlab. All rights reserved.</p></div><div class="footer-icons"><a class="footer-icon" aria-label="GitHub"><iconify-icon icon="simple-icons:github"></iconify-icon></a><a class="footer-icon" aria-label="X"><iconify-icon icon="simple-icons:x"></iconify-icon></a><a class="footer-icon" aria-label="LinkedIn"><iconify-icon icon="simple-icons:linkedin"></iconify-icon></a><a class="footer-icon" aria-label="Zenn"><iconify-icon icon="simple-icons:zenn"></iconify-icon></a><a class="footer-icon" aria-label="Qiita"><iconify-icon icon="simple-icons:qiita"></iconify-icon></a><a class="footer-icon" aria-label="RSS"><iconify-icon icon="lucide:rss"></iconify-icon></a></div></div></footer>
 </div>

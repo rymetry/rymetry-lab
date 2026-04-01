@@ -46,7 +46,7 @@ export default function RootLayout({
       className={`${geist.variable} ${geistMono.variable} ${notoSansJP.variable} ${plemolJP.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <body className="min-h-full bg-background text-foreground">
+      <body className="flex min-h-full flex-col bg-background text-foreground">
         {/* Ensure animated content is visible when JS is disabled */}
         <noscript>
           <style>
@@ -68,7 +68,9 @@ export default function RootLayout({
             メインコンテンツへスキップ
           </a>
           <Header />
-          <main id="main-content">{children}</main>
+          <main id="main-content" className="flex-1">
+            {children}
+          </main>
           <Footer />
           <NoiseOverlay />
         </ThemeProvider>
