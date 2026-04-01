@@ -1,22 +1,4 @@
-import Link from 'next/link';
-
-import {
-  GitHubIcon,
-  LinkedInIcon,
-  QiitaIcon,
-  XIcon,
-  ZennIcon,
-} from '@/components/icons/social-icons';
-import { cn } from '@/lib/utils';
-
-// RSS は Issue #31 (RSS フィード実装) で追加予定
-const SOCIAL_LINKS = [
-  { href: 'https://github.com/rymetry', label: 'GitHub', icon: GitHubIcon },
-  { href: 'https://x.com/rymetry', label: 'X', icon: XIcon },
-  { href: 'https://linkedin.com/in/rymetry', label: 'LinkedIn', icon: LinkedInIcon },
-  { href: 'https://zenn.dev/rymetry', label: 'Zenn', icon: ZennIcon },
-  { href: 'https://qiita.com/rymetry', label: 'Qiita', icon: QiitaIcon },
-] as const;
+import { SocialIconBar } from '@/components/social-icon-bar';
 
 export function Footer() {
   return (
@@ -31,25 +13,7 @@ export function Footer() {
         </div>
 
         {/* Social Icons */}
-        <div className="flex gap-2 max-md:justify-center">
-          {SOCIAL_LINKS.map(({ href, label, icon: Icon }) => (
-            <Link
-              key={label}
-              href={href}
-              aria-label={label}
-              target={href.startsWith('/') ? undefined : '_blank'}
-              rel={href.startsWith('/') ? undefined : 'noopener noreferrer'}
-              className={cn(
-                'flex size-[34px] items-center justify-center rounded-[7px] border border-border',
-                'text-muted-foreground transition-colors duration-200',
-                'hover:border-primary hover:text-primary hover:bg-[var(--accent-glow)]',
-                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
-              )}
-            >
-              <Icon size={16} />
-            </Link>
-          ))}
-        </div>
+        <SocialIconBar className="max-md:justify-center" />
       </div>
     </footer>
   );
