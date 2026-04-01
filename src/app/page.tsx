@@ -1,7 +1,7 @@
 import { ArticleCard } from '@/components/article-card';
 import { HeroSection } from '@/components/hero-section';
 import { ProjectCard } from '@/components/project-card';
-import { ScrollReveal } from '@/components/scroll-reveal';
+import { ScrollRevealList } from '@/components/scroll-reveal-list';
 import { SectionContainer, SectionHeader } from '@/components/section';
 import { ARTICLES } from '@/data/articles';
 import { PROJECTS } from '@/data/projects';
@@ -22,17 +22,15 @@ export default function Home() {
           descriptionEn="Less friction, more flow."
           description="開発者のワークフローを加速するために構築したツール群。"
         />
-        <ScrollReveal>
-          <div className="grid grid-cols-[repeat(auto-fill,minmax(min(320px,100%),1fr))] gap-5">
-            {PROJECTS.map((project, i) => (
-              <ProjectCard
-                key={project.slug}
-                project={{ ...project, href: '#' }}
-                className={i >= 2 ? 'max-lg:hidden' : undefined}
-              />
-            ))}
-          </div>
-        </ScrollReveal>
+        <ScrollRevealList className="grid grid-cols-[repeat(auto-fill,minmax(min(320px,100%),1fr))] gap-5">
+          {PROJECTS.slice(0, 3).map((project, i) => (
+            <ProjectCard
+              key={project.slug}
+              project={{ ...project, href: '#' }}
+              className={i >= 2 ? 'max-lg:hidden' : undefined}
+            />
+          ))}
+        </ScrollRevealList>
       </SectionContainer>
 
       {/* #26: Recent Articles */}
@@ -43,18 +41,16 @@ export default function Home() {
           descriptionEn="Field notes from the trenches of developer productivity."
           description="開発生産性の現場から得た知見。"
         />
-        <ScrollReveal>
-          <div className="grid grid-cols-[repeat(auto-fill,minmax(min(320px,100%),1fr))] gap-5">
-            {ARTICLES.map((article, i) => (
-              <ArticleCard
-                key={article.slug}
-                article={article}
-                href="#"
-                className={i >= 2 ? 'max-lg:hidden' : undefined}
-              />
-            ))}
-          </div>
-        </ScrollReveal>
+        <ScrollRevealList className="grid grid-cols-[repeat(auto-fill,minmax(min(320px,100%),1fr))] gap-5">
+          {ARTICLES.map((article, i) => (
+            <ArticleCard
+              key={article.slug}
+              article={article}
+              href="#"
+              className={i >= 2 ? 'max-lg:hidden' : undefined}
+            />
+          ))}
+        </ScrollRevealList>
       </SectionContainer>
     </>
   );

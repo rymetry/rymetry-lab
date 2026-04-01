@@ -10,3 +10,8 @@ export interface Project {
   readonly tags: readonly Tag[];
   readonly href?: string;
 }
+
+/** Return the project's explicit href, falling back to the /projects/:slug route convention. */
+export function getProjectHref(project: Pick<Project, 'slug' | 'href'>): string {
+  return project.href ?? `/projects/${project.slug}`;
+}

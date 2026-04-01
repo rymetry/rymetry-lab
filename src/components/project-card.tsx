@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { TagList } from '@/components/tag';
 import { cn } from '@/lib/utils';
 import type { Project } from '@/types/project';
+import { getProjectHref } from '@/types/project';
 
 interface ProjectCardProps {
   readonly project: Project;
@@ -11,7 +12,7 @@ interface ProjectCardProps {
 
 export function ProjectCard({ project, className }: ProjectCardProps) {
   const Icon = project.icon;
-  const href = project.href ?? `/projects/${project.slug}`;
+  const href = getProjectHref(project);
 
   return (
     <Link
