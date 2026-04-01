@@ -8,8 +8,7 @@ const meta = {
     layout: 'fullscreen',
     docs: {
       description: {
-        component:
-          'Projects ページ。全プロジェクトを auto-fill グリッドで表示。',
+        component: 'Projects ページ。全プロジェクトを auto-fill グリッドで表示。',
       },
     },
   },

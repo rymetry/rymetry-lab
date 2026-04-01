@@ -19,11 +19,7 @@ interface ScrollRevealListProps {
  * グリッド等、複数アイテムを個別アニメーションさせる場合に使用。
  * 各 React 子要素は単一の DOM ノードであることを前提とする。
  */
-export function ScrollRevealList({
-  children,
-  className,
-  threshold = 0.1,
-}: ScrollRevealListProps) {
+export function ScrollRevealList({ children, className, threshold = 0.1 }: ScrollRevealListProps) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

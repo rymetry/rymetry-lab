@@ -31,9 +31,7 @@ export const Default: Story = {
         {[1, 2, 3, 4, 5, 6].map((i) => (
           <div key={i} className="rounded-lg border border-border bg-card p-8">
             <h3 className="mb-2 text-lg font-bold">カード {i}</h3>
-            <p className="text-muted-foreground">
-              このカードは個別にスクロールで表示されます。
-            </p>
+            <p className="text-muted-foreground">このカードは個別にスクロールで表示されます。</p>
           </div>
         ))}
       </ScrollRevealList>
@@ -54,9 +52,7 @@ export const DarkMode: Story = {
         {[1, 2, 3, 4, 5, 6].map((i) => (
           <div key={i} className="rounded-lg border border-border bg-card p-8">
             <h3 className="mb-2 text-lg font-bold">カード {i}</h3>
-            <p className="text-muted-foreground">
-              このカードは個別にスクロールで表示されます。
-            </p>
+            <p className="text-muted-foreground">このカードは個別にスクロールで表示されます。</p>
           </div>
         ))}
       </ScrollRevealList>
