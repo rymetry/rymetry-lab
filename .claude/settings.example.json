@@ -1,0 +1,45 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bun:*)",
+      "Bash(bunx:*)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git branch:*)",
+      "Bash(gh issue:*)",
+      "Bash(gh pr:*)",
+      "Bash(ls:*)",
+      "Bash(cat:*)",
+      "Bash(wc:*)",
+      "Bash(head:*)",
+      "Bash(tail:*)",
+      "Bash(find:*)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo \"$CLAUDE_FILE_PATH\" | grep -qE '(^|/)\\.env(\\.|$)' && ! echo \"$CLAUDE_FILE_PATH\" | grep -qE '\\.example$' && echo \"BLOCK: .env files are protected\" >&2 && exit 1 || exit 0"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [ -z \"$CLAUDE_FILE_PATH\" ] || [ ! -f \"$CLAUDE_FILE_PATH\" ]; then exit 0; fi; bunx prettier --write \"$CLAUDE_FILE_PATH\" 2>&1 || echo \"ERROR: Prettier failed on $CLAUDE_FILE_PATH\" >&2; exit 0",
+            "timeout": 5000
+          }
+        ]
+      }
+    ]
+  }
+}
