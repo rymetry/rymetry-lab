@@ -1,8 +1,9 @@
 import type { Preview } from '@storybook/nextjs-vite';
 import type { ReactRenderer } from '@storybook/react';
-import type { DecoratorFunction } from 'storybook/internal/types';
 import { useEffect } from 'react';
+import type { DecoratorFunction } from 'storybook/internal/types';
 import '../src/app/globals.css';
+import './storybook-fonts.css';
 
 const WithThemeClass: DecoratorFunction<ReactRenderer> = (Story, context) => {
   const theme = context.globals.theme ?? 'light';
