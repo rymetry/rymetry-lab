@@ -26,11 +26,11 @@ export function LangToggle() {
         <Button
           type="button"
           variant="outline"
-          size="icon"
           aria-label={t('label')}
-          className="hover:border-primary hover:bg-transparent hover:text-primary dark:hover:bg-transparent"
+          className="h-8 gap-1.5 rounded-[6px] px-2.5 py-1.5 font-mono text-[11px] uppercase hover:border-primary hover:bg-transparent hover:text-primary dark:hover:bg-transparent"
         >
-          <LanguagesIcon aria-hidden="true" />
+          <LanguagesIcon aria-hidden="true" className="size-3.5" />
+          <span aria-hidden="true">{locale.toUpperCase()}</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">

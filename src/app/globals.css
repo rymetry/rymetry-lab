@@ -405,6 +405,9 @@
     opacity: 0;
     animation: fadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
+  .anim-up-1 {
+    animation-delay: 0s;
+  }
   .anim-up-2 {
     animation-delay: 0.12s;
   }
