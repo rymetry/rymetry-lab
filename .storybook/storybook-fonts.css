@@ -1,0 +1,12 @@
+@font-face {
+  font-family: "PlemolJP HS";
+  src: url("../src/app/fonts/PlemolJPHS-Regular.woff2") format("woff2");
+  font-display: swap;
+}
+
+:root {
+  --font-display: "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-sans-jp: "Noto Sans JP", "Hiragino Sans", "Yu Gothic", sans-serif;
+  --font-geist-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-plemol: "PlemolJP HS", "Geist Mono", ui-monospace, monospace;
+}
