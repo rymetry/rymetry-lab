@@ -5,6 +5,8 @@ import { ThemeProvider } from '@/components/theme-provider';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono, Noto_Sans_JP } from 'next/font/google';
 import localFont from 'next/font/local';
+import Link from 'next/link';
+import { Suspense } from 'react';
 import './globals.css';
 
 const geist = Geist({
@@ -67,7 +69,9 @@ export default function RootLayout({
           >
             メインコンテンツへスキップ
           </a>
-          <Header />
+          <Suspense fallback={<HeaderFallback />}>
+            <Header />
+          </Suspense>
           <main id="main-content" className="flex-1">
             {children}
           </main>
@@ -76,5 +80,17 @@ export default function RootLayout({
         </ThemeProvider>
       </body>
     </html>
+  );
+}
+
+function HeaderFallback() {
+  return (
+    <header className="sticky top-0 z-50 border-b border-border bg-background/85 backdrop-blur-lg backdrop-saturate-[180%]">
+      <div className="mx-auto flex h-15 max-w-[1200px] items-center justify-between px-4 md:px-6">
+        <Link href="/" aria-label="Rymlab — ホームへ" className="font-mono text-lg font-extrabold">
+          Rym<span className="text-primary">lab</span>
+        </Link>
+      </div>
+    </header>
   );
 }

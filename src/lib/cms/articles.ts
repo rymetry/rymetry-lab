@@ -19,6 +19,24 @@ type CMSArticleContent = Omit<CMSArticle, 'id' | 'createdAt' | 'updatedAt' | 're
 type CMSTagContent = Omit<CMSTag, 'id' | 'createdAt' | 'updatedAt' | 'publishedAt' | 'revisedAt'>;
 
 export async function getArticles(): Promise<readonly ArticleDetail[]> {
+  const articles = await getCachedArticles();
+
+  return adaptArticles(articles);
+}
+
+export async function getArticleBySlug(slug: string): Promise<ArticleDetail | null> {
+  const article = await getCachedArticleBySlug(slug);
+
+  return article ? adaptArticle(article) : null;
+}
+
+export async function getTags(): Promise<readonly Tag[]> {
+  const tags = await getCachedTags();
+
+  return tags.map((tag) => adaptTag(tag));
+}
+
+async function getCachedArticles(): Promise<readonly CMSArticle[]> {
   'use cache';
   cacheLife(CMS_CACHE_LIFE);
 
@@ -33,13 +51,13 @@ export async function getArticles(): Promise<readonly ArticleDetail[]> {
       },
     });
 
-    return adaptArticles(articles as readonly CMSArticle[]);
+    return articles as readonly CMSArticle[];
   } catch (error) {
     throw toMicroCMSFetchError(endpoint, 'fetch articles', error);
   }
 }
 
-export async function getArticleBySlug(slug: string): Promise<ArticleDetail | null> {
+async function getCachedArticleBySlug(slug: string): Promise<CMSArticle | null> {
   'use cache';
   cacheLife(CMS_CACHE_LIFE);
 
@@ -60,13 +78,13 @@ export async function getArticleBySlug(slug: string): Promise<ArticleDetail | nu
       throw new Error(`microCMS returned duplicate articles for slug "${slug}"`);
     }
 
-    return adaptArticle(response.contents[0]! as CMSArticle);
+    return response.contents[0]! as CMSArticle;
   } catch (error) {
     throw toMicroCMSFetchError(endpoint, `fetch article "${slug}"`, error);
   }
 }
 
-export async function getTags(): Promise<readonly Tag[]> {
+async function getCachedTags(): Promise<readonly CMSTag[]> {
   'use cache';
   cacheLife(CMS_CACHE_LIFE);
 
@@ -80,7 +98,7 @@ export async function getTags(): Promise<readonly Tag[]> {
       },
     });
 
-    return tags.map((tag) => adaptTag(tag as CMSTag));
+    return tags as readonly CMSTag[];
   } catch (error) {
     throw toMicroCMSFetchError(endpoint, 'fetch tags', error);
   }
