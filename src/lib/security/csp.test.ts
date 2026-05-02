@@ -12,10 +12,21 @@ describe('buildContentSecurityPolicy', () => {
     expect(csp).toContain('report-uri /api/csp-report');
     expect(csp).not.toContain('Content-Security-Policy-Report-Only');
     expect(csp).not.toContain("'unsafe-eval'");
+    expect(csp).not.toContain("'unsafe-inline'");
   });
 
-  test('keeps unsafe-eval limited to development report-only policy', () => {
+  test('keeps inline and eval allowances limited to development report-only policy', () => {
     expect(buildContentSecurityPolicy({ reportOnly: true })).toContain("'unsafe-eval'");
+    expect(buildContentSecurityPolicy({ reportOnly: true })).toContain("'unsafe-inline'");
+  });
+
+  test('supports nonce-based production policy for Next.js inline runtime scripts', () => {
+    const csp = buildContentSecurityPolicy({ nonce: 'abc123', reportOnly: false });
+
+    expect(csp).toContain("script-src 'self' 'nonce-abc123'");
+    expect(csp).toContain("'sha256-7mu4H06fwDCjmnxxr/xNHyuQC6pLTHr4M2E4jXw5WZs='");
+    expect(csp).toContain("style-src 'self' 'nonce-abc123'");
+    expect(csp).not.toContain("'unsafe-inline'");
   });
 });
 

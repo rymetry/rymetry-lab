@@ -21,7 +21,7 @@ import { createPageMetadata, getSiteUrl } from '@/lib/seo/metadata';
 import { cn } from '@/lib/utils';
 import type { ArticleDetail } from '@/types/article';
 import type { Tag } from '@/types/tag';
-import { TAG_CATEGORY_COLORS } from '@/types/tag';
+import { TAG_CATEGORY_TEXT_CLASSES } from '@/types/tag';
 
 import { getArticlesPageContent } from './articles-cache';
 import {
@@ -241,8 +241,7 @@ function TagFilter({
             {Icon && (
               <Icon
                 aria-hidden="true"
-                className="size-[13px]"
-                style={{ color: TAG_CATEGORY_COLORS[tag.category] }}
+                className={cn('size-[13px]', TAG_CATEGORY_TEXT_CLASSES[tag.category])}
               />
             )}
             {tag.label}

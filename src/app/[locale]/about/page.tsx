@@ -39,12 +39,7 @@ export default async function AboutPage({ params }: AboutPageProps) {
         {/* Avatar */}
         <div className="relative flex size-[180px] items-center justify-center overflow-hidden rounded-[14px] border border-border bg-secondary text-[56px] max-md:mx-auto">
           <span aria-hidden="true">{'\u{1F468}\u200D\u{1F4BB}'}</span>
-          <div
-            className="absolute inset-0"
-            style={{
-              background: 'linear-gradient(135deg, var(--accent-glow) 0%, transparent 50%)',
-            }}
-          />
+          <div className="absolute inset-0 bg-[linear-gradient(135deg,var(--accent-glow)_0%,transparent_50%)]" />
         </div>
 
         {/* Info */}

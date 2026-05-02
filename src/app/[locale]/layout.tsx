@@ -29,7 +29,7 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
   const [messages, t] = await Promise.all([getMessages(), getTranslations('Layout')]);
 
   return (
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem enableColorScheme={false}>
       <NextIntlClientProvider messages={messages}>
         <a
           href="#main-content"

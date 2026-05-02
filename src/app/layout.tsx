@@ -47,17 +47,7 @@ export default function RootLayout({
       className={`${geist.variable} ${geistMono.variable} ${notoSansJP.variable} ${plemolJP.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <body className="flex min-h-full flex-col bg-background text-foreground">
-        {/* Ensure animated content is visible when JS is disabled */}
-        <noscript>
-          <style>
-            {
-              '.anim-up,.reveal,.t-line{opacity:1!important;transform:none!important;animation:none!important}'
-            }
-          </style>
-        </noscript>
-        {children}
-      </body>
+      <body className="flex min-h-full flex-col bg-background text-foreground">{children}</body>
     </html>
   );
 }

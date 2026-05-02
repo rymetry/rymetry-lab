@@ -30,3 +30,16 @@ export const TAG_CATEGORY_COLORS = {
   testing: 'oklch(0.70 0.19 48)',
   release: 'oklch(0.63 0.23 304)',
 } as const satisfies Record<TagCategory, string>;
+
+export const TAG_CATEGORY_TEXT_CLASSES = {
+  frontend: 'text-[oklch(0.70_0.15_156)]',
+  backend: 'text-[oklch(0.62_0.19_260)]',
+  infra: 'text-[oklch(0.61_0.22_293)]',
+  devops: 'text-[oklch(0.69_0.15_190)]',
+  languages: 'text-[oklch(0.77_0.16_70)]',
+  tools: 'text-[oklch(0.66_0.21_354)]',
+  security: 'text-[oklch(0.64_0.21_25)]',
+  performance: 'text-[oklch(0.71_0.13_215)]',
+  testing: 'text-[oklch(0.70_0.19_48)]',
+  release: 'text-[oklch(0.63_0.23_304)]',
+} as const satisfies Record<TagCategory, string>;

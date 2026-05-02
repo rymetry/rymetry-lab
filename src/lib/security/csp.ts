@@ -1,17 +1,30 @@
 import type { Header } from 'next/dist/lib/load-custom-routes';
 
-interface BuildCspOptions {
+const NEXT_STATIC_INLINE_SCRIPT_HASHES = [
+  "'sha256-7mu4H06fwDCjmnxxr/xNHyuQC6pLTHr4M2E4jXw5WZs='",
+  "'sha256-wkjS4zijHQljbuQzwpQdd2Wvq3fpRtpxgPGRt+U5jFY='",
+] as const;
+
+export interface BuildCspOptions {
   readonly reportOnly: boolean;
+  readonly nonce?: string;
 }
 
 interface GetSecurityHeadersOptions {
   readonly isProduction: boolean;
 }
 
-export function buildContentSecurityPolicy({ reportOnly }: BuildCspOptions): string {
-  const scriptSrc = reportOnly
-    ? ['script-src', "'self'", "'unsafe-inline'", "'unsafe-eval'"]
-    : ['script-src', "'self'", "'unsafe-inline'"];
+export function buildContentSecurityPolicy({ nonce, reportOnly }: BuildCspOptions): string {
+  const scriptSrc = nonce
+    ? ['script-src', "'self'", `'nonce-${nonce}'`, ...NEXT_STATIC_INLINE_SCRIPT_HASHES]
+    : reportOnly
+      ? ['script-src', "'self'", "'unsafe-inline'", "'unsafe-eval'"]
+      : ['script-src', "'self'"];
+  const styleSrc = nonce
+    ? ['style-src', "'self'", `'nonce-${nonce}'`]
+    : reportOnly
+      ? ['style-src', "'self'", "'unsafe-inline'"]
+      : ['style-src', "'self'"];
   const directives = [
     ['default-src', "'self'"],
     ['base-uri', "'self'"],
@@ -20,7 +33,7 @@ export function buildContentSecurityPolicy({ reportOnly }: BuildCspOptions): str
     ['form-action', "'self'"],
     ['img-src', "'self'", 'data:', 'blob:', 'https://images.microcms-assets.io'],
     ['font-src', "'self'", 'data:'],
-    ['style-src', "'self'", "'unsafe-inline'"],
+    styleSrc,
     scriptSrc,
     ['connect-src', "'self'", 'https://*.microcms.io'],
     ['upgrade-insecure-requests'],

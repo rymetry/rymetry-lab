@@ -1,4 +1,4 @@
-import { isTimingSafeEqual } from '@/lib/security/timing-safe-secret';
+import { isDraftModeSecret } from '@/lib/security/draft-mode';
 import { draftMode } from 'next/headers';
 import { redirect } from 'next/navigation';
 
@@ -6,10 +6,9 @@ import { normalizeSafeRedirectPath } from '@/lib/security/safe-redirect';
 
 export async function GET(request: Request) {
   const url = new URL(request.url);
-  const secret = process.env.DRAFT_MODE_SECRET ?? '';
   const token = url.searchParams.get('secret');
 
-  if (!isTimingSafeEqual(token, secret)) {
+  if (!isDraftModeSecret(token)) {
     return new Response('Invalid draft secret', { status: 401 });
   }
 

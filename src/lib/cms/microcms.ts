@@ -7,8 +7,6 @@ const DEFAULT_TAGS_ENDPOINT = 'tags';
 
 type MicroCMSClient = ReturnType<typeof createClient>;
 
-let client: MicroCMSClient | undefined;
-
 export class MicroCMSConfigurationError extends Error {
   constructor(message: string) {
     super(message);
@@ -29,18 +27,14 @@ export class MicroCMSFetchError extends Error {
 }
 
 export function getMicroCMSClient(): MicroCMSClient {
-  if (client) return client;
-
   const serviceDomain = requireEnv('MICROCMS_SERVICE_DOMAIN');
   const apiKey = requireEnv('MICROCMS_API_KEY');
 
-  client = createClient({
+  return createClient({
     serviceDomain,
     apiKey,
     retry: true,
   });
-
-  return client;
 }
 
 export function isMicroCMSConfigured(): boolean {

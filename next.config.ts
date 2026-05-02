@@ -12,6 +12,12 @@ const nextConfig: NextConfig = {
   // Enable 'use cache' directive for server component and function caching
   cacheComponents: true,
 
+  experimental: {
+    sri: {
+      algorithm: 'sha256',
+    },
+  },
+
   images: {
     formats: ['image/avif', 'image/webp'],
     remotePatterns: [
@@ -23,10 +29,17 @@ const nextConfig: NextConfig = {
   },
 
   async headers() {
+    const securityHeaders = getSecurityHeaders({
+      isProduction: process.env.NODE_ENV === 'production',
+    });
+
     return [
       {
         source: '/(.*)',
-        headers: getSecurityHeaders({ isProduction: process.env.NODE_ENV === 'production' }),
+        headers:
+          process.env.NODE_ENV === 'production'
+            ? securityHeaders.filter((header) => !header.key.startsWith('Content-Security-Policy'))
+            : securityHeaders,
       },
     ];
   },
