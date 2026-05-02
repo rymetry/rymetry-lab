@@ -60,6 +60,7 @@ export function adaptArticle(
 ): ArticleDetail {
   const tags = article.tags.map(adaptTag);
   const primaryTag = tags[0];
+  const content = extractArticleContent(article);
 
   return {
     slug: requireNonEmpty(article.slug, `microCMS article "${article.id}" is missing slug`),
@@ -69,10 +70,7 @@ export function adaptArticle(
       `microCMS article "${article.id}" is missing excerpt`,
     ),
     excerpt: article.excerpt,
-    content: requireNonEmpty(
-      article.content,
-      `microCMS article "${article.id}" is missing content`,
-    ),
+    content,
     ogpImage: {
       url: requireNonEmpty(
         article.ogpImage?.url,
@@ -83,7 +81,7 @@ export function adaptArticle(
     },
     publishedAt: formatDate(article.publishedAt, article.id, 'publishedAt'),
     updatedAt: formatDate(article.revisedAt ?? article.updatedAt, article.id, 'updatedAt'),
-    readingTime: calculateReadingTime(article.content),
+    readingTime: calculateReadingTime(content),
     thumbnailIcon: primaryTag?.icon ?? SparklesIcon,
     thumbnailVariant: pickThumbnailVariant(options.index),
     tags,
@@ -122,6 +120,16 @@ function requireNonEmpty(value: string | undefined, message: string): string {
   }
 
   return trimmed;
+}
+
+function extractArticleContent(article: CMSArticle): string {
+  const content = article.content;
+
+  if (typeof content === 'string') {
+    return requireNonEmpty(content, `microCMS article "${article.id}" is missing content`);
+  }
+
+  return requireNonEmpty(content?.body, `microCMS article "${article.id}" is missing content.body`);
 }
 
 function formatDate(value: string, articleId: string, field: string): string {
