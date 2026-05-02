@@ -275,6 +275,17 @@
   .art-card .art-desc { display: none; }
   .art-tags { display: flex; gap: 5px; flex-wrap: wrap; }
 
+  /* ===== Loading skeletons ===== */
+  @keyframes skeletonPulse { 0%, 100% { opacity: .62; } 50% { opacity: 1; } }
+  .skel { display: block; border-radius: 6px; background: var(--bg-secondary); border: 1px solid transparent; animation: skeletonPulse 1.4s ease-in-out infinite; }
+  .skel-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 11px; overflow: hidden; }
+  .skel-card .art-thumb { border-radius: 0; }
+  .skel-body { padding: 20px; }
+  .skel-row { display: flex; gap: 10px; margin-bottom: 12px; }
+  .loading-hero-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 48px; align-items: center; min-height: 420px; padding: 32px 0; }
+  .loading-article-shell { max-width: 980px; margin: 0 auto; }
+  .loading-article-grid { display: grid; grid-template-columns: 1fr 240px; gap: 40px; align-items: start; }
+
   .list-view .art-card { display: grid; grid-template-columns: 200px 1fr; }
   .list-view .art-thumb { height: 100%; min-height: 140px; }
   .list-view .art-body { padding: 20px 24px; display: flex; flex-direction: column; justify-content: center; }
@@ -434,6 +445,8 @@
     .nav-links { gap: 20px; }
     .section { padding: 56px 24px; }
     .hero { padding: 64px 0 48px; }
+    .loading-article-grid { grid-template-columns: 1fr; }
+    .loading-article-grid .toc-card { display: none; }
   }
   @media (max-width: 768px) {
     /* v8: hamburger menu */
@@ -441,6 +454,7 @@
     .menu-btn { display: flex; }
     .header-right { gap: 8px; }
     .hero-inner { grid-template-columns: 1fr; }
+    .loading-hero-grid { grid-template-columns: 1fr; min-height: auto; }
     .hero-visual .terminal { display: none; }
     .terminal-mobile { display: block; background: #09090b; border: 1px solid #2a2a2f; border-radius: 9px; padding: 14px 18px; margin-top: 24px; font-family: var(--font-mono); font-size: 12px; color: #a1a1aa; line-height: 1.6; }
     .terminal-mobile .pr { color: #5eead4; } .terminal-mobile .hl { color: #99f6e4; }
@@ -494,6 +508,7 @@
     <button class="ctrl-btn" data-page="projects">Projects</button>
     <button class="ctrl-btn" data-page="article-detail">Article Detail</button>
     <button class="ctrl-btn" data-page="about">About</button>
+    <button class="ctrl-btn" data-page="loading">Loading</button>
     <button class="ctrl-btn" data-page="404">404</button>
     <button class="ctrl-btn" data-page="error">Error</button>
     <div class="ctrl-div"></div>
@@ -853,6 +868,63 @@
       <div class="toolbox-cat"><h4>&#128187; Languages</h4><div class="toolbox-items"><span class="tb-item">TypeScript</span><span class="tb-item">Go</span><span class="tb-item">Python</span><span class="tb-item">Bash</span></div></div>
       <div class="toolbox-cat"><h4>&#9881; Frontend & Backend</h4><div class="toolbox-items"><span class="tb-item">Next.js</span><span class="tb-item">React</span><span class="tb-item">Hono</span><span class="tb-item">PostgreSQL</span><span class="tb-item">Redis</span></div></div>
       <div class="toolbox-cat"><h4>&#128736; Tools & Observability</h4><div class="toolbox-items"><span class="tb-item">Grafana</span><span class="tb-item">Datadog</span><span class="tb-item">Linear</span><span class="tb-item">Neovim</span><span class="tb-item">Claude Code</span></div></div>
+    </div>
+  </section>
+
+  <footer class="site-footer"><div class="footer-inner"><div class="footer-left"><div class="footer-logo">Rym<span class="a">lab</span></div><p class="footer-copy">&copy; 2026 Rymlab. All rights reserved.</p></div><div class="footer-icons"><a class="footer-icon" aria-label="GitHub"><iconify-icon icon="simple-icons:github"></iconify-icon></a><a class="footer-icon" aria-label="X"><iconify-icon icon="simple-icons:x"></iconify-icon></a><a class="footer-icon" aria-label="LinkedIn"><iconify-icon icon="simple-icons:linkedin"></iconify-icon></a><a class="footer-icon" aria-label="Zenn"><iconify-icon icon="simple-icons:zenn"></iconify-icon></a><a class="footer-icon" aria-label="Qiita"><iconify-icon icon="simple-icons:qiita"></iconify-icon></a><a class="footer-icon" aria-label="RSS"><iconify-icon icon="lucide:rss"></iconify-icon></a></div></div></footer>
+</div>
+
+<!-- ==================== LOADING ==================== -->
+<div class="page-section" id="page-loading">
+  <header class="site-header"><div class="header-inner"><a class="logo">Rym<span class="a">lab</span></a><div class="header-right"><nav><ul class="nav-links"><li><a class="active">Home</a></li><li><a>Articles</a></li><li><a>Projects</a></li><li><a>About</a></li></ul></nav><div class="header-actions"><button class="lang-toggle" aria-label="Switch language"><iconify-icon icon="lucide:globe"></iconify-icon> JA</button><button class="theme-toggle" aria-label="Toggle theme"><iconify-icon icon="lucide:sun" class="icon-sun"></iconify-icon><iconify-icon icon="lucide:moon" class="icon-moon"></iconify-icon></button>
+        <button class="menu-btn" aria-label="Toggle menu"><iconify-icon icon="lucide:menu" class="icon-menu"></iconify-icon><iconify-icon icon="lucide:x" class="icon-close"></iconify-icon></button></div></div></div><nav class="mobile-nav"><a class="active">Home</a><a>Articles</a><a>Projects</a><a>About</a></nav><div class="menu-overlay"></div></header>
+
+  <section class="section">
+    <p class="s-label">// Loading</p>
+    <h2 class="s-title">Home Loading</h2>
+    <div class="loading-hero-grid">
+      <div>
+        <span class="skel" style="width:160px;height:16px;margin-bottom:20px"></span>
+        <span class="skel" style="width:100%;max-width:620px;height:48px;margin-bottom:12px"></span>
+        <span class="skel" style="width:82%;max-width:520px;height:48px;margin-bottom:24px"></span>
+        <span class="skel" style="width:100%;max-width:560px;height:20px;margin-bottom:32px"></span>
+        <div class="skel-row"><span class="skel" style="width:144px;height:44px"></span><span class="skel" style="width:112px;height:44px"></span></div>
+      </div>
+      <span class="skel" style="height:320px;border-radius:11px;border-color:var(--border);background:var(--bg-card)"></span>
+    </div>
+  </section>
+
+  <div class="section-alt">
+  <section class="section" style="padding-top:64px;padding-bottom:64px">
+    <p class="s-label">// Articles</p>
+    <h2 class="s-title">Articles Loading</h2>
+    <div class="filter-bar">
+      <div class="filter-row"><span class="skel" style="height:44px;flex:1;border-color:var(--border);background:var(--bg-card)"></span><span class="skel" style="width:44px;height:44px;border-color:var(--border);background:var(--bg-card)"></span><span class="skel" style="width:44px;height:44px;border-color:var(--border);background:var(--bg-card)"></span></div>
+    </div>
+    <div class="art-grid">
+      <div class="skel-card"><span class="skel art-thumb"></span><div class="skel-body"><div class="skel-row"><span class="skel" style="width:80px;height:12px"></span><span class="skel" style="width:56px;height:12px"></span></div><span class="skel" style="height:16px;width:90%;margin-bottom:10px"></span><span class="skel" style="height:16px;width:70%;margin-bottom:16px"></span><div class="skel-row"><span class="skel" style="width:64px;height:20px"></span><span class="skel" style="width:80px;height:20px"></span></div></div></div>
+      <div class="skel-card"><span class="skel art-thumb"></span><div class="skel-body"><div class="skel-row"><span class="skel" style="width:80px;height:12px"></span><span class="skel" style="width:56px;height:12px"></span></div><span class="skel" style="height:16px;width:86%;margin-bottom:10px"></span><span class="skel" style="height:16px;width:62%;margin-bottom:16px"></span><div class="skel-row"><span class="skel" style="width:72px;height:20px"></span><span class="skel" style="width:88px;height:20px"></span></div></div></div>
+      <div class="skel-card"><span class="skel art-thumb"></span><div class="skel-body"><div class="skel-row"><span class="skel" style="width:80px;height:12px"></span><span class="skel" style="width:56px;height:12px"></span></div><span class="skel" style="height:16px;width:92%;margin-bottom:10px"></span><span class="skel" style="height:16px;width:76%;margin-bottom:16px"></span><div class="skel-row"><span class="skel" style="width:64px;height:20px"></span><span class="skel" style="width:80px;height:20px"></span></div></div></div>
+    </div>
+  </section>
+  </div>
+
+  <section class="section">
+    <p class="s-label">// Article Detail</p>
+    <h2 class="s-title">Detail Loading</h2>
+    <div class="loading-article-shell">
+      <span class="skel" style="width:112px;height:16px;margin-bottom:20px"></span>
+      <span class="skel" style="width:100%;height:40px;margin-bottom:12px"></span>
+      <span class="skel" style="width:72%;height:40px;margin-bottom:24px"></span>
+      <div class="skel-row"><span class="skel" style="width:80px;height:20px"></span><span class="skel" style="width:96px;height:20px"></span></div>
+      <span class="skel" style="width:100%;aspect-ratio:1200/630;border-radius:11px;border-color:var(--border);background:var(--bg-card);margin:28px 0 40px"></span>
+      <div class="loading-article-grid">
+        <div>
+          <span class="skel" style="height:16px;margin-bottom:16px"></span><span class="skel" style="height:16px;margin-bottom:16px"></span><span class="skel" style="height:16px;width:76%;margin-bottom:16px"></span>
+          <span class="skel" style="height:16px;margin-bottom:16px"></span><span class="skel" style="height:16px;margin-bottom:16px"></span><span class="skel" style="height:16px;width:76%"></span>
+        </div>
+        <div class="toc-card"><span class="skel" style="height:16px;width:80px;margin-bottom:14px"></span><span class="skel" style="height:12px;margin-bottom:10px"></span><span class="skel" style="height:12px;width:84%;margin-bottom:10px"></span><span class="skel" style="height:12px;width:68%"></span></div>
+      </div>
     </div>
   </section>
 
