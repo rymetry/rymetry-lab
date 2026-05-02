@@ -97,4 +97,31 @@ describe('adaptArticle', () => {
       ],
     });
   });
+
+  test('maps CMS article rich content body into the app article detail content', () => {
+    const article = adaptArticle({
+      id: 'article_rich_content',
+      createdAt: '2026-01-01T00:00:00.000Z',
+      updatedAt: '2026-04-02T00:00:00.000Z',
+      publishedAt: '2026-04-01T00:00:00.000Z',
+      revisedAt: '2026-04-02T00:00:00.000Z',
+      slug: 'rich-content',
+      title: 'Rich content',
+      excerpt: 'CMS rich content body.',
+      content: {
+        fieldId: 'richEditor',
+        showToc: true,
+        body: '<p>Rich body</p>',
+      },
+      ogpImage: {
+        url: 'https://images.microcms-assets.io/assets/test/rich.png',
+        width: 1200,
+        height: 630,
+      },
+      tags: [cmsTag],
+    } satisfies CMSArticle);
+
+    expect(article.content).toBe('<p>Rich body</p>');
+    expect(article.readingTime).toBe('1 min');
+  });
 });

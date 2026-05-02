@@ -14,6 +14,13 @@ export interface CMSImage {
   readonly height?: number;
 }
 
+export interface CMSArticleContent {
+  readonly fieldId?: string;
+  readonly showToc?: boolean;
+  readonly body?: string;
+  readonly relatedArticles?: readonly CMSArticle[];
+}
+
 export interface CMSTag extends CMSSystemFields {
   readonly name: string;
   readonly category?: TagCategory | string | readonly string[];
@@ -23,7 +30,7 @@ export interface CMSArticle extends CMSSystemFields {
   readonly slug: string;
   readonly title: string;
   readonly publishedAt: string;
-  readonly content: string;
+  readonly content: string | CMSArticleContent;
   readonly excerpt: string;
   readonly ogpImage: CMSImage;
   readonly tags: readonly CMSTag[];
