@@ -38,7 +38,8 @@ Productivity Engineer "Rym" のポートフォリオ & 技術ブログ。Site: R
 | ------------ | -------------------- | -------------------------- |
 | Frontend     | oklch(0.70 0.15 156) | lucide:monitor             |
 | Backend      | oklch(0.62 0.19 260) | lucide:server / database   |
-| Infra/DevOps | oklch(0.61 0.22 293) | lucide:cloud / git-branch  |
+| Infra        | oklch(0.61 0.22 293) | lucide:cloud / git-branch  |
+| DevOps       | oklch(0.69 0.15 190) | lucide:infinity            |
 | Languages    | oklch(0.77 0.16 70)  | lucide:code                |
 | Tools/DX     | oklch(0.66 0.21 354) | lucide:wrench / sparkles   |
 | Security     | oklch(0.64 0.21 25)  | lucide:shield              |

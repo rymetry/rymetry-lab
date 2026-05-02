@@ -48,7 +48,7 @@ export const ARTICLES: readonly Article[] = [
     thumbnailVariant: 'v3',
     tags: [
       { label: 'Metrics', category: 'performance', icon: BarChart3Icon },
-      { label: 'DevOps', category: 'infra', icon: InfinityIcon },
+      { label: 'DevOps', category: 'devops', icon: InfinityIcon },
     ],
   },
 ];

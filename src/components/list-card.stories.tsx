@@ -22,7 +22,7 @@ const sampleArticles: Article[] = [
     readingTime: '7 min',
     thumbnailIcon: RocketIcon,
     tags: [
-      { label: 'DevOps', category: 'infra', icon: InfinityIcon },
+      { label: 'DevOps', category: 'devops', icon: InfinityIcon },
       { label: 'Release', category: 'release', icon: RocketIcon },
     ],
   },
