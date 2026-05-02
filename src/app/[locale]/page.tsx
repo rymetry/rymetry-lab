@@ -5,10 +5,36 @@ import { ScrollRevealList } from '@/components/scroll-reveal-list';
 import { SectionContainer, SectionHeader } from '@/components/section';
 import { ARTICLES } from '@/data/articles';
 import { PROJECTS } from '@/data/projects';
+import { createPageMetadata, getSiteUrl } from '@/lib/seo/metadata';
+import type { Metadata } from 'next';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 
 // TODO #28: Replace static ARTICLES/PROJECTS with microCMS SDK fetch + adapters behind 'use cache'
 
-export default function Home() {
+interface HomePageProps {
+  readonly params: Promise<{
+    readonly locale: 'ja' | 'en';
+  }>;
+}
+
+export async function generateMetadata({ params }: HomePageProps): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'Home.metadata' });
+
+  return createPageMetadata({
+    title: 'Rymlab',
+    description: t('description'),
+    path: '/',
+    siteUrl: getSiteUrl(),
+    locale,
+  });
+}
+
+export default async function Home({ params }: HomePageProps) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations('Home');
+
   return (
     <>
       {/* #24 */}
@@ -17,10 +43,9 @@ export default function Home() {
       {/* #25: Featured Work */}
       <SectionContainer>
         <SectionHeader
-          label="Featured Projects"
-          title="Featured Work"
-          descriptionEn="Less friction, more flow."
-          description="開発者のワークフローを加速するために構築したツール群。"
+          label={t('featuredProjects.label')}
+          title={t('featuredProjects.title')}
+          description={t('featuredProjects.description')}
         />
         <ScrollRevealList className="grid grid-cols-[repeat(auto-fill,minmax(min(320px,100%),1fr))] gap-5">
           {PROJECTS.slice(0, 3).map((project, i) => (
@@ -36,10 +61,9 @@ export default function Home() {
       {/* #26: Recent Articles */}
       <SectionContainer alt>
         <SectionHeader
-          label="Latest Articles"
-          title="Recent Articles"
-          descriptionEn="Field notes from the trenches of developer productivity."
-          description="開発生産性の現場から得た知見。"
+          label={t('recentArticles.label')}
+          title={t('recentArticles.title')}
+          description={t('recentArticles.description')}
         />
         <ScrollRevealList className="grid grid-cols-[repeat(auto-fill,minmax(min(320px,100%),1fr))] gap-5">
           {ARTICLES.map((article, i) => (

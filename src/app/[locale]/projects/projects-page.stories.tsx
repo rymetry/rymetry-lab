@@ -12,6 +12,9 @@ const meta = {
       },
     },
   },
+  args: {
+    params: Promise.resolve({ locale: 'ja' }),
+  },
 } satisfies Meta<typeof ProjectsPage>;
 
 export default meta;
@@ -20,5 +23,8 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {};
 
 export const DarkMode: Story = {
+  args: {
+    params: Promise.resolve({ locale: 'ja' }),
+  },
   globals: { theme: 'dark' },
 };

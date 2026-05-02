@@ -5,12 +5,17 @@ const DEFAULT_SITE_NAME = 'Rymlab';
 const DEFAULT_SITE_URL = 'https://rymlab.dev';
 const DEFAULT_OG_IMAGE = '/ogp.png';
 const SEO_DESCRIPTION_LIMIT = 160;
+const DEFAULT_LOCALE = 'ja';
+const LOCALES = ['ja', 'en'] as const;
+
+type MetadataLocale = (typeof LOCALES)[number];
 
 interface BaseMetadataInput {
   readonly title: string;
   readonly description: string;
   readonly path: string;
   readonly siteUrl?: string;
+  readonly locale?: MetadataLocale;
 }
 
 interface ArticleMetadataInput extends BaseMetadataInput {
@@ -41,6 +46,7 @@ export function createPageMetadata(input: BaseMetadataInput): Metadata {
     description,
     alternates: {
       canonical,
+      languages: buildLanguageAlternates(input.path, siteUrl, input.locale),
     },
     openGraph: {
       title,
@@ -77,6 +83,7 @@ export function createArticleMetadata(input: ArticleMetadataInput): Metadata {
     description,
     alternates: {
       canonical,
+      languages: buildLanguageAlternates(input.path, siteUrl, input.locale),
     },
     openGraph: {
       title,
@@ -117,6 +124,44 @@ function buildAbsoluteUrl(path: string, siteUrl: string): string {
   if (/^https?:\/\//.test(path)) return path;
 
   return `${siteUrl}${path.startsWith('/') ? path : `/${path}`}`;
+}
+
+function buildLanguageAlternates(
+  path: string,
+  siteUrl: string,
+  locale: MetadataLocale | undefined,
+) {
+  if (!locale) return undefined;
+
+  const canonicalPath = stripLocalePrefix(path);
+  const languages = Object.fromEntries(
+    LOCALES.map((targetLocale) => [
+      targetLocale,
+      buildAbsoluteUrl(localizePath(canonicalPath, targetLocale), siteUrl),
+    ]),
+  );
+
+  return {
+    ...languages,
+    'x-default': buildAbsoluteUrl(localizePath(canonicalPath, DEFAULT_LOCALE), siteUrl),
+  };
+}
+
+function stripLocalePrefix(path: string): string {
+  const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+
+  for (const locale of LOCALES) {
+    if (normalizedPath === `/${locale}`) return '/';
+    if (normalizedPath.startsWith(`/${locale}/`)) return normalizedPath.slice(locale.length + 1);
+  }
+
+  return normalizedPath;
+}
+
+function localizePath(path: string, locale: MetadataLocale): string {
+  if (locale === DEFAULT_LOCALE) return path;
+  if (path === '/') return `/${locale}`;
+  return `/${locale}${path}`;
 }
 
 function formatTitle(title: string): string {

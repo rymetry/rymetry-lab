@@ -32,6 +32,7 @@ export const metadata: Metadata = createPageMetadata({
   description: 'Portfolio & Blog by Rym — Productivity Engineer',
   path: '/',
   siteUrl: getSiteUrl(),
+  locale: 'ja',
 });
 
 export default function RootLayout({

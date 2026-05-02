@@ -25,5 +25,141 @@
   },
   "Layout": {
     "skipToMain": "メインコンテンツへスキップ"
+  },
+  "DraftModeIndicator": {
+    "label": "Draft Mode",
+    "message": "下書きプレビュー中です",
+    "disable": "終了"
+  },
+  "Home": {
+    "metadata": {
+      "description": "Rym によるポートフォリオとブログ — Productivity Engineer"
+    },
+    "hero": {
+      "line1": "Build it. Prove it.",
+      "line2": "Write about it.",
+      "description": "開発したツールや検証した技術、そこから得た学びを、再現性のあるナレッジとして発信しています。プロダクティビティエンジニアリングの現場から、実践的な知見をお届けします。",
+      "projects": "Projects",
+      "articles": "Articles",
+      "role": "Productivity Engineer",
+      "latestLog": "latest.log",
+      "buildMetric": "CI/CD Pipeline Optimizer",
+      "buildResult": "70% faster",
+      "proveMetric": "Cache hit rate",
+      "proveResult": "94.2%",
+      "writeMetric": "Published",
+      "writeResult": "GitHub Actions Cache Guide",
+      "missionCommand": "echo $MISSION"
+    },
+    "featuredProjects": {
+      "label": "Featured Projects",
+      "title": "Featured Work",
+      "description": "開発者のワークフローを加速するために構築したツール群。"
+    },
+    "recentArticles": {
+      "label": "Latest Articles",
+      "title": "Recent Articles",
+      "description": "開発生産性の現場から得た知見。"
+    }
+  },
+  "Articles": {
+    "metadata": {
+      "title": "Articles",
+      "description": "生産性・自動化・エンジニアリングの最前線から。"
+    },
+    "heading": {
+      "label": "Articles",
+      "title": "All Articles",
+      "description": "生産性・自動化・エンジニアリングの最前線から。"
+    },
+    "search": {
+      "label": "記事を検索",
+      "placeholder": "記事を検索...",
+      "clear": "検索をクリア"
+    },
+    "view": {
+      "label": "記事表示",
+      "grid": "グリッド表示",
+      "list": "リスト表示"
+    },
+    "filter": {
+      "label": "タグで記事を絞り込む",
+      "all": "All"
+    },
+    "pagination": {
+      "label": "記事ページネーション",
+      "previous": "前のページ",
+      "next": "次のページ",
+      "page": "{page}ページ目",
+      "summary": "{rangeStart}-{rangeEnd} / {totalItems} articles"
+    },
+    "empty": {
+      "title": "記事が見つかりません",
+      "filtered": "検索条件に一致する記事はありません。キーワードやタグを変更してください。",
+      "unfiltered": "記事はまだ公開されていません。",
+      "clear": "フィルターをクリア"
+    },
+    "detail": {
+      "notFoundTitle": "記事が見つかりません | Rymlab",
+      "back": "Articles",
+      "label": "Article",
+      "toc": "Contents",
+      "navigation": "記事ナビゲーション",
+      "newer": "Newer article",
+      "older": "Older article",
+      "relatedLabel": "Related",
+      "relatedTitle": "Related Articles",
+      "relatedDescription": "同じタグを持つ記事をピックアップしています。"
+    }
+  },
+  "Projects": {
+    "metadata": {
+      "title": "Projects",
+      "description": "チームの速度を加速させるために設計・構築したツール群。"
+    },
+    "heading": {
+      "label": "Projects",
+      "title": "All Projects",
+      "description": "チームの速度を加速させるために設計・構築したツール群。"
+    }
+  },
+  "About": {
+    "metadata": {
+      "title": "About",
+      "description": "Productivity Engineer Rym のプロフィール、エンジニアリング哲学、技術スタック。"
+    },
+    "profile": {
+      "role": "Productivity Engineer — Tokyo, Japan",
+      "bio1": "開発チームの生産性を最大化することに情熱を注いでいます。CI/CDパイプラインの最適化、開発者ツールの設計、インフラ自動化を通じて、エンジニアがコードに集中できる環境を構築します。",
+      "bio2": "「計測し、自動化し、改善する」を信条に、日々の開発ワークフローをより良くすることが私のミッションです。"
+    },
+    "principles": {
+      "label": "Engineering Principles",
+      "title": "What I Value",
+      "description": "エンジニアリングにおいて大切にしていること。"
+    },
+    "toolbox": {
+      "label": "Toolbox",
+      "title": "Tech Stack",
+      "description": "日々の開発で使っている技術とツール。"
+    }
+  },
+  "ErrorPages": {
+    "notFound": {
+      "label": "NOT_FOUND",
+      "title": "Page Not Found",
+      "description": "お探しのページは存在しないか、移動された可能性があります。",
+      "terminalCommand": "curl /unknown-path",
+      "terminalResult": "Resource not found",
+      "home": "ホームに戻る →",
+      "articles": "記事を探す"
+    },
+    "error": {
+      "label": "ERROR",
+      "title": "Something Went Wrong",
+      "description": "予期しないエラーが発生しました。しばらくしてからもう一度お試しください。",
+      "retry": "リトライ ↻",
+      "home": "ホームに戻る"
+    }
   }
 }

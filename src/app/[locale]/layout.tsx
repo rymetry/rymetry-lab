@@ -1,3 +1,4 @@
+import { DraftModeIndicator } from '@/components/draft-mode-indicator';
 import { Footer } from '@/components/footer';
 import { Header } from '@/components/header';
 import { NoiseOverlay } from '@/components/noise-overlay';
@@ -39,6 +40,7 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
         <Suspense fallback={<HeaderFallback />}>
           <Header />
         </Suspense>
+        <DraftModeIndicator />
         <main id="main-content" className="flex-1">
           {children}
         </main>

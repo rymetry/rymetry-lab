@@ -32,6 +32,22 @@ describe('createPageMetadata', () => {
     expect(metadata.openGraph?.siteName).toBe('Rymlab');
     expect((metadata.twitter as { card?: string } | undefined)?.card).toBe('summary_large_image');
   });
+
+  test('builds hreflang alternates for localized pages', () => {
+    const metadata = createPageMetadata({
+      title: 'Articles',
+      description: 'Developer productivity notes.',
+      path: '/articles',
+      siteUrl: SITE_URL,
+      locale: 'ja',
+    });
+
+    expect(metadata.alternates?.languages).toEqual({
+      ja: `${SITE_URL}/articles`,
+      en: `${SITE_URL}/en/articles`,
+      'x-default': `${SITE_URL}/articles`,
+    });
+  });
 });
 
 describe('createArticleMetadata', () => {

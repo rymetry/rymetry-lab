@@ -6,9 +6,12 @@ import {
   ListIcon,
 } from 'lucide-react';
 import type { Metadata } from 'next';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 
 import { ArticleCard } from '@/components/article-card';
+import { FilterTag } from '@/components/filter-tag';
 import { ListCard } from '@/components/list-card';
+import { Pagination, type PaginationItem } from '@/components/pagination';
 import { ScrollRevealList } from '@/components/scroll-reveal-list';
 import { SectionContainer, SectionHeader } from '@/components/section';
 import { Button } from '@/components/ui/button';
@@ -30,20 +33,32 @@ import {
 } from './articles-query';
 import { SearchForm } from './search-form';
 
-export const metadata: Metadata = createPageMetadata({
-  title: 'Articles',
-  description: '生産性・自動化・エンジニアリングの最前線から。',
-  path: '/articles',
-  siteUrl: getSiteUrl(),
-});
-
 const ARTICLES_PER_PAGE = 6;
 
 interface ArticlesPageProps {
+  readonly params: Promise<{
+    readonly locale: 'ja' | 'en';
+  }>;
   readonly searchParams?: Promise<RawArticlesSearchParams>;
 }
 
-export default async function ArticlesPage({ searchParams }: ArticlesPageProps) {
+export async function generateMetadata({ params }: ArticlesPageProps): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'Articles.metadata' });
+
+  return createPageMetadata({
+    title: t('title'),
+    description: t('description'),
+    path: '/articles',
+    siteUrl: getSiteUrl(),
+    locale,
+  });
+}
+
+export default async function ArticlesPage({ params, searchParams }: ArticlesPageProps) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations('Articles');
   const query = normalizeArticlesQuery((await searchParams) ?? {});
   const { articles, tags } = await getArticlesPageContent();
   const filteredArticles = filterArticles(articles, query);
@@ -68,33 +83,55 @@ export default async function ArticlesPage({ searchParams }: ArticlesPageProps) 
 
       <SectionContainer>
         <SectionHeader
-          label="Articles"
-          title="All Articles"
-          descriptionEn="Insights on developer productivity, automation, and modern engineering."
-          description="生産性・自動化・エンジニアリングの最前線から。"
+          label={t('heading.label')}
+          title={t('heading.title')}
+          description={t('heading.description')}
         />
 
         <div className="mb-7 flex flex-col gap-3">
           <div className="flex flex-wrap items-center gap-2.5">
             <SearchForm query={currentQuery} />
-            <ViewToggle query={currentQuery} />
+            <ViewToggle
+              query={currentQuery}
+              label={t('view.label')}
+              gridLabel={t('view.grid')}
+              listLabel={t('view.list')}
+            />
           </div>
-          <TagFilter tags={tags} query={currentQuery} />
+          <TagFilter
+            tags={tags}
+            query={currentQuery}
+            label={t('filter.label')}
+            allLabel={t('filter.all')}
+          />
         </div>
 
         {pageArticles.length > 0 ? (
           <ArticlesList articles={pageArticles} view={query.view} />
         ) : (
-          <EmptyArticlesState query={currentQuery} />
+          <EmptyArticlesState
+            query={currentQuery}
+            title={t('empty.title')}
+            filteredDescription={t('empty.filtered')}
+            unfilteredDescription={t('empty.unfiltered')}
+            clearLabel={t('empty.clear')}
+          />
         )}
 
-        <Pagination
+        <ArticlesPagination
           query={currentQuery}
           currentPage={currentPage}
           totalPages={totalPages}
           totalItems={filteredArticles.length}
-          rangeStart={rangeStart}
-          rangeEnd={rangeEnd}
+          label={t('pagination.label')}
+          previousLabel={t('pagination.previous')}
+          nextLabel={t('pagination.next')}
+          pageLabel={(page) => t('pagination.page', { page })}
+          summary={t('pagination.summary', {
+            rangeStart,
+            rangeEnd,
+            totalItems: filteredArticles.length,
+          })}
         />
       </SectionContainer>
     </>
@@ -127,9 +164,19 @@ function ArticlesList({
   );
 }
 
-function ViewToggle({ query }: { readonly query: ArticlesQuery }) {
+function ViewToggle({
+  query,
+  label,
+  gridLabel,
+  listLabel,
+}: {
+  readonly query: ArticlesQuery;
+  readonly label: string;
+  readonly gridLabel: string;
+  readonly listLabel: string;
+}) {
   return (
-    <div className="ml-auto flex gap-1" aria-label="Article view">
+    <div className="ml-auto flex gap-1" aria-label={label}>
       <Button
         asChild
         variant="outline"
@@ -140,7 +187,7 @@ function ViewToggle({ query }: { readonly query: ArticlesQuery }) {
             'border-[var(--tag-border)] bg-[var(--tag-bg)] text-[var(--tag-text)]',
         )}
       >
-        <Link href={buildArticlesHref(query, { view: 'grid' })} aria-label="Grid view">
+        <Link href={buildArticlesHref(query, { view: 'grid' })} aria-label={gridLabel}>
           <LayoutGridIcon aria-hidden="true" />
         </Link>
       </Button>
@@ -154,7 +201,7 @@ function ViewToggle({ query }: { readonly query: ArticlesQuery }) {
             'border-[var(--tag-border)] bg-[var(--tag-bg)] text-[var(--tag-text)]',
         )}
       >
-        <Link href={buildArticlesHref(query, { view: 'list' })} aria-label="List view">
+        <Link href={buildArticlesHref(query, { view: 'list' })} aria-label={listLabel}>
           <ListIcon aria-hidden="true" />
         </Link>
       </Button>
@@ -165,24 +212,28 @@ function ViewToggle({ query }: { readonly query: ArticlesQuery }) {
 function TagFilter({
   tags,
   query,
+  label,
+  allLabel,
 }: {
   readonly tags: readonly Tag[];
   readonly query: ArticlesQuery;
+  readonly label: string;
+  readonly allLabel: string;
 }) {
   return (
     <div
       className="flex gap-1.5 overflow-x-auto pb-1 [-webkit-overflow-scrolling:touch] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:flex-wrap md:overflow-visible md:pb-0"
-      aria-label="Filter articles by tag"
+      aria-label={label}
     >
-      <FilterTagLink href={buildArticlesHref(query, { tag: '' })} active={!query.tag}>
+      <FilterTag href={buildArticlesHref(query, { tag: '' })} active={!query.tag}>
         <LayersIcon aria-hidden="true" className="size-[13px]" />
-        All
-      </FilterTagLink>
+        {allLabel}
+      </FilterTag>
       {tags.map((tag) => {
         const Icon = tag.icon;
 
         return (
-          <FilterTagLink
+          <FilterTag
             key={`${tag.category}-${tag.label}`}
             href={buildArticlesHref(query, { tag: tag.label })}
             active={query.tag === tag.label}
@@ -195,149 +246,83 @@ function TagFilter({
               />
             )}
             {tag.label}
-          </FilterTagLink>
+          </FilterTag>
         );
       })}
     </div>
   );
 }
 
-function FilterTagLink({
-  href,
-  active,
-  children,
-}: {
-  readonly href: string;
-  readonly active: boolean;
-  readonly children: React.ReactNode;
-}) {
-  return (
-    <Link
-      href={href}
-      className={cn(
-        'inline-flex h-8 shrink-0 items-center gap-1.5 rounded-[7px] border border-border px-3.5 text-[12.5px] text-text-secondary transition-colors',
-        'hover:border-primary hover:text-primary',
-        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
-        active && 'border-[var(--tag-border)] bg-[var(--tag-bg)] text-[var(--tag-text)]',
-      )}
-      aria-current={active ? 'true' : undefined}
-    >
-      {children}
-    </Link>
-  );
-}
-
-function Pagination({
+function ArticlesPagination({
   query,
   currentPage,
   totalPages,
   totalItems,
-  rangeStart,
-  rangeEnd,
+  label,
+  previousLabel,
+  nextLabel,
+  pageLabel,
+  summary,
 }: {
   readonly query: ArticlesQuery;
   readonly currentPage: number;
   readonly totalPages: number;
   readonly totalItems: number;
-  readonly rangeStart: number;
-  readonly rangeEnd: number;
+  readonly label: string;
+  readonly previousLabel: string;
+  readonly nextLabel: string;
+  readonly pageLabel: (page: number) => string;
+  readonly summary: string;
 }) {
   const pages = getVisiblePages(currentPage, totalPages);
+  const items: PaginationItem[] = [
+    {
+      href: buildArticlesHref(query, { page: Math.max(1, currentPage - 1) }),
+      disabled: currentPage === 1 || totalItems === 0,
+      label: previousLabel,
+      content: <ChevronLeftIcon aria-hidden="true" className="size-3.5" />,
+    },
+    ...pages.map((page) => ({
+      href: buildArticlesHref(query, { page }),
+      active: page === currentPage,
+      label: pageLabel(page),
+      content: page,
+    })),
+    {
+      href: buildArticlesHref(query, { page: Math.min(totalPages, currentPage + 1) }),
+      disabled: currentPage === totalPages || totalItems === 0,
+      label: nextLabel,
+      content: <ChevronRightIcon aria-hidden="true" className="size-3.5" />,
+    },
+  ];
 
-  return (
-    <nav
-      className="mt-10 flex flex-wrap items-center justify-center gap-1.5"
-      aria-label="Articles pagination"
-    >
-      <PaginationLink
-        href={buildArticlesHref(query, { page: Math.max(1, currentPage - 1) })}
-        disabled={currentPage === 1 || totalItems === 0}
-        ariaLabel="Previous page"
-      >
-        <ChevronLeftIcon aria-hidden="true" className="size-3.5" />
-      </PaginationLink>
-
-      {pages.map((page) => (
-        <PaginationLink
-          key={page}
-          href={buildArticlesHref(query, { page })}
-          active={page === currentPage}
-          ariaLabel={`Page ${page}`}
-        >
-          {page}
-        </PaginationLink>
-      ))}
-
-      <PaginationLink
-        href={buildArticlesHref(query, { page: Math.min(totalPages, currentPage + 1) })}
-        disabled={currentPage === totalPages || totalItems === 0}
-        ariaLabel="Next page"
-      >
-        <ChevronRightIcon aria-hidden="true" className="size-3.5" />
-      </PaginationLink>
-
-      <span className="mx-2 font-mono text-xs text-muted-foreground">
-        {rangeStart}-{rangeEnd} / {totalItems} articles
-      </span>
-    </nav>
-  );
+  return <Pagination label={label} items={items} summary={summary} />;
 }
 
-function PaginationLink({
-  href,
-  active = false,
-  disabled = false,
-  ariaLabel,
-  children,
+function EmptyArticlesState({
+  query,
+  title,
+  filteredDescription,
+  unfilteredDescription,
+  clearLabel,
 }: {
-  readonly href: string;
-  readonly active?: boolean;
-  readonly disabled?: boolean;
-  readonly ariaLabel: string;
-  readonly children: React.ReactNode;
+  readonly query: ArticlesQuery;
+  readonly title: string;
+  readonly filteredDescription: string;
+  readonly unfilteredDescription: string;
+  readonly clearLabel: string;
 }) {
-  const className = cn(
-    'flex size-9 items-center justify-center rounded-[7px] border border-border text-[13px] text-text-secondary transition-colors',
-    'hover:border-primary hover:text-primary',
-    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
-    active && 'border-transparent bg-[image:var(--accent-gradient)] text-white hover:text-white',
-    disabled && 'pointer-events-none opacity-45',
-  );
-
-  if (disabled) {
-    return (
-      <span className={className} aria-label={ariaLabel} aria-disabled="true">
-        {children}
-      </span>
-    );
-  }
-
-  return (
-    <Link
-      href={href}
-      className={className}
-      aria-label={ariaLabel}
-      aria-current={active ? 'page' : undefined}
-    >
-      {children}
-    </Link>
-  );
-}
-
-function EmptyArticlesState({ query }: { readonly query: ArticlesQuery }) {
   const hasFilters = Boolean(query.q || query.tag);
 
   return (
     <div className="rounded-[11px] border border-border bg-card px-5 py-12 text-center">
-      <h3 className="mb-2 text-base font-semibold">No articles found</h3>
+      <h3 className="mb-2 text-base font-semibold">{title}</h3>
       <p className="mx-auto max-w-[460px] text-sm leading-6 text-text-secondary">
-        {hasFilters
-          ? '検索条件に一致する記事はありません。キーワードやタグを変更してください。'
-          : '記事はまだ公開されていません。'}
+        {hasFilters ? filteredDescription : unfilteredDescription}
       </p>
       {hasFilters && (
         <Button asChild variant="outline" size="sm" className="mt-5">
-          <Link href={buildArticlesHref(query, { q: '', tag: '' })}>Clear filters</Link>
+          <Link href={buildArticlesHref(query, { q: '', tag: '' })}>{clearLabel}</Link>
         </Button>
       )}
     </div>

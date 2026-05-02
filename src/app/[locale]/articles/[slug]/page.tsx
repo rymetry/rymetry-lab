@@ -7,6 +7,7 @@ import {
   UserRoundIcon,
 } from 'lucide-react';
 import type { Metadata } from 'next';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 
@@ -25,17 +26,20 @@ import type { ArticleDetail } from '@/types/article';
 
 interface ArticleDetailPageProps {
   readonly params: Promise<{
+    readonly locale: 'ja' | 'en';
     readonly slug: string;
   }>;
 }
 
 export async function generateMetadata({ params }: ArticleDetailPageProps): Promise<Metadata> {
-  const { slug } = await params;
+  const { locale, slug } = await params;
   const article = await getArticleBySlug(slug);
 
   if (!article) {
+    const t = await getTranslations({ locale, namespace: 'Articles.detail' });
+
     return {
-      title: 'Article Not Found | Rymlab',
+      title: t('notFoundTitle'),
     };
   }
 
@@ -44,6 +48,7 @@ export async function generateMetadata({ params }: ArticleDetailPageProps): Prom
     description: article.description ?? article.excerpt,
     path: `/articles/${article.slug}`,
     siteUrl: getSiteUrl(),
+    locale,
     publishedAt: article.publishedAt,
     updatedAt: article.updatedAt,
     image: {
@@ -62,7 +67,9 @@ export async function generateMetadata({ params }: ArticleDetailPageProps): Prom
 }
 
 export default async function ArticleDetailPage({ params }: ArticleDetailPageProps) {
-  const { slug } = await params;
+  const { locale, slug } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations('Articles.detail');
   const [article, articles] = await Promise.all([getArticleBySlug(slug), getArticles()]);
 
   if (!article) notFound();
@@ -103,14 +110,14 @@ export default async function ArticleDetailPage({ params }: ArticleDetailPagePro
 
       <SectionContainer className="pb-12">
         <article className="mx-auto max-w-[1040px]">
-          <ArticleHero article={article} />
+          <ArticleHero article={article} backLabel={t('back')} articleLabel={t('label')} />
 
           <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_240px] lg:items-start">
             <div className="min-w-0">
               <div className="article-content" dangerouslySetInnerHTML={{ __html: html }} />
             </div>
 
-            {toc.length > 0 && <ArticleToc items={toc} />}
+            {toc.length > 0 && <ArticleToc items={toc} label={t('toc')} />}
           </div>
         </article>
       </SectionContainer>
@@ -119,12 +126,26 @@ export default async function ArticleDetailPage({ params }: ArticleDetailPagePro
         relatedArticles={relations.relatedArticles}
         previousArticle={relations.previousArticle}
         nextArticle={relations.nextArticle}
+        navigationLabel={t('navigation')}
+        newerLabel={t('newer')}
+        olderLabel={t('older')}
+        relatedLabel={t('relatedLabel')}
+        relatedTitle={t('relatedTitle')}
+        relatedDescription={t('relatedDescription')}
       />
     </>
   );
 }
 
-function ArticleHero({ article }: { readonly article: ArticleDetail }) {
+function ArticleHero({
+  article,
+  backLabel,
+  articleLabel,
+}: {
+  readonly article: ArticleDetail;
+  readonly backLabel: string;
+  readonly articleLabel: string;
+}) {
   return (
     <header className="mb-10">
       <Link
@@ -132,11 +153,12 @@ function ArticleHero({ article }: { readonly article: ArticleDetail }) {
         className="mb-5 inline-flex items-center gap-1.5 font-mono text-xs text-muted-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
       >
         <ChevronLeftIcon aria-hidden="true" className="size-3.5" />
-        Articles
+        {backLabel}
       </Link>
 
       <p className="mb-2 font-mono text-xs uppercase tracking-[0.1em] text-primary">
-        {'// '}Article
+        {'// '}
+        {articleLabel}
       </p>
       <h1 className="max-w-[860px] text-[clamp(28px,5vw,48px)] font-extrabold leading-tight tracking-[-0.03em]">
         {article.title}
@@ -188,15 +210,21 @@ function ArticleHero({ article }: { readonly article: ArticleDetail }) {
   );
 }
 
-function ArticleToc({ items }: { readonly items: readonly ArticleTocItem[] }) {
+function ArticleToc({
+  items,
+  label,
+}: {
+  readonly items: readonly ArticleTocItem[];
+  readonly label: string;
+}) {
   return (
     <aside className="sticky top-24 hidden max-h-[calc(100vh-7rem)] overflow-y-auto lg:block">
       <nav
-        aria-label="Table of contents"
+        aria-label={label}
         className="rounded-[9px] border border-border bg-card p-4 shadow-[var(--card-shadow)]"
       >
         <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.1em] text-primary">
-          Contents
+          {label}
         </p>
         <ol className="grid gap-2">
           {items.map((item) => (
@@ -223,27 +251,39 @@ function ArticleFooter({
   relatedArticles,
   previousArticle,
   nextArticle,
+  navigationLabel,
+  newerLabel,
+  olderLabel,
+  relatedLabel,
+  relatedTitle,
+  relatedDescription,
 }: {
   readonly relatedArticles: readonly ArticleDetail[];
   readonly previousArticle: ArticleDetail | null;
   readonly nextArticle: ArticleDetail | null;
+  readonly navigationLabel: string;
+  readonly newerLabel: string;
+  readonly olderLabel: string;
+  readonly relatedLabel: string;
+  readonly relatedTitle: string;
+  readonly relatedDescription: string;
 }) {
   return (
     <SectionContainer alt className="pt-12">
       <div className="mx-auto max-w-[1040px]">
         {(previousArticle || nextArticle) && (
-          <nav aria-label="Article navigation" className="mb-12 grid gap-4 md:grid-cols-2">
-            <ArticleNavLink label="Newer article" article={previousArticle} direction="previous" />
-            <ArticleNavLink label="Older article" article={nextArticle} direction="next" />
+          <nav aria-label={navigationLabel} className="mb-12 grid gap-4 md:grid-cols-2">
+            <ArticleNavLink label={newerLabel} article={previousArticle} direction="previous" />
+            <ArticleNavLink label={olderLabel} article={nextArticle} direction="next" />
           </nav>
         )}
 
         {relatedArticles.length > 0 && (
           <>
             <SectionHeader
-              label="Related"
-              title="Related Articles"
-              description="同じタグを持つ記事をピックアップしています。"
+              label={relatedLabel}
+              title={relatedTitle}
+              description={relatedDescription}
               className="mb-6"
             />
             <div className="grid gap-3">

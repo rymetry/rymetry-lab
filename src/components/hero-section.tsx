@@ -1,7 +1,13 @@
+'use client';
+
 import { ActionButton } from '@/components/action-button';
+import { Terminal } from '@/components/terminal';
 import { cn } from '@/lib/utils';
+import { useTranslations } from 'next-intl';
 
 export function HeroSection() {
+  const t = useTranslations('Home.hero');
+
   return (
     <section
       className={cn(
@@ -29,101 +35,86 @@ export function HeroSection() {
         {/* Left: text */}
         <div>
           <h1 className="anim-up mb-[18px] text-[clamp(34px,4.5vw,54px)] font-extrabold leading-[1.12] tracking-[-0.035em] max-[480px]:text-[28px]">
-            Build it. Prove it.
+            {t('line1')}
             <br />
             <span className="bg-[image:var(--accent-gradient)] bg-clip-text text-transparent">
-              Write about it.
+              {t('line2')}
             </span>
           </h1>
 
           <p className="anim-up anim-up-2 mb-7 text-base leading-[1.8] text-text-secondary">
-            開発したツールや検証した技術、そこから得た学びを、再現性のあるナレッジとして発信しています。プロダクティビティエンジニアリングの現場から、実践的な知見をお届けします。
+            {t('description')}
           </p>
 
           <div className="anim-up anim-up-3 flex gap-3">
             <ActionButton href="/projects" variant="primary">
-              Projects →
+              {t('projects')} →
             </ActionButton>
             <ActionButton href="/articles" variant="secondary">
-              Articles
+              {t('articles')}
             </ActionButton>
           </div>
 
           {/* Mobile mini terminal — visible only below md */}
-          <div
-            aria-hidden="true"
-            className="anim-up anim-up-4 mt-6 hidden rounded-[9px] border border-[var(--terminal-border)] bg-[var(--terminal-bg)] px-[18px] py-[14px] font-mono text-xs leading-[1.6] text-[var(--terminal-text)] max-md:block"
-          >
+          <Terminal compact className="anim-up anim-up-4 mt-6 hidden max-md:block">
             <span className="text-[var(--terminal-prompt)]">~</span>{' '}
             <span className="text-[var(--terminal-highlight)]">Rym</span>
-            {' — Productivity Engineer'}
+            {` — ${t('role')}`}
             <br />
             <span className="text-[var(--terminal-prompt)]">~</span>
-            {' Build it. Prove it. Write about it.'}
-          </div>
+            {` ${t('line1')} ${t('line2')}`}
+          </Terminal>
         </div>
 
         {/* Right: terminal — hidden below md */}
         <div className="flex justify-end max-md:hidden">
-          <div
-            aria-hidden="true"
-            className="w-full max-w-[460px] overflow-hidden rounded-[11px] border border-[var(--terminal-border)] bg-[var(--terminal-bg)] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.4),0_0_0_1px_rgba(255,255,255,0.03)_inset] motion-safe:[animation:float_6s_ease-in-out_infinite]"
-          >
-            {/* Traffic lights */}
-            <div className="flex gap-[7px] border-b border-[var(--terminal-border)] px-[14px] py-[10px]">
-              <div className="size-[11px] rounded-full bg-[#ef4444]" />
-              <div className="size-[11px] rounded-full bg-[#eab308]" />
-              <div className="size-[11px] rounded-full bg-[#22c55e]" />
+          <Terminal>
+            <div className="t-line">
+              <span className="text-[var(--terminal-prompt)]">~</span>{' '}
+              <span className="text-[var(--terminal-cmd)]">whoami</span>
             </div>
-
-            <div className="p-[18px] font-mono text-[12.5px] leading-[1.8] text-[var(--terminal-text)]">
-              <div className="t-line">
-                <span className="text-[var(--terminal-prompt)]">~</span>{' '}
-                <span className="text-[var(--terminal-cmd)]">whoami</span>
-              </div>
-              <div className="t-line">
-                <span className="text-[var(--terminal-highlight)]">Rym</span>
-                {' — Productivity Engineer'}
-              </div>
-              <div className="t-line mt-[10px]">
-                <span className="text-[var(--terminal-prompt)]">~</span>{' '}
-                <span className="text-[var(--terminal-cmd)]">cat latest.log</span>
-              </div>
-              <div className="t-line">
-                <span className="text-[var(--terminal-dim)]">[build]</span>
-                {' CI/CD Pipeline Optimizer → '}
-                <span className="text-[var(--terminal-success)]">70% faster</span>
-              </div>
-              <div className="t-line">
-                <span className="text-[var(--terminal-dim)]">[prove]</span>
-                {' Cache hit rate: '}
-                <span className="text-[var(--terminal-success)]">94.2%</span>
-              </div>
-              <div className="t-line">
-                <span className="text-[var(--terminal-dim)]">[write]</span>
-                {' Published: '}
-                <span className="text-[var(--terminal-highlight)]">
-                  &quot;GitHub Actions Cache Guide&quot;
-                </span>
-              </div>
-              <div className="t-line mt-[10px]">
-                <span className="text-[var(--terminal-prompt)]">~</span>{' '}
-                <span className="text-[var(--terminal-cmd)]">echo $MISSION</span>
-              </div>
-              <div className="t-line">
-                <span className="text-[var(--terminal-success)]">
-                  ● Build it. Prove it. Write about it.
-                </span>
-              </div>
-              <div className="t-line mt-[10px]">
-                <span className="text-[var(--terminal-prompt)]">~</span>
-                <span
-                  aria-hidden="true"
-                  className="ml-[3px] inline-block h-[15px] w-[7px] align-middle [background:var(--terminal-cursor)] motion-safe:[animation:blink_1.2s_infinite]"
-                />
-              </div>
+            <div className="t-line">
+              <span className="text-[var(--terminal-highlight)]">Rym</span>
+              {` — ${t('role')}`}
             </div>
-          </div>
+            <div className="t-line mt-[10px]">
+              <span className="text-[var(--terminal-prompt)]">~</span>{' '}
+              <span className="text-[var(--terminal-cmd)]">cat {t('latestLog')}</span>
+            </div>
+            <div className="t-line">
+              <span className="text-[var(--terminal-dim)]">[build]</span>
+              {` ${t('buildMetric')} → `}
+              <span className="text-[var(--terminal-success)]">{t('buildResult')}</span>
+            </div>
+            <div className="t-line">
+              <span className="text-[var(--terminal-dim)]">[prove]</span>
+              {` ${t('proveMetric')}: `}
+              <span className="text-[var(--terminal-success)]">{t('proveResult')}</span>
+            </div>
+            <div className="t-line">
+              <span className="text-[var(--terminal-dim)]">[write]</span>
+              {` ${t('writeMetric')}: `}
+              <span className="text-[var(--terminal-highlight)]">
+                &quot;{t('writeResult')}&quot;
+              </span>
+            </div>
+            <div className="t-line mt-[10px]">
+              <span className="text-[var(--terminal-prompt)]">~</span>{' '}
+              <span className="text-[var(--terminal-cmd)]">{t('missionCommand')}</span>
+            </div>
+            <div className="t-line">
+              <span className="text-[var(--terminal-success)]">
+                ● {t('line1')} {t('line2')}
+              </span>
+            </div>
+            <div className="t-line mt-[10px]">
+              <span className="text-[var(--terminal-prompt)]">~</span>
+              <span
+                aria-hidden="true"
+                className="ml-[3px] inline-block h-[15px] w-[7px] align-middle [background:var(--terminal-cursor)] motion-safe:[animation:blink_1.2s_infinite]"
+              />
+            </div>
+          </Terminal>
         </div>
       </div>
     </section>
