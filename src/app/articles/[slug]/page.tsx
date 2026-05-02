@@ -57,14 +57,6 @@ export async function generateMetadata({ params }: ArticleDetailPageProps): Prom
   };
 }
 
-export async function generateStaticParams() {
-  const articles = await getArticles();
-
-  return articles.map((article) => ({
-    slug: article.slug,
-  }));
-}
-
 export default async function ArticleDetailPage({ params }: ArticleDetailPageProps) {
   const { slug } = await params;
   const [article, articles] = await Promise.all([getArticleBySlug(slug), getArticles()]);
