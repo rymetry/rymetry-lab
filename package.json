@@ -2,6 +2,7 @@
   "name": "rymetry-lab",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "bun@1.2.9",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
@@ -9,6 +10,8 @@
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "test": "echo 'Tests not yet configured (see Epic #10)' && exit 1",
+    "typecheck": "tsc --noEmit",
+    "check": "bun run format:check && bun run lint && bun run typecheck && bun run build",
     "format": "prettier --write 'src/**/*.{ts,tsx,css,json}'",
     "format:check": "prettier --check 'src/**/*.{ts,tsx,css,json}'",
     "storybook": "storybook dev -p 6006",
