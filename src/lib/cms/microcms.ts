@@ -43,6 +43,12 @@ export function getMicroCMSClient(): MicroCMSClient {
   return client;
 }
 
+export function isMicroCMSConfigured(): boolean {
+  return Boolean(
+    process.env.MICROCMS_SERVICE_DOMAIN?.trim() && process.env.MICROCMS_API_KEY?.trim(),
+  );
+}
+
 export function getMicroCMSEndpoints() {
   return {
     articles: process.env.MICROCMS_ARTICLES?.trim() || DEFAULT_ARTICLES_ENDPOINT,

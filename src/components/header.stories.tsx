@@ -1,4 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import { NextIntlClientProvider } from 'next-intl';
+import messages from '../../messages/ja.json';
 import { Header } from './header';
 import { ThemeProvider } from './theme-provider';
 
@@ -34,11 +36,13 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   decorators: [
     (Story) => (
-      <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
-        <ScrollArea>
-          <Story />
-        </ScrollArea>
-      </ThemeProvider>
+      <NextIntlClientProvider locale="ja" messages={messages}>
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
+          <ScrollArea>
+            <Story />
+          </ScrollArea>
+        </ThemeProvider>
+      </NextIntlClientProvider>
     ),
   ],
 };
@@ -47,11 +51,13 @@ export const DarkMode: Story = {
   globals: { theme: 'dark' },
   decorators: [
     (Story) => (
-      <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
-        <ScrollArea>
-          <Story />
-        </ScrollArea>
-      </ThemeProvider>
+      <NextIntlClientProvider locale="ja" messages={messages}>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
+          <ScrollArea>
+            <Story />
+          </ScrollArea>
+        </ThemeProvider>
+      </NextIntlClientProvider>
     ),
   ],
 };

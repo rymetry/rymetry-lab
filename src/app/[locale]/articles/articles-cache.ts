@@ -1,9 +1,9 @@
 import 'server-only';
 
-import { cacheLife } from 'next/cache';
+import { cacheLife, cacheTag } from 'next/cache';
 
 import { adaptArticles, adaptTag, getMicroCMSClient, getMicroCMSEndpoints } from '@/lib/cms';
-import { toMicroCMSFetchError } from '@/lib/cms/microcms';
+import { isMicroCMSConfigured, toMicroCMSFetchError } from '@/lib/cms/microcms';
 import type { CMSArticle, CMSTag } from '@/lib/cms/types';
 
 const ARTICLES_PAGE_CACHE_LIFE = {
@@ -27,6 +27,14 @@ type CMSTagContent = Omit<CMSTag, 'id' | 'createdAt' | 'updatedAt' | 'publishedA
 async function getCachedArticlesPageContent() {
   'use cache';
   cacheLife(ARTICLES_PAGE_CACHE_LIFE);
+  cacheTag('articles', 'tags');
+
+  if (!isMicroCMSConfigured()) {
+    return {
+      articles: [],
+      tags: [],
+    };
+  }
 
   const endpoints = getMicroCMSEndpoints();
 

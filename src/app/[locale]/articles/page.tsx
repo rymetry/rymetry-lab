@@ -6,13 +6,15 @@ import {
   ListIcon,
 } from 'lucide-react';
 import type { Metadata } from 'next';
-import Link from 'next/link';
 
 import { ArticleCard } from '@/components/article-card';
 import { ListCard } from '@/components/list-card';
 import { ScrollRevealList } from '@/components/scroll-reveal-list';
 import { SectionContainer, SectionHeader } from '@/components/section';
 import { Button } from '@/components/ui/button';
+import { Link } from '@/i18n/navigation';
+import { createBlogJsonLd, createBreadcrumbJsonLd, JsonLdScript } from '@/lib/seo/json-ld';
+import { createPageMetadata, getSiteUrl } from '@/lib/seo/metadata';
 import { cn } from '@/lib/utils';
 import type { ArticleDetail } from '@/types/article';
 import type { Tag } from '@/types/tag';
@@ -28,10 +30,12 @@ import {
 } from './articles-query';
 import { SearchForm } from './search-form';
 
-export const metadata: Metadata = {
-  title: 'Articles | Rymlab',
+export const metadata: Metadata = createPageMetadata({
+  title: 'Articles',
   description: '生産性・自動化・エンジニアリングの最前線から。',
-};
+  path: '/articles',
+  siteUrl: getSiteUrl(),
+});
 
 const ARTICLES_PER_PAGE = 6;
 
@@ -51,37 +55,49 @@ export default async function ArticlesPage({ searchParams }: ArticlesPageProps) 
   const rangeEnd = Math.min(currentPage * ARTICLES_PER_PAGE, filteredArticles.length);
 
   return (
-    <SectionContainer>
-      <SectionHeader
-        label="Articles"
-        title="All Articles"
-        descriptionEn="Insights on developer productivity, automation, and modern engineering."
-        description="生産性・自動化・エンジニアリングの最前線から。"
+    <>
+      <JsonLdScript data={createBlogJsonLd()} />
+      <JsonLdScript
+        data={createBreadcrumbJsonLd({
+          items: [
+            { name: 'Home', path: '/' },
+            { name: 'Articles', path: '/articles' },
+          ],
+        })}
       />
 
-      <div className="mb-7 flex flex-col gap-3">
-        <div className="flex flex-wrap items-center gap-2.5">
-          <SearchForm query={currentQuery} />
-          <ViewToggle query={currentQuery} />
+      <SectionContainer>
+        <SectionHeader
+          label="Articles"
+          title="All Articles"
+          descriptionEn="Insights on developer productivity, automation, and modern engineering."
+          description="生産性・自動化・エンジニアリングの最前線から。"
+        />
+
+        <div className="mb-7 flex flex-col gap-3">
+          <div className="flex flex-wrap items-center gap-2.5">
+            <SearchForm query={currentQuery} />
+            <ViewToggle query={currentQuery} />
+          </div>
+          <TagFilter tags={tags} query={currentQuery} />
         </div>
-        <TagFilter tags={tags} query={currentQuery} />
-      </div>
 
-      {pageArticles.length > 0 ? (
-        <ArticlesList articles={pageArticles} view={query.view} />
-      ) : (
-        <EmptyArticlesState query={currentQuery} />
-      )}
+        {pageArticles.length > 0 ? (
+          <ArticlesList articles={pageArticles} view={query.view} />
+        ) : (
+          <EmptyArticlesState query={currentQuery} />
+        )}
 
-      <Pagination
-        query={currentQuery}
-        currentPage={currentPage}
-        totalPages={totalPages}
-        totalItems={filteredArticles.length}
-        rangeStart={rangeStart}
-        rangeEnd={rangeEnd}
-      />
-    </SectionContainer>
+        <Pagination
+          query={currentQuery}
+          currentPage={currentPage}
+          totalPages={totalPages}
+          totalItems={filteredArticles.length}
+          rangeStart={rangeStart}
+          rangeEnd={rangeEnd}
+        />
+      </SectionContainer>
+    </>
   );
 }
 

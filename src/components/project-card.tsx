@@ -1,6 +1,5 @@
-import Link from 'next/link';
-
 import { TagList } from '@/components/tag';
+import { Link } from '@/i18n/navigation';
 import { cn } from '@/lib/utils';
 import type { Project } from '@/types/project';
 import { getProjectHref } from '@/types/project';

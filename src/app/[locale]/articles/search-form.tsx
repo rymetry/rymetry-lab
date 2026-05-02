@@ -1,11 +1,11 @@
 'use client';
 
 import { SearchIcon, XIcon } from 'lucide-react';
-import { useRouter } from 'next/navigation';
 import { startTransition, useRef } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { useRouter } from '@/i18n/navigation';
 
 import { buildArticlesHref, type ArticlesQuery } from './articles-query';
 

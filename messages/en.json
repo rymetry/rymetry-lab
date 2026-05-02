@@ -1,0 +1,29 @@
+{
+  "Header": {
+    "homeAria": "Rymlab — Go to home",
+    "mainNavigation": "Main navigation",
+    "mobileNavigation": "Mobile navigation",
+    "openMenu": "Open menu",
+    "navigationMenu": "Navigation menu",
+    "nav": {
+      "home": "Home",
+      "articles": "Articles",
+      "projects": "Projects",
+      "about": "About"
+    }
+  },
+  "LanguageToggle": {
+    "label": "Display language",
+    "ja": "日本語",
+    "en": "English"
+  },
+  "ThemeToggle": {
+    "label": "Toggle theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "Layout": {
+    "skipToMain": "Skip to main content"
+  }
+}

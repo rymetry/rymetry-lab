@@ -17,10 +17,11 @@ const DEFAULT_ARTICLES_QUERY = {
 } as const satisfies ArticlesQuery;
 
 const PAGE_PATTERN = /^[1-9]\d*$/;
+const CONTROL_CHARACTER_PATTERN = /[\u0000-\u001f\u007f]/g;
 
 export function normalizeArticlesQuery(searchParams: RawArticlesSearchParams): ArticlesQuery {
-  const q = firstValue(searchParams.q).trim();
-  const tag = firstValue(searchParams.tag).trim();
+  const q = normalizeTextParam(firstValue(searchParams.q));
+  const tag = normalizeTextParam(firstValue(searchParams.tag));
   const pageValue = firstValue(searchParams.page);
   const viewValue = firstValue(searchParams.view);
 
@@ -57,4 +58,8 @@ export function buildArticlesHref(query: ArticlesQuery, patch: Partial<ArticlesQ
 function firstValue(value: string | readonly string[] | undefined): string {
   if (typeof value === 'string') return value;
   return value?.[0] ?? '';
+}
+
+function normalizeTextParam(value: string): string {
+  return value.replace(CONTROL_CHARACTER_PATTERN, '').trim();
 }

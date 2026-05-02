@@ -1,12 +1,17 @@
 import 'server-only';
 
-import { cacheLife } from 'next/cache';
+import { cacheLife, cacheTag } from 'next/cache';
 
 import type { ArticleDetail } from '@/types/article';
 import type { Tag } from '@/types/tag';
 
 import { adaptArticle, adaptArticles, adaptTag } from './adapters';
-import { getMicroCMSClient, getMicroCMSEndpoints, toMicroCMSFetchError } from './microcms';
+import {
+  getMicroCMSClient,
+  getMicroCMSEndpoints,
+  isMicroCMSConfigured,
+  toMicroCMSFetchError,
+} from './microcms';
 import type { CMSArticle, CMSTag } from './types';
 
 const CMS_CACHE_LIFE = {
@@ -39,6 +44,9 @@ export async function getTags(): Promise<readonly Tag[]> {
 async function getCachedArticles(): Promise<readonly CMSArticle[]> {
   'use cache';
   cacheLife(CMS_CACHE_LIFE);
+  cacheTag('articles');
+
+  if (!isMicroCMSConfigured()) return [];
 
   const endpoint = getMicroCMSEndpoints().articles;
 
@@ -60,6 +68,9 @@ async function getCachedArticles(): Promise<readonly CMSArticle[]> {
 async function getCachedArticleBySlug(slug: string): Promise<CMSArticle | null> {
   'use cache';
   cacheLife(CMS_CACHE_LIFE);
+  cacheTag('articles', `article:${slug}`);
+
+  if (!isMicroCMSConfigured()) return null;
 
   const endpoint = getMicroCMSEndpoints().articles;
 
@@ -87,6 +98,9 @@ async function getCachedArticleBySlug(slug: string): Promise<CMSArticle | null> 
 async function getCachedTags(): Promise<readonly CMSTag[]> {
   'use cache';
   cacheLife(CMS_CACHE_LIFE);
+  cacheTag('tags');
+
+  if (!isMicroCMSConfigured()) return [];
 
   const endpoint = getMicroCMSEndpoints().tags;
 

@@ -57,6 +57,20 @@ describe('normalizeArticlesQuery', () => {
       view: 'list',
     });
   });
+
+  test('strips control characters from textual query parameters', () => {
+    expect(
+      normalizeArticlesQuery({
+        q: 'cache\u0000\nstrategy',
+        tag: 'Perf\u007formance',
+      }),
+    ).toEqual({
+      q: 'cachestrategy',
+      tag: 'Performance',
+      page: 1,
+      view: 'grid',
+    });
+  });
 });
 
 describe('buildArticlesHref', () => {

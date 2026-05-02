@@ -8,15 +8,18 @@ import {
 } from 'lucide-react';
 import type { Metadata } from 'next';
 import Image from 'next/image';
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
 import { ListCard } from '@/components/list-card';
 import { SectionContainer, SectionHeader } from '@/components/section';
 import { TagList } from '@/components/tag';
+import { Link } from '@/i18n/navigation';
 import { processArticleContent, type ArticleTocItem } from '@/lib/articles/content';
 import { getArticleRelations } from '@/lib/articles/relations';
 import { getArticleBySlug, getArticles } from '@/lib/cms';
+import { buildMicroCMSImageUrl } from '@/lib/cms/image';
+import { createArticleJsonLd, createBreadcrumbJsonLd, JsonLdScript } from '@/lib/seo/json-ld';
+import { createArticleMetadata, getSiteUrl } from '@/lib/seo/metadata';
 import { cn } from '@/lib/utils';
 import type { ArticleDetail } from '@/types/article';
 
@@ -36,25 +39,26 @@ export async function generateMetadata({ params }: ArticleDetailPageProps): Prom
     };
   }
 
-  return {
-    title: `${article.title} | Rymlab`,
+  return createArticleMetadata({
+    title: article.title,
     description: article.description ?? article.excerpt,
-    openGraph: {
-      title: article.title,
-      description: article.description ?? article.excerpt,
-      type: 'article',
-      publishedTime: article.publishedAt,
-      modifiedTime: article.updatedAt,
-      images: [
-        {
-          url: article.ogpImage.url,
-          width: article.ogpImage.width,
-          height: article.ogpImage.height,
-          alt: article.title,
-        },
-      ],
+    path: `/articles/${article.slug}`,
+    siteUrl: getSiteUrl(),
+    publishedAt: article.publishedAt,
+    updatedAt: article.updatedAt,
+    image: {
+      url: buildMicroCMSImageUrl(article.ogpImage.url, {
+        width: 1200,
+        height: 630,
+        format: 'webp',
+        quality: 90,
+      }),
+      width: 1200,
+      height: 630,
+      alt: article.title,
     },
-  };
+    tags: article.tags.map((tag) => tag.label),
+  });
 }
 
 export default async function ArticleDetailPage({ params }: ArticleDetailPageProps) {
@@ -67,9 +71,36 @@ export default async function ArticleDetailPage({ params }: ArticleDetailPagePro
     processArticleContent(article.content),
     Promise.resolve(getArticleRelations(article, articles)),
   ]);
+  const articleImageUrl = buildMicroCMSImageUrl(article.ogpImage.url, {
+    width: 1200,
+    height: 630,
+    format: 'webp',
+    quality: 90,
+  });
 
   return (
     <>
+      <JsonLdScript
+        data={createArticleJsonLd({
+          path: `/articles/${article.slug}`,
+          title: article.title,
+          description: article.description ?? article.excerpt,
+          publishedAt: article.publishedAt,
+          updatedAt: article.updatedAt,
+          imageUrl: articleImageUrl,
+          tags: article.tags.map((tag) => tag.label),
+        })}
+      />
+      <JsonLdScript
+        data={createBreadcrumbJsonLd({
+          items: [
+            { name: 'Home', path: '/' },
+            { name: 'Articles', path: '/articles' },
+            { name: article.title, path: `/articles/${article.slug}` },
+          ],
+        })}
+      />
+
       <SectionContainer className="pb-12">
         <article className="mx-auto max-w-[1040px]">
           <ArticleHero article={article} />
@@ -139,7 +170,12 @@ function ArticleHero({ article }: { readonly article: ArticleDetail }) {
 
       <div className="relative mt-8 h-[180px] overflow-hidden rounded-[11px] border border-border bg-secondary">
         <Image
-          src={article.ogpImage.url}
+          src={buildMicroCMSImageUrl(article.ogpImage.url, {
+            width: 1040,
+            height: 360,
+            format: 'webp',
+            quality: 75,
+          })}
           alt=""
           fill
           priority

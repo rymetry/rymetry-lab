@@ -1,0 +1,29 @@
+{
+  "Header": {
+    "homeAria": "Rymlab — ホームへ",
+    "mainNavigation": "メインナビゲーション",
+    "mobileNavigation": "モバイルナビゲーション",
+    "openMenu": "メニューを開く",
+    "navigationMenu": "ナビゲーションメニュー",
+    "nav": {
+      "home": "Home",
+      "articles": "Articles",
+      "projects": "Projects",
+      "about": "About"
+    }
+  },
+  "LanguageToggle": {
+    "label": "表示言語",
+    "ja": "日本語",
+    "en": "English"
+  },
+  "ThemeToggle": {
+    "label": "テーマを切り替える",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "Layout": {
+    "skipToMain": "メインコンテンツへスキップ"
+  }
+}
