@@ -10,7 +10,6 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 
 import { ArticleCard } from '@/components/article-card';
 import { FilterTag } from '@/components/filter-tag';
-import { ListCard } from '@/components/list-card';
 import { Pagination, type PaginationItem } from '@/components/pagination';
 import { ScrollRevealList } from '@/components/scroll-reveal-list';
 import { SectionContainer, SectionHeader } from '@/components/section';
@@ -149,7 +148,7 @@ function ArticlesList({
     return (
       <ScrollRevealList className="grid gap-3">
         {articles.map((article) => (
-          <ListCard key={article.slug} article={article} />
+          <ArticleCard key={article.slug} article={article} variant="list" />
         ))}
       </ScrollRevealList>
     );

@@ -38,7 +38,12 @@ const nextConfig: NextConfig = {
         source: '/(.*)',
         headers:
           process.env.NODE_ENV === 'production'
-            ? securityHeaders.filter((header) => !header.key.startsWith('Content-Security-Policy'))
+            ? // Production CSP is set in proxy.ts because it needs a per-request nonce.
+              securityHeaders.filter(
+                ({ key }) =>
+                  key !== 'Content-Security-Policy' &&
+                  key !== 'Content-Security-Policy-Report-Only',
+              )
             : securityHeaders,
       },
     ];

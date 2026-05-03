@@ -19,6 +19,8 @@ export function proxy(request: NextRequest) {
     reportOnly: false,
   });
 
+  // Production CSP must be dynamic so each request receives a fresh nonce.
+  // The request-header override lets Next.js attach that nonce to runtime inline scripts.
   setRequestHeaderOverride(response, 'x-nonce', nonce);
   setRequestHeaderOverride(response, 'content-security-policy', contentSecurityPolicy);
   response.headers.set('Content-Security-Policy', contentSecurityPolicy);

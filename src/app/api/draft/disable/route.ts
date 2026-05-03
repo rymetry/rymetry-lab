@@ -1,22 +1,7 @@
-import {
-  getDraftModeSecret,
-  isDraftModeDisableToken,
-  isDraftModeSecret,
-} from '@/lib/security/draft-mode';
+import { getDraftModeSecret, isDraftModeDisableToken } from '@/lib/security/draft-mode';
 import { normalizeSafeRedirectPath } from '@/lib/security/safe-redirect';
 import { draftMode } from 'next/headers';
 import { redirect } from 'next/navigation';
-
-export async function GET(request: Request) {
-  const url = new URL(request.url);
-  const token = url.searchParams.get('secret');
-
-  if (!isDraftModeSecret(token)) {
-    return new Response('Invalid draft secret', { status: 401 });
-  }
-
-  return disableDraftMode(url);
-}
 
 export async function POST(request: Request) {
   const url = new URL(request.url);

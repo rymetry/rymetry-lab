@@ -1,6 +1,8 @@
 import type { Header } from 'next/dist/lib/load-custom-routes';
 
 const NEXT_STATIC_INLINE_SCRIPT_HASHES = [
+  // Stable Next.js bootstrap snippets observed in the Next.js 16.2.4 PPR shell.
+  // Keep production CSP smoke coverage in sync when upgrading Next.js.
   "'sha256-7mu4H06fwDCjmnxxr/xNHyuQC6pLTHr4M2E4jXw5WZs='",
   "'sha256-wkjS4zijHQljbuQzwpQdd2Wvq3fpRtpxgPGRt+U5jFY='",
 ] as const;

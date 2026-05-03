@@ -10,6 +10,8 @@ import {
   UsersIcon,
   ZapIcon,
 } from 'lucide-react';
+import { NextIntlClientProvider } from 'next-intl';
+import messages from '../../messages/ja.json';
 import { ArticleCard } from './article-card';
 
 const sampleArticle: Article = {
@@ -69,6 +71,13 @@ const meta = {
       },
     },
   },
+  decorators: [
+    (Story) => (
+      <NextIntlClientProvider locale="ja" messages={messages}>
+        <Story />
+      </NextIntlClientProvider>
+    ),
+  ],
 } satisfies Meta<typeof ArticleCard>;
 
 export default meta;
@@ -96,6 +105,17 @@ export const ThumbnailVariants: Story = {
       ))}
     </div>
   ),
+};
+
+export const ListVariant: Story = {
+  args: { article: sampleArticle, variant: 'list' },
+  decorators: [
+    (Story) => (
+      <div className="max-w-3xl p-4">
+        <Story />
+      </div>
+    ),
+  ],
 };
 
 export const DarkMode: Story = {
