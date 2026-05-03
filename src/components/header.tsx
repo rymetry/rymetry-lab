@@ -1,18 +1,19 @@
 'use client';
 
+import { LangToggle } from '@/components/lang-toggle';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetClose, SheetContent, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { Link, usePathname } from '@/i18n/navigation';
 import { cn } from '@/lib/utils';
 import { MenuIcon } from 'lucide-react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
 const NAV_ITEMS = [
-  { href: '/', label: 'Home' },
-  { href: '/articles', label: 'Articles' },
-  { href: '/projects', label: 'Projects' },
-  { href: '/about', label: 'About' },
+  { href: '/', labelKey: 'home' },
+  { href: '/articles', labelKey: 'articles' },
+  { href: '/projects', labelKey: 'projects' },
+  { href: '/about', labelKey: 'about' },
 ] as const;
 
 /** Exact match for home ("/"), segment-boundary prefix match for other routes. */
@@ -24,6 +25,7 @@ function isActive(pathname: string | null, href: string): boolean {
 
 export function Header() {
   const pathname = usePathname();
+  const t = useTranslations('Header');
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/85 backdrop-blur-lg backdrop-saturate-[180%] transition-colors duration-300">
@@ -31,7 +33,7 @@ export function Header() {
         {/* Logo */}
         <Link
           href="/"
-          aria-label="Rymlab — ホームへ"
+          aria-label={t('homeAria')}
           className="font-mono text-lg font-extrabold tracking-tighter"
         >
           Rym<span className="text-primary">lab</span>
@@ -39,9 +41,9 @@ export function Header() {
 
         <div className="flex items-center gap-7 max-lg:gap-5">
           {/* Desktop Nav */}
-          <nav aria-label="メインナビゲーション" className="max-md:hidden">
+          <nav aria-label={t('mainNavigation')} className="max-md:hidden">
             <ul className="flex gap-7 max-lg:gap-5">
-              {NAV_ITEMS.map(({ href, label }) => (
+              {NAV_ITEMS.map(({ href, labelKey }) => (
                 <li key={href}>
                   <Link
                     href={href}
@@ -52,7 +54,7 @@ export function Header() {
                         : 'text-text-secondary hover:text-foreground',
                     )}
                   >
-                    {label}
+                    {t(`nav.${labelKey}`)}
                   </Link>
                 </li>
               ))}
@@ -61,6 +63,7 @@ export function Header() {
 
           {/* Actions */}
           <div className="flex items-center gap-2">
+            <LangToggle />
             <ThemeToggle />
 
             {/* Mobile Menu */}
@@ -73,13 +76,13 @@ export function Header() {
                   className="md:hidden hover:bg-transparent dark:hover:bg-transparent hover:border-primary hover:text-primary"
                 >
                   <MenuIcon className="size-[18px]" />
-                  <span className="sr-only">メニューを開く</span>
+                  <span className="sr-only">{t('openMenu')}</span>
                 </Button>
               </SheetTrigger>
               <SheetContent side="right" className="w-[280px] pt-12">
-                <SheetTitle className="sr-only">ナビゲーションメニュー</SheetTitle>
-                <nav aria-label="モバイルナビゲーション" className="flex flex-col gap-1">
-                  {NAV_ITEMS.map(({ href, label }) => (
+                <SheetTitle className="sr-only">{t('navigationMenu')}</SheetTitle>
+                <nav aria-label={t('mobileNavigation')} className="flex flex-col gap-1">
+                  {NAV_ITEMS.map(({ href, labelKey }) => (
                     <SheetClose asChild key={href}>
                       <Link
                         href={href}
@@ -90,7 +93,7 @@ export function Header() {
                             : 'text-text-secondary hover:text-primary',
                         )}
                       >
-                        {label}
+                        {t(`nav.${labelKey}`)}
                       </Link>
                     </SheetClose>
                   ))}

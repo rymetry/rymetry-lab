@@ -1,4 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import { NextIntlClientProvider } from 'next-intl';
+import messages from '../../messages/ja.json';
 import { HeroSection } from './hero-section';
 
 const meta = {
@@ -14,6 +16,13 @@ const meta = {
       },
     },
   },
+  decorators: [
+    (Story) => (
+      <NextIntlClientProvider locale="ja" messages={messages}>
+        <Story />
+      </NextIntlClientProvider>
+    ),
+  ],
 } satisfies Meta<typeof HeroSection>;
 
 export default meta;

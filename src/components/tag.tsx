@@ -1,6 +1,6 @@
 import { cn } from '@/lib/utils';
 import type { Tag as TagType } from '@/types/tag';
-import { TAG_CATEGORY_COLORS } from '@/types/tag';
+import { TAG_CATEGORY_TEXT_CLASSES } from '@/types/tag';
 
 interface TagProps {
   readonly tag: TagType;
@@ -24,8 +24,7 @@ export function Tag({ tag, size = 'default', className }: TagProps) {
       {IconComponent && (
         <IconComponent
           size={size === 'default' ? 11 : 9}
-          className="shrink-0"
-          style={{ color: TAG_CATEGORY_COLORS[tag.category] }}
+          className={cn('shrink-0', TAG_CATEGORY_TEXT_CLASSES[tag.category])}
         />
       )}
       {tag.label}

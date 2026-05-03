@@ -1,4 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import { NextIntlClientProvider } from 'next-intl';
+import messages from '../../messages/ja.json';
 import { ThemeProvider } from './theme-provider';
 import { ThemeToggle } from './theme-toggle';
 
@@ -8,11 +10,13 @@ const meta = {
   tags: ['autodocs'],
   decorators: [
     (Story) => (
-      <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
-        <div className="flex items-center justify-center p-8">
-          <Story />
-        </div>
-      </ThemeProvider>
+      <NextIntlClientProvider locale="ja" messages={messages}>
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
+          <div className="flex items-center justify-center p-8">
+            <Story />
+          </div>
+        </ThemeProvider>
+      </NextIntlClientProvider>
     ),
   ],
   parameters: {
@@ -34,11 +38,13 @@ export const OnDarkBackground: Story = {
   globals: { theme: 'dark' },
   decorators: [
     (Story) => (
-      <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
-        <div className="flex items-center justify-center rounded-lg bg-background p-8">
-          <Story />
-        </div>
-      </ThemeProvider>
+      <NextIntlClientProvider locale="ja" messages={messages}>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
+          <div className="flex items-center justify-center rounded-lg bg-background p-8">
+            <Story />
+          </div>
+        </ThemeProvider>
+      </NextIntlClientProvider>
     ),
   ],
 };

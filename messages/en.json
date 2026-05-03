@@ -1,0 +1,165 @@
+{
+  "Header": {
+    "homeAria": "Rymlab — Go to home",
+    "mainNavigation": "Main navigation",
+    "mobileNavigation": "Mobile navigation",
+    "openMenu": "Open menu",
+    "navigationMenu": "Navigation menu",
+    "nav": {
+      "home": "Home",
+      "articles": "Articles",
+      "projects": "Projects",
+      "about": "About"
+    }
+  },
+  "LanguageToggle": {
+    "label": "Display language",
+    "ja": "日本語",
+    "en": "English"
+  },
+  "ThemeToggle": {
+    "label": "Toggle theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "Layout": {
+    "skipToMain": "Skip to main content"
+  },
+  "DraftModeIndicator": {
+    "label": "Draft Mode",
+    "message": "Previewing draft content",
+    "disable": "Exit"
+  },
+  "Home": {
+    "metadata": {
+      "description": "Portfolio and blog by Rym — Productivity Engineer"
+    },
+    "hero": {
+      "line1": "Build it. Prove it.",
+      "line2": "Write about it.",
+      "description": "I publish the tools I build, the technologies I validate, and the lessons learned as reproducible knowledge from the field of productivity engineering.",
+      "projects": "Projects",
+      "articles": "Articles",
+      "role": "Productivity Engineer",
+      "latestLog": "latest.log",
+      "buildMetric": "CI/CD Pipeline Optimizer",
+      "buildResult": "70% faster",
+      "proveMetric": "Cache hit rate",
+      "proveResult": "94.2%",
+      "writeMetric": "Published",
+      "writeResult": "GitHub Actions Cache Guide",
+      "missionCommand": "echo $MISSION"
+    },
+    "featuredProjects": {
+      "label": "Featured Projects",
+      "title": "Featured Work",
+      "description": "Tools engineered to multiply team velocity."
+    },
+    "recentArticles": {
+      "label": "Latest Articles",
+      "title": "Recent Articles",
+      "description": "Field notes from the trenches of developer productivity."
+    }
+  },
+  "Articles": {
+    "metadata": {
+      "title": "Articles",
+      "description": "Insights on developer productivity, automation, and modern engineering."
+    },
+    "heading": {
+      "label": "Articles",
+      "title": "All Articles",
+      "description": "Insights on developer productivity, automation, and modern engineering."
+    },
+    "search": {
+      "label": "Search articles",
+      "placeholder": "Search articles...",
+      "clear": "Clear search"
+    },
+    "view": {
+      "label": "Article view",
+      "grid": "Grid view",
+      "list": "List view"
+    },
+    "filter": {
+      "label": "Filter articles by tag",
+      "all": "All"
+    },
+    "pagination": {
+      "label": "Articles pagination",
+      "previous": "Previous page",
+      "next": "Next page",
+      "page": "Page {page}",
+      "summary": "{rangeStart}-{rangeEnd} / {totalItems} articles"
+    },
+    "empty": {
+      "title": "No articles found",
+      "filtered": "No articles match your filters. Try a different keyword or tag.",
+      "unfiltered": "No articles have been published yet.",
+      "clear": "Clear filters"
+    },
+    "detail": {
+      "notFoundTitle": "Article Not Found | Rymlab",
+      "back": "Articles",
+      "label": "Article",
+      "toc": "Contents",
+      "navigation": "Article navigation",
+      "newer": "Newer article",
+      "older": "Older article",
+      "relatedLabel": "Related",
+      "relatedTitle": "Related Articles",
+      "relatedDescription": "Selected articles that share tags with this post."
+    }
+  },
+  "Projects": {
+    "metadata": {
+      "title": "Projects",
+      "description": "Tools designed and built to accelerate team velocity."
+    },
+    "heading": {
+      "label": "Projects",
+      "title": "All Projects",
+      "description": "Tools designed and built to accelerate team velocity."
+    }
+  },
+  "About": {
+    "metadata": {
+      "title": "About",
+      "description": "Profile, engineering principles, and technology stack for Productivity Engineer Rym."
+    },
+    "profile": {
+      "role": "Productivity Engineer — Tokyo, Japan",
+      "bio1": "I am focused on maximizing engineering team productivity through CI/CD pipeline optimization, developer tooling, and infrastructure automation so engineers can stay close to the code.",
+      "bio2": "Measure, automate, and improve is the operating principle behind my day-to-day work on better development workflows."
+    },
+    "principles": {
+      "label": "Engineering Principles",
+      "title": "What I Value",
+      "description": "The compass that guides my engineering decisions."
+    },
+    "toolbox": {
+      "label": "Toolbox",
+      "title": "Tech Stack",
+      "description": "Tools of the trade."
+    }
+  },
+  "ErrorPages": {
+    "notFound": {
+      "label": "NOT_FOUND",
+      "title": "Page Not Found",
+      "description": "The page you are looking for does not exist or may have moved.",
+      "terminalCommand": "curl /unknown-path",
+      "terminalResult": "Resource not found",
+      "home": "Back home →",
+      "articles": "Browse articles"
+    },
+    "error": {
+      "label": "ERROR",
+      "title": "Something Went Wrong",
+      "description": "An unexpected error occurred. Please try again in a moment.",
+      "retry": "Retry ↻",
+      "home": "Back home"
+    }
+  }
+}

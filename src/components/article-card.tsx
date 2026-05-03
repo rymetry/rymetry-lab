@@ -1,7 +1,7 @@
 import { CalendarIcon, ClockIcon, PenLineIcon } from 'lucide-react';
-import Link from 'next/link';
 
 import { TagList } from '@/components/tag';
+import { Link } from '@/i18n/navigation';
 import { cn } from '@/lib/utils';
 import type { Article } from '@/types/article';
 
@@ -9,17 +9,25 @@ interface ArticleCardProps {
   readonly article: Article;
   readonly href?: string;
   readonly className?: string;
+  readonly variant?: 'grid' | 'list';
 }
 
 function ArticleThumbnail({
   icon: Icon,
+  layout,
   variant = 'v1',
 }: {
   readonly icon: Article['thumbnailIcon'];
+  readonly layout: ArticleCardProps['variant'];
   readonly variant?: Article['thumbnailVariant'];
 }) {
   return (
-    <div className="relative h-40 overflow-hidden bg-secondary">
+    <div
+      className={cn(
+        'relative overflow-hidden bg-secondary',
+        layout === 'list' ? 'h-full min-h-[140px] max-[1024px]:min-h-[100px]' : 'h-40',
+      )}
+    >
       {/* Gradient overlay */}
       <div
         className={cn(
@@ -46,12 +54,17 @@ function ArticleThumbnail({
   );
 }
 
-export function ArticleCard({ article, href, className }: ArticleCardProps) {
+export function ArticleCard({ article, href, className, variant = 'grid' }: ArticleCardProps) {
+  const isList = variant === 'list';
+
   return (
     <Link
       href={href ?? `/articles/${article.slug}`}
       className={cn(
-        'group relative flex flex-col overflow-hidden rounded-[11px] border border-border bg-card',
+        'group relative overflow-hidden rounded-[11px] border border-border bg-card',
+        isList
+          ? 'grid grid-cols-[200px_1fr] max-[1024px]:grid-cols-[140px_1fr] max-[480px]:grid-cols-1'
+          : 'flex flex-col',
         'transition-all duration-[250ms]',
         'hover:-translate-y-0.5 hover:border-[var(--border-hover)] hover:shadow-[var(--card-shadow-hover)]',
         'before:absolute before:inset-x-0 before:top-0 before:z-10 before:h-[3px] before:bg-[image:var(--accent-gradient)] before:opacity-0 before:transition-opacity before:duration-[250ms]',
@@ -60,9 +73,13 @@ export function ArticleCard({ article, href, className }: ArticleCardProps) {
         className,
       )}
     >
-      <ArticleThumbnail icon={article.thumbnailIcon} variant={article.thumbnailVariant} />
+      <ArticleThumbnail
+        icon={article.thumbnailIcon}
+        layout={variant}
+        variant={article.thumbnailVariant}
+      />
 
-      <div className="p-5">
+      <div className={cn(isList ? 'flex flex-col justify-center px-6 py-5' : 'p-5')}>
         {/* Meta */}
         <div className="mb-2.5 flex items-center gap-3.5 font-mono text-xs text-muted-foreground">
           <span className="inline-flex items-center gap-1">
