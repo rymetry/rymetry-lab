@@ -19,6 +19,7 @@ const CMS_CACHE_LIFE = {
   revalidate: 300,
   expire: 3600,
 } as const;
+const ARTICLE_SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 type CMSArticleContent = Omit<CMSArticle, 'id' | 'createdAt' | 'updatedAt' | 'revisedAt'>;
 type CMSTagContent = Omit<CMSTag, 'id' | 'createdAt' | 'updatedAt' | 'publishedAt' | 'revisedAt'>;
@@ -30,6 +31,8 @@ export async function getArticles(): Promise<readonly ArticleDetail[]> {
 }
 
 export async function getArticleBySlug(slug: string): Promise<ArticleDetail | null> {
+  if (!isValidArticleSlug(slug)) return null;
+
   const article = await getCachedArticleBySlug(slug);
 
   return article ? adaptArticle(article) : null;
@@ -93,6 +96,10 @@ async function getCachedArticleBySlug(slug: string): Promise<CMSArticle | null> 
   } catch (error) {
     throw toMicroCMSFetchError(endpoint, `fetch article "${slug}"`, error);
   }
+}
+
+function isValidArticleSlug(slug: string): boolean {
+  return ARTICLE_SLUG_PATTERN.test(slug);
 }
 
 async function getCachedTags(): Promise<readonly CMSTag[]> {
