@@ -5,6 +5,8 @@ import { renderToString } from 'react-dom/server';
 
 import type { ArticleDetail } from '@/types/article';
 
+import enMessages from '../../../../../messages/en.json';
+import jaMessages from '../../../../../messages/ja.json';
 import { ArticleFooter } from './article-footer';
 
 function article(slug: string, title: string, publishedAt: string): ArticleDetail {
@@ -39,8 +41,8 @@ describe('ArticleFooter', () => {
       <NextIntlClientProvider locale="en" messages={{}}>
         <ArticleFooter
           relatedArticles={[]}
-          previousArticle={article('newer', 'Newer article title', '2026-04-05')}
-          nextArticle={article('older', 'Older article title', '2026-04-03')}
+          previousArticle={article('older', 'Older article title', '2026-04-03')}
+          nextArticle={article('newer', 'Newer article title', '2026-04-05')}
           navigationLabel="Article navigation"
           previousLabel="Previous Article"
           nextLabel="Next Article"
@@ -53,8 +55,8 @@ describe('ArticleFooter', () => {
 
     expect(html).toContain('Previous Article');
     expect(html).toContain('Next Article');
-    expect(html).toContain('Newer article title');
     expect(html).toContain('Older article title');
+    expect(html).toContain('Newer article title');
     expect(html).not.toContain('Newer article</span>');
     expect(html).not.toContain('Older article</span>');
   });
@@ -78,5 +80,14 @@ describe('ArticleFooter', () => {
 
     expect(html.match(/grid-cols-\[120px_1fr\]/g)).toHaveLength(2);
     expect(html.match(/min-h-\[90px\] bg-secondary/g)).toHaveLength(2);
+  });
+
+  test('describes related articles as manually selected entries, not tag matches', () => {
+    expect(jaMessages.Articles.detail.relatedDescription).toBe(
+      'この記事に関連して選択された記事をピックアップしています。',
+    );
+    expect(enMessages.Articles.detail.relatedDescription).toBe(
+      'Curated articles selected for this post.',
+    );
   });
 });

@@ -91,7 +91,7 @@ const footerLabels = {
   nextLabel: 'Next Article',
   relatedLabel: 'Related',
   relatedTitle: 'Related Articles',
-  relatedDescription: '同じタグを持つ記事をピックアップしています。',
+  relatedDescription: 'この記事に関連して選択された記事をピックアップしています。',
 } as const;
 
 const meta = {
