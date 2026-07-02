@@ -105,11 +105,11 @@
       "label": "Article",
       "toc": "Contents",
       "navigation": "Article navigation",
-      "newer": "Newer article",
-      "older": "Older article",
+      "previous": "Previous Article",
+      "next": "Next Article",
       "relatedLabel": "Related",
       "relatedTitle": "Related Articles",
-      "relatedDescription": "Selected articles that share tags with this post."
+      "relatedDescription": "Curated articles selected for this post."
     }
   },
   "Projects": {

@@ -81,10 +81,10 @@ export default function NotFound() {
 
         {/* CTA */}
         <div className="anim-up anim-up-4 flex flex-wrap justify-center gap-3">
-          <ActionButton href="/" variant="primary">
+          <ActionButton href="/" variant="primary" localeAware={false}>
             ホームに戻る →
           </ActionButton>
-          <ActionButton href="/articles" variant="secondary">
+          <ActionButton href="/articles" variant="secondary" localeAware={false}>
             記事を探す
           </ActionButton>
         </div>

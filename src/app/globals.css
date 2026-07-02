@@ -222,12 +222,13 @@
     @apply scroll-mt-24 font-bold tracking-[-0.02em] text-foreground;
   }
 
+  /* モックの compact な型スケール (body 15.5px に対し h2 ≈ 1.35 倍) に揃える */
   .article-content h2 {
-    @apply mt-11 border-b border-border pb-3 text-[clamp(22px,3vw,30px)] leading-tight;
+    @apply mt-10 text-[21px] leading-snug;
   }
 
   .article-content h3 {
-    @apply mt-8 text-xl leading-snug;
+    @apply mt-8 text-[17px] leading-snug;
   }
 
   .article-content p,
@@ -274,12 +275,27 @@
     @apply rounded border border-border bg-[var(--bg-code)] px-1.5 py-0.5 font-mono text-[0.88em] text-foreground;
   }
 
+  /* コードブロックは両テーマともダーク (ヒーローターミナルと同じ「コード = ターミナル面」言語)。
+     ボーダーもモックの .terminal と同系の固定ダーク色にする */
   .article-content pre {
-    @apply overflow-x-auto rounded-[9px] border border-border bg-[#09090b] p-0 text-[13px] leading-6 shadow-[var(--card-shadow)];
+    @apply overflow-x-auto rounded-[9px] border border-[#2a2a2f] bg-[#09090b] p-0 text-[13px] leading-6 shadow-[var(--card-shadow)];
   }
 
   .article-content pre code {
     @apply block min-w-full p-4 font-mono text-[#e4e4e7];
+  }
+
+  /* microCMS のファイル名付きコードブロック (figure.code-block > figcaption + pre) */
+  .article-content .code-block {
+    @apply overflow-hidden rounded-[9px] border border-[#2a2a2f] shadow-[var(--card-shadow)];
+  }
+
+  .article-content .code-filename {
+    @apply border-b border-[#2a2a2f] bg-[#131316] px-4 py-2 font-mono text-[11.5px] leading-5 text-[#a1a1aa];
+  }
+
+  .article-content .code-block pre {
+    @apply rounded-none border-0 shadow-none;
   }
 
   .article-content .code-line {

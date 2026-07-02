@@ -32,7 +32,7 @@ export async function getArticles(): Promise<readonly ArticleDetail[]> {
 export async function getArticleBySlug(slug: string): Promise<ArticleDetail | null> {
   const article = await getCachedArticleBySlug(slug);
 
-  return article ? adaptArticle(article) : null;
+  return article ? adaptArticle(article, { includeRelatedArticles: true }) : null;
 }
 
 export async function getTags(): Promise<readonly Tag[]> {

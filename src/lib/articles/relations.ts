@@ -22,9 +22,9 @@ export function getArticleRelations(
 
   return {
     relatedArticles: getRelatedArticles(currentArticle, articles, relatedLimit),
-    previousArticle: currentIndex > 0 ? articles[currentIndex - 1]! : null,
-    nextArticle:
+    previousArticle:
       currentIndex >= 0 && currentIndex < articles.length - 1 ? articles[currentIndex + 1]! : null,
+    nextArticle: currentIndex > 0 ? articles[currentIndex - 1]! : null,
   };
 }
 
@@ -34,31 +34,18 @@ function getRelatedArticles(
   limit: number,
 ) {
   if (limit <= 0) return [];
+  if (!currentArticle.relatedArticleSlugs?.length) return [];
 
-  const currentTagLabels = new Set(
-    currentArticle.tags.map((tag) => normalizeTagLabel(tag.label)).filter(Boolean),
-  );
+  const articlesBySlug = new Map(articles.map((article) => [article.slug, article]));
 
-  return articles
-    .flatMap((article) => {
-      if (article.slug === currentArticle.slug) return [];
+  return currentArticle.relatedArticleSlugs
+    .flatMap((slug) => {
+      if (slug === currentArticle.slug) return [];
 
-      const score = article.tags.reduce((total, tag) => {
-        return currentTagLabels.has(normalizeTagLabel(tag.label)) ? total + 1 : total;
-      }, 0);
+      const article = articlesBySlug.get(slug);
 
-      if (score === 0) return [];
-
-      return [{ article, score }];
-    })
-    .toSorted((a, b) => {
-      if (b.score !== a.score) return b.score - a.score;
-      return b.article.publishedAt.localeCompare(a.article.publishedAt);
+      return article ? [article] : [];
     })
     .slice(0, limit)
-    .map(({ article }) => article);
-}
-
-function normalizeTagLabel(value: string) {
-  return value.trim().toLowerCase();
+    .map((article) => article);
 }

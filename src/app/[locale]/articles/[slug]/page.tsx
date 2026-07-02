@@ -1,28 +1,21 @@
-import {
-  CalendarIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  ClockIcon,
-  PenLineIcon,
-  UserRoundIcon,
-} from 'lucide-react';
+import { CalendarIcon, ChevronLeftIcon, ClockIcon, PenLineIcon, UserRoundIcon } from 'lucide-react';
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 
-import { ListCard } from '@/components/list-card';
-import { SectionContainer, SectionHeader } from '@/components/section';
+import { ArticleToc } from '@/components/article-toc';
+import { SectionContainer } from '@/components/section';
 import { TagList } from '@/components/tag';
 import { Link } from '@/i18n/navigation';
-import { processArticleContent, type ArticleTocItem } from '@/lib/articles/content';
+import { processArticleContent } from '@/lib/articles/content';
 import { getArticleRelations } from '@/lib/articles/relations';
 import { getArticleBySlug, getArticles } from '@/lib/cms';
 import { buildMicroCMSImageUrl } from '@/lib/cms/image';
 import { createArticleJsonLd, createBreadcrumbJsonLd, JsonLdScript } from '@/lib/seo/json-ld';
 import { createArticleMetadata, getSiteUrl } from '@/lib/seo/metadata';
-import { cn } from '@/lib/utils';
 import type { ArticleDetail } from '@/types/article';
+import { ArticleFooter } from './article-footer';
 
 interface ArticleDetailPageProps {
   readonly params: Promise<{
@@ -127,8 +120,8 @@ export default async function ArticleDetailPage({ params }: ArticleDetailPagePro
         previousArticle={relations.previousArticle}
         nextArticle={relations.nextArticle}
         navigationLabel={t('navigation')}
-        newerLabel={t('newer')}
-        olderLabel={t('older')}
+        previousLabel={t('previous')}
+        nextLabel={t('next')}
         relatedLabel={t('relatedLabel')}
         relatedTitle={t('relatedTitle')}
         relatedDescription={t('relatedDescription')}
@@ -207,135 +200,5 @@ function ArticleHero({
         <div className="absolute inset-0 bg-[linear-gradient(135deg,oklch(var(--primary-ch)/0.10),transparent_58%)]" />
       </div>
     </header>
-  );
-}
-
-function ArticleToc({
-  items,
-  label,
-}: {
-  readonly items: readonly ArticleTocItem[];
-  readonly label: string;
-}) {
-  return (
-    <aside className="sticky top-24 hidden max-h-[calc(100vh-7rem)] overflow-y-auto lg:block">
-      <nav
-        aria-label={label}
-        className="rounded-[9px] border border-border bg-card p-4 shadow-[var(--card-shadow)]"
-      >
-        <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.1em] text-primary">
-          {label}
-        </p>
-        <ol className="grid gap-2">
-          {items.map((item) => (
-            <li key={item.id}>
-              <a
-                href={`#${item.id}`}
-                className={cn(
-                  'block text-[13px] leading-5 text-text-secondary transition-colors hover:text-primary',
-                  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card',
-                  item.level === 3 && 'pl-3 text-[12.5px]',
-                )}
-              >
-                {item.text}
-              </a>
-            </li>
-          ))}
-        </ol>
-      </nav>
-    </aside>
-  );
-}
-
-function ArticleFooter({
-  relatedArticles,
-  previousArticle,
-  nextArticle,
-  navigationLabel,
-  newerLabel,
-  olderLabel,
-  relatedLabel,
-  relatedTitle,
-  relatedDescription,
-}: {
-  readonly relatedArticles: readonly ArticleDetail[];
-  readonly previousArticle: ArticleDetail | null;
-  readonly nextArticle: ArticleDetail | null;
-  readonly navigationLabel: string;
-  readonly newerLabel: string;
-  readonly olderLabel: string;
-  readonly relatedLabel: string;
-  readonly relatedTitle: string;
-  readonly relatedDescription: string;
-}) {
-  return (
-    <SectionContainer alt className="pt-12">
-      <div className="mx-auto max-w-[1040px]">
-        {(previousArticle || nextArticle) && (
-          <nav aria-label={navigationLabel} className="mb-12 grid gap-4 md:grid-cols-2">
-            <ArticleNavLink label={newerLabel} article={previousArticle} direction="previous" />
-            <ArticleNavLink label={olderLabel} article={nextArticle} direction="next" />
-          </nav>
-        )}
-
-        {relatedArticles.length > 0 && (
-          <>
-            <SectionHeader
-              label={relatedLabel}
-              title={relatedTitle}
-              description={relatedDescription}
-              className="mb-6"
-            />
-            <div className="grid gap-3">
-              {relatedArticles.map((article) => (
-                <ListCard key={article.slug} article={article} />
-              ))}
-            </div>
-          </>
-        )}
-      </div>
-    </SectionContainer>
-  );
-}
-
-function ArticleNavLink({
-  label,
-  article,
-  direction,
-}: {
-  readonly label: string;
-  readonly article: ArticleDetail | null;
-  readonly direction: 'previous' | 'next';
-}) {
-  if (!article) {
-    return <div className="hidden md:block" />;
-  }
-
-  const Icon = direction === 'previous' ? ChevronLeftIcon : ChevronRightIcon;
-
-  return (
-    <Link
-      href={`/articles/${article.slug}`}
-      className={cn(
-        'group rounded-[9px] border border-border bg-card p-4 shadow-[var(--card-shadow)] transition-all duration-200',
-        'hover:-translate-y-px hover:border-[var(--border-hover)] hover:shadow-[var(--card-shadow-hover)]',
-        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
-        direction === 'next' && 'text-right',
-      )}
-    >
-      <span
-        className={cn(
-          'mb-2 flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.1em] text-primary',
-          direction === 'next' && 'justify-end',
-        )}
-      >
-        {direction === 'previous' && <Icon aria-hidden="true" className="size-3.5" />}
-        {label}
-        {direction === 'next' && <Icon aria-hidden="true" className="size-3.5" />}
-      </span>
-      <span className="block text-sm font-semibold leading-6 transition-colors group-hover:text-primary">
-        {article.title}
-      </span>
-    </Link>
   );
 }

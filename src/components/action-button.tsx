@@ -1,4 +1,6 @@
-import { Link } from '@/i18n/navigation';
+import NextLink from 'next/link';
+
+import { Link as LocaleLink } from '@/i18n/navigation';
 import { cn } from '@/lib/utils';
 
 interface ActionButtonProps {
@@ -6,6 +8,13 @@ interface ActionButtonProps {
   readonly variant?: 'primary' | 'secondary';
   readonly children: React.ReactNode;
   readonly className?: string;
+  /**
+   * ルート直下の app/not-found.tsx / app/error.tsx は [locale] セグメント外で
+   * 描画され NextIntlClientProvider が存在しないため、next-intl の Link は
+   * "No intl context found" を throw する。そこでは false を指定して
+   * ロケール接頭辞なしの素の next/link にフォールバックする。
+   */
+  readonly localeAware?: boolean;
 }
 
 export function ActionButton({
@@ -13,8 +22,10 @@ export function ActionButton({
   variant = 'primary',
   children,
   className,
+  localeAware = true,
 }: ActionButtonProps) {
   const isExternal = href.startsWith('http');
+  const Link = localeAware ? LocaleLink : NextLink;
 
   return (
     <Link

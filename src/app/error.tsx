@@ -116,7 +116,7 @@ export default function ErrorPage({ error, unstable_retry }: ErrorPageProps) {
           >
             リトライ ↻
           </button>
-          <ActionButton href="/" variant="secondary">
+          <ActionButton href="/" variant="secondary" localeAware={false}>
             ホームに戻る
           </ActionButton>
         </div>

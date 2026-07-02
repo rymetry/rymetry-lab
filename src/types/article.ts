@@ -23,4 +23,5 @@ export interface ArticleDetail extends Article {
   readonly excerpt: string;
   readonly content: string;
   readonly ogpImage: ArticleImage;
+  readonly relatedArticleSlugs?: readonly string[];
 }

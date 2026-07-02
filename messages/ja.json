@@ -54,12 +54,14 @@
     "featuredProjects": {
       "label": "Featured Projects",
       "title": "Featured Work",
-      "description": "開発者のワークフローを加速するために構築したツール群。"
+      "description": "開発者のワークフローを加速するために構築したツール群。",
+      "descriptionEn": "Less friction, more flow."
     },
     "recentArticles": {
       "label": "Latest Articles",
       "title": "Recent Articles",
-      "description": "開発生産性の現場から得た知見。"
+      "description": "開発生産性の現場から得た知見。",
+      "descriptionEn": "Field notes from the trenches of developer productivity."
     }
   },
   "Articles": {
@@ -70,7 +72,8 @@
     "heading": {
       "label": "Articles",
       "title": "All Articles",
-      "description": "生産性・自動化・エンジニアリングの最前線から。"
+      "description": "生産性・自動化・エンジニアリングの最前線から。",
+      "descriptionEn": "Insights on developer productivity, automation, and modern engineering."
     },
     "search": {
       "label": "記事を検索",
@@ -105,11 +108,11 @@
       "label": "Article",
       "toc": "Contents",
       "navigation": "記事ナビゲーション",
-      "newer": "Newer article",
-      "older": "Older article",
+      "previous": "Previous Article",
+      "next": "Next Article",
       "relatedLabel": "Related",
       "relatedTitle": "Related Articles",
-      "relatedDescription": "同じタグを持つ記事をピックアップしています。"
+      "relatedDescription": "この記事に関連して選択された記事をピックアップしています。"
     }
   },
   "Projects": {
@@ -120,7 +123,8 @@
     "heading": {
       "label": "Projects",
       "title": "All Projects",
-      "description": "チームの速度を加速させるために設計・構築したツール群。"
+      "description": "チームの速度を加速させるために設計・構築したツール群。",
+      "descriptionEn": "Tools engineered to multiply team velocity."
     }
   },
   "About": {
@@ -136,12 +140,14 @@
     "principles": {
       "label": "Engineering Principles",
       "title": "What I Value",
-      "description": "エンジニアリングにおいて大切にしていること。"
+      "description": "エンジニアリングにおいて大切にしていること。",
+      "descriptionEn": "The compass that guides my engineering decisions."
     },
     "toolbox": {
       "label": "Toolbox",
       "title": "Tech Stack",
-      "description": "日々の開発で使っている技術とツール。"
+      "description": "日々の開発で使っている技術とツール。",
+      "descriptionEn": "Tools of the trade."
     }
   },
   "ErrorPages": {
