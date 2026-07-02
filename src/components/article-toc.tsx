@@ -13,6 +13,19 @@ interface ArticleTocProps {
   readonly label: string;
 }
 
+interface HeadingSnapshot {
+  readonly id: string;
+  readonly top: number;
+}
+
+interface ActiveHeadingInput {
+  readonly headings: readonly HeadingSnapshot[];
+  readonly viewportHeight: number;
+  readonly scrollY: number;
+  readonly documentHeight: number;
+  readonly activeLineOffset?: number;
+}
+
 /**
  * 記事目次。スクロール位置に連動して現在読んでいる見出しをハイライトする
  * （モックの .toc-list a.active 相当)。レールは連続した左ボーダーで表現し、
@@ -59,6 +72,32 @@ export function ArticleToc({ items, label }: ArticleTocProps) {
   );
 }
 
+export function resolveActiveHeadingId({
+  headings,
+  viewportHeight,
+  scrollY,
+  documentHeight,
+  activeLineOffset = ACTIVE_LINE_OFFSET,
+}: ActiveHeadingInput): string | null {
+  const firstHeading = headings[0];
+  const lastHeading = headings[headings.length - 1];
+
+  if (!firstHeading || !lastHeading) return null;
+
+  const canScroll = documentHeight > viewportHeight + 2;
+  const atPageBottom = canScroll && viewportHeight + scrollY >= documentHeight - 2;
+
+  if (atPageBottom) return lastHeading.id;
+
+  let currentId = firstHeading.id;
+  for (const heading of headings) {
+    if (heading.top > activeLineOffset) break;
+    currentId = heading.id;
+  }
+
+  return currentId;
+}
+
 /**
  * ビューポート上部のアクティブ判定ラインを最後に通過した見出し id を返す。
  * 上下どちらのスクロールでも決定的に動くよう、rAF スロットルした
@@ -72,31 +111,25 @@ function useActiveHeading(items: readonly ArticleTocItem[]): string | null {
     const headings = items
       .map((item) => document.getElementById(item.id))
       .filter((el): el is HTMLElement => el !== null);
-    const firstHeading = headings[0];
-    const lastHeading = headings[headings.length - 1];
 
-    if (!firstHeading || !lastHeading) return;
+    if (headings.length === 0) return;
 
     let ticking = false;
 
     const updateActiveHeading = () => {
       ticking = false;
 
-      const atPageBottom =
-        window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
-
-      if (atPageBottom) {
-        setActiveId(lastHeading.id);
-        return;
-      }
-
-      let currentId = firstHeading.id;
-      for (const heading of headings) {
-        if (heading.getBoundingClientRect().top > ACTIVE_LINE_OFFSET) break;
-        currentId = heading.id;
-      }
-
-      setActiveId(currentId);
+      setActiveId(
+        resolveActiveHeadingId({
+          headings: headings.map((heading) => ({
+            id: heading.id,
+            top: heading.getBoundingClientRect().top,
+          })),
+          viewportHeight: window.innerHeight,
+          scrollY: window.scrollY,
+          documentHeight: document.documentElement.scrollHeight,
+        }),
+      );
     };
 
     const requestUpdate = () => {
