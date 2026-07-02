@@ -63,6 +63,9 @@ export default async function AboutPage({ params }: AboutPageProps) {
         label={t('principles.label')}
         title={t('principles.title')}
         description={t('principles.description')}
+        descriptionEn={
+          t.has('principles.descriptionEn') ? t('principles.descriptionEn') : undefined
+        }
         className="mb-6 max-md:mb-6"
       />
       <ScrollRevealList className="mb-14 grid grid-cols-[repeat(auto-fill,minmax(min(260px,100%),1fr))] gap-4 max-md:grid-cols-2 max-[480px]:grid-cols-1">
@@ -76,6 +79,7 @@ export default async function AboutPage({ params }: AboutPageProps) {
         label={t('toolbox.label')}
         title={t('toolbox.title')}
         description={t('toolbox.description')}
+        descriptionEn={t.has('toolbox.descriptionEn') ? t('toolbox.descriptionEn') : undefined}
         className="mb-6 max-md:mb-6"
       />
       <ScrollRevealList className="grid grid-cols-[repeat(auto-fill,minmax(min(260px,100%),1fr))] gap-4">

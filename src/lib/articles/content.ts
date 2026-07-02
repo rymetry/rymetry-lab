@@ -36,6 +36,8 @@ const ARTICLE_SANITIZE_SCHEMA: Schema = {
       ['rel', 'nofollow', 'noopener', 'noreferrer'],
     ],
     code: [...(defaultSchema.attributes?.code ?? []), 'className', 'data-language'],
+    // hast-util-sanitize はプロパティ名（camelCase)でマッチする
+    div: [...(defaultSchema.attributes?.div ?? []), 'dataFilename'],
     h2: [...(defaultSchema.attributes?.h2 ?? []), 'id'],
     h3: [...(defaultSchema.attributes?.h3 ?? []), 'id'],
     img: [
@@ -50,8 +52,8 @@ const ARTICLE_SANITIZE_SCHEMA: Schema = {
     pre: [
       ...(defaultSchema.attributes?.pre ?? []),
       'className',
-      'data-filename',
-      'data-language',
+      'dataFilename',
+      'dataLanguage',
       'title',
     ],
     span: [
@@ -76,6 +78,7 @@ export async function processArticleContent(content: string): Promise<ProcessedA
     .use(rehypeParse, { fragment: true })
     .use(rehypeSanitize, ARTICLE_SANITIZE_SCHEMA)
     .use(() => (tree: Root) => {
+      promoteCodeFilenames(tree);
       addHeadingIdsAndCollectToc(tree, toc);
     })
     .use(rehypePrism, {
@@ -88,6 +91,58 @@ export async function processArticleContent(content: string): Promise<ProcessedA
   return {
     html: String(file),
     toc,
+  };
+}
+
+/**
+ * microCMS のリッチエディタはファイル名付きコードブロックを
+ * `<div data-filename="..."><pre>...</pre></div>`（または `<pre data-filename>`)
+ * で出力する。これをモックの `.code-fn` に相当するファイル名バー付きの
+ * `<figure class="code-block"><figcaption class="code-filename">...</figcaption><pre>...` に昇格する。
+ */
+function promoteCodeFilenames(tree: Root) {
+  visit(tree, 'element', (node: Element, index, parent) => {
+    const filename = readFilename(node);
+    if (!filename) return;
+
+    if (node.tagName === 'div' && node.children.some(isPreElement)) {
+      delete node.properties['dataFilename'];
+      node.tagName = 'figure';
+      node.properties.className = ['code-block'];
+      node.children = [buildFilenameCaption(filename), ...node.children];
+      return;
+    }
+
+    if (node.tagName === 'pre' && parent && typeof index === 'number') {
+      delete node.properties['dataFilename'];
+      parent.children[index] = {
+        type: 'element',
+        tagName: 'figure',
+        properties: { className: ['code-block'] },
+        children: [buildFilenameCaption(filename), node],
+      };
+    }
+  });
+}
+
+function readFilename(node: Element): string | null {
+  const raw = node.properties?.['dataFilename'];
+  if (typeof raw !== 'string') return null;
+
+  const filename = raw.trim();
+  return filename.length > 0 ? filename : null;
+}
+
+function isPreElement(node: Element['children'][number]): boolean {
+  return node.type === 'element' && node.tagName === 'pre';
+}
+
+function buildFilenameCaption(filename: string): Element {
+  return {
+    type: 'element',
+    tagName: 'figcaption',
+    properties: { className: ['code-filename'] },
+    children: [{ type: 'text', value: filename }],
   };
 }
 

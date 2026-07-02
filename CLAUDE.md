@@ -31,6 +31,7 @@ Productivity Engineer "Rym" のポートフォリオ & 技術ブログ。Site: R
 **Light** — bg: #fafafa / card: #fff / accent: oklch(0.52 0.11 156) / accent-2: oklch(0.55 0.12 156) / gradient: oklch(0.35 0.08 156)→oklch(0.55 0.12 156)
 **Dark** — bg: #09090b / card: #1a1a1f / accent: oklch(0.75 0.10 154) / accent-2: oklch(0.82 0.07 154) / gradient: oklch(0.34 0.07 154)→oklch(0.55 0.10 154)
 ダークモードは Hunt 効果補正で hue 154° (Light 156° から -2°)。アクセント・タグカテゴリ色は oklch 統一。ニュートラルトークン (bg, border 等) は hex 維持。text-muted は WCAG AA 準拠。
+コードブロックは両テーマ共通のダークターミナル面 (#09090b / border #2a2a2f)。ファイル名付きコード (microCMS `data-filename`) は `figure.code-block` + `figcaption.code-filename` に変換して表示する。
 
 ### Tags
 
@@ -67,10 +68,10 @@ GitHub, X, LinkedIn, Zenn, Qiita, RSS — simple-icons:\* + lucide:rss
 
 | Route              | Content                                                                                    |
 | ------------------ | ------------------------------------------------------------------------------------------ |
-| `/`                | Hero (terminal animations) + Featured Work (非対称1大+2小) + Recent Articles (section-alt) |
+| `/`                | Hero (terminal animations) + Featured Work (等幅3カード) + Recent Articles (section-alt)  |
 | `/projects`        | プロジェクトグリッド (auto-fill)                                                           |
 | `/articles`        | 検索 + タグフィルタ + ページネーション + Grid/List切替                                     |
-| `/articles/[slug]` | アイキャッチ + TOC (sticky 240px) + 関連記事 + 前後ナビ                                    |
+| `/articles/[slug]` | シェルレイアウト (戻りリンク + リード文 + フル幅アイキャッチ) + TOC (sticky 240px, スクロール連動) + 関連記事 → 前後ナビ (alt) |
 | `/about`           | Profile + Engineering Principles (4カード) + Tech Stack                                    |
 
 ## Architecture

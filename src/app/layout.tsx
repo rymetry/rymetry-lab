@@ -1,3 +1,4 @@
+import { ThemeProvider } from '@/components/theme-provider';
 import { createPageMetadata, getSiteUrl } from '@/lib/seo/metadata';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono, Noto_Sans_JP } from 'next/font/google';
@@ -47,7 +48,18 @@ export default function RootLayout({
       className={`${geist.variable} ${geistMono.variable} ${notoSansJP.variable} ${plemolJP.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <body className="flex min-h-full flex-col bg-background text-foreground">{children}</body>
+      <body className="flex min-h-full flex-col bg-background text-foreground">
+        {/* next-themes はここで <script> を描画するため、クライアント再マウントされる
+            [locale] レイアウトではなく、再描画されないルートレイアウトに置く */}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          enableColorScheme={false}
+        >
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   );
 }

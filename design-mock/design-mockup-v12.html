@@ -320,24 +320,33 @@
   .pg-info { font-size: 12px; color: var(--text-muted); font-family: var(--font-mono); margin: 0 8px; }
 
   /* ===== Article Detail ===== */
-  .art-detail { display: grid; grid-template-columns: 1fr 240px; gap: 40px; align-items: start; } /* v6: TOC 220→240 */
-  .art-content { background: var(--bg-card); border: 1px solid var(--border); border-radius: 11px; padding: 36px; }
-  .art-eyecatch { width: 100%; height: 180px; background: var(--bg-secondary); border-radius: 9px; margin-bottom: 24px; position: relative; overflow: hidden; }
+  /* v12.1: カードラッパー廃止 → シェルレイアウト (Loading タブ・実装と同期) */
+  .art-shell { max-width: 1040px; margin: 0 auto; }
+  .art-detail { display: grid; grid-template-columns: minmax(0, 1fr) 240px; gap: 40px; align-items: start; }
+  .art-content { min-width: 0; }
+  .art-back { display: inline-flex; align-items: center; gap: 6px; margin-bottom: 20px; font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); text-decoration: none; cursor: pointer; transition: color .2s; }
+  .art-back:hover { color: var(--accent); }
+  .art-hero h1 { font-size: clamp(28px, 5vw, 48px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.2; max-width: 860px; }
+  .art-lead { margin-top: 16px; max-width: 720px; font-size: 15px; line-height: 1.8; color: var(--text-secondary); }
+  .art-eyecatch { width: 100%; height: 180px; background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 11px; margin: 32px 0 40px; position: relative; overflow: hidden; }
   .art-eyecatch .art-thumb-g { position: absolute; inset: 0; background: linear-gradient(135deg, oklch(0.52 0.11 156 / 0.08) 0%, oklch(0.55 0.12 156 / 0.08) 100%); }
   .dark .art-eyecatch .art-thumb-g { background: linear-gradient(135deg, oklch(0.75 0.10 154 / 0.10) 0%, oklch(0.82 0.07 154 / 0.10) 100%); }
   .art-eyecatch .art-thumb-p { position: absolute; inset: 0; background-image: linear-gradient(rgba(0,0,0,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.02) 1px, transparent 1px); background-size: 20px 20px; }
   .art-eyecatch-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); font-size: 38px; opacity: 0.18; }
-  .art-content h1 { font-size: 26px; font-weight: 800; margin-bottom: 14px; letter-spacing: -0.02em; line-height: 1.35; }
-  .art-hd-meta { display: flex; gap: 16px; align-items: center; padding-bottom: 20px; margin-bottom: 28px; border-bottom: 1px solid var(--border); font-size: 12.5px; color: var(--text-muted); flex-wrap: wrap; }
+  .art-hd-meta { display: flex; gap: 16px; align-items: center; margin-top: 20px; font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); flex-wrap: wrap; }
   .art-hd-meta iconify-icon { font-size: 12px; }
-  .author-chip { display: flex; align-items: center; gap: 7px; }
-  .author-av { width: 26px; height: 26px; border-radius: 50%; background: var(--accent-glow); border: 1px solid var(--tag-border); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: var(--accent); }
   .meta-item { display: inline-flex; align-items: center; gap: 4px; }
-  .prose h2 { font-size: 20px; font-weight: 700; margin: 28px 0 14px; }
-  .prose p { color: var(--text-secondary); font-size: 14.5px; line-height: 1.8; margin-bottom: 18px; }
-  .prose pre { background: var(--bg-code); border: 1px solid var(--border); border-radius: 7px; padding: 18px; margin: 20px 0; overflow-x: auto; font-family: var(--font-mono); font-size: 12.5px; line-height: 1.7; color: var(--text-secondary); }
+  .prose h2 { font-size: 21px; font-weight: 700; margin: 40px 0 14px; letter-spacing: -0.02em; }
+  .prose h3 { font-size: 17px; font-weight: 700; margin: 32px 0 12px; letter-spacing: -0.02em; }
+  .prose p { color: var(--text-secondary); font-size: 15.5px; line-height: 1.85; margin-bottom: 20px; }
+  /* v12.1: コードブロックは両テーマ共通のダークターミナル面 (ヒーローターミナルと同じ言語) */
+  .prose pre { background: #09090b; border: 1px solid #2a2a2f; border-radius: 9px; padding: 16px 18px; margin: 20px 0; overflow-x: auto; font-family: var(--font-mono); font-size: 13px; line-height: 1.85; color: #e4e4e7; }
   .prose code { font-family: var(--font-mono); font-size: 12.5px; background: var(--bg-code); padding: 2px 5px; border-radius: 3px; color: var(--accent); }
-  .code-fn { display: block; font-family: var(--font-mono); font-size: 11.5px; color: var(--text-muted); margin-bottom: 7px; padding-bottom: 7px; border-bottom: 1px solid var(--border); }
+  .prose pre code { background: transparent; padding: 0; color: inherit; font-size: inherit; }
+  /* v12.1: ファイル名付きコードブロック (microCMS data-filename → figure.code-block) */
+  .code-block { border: 1px solid #2a2a2f; border-radius: 9px; overflow: hidden; margin: 20px 0; }
+  .code-block pre { border: none; border-radius: 0; margin: 0; }
+  .code-fn { display: block; background: #131316; border-bottom: 1px solid #2a2a2f; padding: 8px 16px; font-family: var(--font-mono); font-size: 11.5px; color: #a1a1aa; }
 
   /* List cards */
   .related-section { margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--border); }
@@ -374,10 +383,11 @@
   .toc-sidebar { position: sticky; top: 130px; }
   .toc-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 11px; padding: 18px; }
   .toc-title { font-size: 12px; font-weight: 600; margin-bottom: 14px; font-family: var(--font-mono); text-transform: uppercase; letter-spacing: .05em; color: var(--text-muted); }
-  .toc-list { list-style: none; display: flex; flex-direction: column; gap: 7px; }
-  .toc-list a { font-size: 12.5px; color: var(--text-muted); text-decoration: none; transition: color .2s; display: block; padding-left: 11px; border-left: 2px solid var(--border); }
-  .toc-list a:hover { color: var(--text-primary); border-left-color: var(--accent); }
-  .toc-list a.active { color: var(--accent); border-left-color: var(--accent); }
+  /* v12.1: レールを連続させ、アクティブ項目がレール上を移動する (スクロール連動) */
+  .toc-list { list-style: none; display: flex; flex-direction: column; }
+  .toc-list a { font-size: 13px; color: var(--text-secondary); text-decoration: none; transition: color .2s, border-color .2s; display: block; padding: 4px 0 4px 11px; border-left: 2px solid var(--border); }
+  .toc-list a:hover { color: var(--text-primary); border-left-color: var(--border-hover); }
+  .toc-list a.active { color: var(--accent); border-left-color: var(--accent); font-weight: 500; }
 
   /* ===== About ===== */
   .about-hero { display: grid; grid-template-columns: 180px 1fr; gap: 36px; align-items: start; margin-bottom: 56px; }
@@ -440,7 +450,7 @@
     .art-detail { grid-template-columns: 1fr; }
     .toc-sidebar { display: none; }
     .pn-grid { grid-template-columns: 1fr; }
-    .proj-grid, .art-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+    /* v12.1: 1024px でも minmax(320px) を維持し 2 カラムに (日本語タイトルの行長を確保) */
     .header-right { gap: 20px; }
     .nav-links { gap: 20px; }
     .section { padding: 56px 24px; }
@@ -462,8 +472,7 @@
     .about-hero .avatar { margin: 0 auto; }
     .about-hero .social-links { justify-content: center; }
     .about-hero .about-bio { text-align: left; }
-    /* v8: let auto-fill handle columns instead of forcing 1fr */
-    .proj-grid, .art-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+    /* v12.1: auto-fill + minmax(320px) のまま (480px で 1fr に落とす) */
     .list-view .art-card { display: grid; grid-template-columns: 140px 1fr; }
     .list-view .art-thumb { min-height: 100px; }
     .list-card { grid-template-columns: 100px 1fr; }
@@ -766,35 +775,41 @@
   <header class="site-header"><div class="header-inner"><a class="logo">Rym<span class="a">lab</span></a><div class="header-right"><nav><ul class="nav-links"><li><a>Home</a></li><li><a class="active">Articles</a></li><li><a>Projects</a></li><li><a>About</a></li></ul></nav><div class="header-actions"><button class="lang-toggle" aria-label="Switch language"><iconify-icon icon="lucide:globe"></iconify-icon> JA</button><button class="theme-toggle" aria-label="Toggle theme"><iconify-icon icon="lucide:sun" class="icon-sun"></iconify-icon><iconify-icon icon="lucide:moon" class="icon-moon"></iconify-icon></button>
         <button class="menu-btn" aria-label="Toggle menu"><iconify-icon icon="lucide:menu" class="icon-menu"></iconify-icon><iconify-icon icon="lucide:x" class="icon-close"></iconify-icon></button></div></div></div><nav class="mobile-nav"><a class="active">Home</a><a>Articles</a><a>Projects</a><a>About</a></nav><div class="menu-overlay"></div></header>
 
-  <section class="section">
+  <section class="section" style="padding-bottom: 48px;">
+    <div class="art-shell">
+    <div class="art-hero">
+      <a class="art-back"><iconify-icon icon="lucide:chevron-left"></iconify-icon> Articles</a>
+      <p class="s-label" style="margin-bottom: 8px;">// Article</p>
+      <h1>GitHub Actions のキャッシュ戦略を徹底的に最適化する</h1>
+      <p class="art-lead">キャッシュ戦略の最適化により、CIのビルド時間を70%短縮した実践的なアプローチを紹介します。</p>
+      <div class="art-hd-meta">
+        <span class="meta-item"><iconify-icon icon="lucide:user-round"></iconify-icon> Rym</span>
+        <span class="meta-item"><iconify-icon icon="lucide:calendar"></iconify-icon> 2026-03-15</span>
+        <span class="meta-item"><iconify-icon icon="lucide:pen-line"></iconify-icon> 2026-03-20</span>
+        <span class="meta-item"><iconify-icon icon="lucide:clock"></iconify-icon> 8 min read</span>
+      </div>
+      <div class="art-tags" style="margin-top: 20px;">
+        <span class="tag"><iconify-icon icon="lucide:git-branch" class="ti-infra"></iconify-icon>CI/CD</span>
+        <span class="tag"><iconify-icon icon="lucide:gauge" class="ti-perf"></iconify-icon>Performance</span>
+        <span class="tag"><iconify-icon icon="lucide:cloud" class="ti-infra"></iconify-icon>GitHub Actions</span>
+      </div>
+      <div class="art-eyecatch"><div class="art-thumb-g"></div><div class="art-thumb-p"></div><div class="art-eyecatch-icon"><iconify-icon icon="lucide:zap" style="font-size:38px"></iconify-icon></div></div>
+    </div>
     <div class="art-detail">
       <div class="art-content">
-        <div class="art-eyecatch"><div class="art-thumb-g"></div><div class="art-thumb-p"></div><div class="art-eyecatch-icon"><iconify-icon icon="lucide:zap" style="font-size:38px"></iconify-icon></div></div>
-        <h1>GitHub Actions のキャッシュ戦略を徹底的に最適化する</h1>
-        <div class="art-tags" style="margin: 12px 0 16px;">
-          <span class="tag"><iconify-icon icon="lucide:git-branch" class="ti-infra"></iconify-icon>CI/CD</span>
-          <span class="tag"><iconify-icon icon="lucide:gauge" class="ti-perf"></iconify-icon>Performance</span>
-          <span class="tag"><iconify-icon icon="lucide:cloud" class="ti-infra"></iconify-icon>GitHub Actions</span>
-        </div>
-        <div class="art-hd-meta">
-          <div class="author-chip"><div class="author-av">R</div><span>Rym</span></div>
-          <span class="meta-item"><iconify-icon icon="lucide:calendar"></iconify-icon> 2026-03-15</span>
-          <span class="meta-item"><iconify-icon icon="lucide:pen-line"></iconify-icon> 2026-03-20</span>
-          <span class="meta-item"><iconify-icon icon="lucide:clock"></iconify-icon> 8 min read</span>
-        </div>
         <div class="prose">
           <h2>はじめに</h2>
           <p>GitHub Actions のビルドが遅い &mdash; これは多くのチームが抱える課題です。本記事では、キャッシュ戦略の最適化によりビルド時間を70%短縮した実践的なアプローチを紹介します。</p>
           <h2>キャッシュの基本戦略</h2>
           <p><code>actions/cache</code> の適切な設定は、CI/CDパイプラインのパフォーマンスに直結します。キーの設計とリストア戦略がポイントです。</p>
-          <pre><code><span class="code-fn">.github/workflows/ci.yml</span><span style="color:#34d399;">- uses:</span> actions/cache@v4
+          <figure class="code-block"><figcaption class="code-fn">.github/workflows/ci.yml</figcaption><pre><code><span style="color:#34d399;">- uses:</span> actions/cache@v4
   <span style="color:#34d399;">with:</span>
     <span style="color:#6ee7b7;">path:</span> |
       node_modules
       .next/cache
     <span style="color:#6ee7b7;">key:</span> ${{ runner.os }}-deps-${{ hashFiles('bun.lock') }}
     <span style="color:#6ee7b7;">restore-keys:</span> |
-      ${{ runner.os }}-deps-</code></pre>
+      ${{ runner.os }}-deps-</code></pre></figure>
           <h2>並列実行の最適化</h2>
           <p>テスト分割と <code>matrix</code> ストラテジーを組み合わせることで、さらなる高速化が可能です。</p>
           <h2>計測結果</h2>
@@ -802,24 +817,28 @@
           <h2>まとめ</h2>
           <p>キャッシュ戦略の最適化は、開発チーム全体の生産性に直結する重要な投資です。</p>
         </div>
-
-        <div class="related-section">
-          <h3>Related Articles</h3>
-          <div class="list-card"><div class="list-card-thumb"><div class="art-thumb-g"></div><div class="art-thumb-p"></div><div class="list-card-thumb-icon"><iconify-icon icon="lucide:git-merge" style="font-size:22px"></iconify-icon></div></div><div class="list-card-body"><h4>Monorepo における依存関係管理の設計戦略</h4><div class="lc-meta"><span><iconify-icon icon="lucide:calendar"></iconify-icon> 2026-01-22</span><span><iconify-icon icon="lucide:clock"></iconify-icon> 15 min</span></div><div class="lc-tags"><span class="tag"><iconify-icon icon="lucide:code" class="ti-lang"></iconify-icon>TypeScript</span><span class="tag"><iconify-icon icon="lucide:git-branch" class="ti-infra"></iconify-icon>CI/CD</span></div></div></div>
-          <div class="list-card"><div class="list-card-thumb"><div class="art-thumb-g"></div><div class="art-thumb-p"></div><div class="list-card-thumb-icon"><iconify-icon icon="lucide:rocket" style="font-size:22px"></iconify-icon></div></div><div class="list-card-body"><h4>Feature Flags で安全にリリースする仕組みを構築する</h4><div class="lc-meta"><span><iconify-icon icon="lucide:calendar"></iconify-icon> 2026-01-10</span><span><iconify-icon icon="lucide:clock"></iconify-icon> 7 min</span></div><div class="lc-tags"><span class="tag"><iconify-icon icon="lucide:infinity" class="ti-devops"></iconify-icon>DevOps</span><span class="tag"><iconify-icon icon="lucide:rocket" class="ti-release"></iconify-icon>Release</span></div></div></div>
-        </div>
-
-        <div class="pn-section">
-          <h3>More Articles</h3>
-          <div class="pn-grid">
-            <div><div class="pn-label-inline"><iconify-icon icon="lucide:arrow-left"></iconify-icon> Previous Article</div><div class="list-card"><div class="list-card-thumb"><div class="art-thumb-g"></div><div class="art-thumb-p"></div><div class="list-card-thumb-icon"><iconify-icon icon="lucide:users" style="font-size:22px"></iconify-icon></div></div><div class="list-card-body"><h4>開発者オンボーディングを自動化して定着率を改善した話</h4><div class="lc-meta"><span><iconify-icon icon="lucide:calendar"></iconify-icon> 2026-03-01</span><span><iconify-icon icon="lucide:clock"></iconify-icon> 12 min</span></div><div class="lc-tags"><span class="tag"><iconify-icon icon="lucide:sparkles" class="ti-tool"></iconify-icon>DevEx</span><span class="tag"><iconify-icon icon="lucide:bot" class="ti-infra"></iconify-icon>Automation</span></div></div></div></div>
-            <div><div class="pn-label-inline" style="justify-content:flex-end">Next Article <iconify-icon icon="lucide:arrow-right"></iconify-icon></div><div class="list-card"><div class="list-card-thumb"><div class="art-thumb-g"></div><div class="art-thumb-p"></div><div class="list-card-thumb-icon"><iconify-icon icon="lucide:bar-chart-3" style="font-size:22px"></iconify-icon></div></div><div class="list-card-body"><h4>DORA メトリクスを導入して開発チームの健全性を可視化する</h4><div class="lc-meta"><span><iconify-icon icon="lucide:calendar"></iconify-icon> 2026-02-18</span><span><iconify-icon icon="lucide:clock"></iconify-icon> 10 min</span></div><div class="lc-tags"><span class="tag"><iconify-icon icon="lucide:bar-chart-3" class="ti-perf"></iconify-icon>Metrics</span><span class="tag"><iconify-icon icon="lucide:infinity" class="ti-devops"></iconify-icon>DevOps</span></div></div></div></div>
-          </div>
-        </div>
       </div>
-      <div class="toc-sidebar"><div class="toc-card"><p class="toc-title">Table of Contents</p><ul class="toc-list"><li><a class="active">はじめに</a></li><li><a>キャッシュの基本戦略</a></li><li><a>並列実行の最適化</a></li><li><a>計測結果</a></li><li><a>まとめ</a></li></ul></div></div>
+      <div class="toc-sidebar"><div class="toc-card"><p class="toc-title">Contents</p><ul class="toc-list"><li><a class="active">はじめに</a></li><li><a>キャッシュの基本戦略</a></li><li><a>並列実行の最適化</a></li><li><a>計測結果</a></li><li><a>まとめ</a></li></ul></div></div>
+    </div>
     </div>
   </section>
+
+  <!-- v12.1: Related / 前後ナビは実装と同じく alt セクションに配置 (Related が先) -->
+  <div class="section-alt">
+  <section class="section" style="padding-top: 48px; padding-bottom: 64px;">
+    <div class="art-shell">
+      <p class="s-label">// Related</p>
+      <h2 class="s-title" style="font-size: 24px;">Related Articles</h2>
+      <p class="s-desc" style="margin-bottom: 20px;">同じタグを持つ記事をピックアップしています。</p>
+          <div class="list-card"><div class="list-card-thumb"><div class="art-thumb-g"></div><div class="art-thumb-p"></div><div class="list-card-thumb-icon"><iconify-icon icon="lucide:git-merge" style="font-size:22px"></iconify-icon></div></div><div class="list-card-body"><h4>Monorepo における依存関係管理の設計戦略</h4><div class="lc-meta"><span><iconify-icon icon="lucide:calendar"></iconify-icon> 2026-01-22</span><span><iconify-icon icon="lucide:clock"></iconify-icon> 15 min</span></div><div class="lc-tags"><span class="tag"><iconify-icon icon="lucide:code" class="ti-lang"></iconify-icon>TypeScript</span><span class="tag"><iconify-icon icon="lucide:git-branch" class="ti-infra"></iconify-icon>CI/CD</span></div></div></div>
+          <div class="list-card"><div class="list-card-thumb"><div class="art-thumb-g"></div><div class="art-thumb-p"></div><div class="list-card-thumb-icon"><iconify-icon icon="lucide:rocket" style="font-size:22px"></iconify-icon></div></div><div class="list-card-body"><h4>Feature Flags で安全にリリースする仕組みを構築する</h4><div class="lc-meta"><span><iconify-icon icon="lucide:calendar"></iconify-icon> 2026-01-10</span><span><iconify-icon icon="lucide:clock"></iconify-icon> 7 min</span></div><div class="lc-tags"><span class="tag"><iconify-icon icon="lucide:infinity" class="ti-devops"></iconify-icon>DevOps</span><span class="tag"><iconify-icon icon="lucide:rocket" class="ti-release"></iconify-icon>Release</span></div></div></div>
+      <div class="pn-grid" style="margin-top: 40px;">
+            <div><div class="pn-label-inline"><iconify-icon icon="lucide:arrow-left"></iconify-icon> Previous Article</div><div class="list-card"><div class="list-card-thumb"><div class="art-thumb-g"></div><div class="art-thumb-p"></div><div class="list-card-thumb-icon"><iconify-icon icon="lucide:users" style="font-size:22px"></iconify-icon></div></div><div class="list-card-body"><h4>開発者オンボーディングを自動化して定着率を改善した話</h4><div class="lc-meta"><span><iconify-icon icon="lucide:calendar"></iconify-icon> 2026-03-01</span><span><iconify-icon icon="lucide:clock"></iconify-icon> 12 min</span></div><div class="lc-tags"><span class="tag"><iconify-icon icon="lucide:sparkles" class="ti-tool"></iconify-icon>DevEx</span><span class="tag"><iconify-icon icon="lucide:bot" class="ti-infra"></iconify-icon>Automation</span></div></div></div></div>
+            <div><div class="pn-label-inline" style="justify-content:flex-end">Next Article <iconify-icon icon="lucide:arrow-right"></iconify-icon></div><div class="list-card"><div class="list-card-thumb"><div class="art-thumb-g"></div><div class="art-thumb-p"></div><div class="list-card-thumb-icon"><iconify-icon icon="lucide:bar-chart-3" style="font-size:22px"></iconify-icon></div></div><div class="list-card-body"><h4>DORA メトリクスを導入して開発チームの健全性を可視化する</h4><div class="lc-meta"><span><iconify-icon icon="lucide:calendar"></iconify-icon> 2026-02-18</span><span><iconify-icon icon="lucide:clock"></iconify-icon> 10 min</span></div><div class="lc-tags"><span class="tag"><iconify-icon icon="lucide:bar-chart-3" class="ti-perf"></iconify-icon>Metrics</span><span class="tag"><iconify-icon icon="lucide:infinity" class="ti-devops"></iconify-icon>DevOps</span></div></div></div></div>
+      </div>
+    </div>
+  </section>
+  </div>
 
   <footer class="site-footer"><div class="footer-inner"><div class="footer-left"><div class="footer-logo">Rym<span class="a">lab</span></div><p class="footer-copy">&copy; 2026 Rymlab. All rights reserved.</p></div><div class="footer-icons"><a class="footer-icon" aria-label="GitHub"><iconify-icon icon="simple-icons:github"></iconify-icon></a><a class="footer-icon" aria-label="X"><iconify-icon icon="simple-icons:x"></iconify-icon></a><a class="footer-icon" aria-label="LinkedIn"><iconify-icon icon="simple-icons:linkedin"></iconify-icon></a><a class="footer-icon" aria-label="Zenn"><iconify-icon icon="simple-icons:zenn"></iconify-icon></a><a class="footer-icon" aria-label="Qiita"><iconify-icon icon="simple-icons:qiita"></iconify-icon></a><a class="footer-icon" aria-label="RSS"><iconify-icon icon="lucide:rss"></iconify-icon></a></div></div></footer>
 </div>
@@ -1004,6 +1023,17 @@
       <p class="s-label">// Design System</p>
       <h2>v7 &mdash; Color & Responsive</h2>
       <div class="notes-grid">
+        <div class="note-card">
+          <h3>v12.1: Article Detail &mdash; Shell Layout</h3>
+          <ul>
+            <li>記事詳細のカードラッパーを廃止し<strong>シェルレイアウト</strong>に (戻りリンク + リード文 + フル幅アイキャッチ)</li>
+            <li>コードブロックは両テーマ共通の<strong>ダークターミナル面</strong> (#09090b / border #2a2a2f)。ヒーローターミナルと同じ言語</li>
+            <li>ファイル名付きコードは <code>figure.code-block</code> + <code>figcaption.code-fn</code> (microCMS data-filename)</li>
+            <li>TOC はレールを連続させ<strong>スクロール連動ハイライト</strong> (aria-current)</li>
+            <li>Related / 前後ナビは alt セクションへ移動 (Related が先)</li>
+            <li>カードグリッドは全ブレイクポイントで minmax(320px) に統一 (480px で 1 カラム)</li>
+          </ul>
+        </div>
         <div class="note-card">
           <h3>v7: Light Mode &mdash; Neutral White</h3>
           <ul>

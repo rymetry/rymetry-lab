@@ -46,6 +46,11 @@ export default async function Home({ params }: HomePageProps) {
           label={t('featuredProjects.label')}
           title={t('featuredProjects.title')}
           description={t('featuredProjects.description')}
+          descriptionEn={
+            t.has('featuredProjects.descriptionEn')
+              ? t('featuredProjects.descriptionEn')
+              : undefined
+          }
         />
         <ScrollRevealList className="grid grid-cols-[repeat(auto-fill,minmax(min(320px,100%),1fr))] gap-5">
           {PROJECTS.slice(0, 3).map((project, i) => (
@@ -64,6 +69,9 @@ export default async function Home({ params }: HomePageProps) {
           label={t('recentArticles.label')}
           title={t('recentArticles.title')}
           description={t('recentArticles.description')}
+          descriptionEn={
+            t.has('recentArticles.descriptionEn') ? t('recentArticles.descriptionEn') : undefined
+          }
         />
         <ScrollRevealList className="grid grid-cols-[repeat(auto-fill,minmax(min(320px,100%),1fr))] gap-5">
           {ARTICLES.map((article, i) => (

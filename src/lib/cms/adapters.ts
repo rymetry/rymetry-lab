@@ -41,6 +41,7 @@ const READING_CHARS_PER_MINUTE = 500;
 
 interface AdaptArticleOptions {
   readonly index?: number;
+  readonly includeRelatedArticles?: boolean;
 }
 
 export function adaptTag(tag: CMSTag): Tag {
@@ -61,6 +62,9 @@ export function adaptArticle(
   const tags = article.tags.map(adaptTag);
   const primaryTag = tags[0];
   const content = extractArticleContent(article);
+  const relatedArticleSlugs = options.includeRelatedArticles
+    ? extractRelatedArticleSlugs(article)
+    : undefined;
 
   return {
     slug: requireNonEmpty(article.slug, `microCMS article "${article.id}" is missing slug`),
@@ -85,6 +89,7 @@ export function adaptArticle(
     thumbnailIcon: primaryTag?.icon ?? SparklesIcon,
     thumbnailVariant: pickThumbnailVariant(options.index),
     tags,
+    ...(relatedArticleSlugs ? { relatedArticleSlugs } : {}),
   };
 }
 
@@ -130,6 +135,19 @@ function extractArticleContent(article: CMSArticle): string {
   }
 
   return requireNonEmpty(content?.body, `microCMS article "${article.id}" is missing content.body`);
+}
+
+function extractRelatedArticleSlugs(article: CMSArticle): readonly string[] | undefined {
+  const content = article.content;
+
+  if (typeof content === 'string') return undefined;
+
+  return content.relatedArticles?.map((relatedArticle) =>
+    requireNonEmpty(
+      relatedArticle.slug,
+      `microCMS related article "${relatedArticle.id}" is missing slug`,
+    ),
+  );
 }
 
 function formatDate(value: string, articleId: string, field: string): string {

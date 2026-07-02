@@ -51,4 +51,45 @@ describe('processArticleContent', () => {
     expect(result.html).toContain('line-number');
     expect(result.html).toContain('const');
   });
+
+  test('renders a filename bar for microCMS div-wrapped code blocks', async () => {
+    const result = await processArticleContent(`
+      <div data-filename=".github/workflows/ci.yml"><pre><code class="language-yaml">key: value</code></pre></div>
+    `);
+
+    expect(result.html).toContain('<figure class="code-block">');
+    expect(result.html).toContain(
+      '<figcaption class="code-filename">.github/workflows/ci.yml</figcaption>',
+    );
+    expect(result.html).toContain('language-yaml');
+    expect(result.html).not.toContain('data-filename');
+  });
+
+  test('renders a filename bar for pre elements with data-filename', async () => {
+    const result = await processArticleContent(`
+      <pre data-filename="main.ts"><code class="language-ts">const ok = true;</code></pre>
+    `);
+
+    expect(result.html).toContain('<figure class="code-block">');
+    expect(result.html).toContain('<figcaption class="code-filename">main.ts</figcaption>');
+    expect(result.html).not.toContain('data-filename');
+  });
+
+  test('escapes markup inside filename labels', async () => {
+    const result = await processArticleContent(`
+      <div data-filename="&lt;b&gt;evil&lt;/b&gt;.ts"><pre><code>x</code></pre></div>
+    `);
+
+    expect(result.html).not.toContain('<b>evil</b>');
+    expect(result.html).toContain('&#x3C;b>evil&#x3C;/b>.ts');
+  });
+
+  test('leaves plain code blocks without a filename untouched', async () => {
+    const result = await processArticleContent(`
+      <pre><code class="language-ts">const plain = true;</code></pre>
+    `);
+
+    expect(result.html).not.toContain('code-filename');
+    expect(result.html).not.toContain('<figure');
+  });
 });

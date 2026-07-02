@@ -34,7 +34,12 @@ export default async function ProjectsPage({ params }: ProjectsPageProps) {
 
   return (
     <SectionContainer>
-      <SectionHeader label={t('label')} title={t('title')} description={t('description')} />
+      <SectionHeader
+        label={t('label')}
+        title={t('title')}
+        description={t('description')}
+        descriptionEn={t.has('descriptionEn') ? t('descriptionEn') : undefined}
+      />
       <ScrollRevealList className="grid grid-cols-[repeat(auto-fill,minmax(min(320px,100%),1fr))] gap-5">
         {PROJECTS.map((project) => (
           <ProjectCard key={project.slug} project={{ ...project, href: '#' }} />
