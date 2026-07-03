@@ -31,7 +31,7 @@ describe('buildContentSecurityPolicy', () => {
 });
 
 describe('getSecurityHeaders', () => {
-  test('uses report-only CSP outside production and HSTS only in production', () => {
+  test('uses report-only CSP in all environments while production rendering is investigated', () => {
     const developmentHeaders = getSecurityHeaders({ isProduction: false });
     const productionHeaders = getSecurityHeaders({ isProduction: true });
 
@@ -44,7 +44,12 @@ describe('getSecurityHeaders', () => {
     expect(developmentHeaders.some((header) => header.key === 'Strict-Transport-Security')).toBe(
       false,
     );
-    expect(productionHeaders.some((header) => header.key === 'Content-Security-Policy')).toBe(true);
+    expect(productionHeaders.some((header) => header.key === 'Content-Security-Policy')).toBe(
+      false,
+    );
+    expect(
+      productionHeaders.some((header) => header.key === 'Content-Security-Policy-Report-Only'),
+    ).toBe(true);
     expect(productionHeaders.some((header) => header.key === 'Strict-Transport-Security')).toBe(
       true,
     );

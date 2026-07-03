@@ -26,12 +26,12 @@ export function proxy(request: NextRequest) {
     reportOnly: false,
   });
 
-  // Production CSP must be dynamic so each request receives a fresh nonce.
-  // The request-header override lets Next.js attach that nonce to runtime inline scripts.
+  // Production CSP stays dynamic so each request receives a fresh nonce, but it is
+  // report-only while Vercel rendering is being diagnosed.
   markDefaultLocaleRewrite(response);
   setRequestHeaderOverride(response, 'x-nonce', nonce);
-  setRequestHeaderOverride(response, 'content-security-policy', contentSecurityPolicy);
-  response.headers.set('Content-Security-Policy', contentSecurityPolicy);
+  setRequestHeaderOverride(response, 'content-security-policy-report-only', contentSecurityPolicy);
+  response.headers.set('Content-Security-Policy-Report-Only', contentSecurityPolicy);
 
   return response;
 }
