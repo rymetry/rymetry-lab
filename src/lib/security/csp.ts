@@ -56,7 +56,7 @@ export function getSecurityHeaders({ isProduction }: GetSecurityHeadersOptions):
       value: 'camera=(), microphone=(), geolocation=(), payment=(), usb=()',
     },
     {
-      key: isProduction ? 'Content-Security-Policy' : 'Content-Security-Policy-Report-Only',
+      key: 'Content-Security-Policy-Report-Only',
       value: buildContentSecurityPolicy({ reportOnly: !isProduction }),
     },
     ...(isProduction
