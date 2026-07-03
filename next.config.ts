@@ -12,12 +12,6 @@ const nextConfig: NextConfig = {
   // Enable 'use cache' directive for server component and function caching
   cacheComponents: true,
 
-  experimental: {
-    sri: {
-      algorithm: 'sha256',
-    },
-  },
-
   images: {
     formats: ['image/avif', 'image/webp'],
     remotePatterns: [
