@@ -52,7 +52,7 @@
     "@storybook/global": "^5.0.0",
     "@storybook/nextjs-vite": "^10.5.2",
     "@tailwindcss/postcss": "^4",
-    "@types/node": "^25",
+    "@types/node": "^26",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@vitest/browser-playwright": "^4.1.10",
