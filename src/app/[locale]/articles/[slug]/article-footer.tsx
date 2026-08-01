@@ -12,7 +12,6 @@ export function ArticleFooter({
   navigationLabel,
   previousLabel,
   nextLabel,
-  relatedLabel,
   relatedTitle,
   relatedDescription,
 }: {
@@ -22,20 +21,19 @@ export function ArticleFooter({
   readonly navigationLabel: string;
   readonly previousLabel: string;
   readonly nextLabel: string;
-  readonly relatedLabel: string;
   readonly relatedTitle: string;
   readonly relatedDescription: string;
 }) {
   return (
-    <SectionContainer alt className="pt-12">
+    <SectionContainer alt className="pt-12 pb-16">
       <div className="mx-auto max-w-[1040px]">
         {relatedArticles.length > 0 ? (
           <>
             <SectionHeader
-              label={relatedLabel}
+              size="sub"
               title={relatedTitle}
               description={relatedDescription}
-              className="mb-6"
+              className="mb-5"
             />
             <div className="grid gap-3">
               {relatedArticles.map((article) => (
@@ -78,13 +76,13 @@ function ArticleNavCard({
     <div>
       <p
         className={cn(
-          'mb-2 flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.1em] text-primary',
+          'mb-2 flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground',
           direction === 'next' && 'justify-end',
         )}
       >
-        {direction === 'previous' ? <Icon aria-hidden="true" className="size-3.5" /> : null}
+        {direction === 'previous' ? <Icon aria-hidden="true" className="size-[11px]" /> : null}
         {label}
-        {direction === 'next' ? <Icon aria-hidden="true" className="size-3.5" /> : null}
+        {direction === 'next' ? <Icon aria-hidden="true" className="size-[11px]" /> : null}
       </p>
       <ListCard article={article} />
     </div>

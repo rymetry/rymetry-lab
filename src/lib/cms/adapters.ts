@@ -36,11 +36,9 @@ const TAG_NAME_ICONS: Partial<Record<string, LucideIcon>> = {
   devex: SparklesIcon,
 };
 
-const THUMBNAIL_VARIANTS = ['v1', 'v2', 'v3'] as const;
 const READING_CHARS_PER_MINUTE = 500;
 
 interface AdaptArticleOptions {
-  readonly index?: number;
   readonly includeRelatedArticles?: boolean;
 }
 
@@ -60,7 +58,6 @@ export function adaptArticle(
   options: AdaptArticleOptions = {},
 ): ArticleDetail {
   const tags = article.tags.map(adaptTag);
-  const primaryTag = tags[0];
   const content = extractArticleContent(article);
   const relatedArticleSlugs = options.includeRelatedArticles
     ? extractRelatedArticleSlugs(article)
@@ -86,15 +83,13 @@ export function adaptArticle(
     publishedAt: formatDate(article.publishedAt, article.id, 'publishedAt'),
     updatedAt: formatDate(article.revisedAt ?? article.updatedAt, article.id, 'updatedAt'),
     readingTime: calculateReadingTime(content),
-    thumbnailIcon: primaryTag?.icon ?? SparklesIcon,
-    thumbnailVariant: pickThumbnailVariant(options.index),
     tags,
     ...(relatedArticleSlugs ? { relatedArticleSlugs } : {}),
   };
 }
 
 export function adaptArticles(articles: readonly CMSArticle[]): readonly ArticleDetail[] {
-  return articles.map((article, index) => adaptArticle(article, { index }));
+  return articles.map((article) => adaptArticle(article));
 }
 
 function requireTagCategory(
@@ -166,10 +161,4 @@ function calculateReadingTime(content: string): string {
   const minutes = Math.max(1, Math.ceil(text.length / READING_CHARS_PER_MINUTE));
 
   return `${minutes} min`;
-}
-
-function pickThumbnailVariant(index: number | undefined): (typeof THUMBNAIL_VARIANTS)[number] {
-  if (typeof index !== 'number') return 'v1';
-
-  return THUMBNAIL_VARIANTS[index % THUMBNAIL_VARIANTS.length] ?? 'v1';
 }

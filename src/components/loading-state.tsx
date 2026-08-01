@@ -21,10 +21,10 @@ function CardSkeleton({ compact = false }: { readonly compact?: boolean }) {
     <div
       className={cn(
         'overflow-hidden rounded-[4px] border border-border bg-card',
-        compact ? 'grid grid-cols-[120px_1fr] max-[480px]:grid-cols-[80px_1fr]' : 'flex flex-col',
+        compact ? 'grid grid-cols-[110px_1fr] max-[480px]:grid-cols-[80px_1fr]' : 'flex flex-col',
       )}
     >
-      <div className={cn('relative overflow-hidden', compact ? 'min-h-[90px]' : 'h-[150px]')}>
+      <div className={cn('relative overflow-hidden', compact ? 'min-h-[92px]' : 'h-[150px]')}>
         <Skeleton className="absolute inset-0 rounded-none" />
         <SkeletonInk />
       </div>
@@ -67,8 +67,8 @@ export function HomeLoadingState() {
         </div>
       </SectionContainer>
 
-      <SectionContainer alt>
-        <SectionHeader label="Latest Articles" title="Recent Articles" />
+      <SectionContainer padY="compact">
+        <SectionHeader title="Recent Articles" />
         <div className="grid grid-cols-[repeat(auto-fill,minmax(min(320px,100%),1fr))] gap-5">
           {Array.from({ length: 3 }, (_, index) => (
             <CardSkeleton key={index} />
@@ -85,7 +85,6 @@ export function ArticlesLoadingState() {
       <span className="sr-only">記事一覧を読み込み中</span>
       <SectionContainer>
         <SectionHeader
-          label="Articles"
           title="All Articles"
           descriptionEn="Field notes from the trenches of developer productivity."
           description="開発生産性の現場から得た知見。"

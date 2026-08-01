@@ -13,7 +13,7 @@ interface ListCardProps {
 
 function ListCardThumbnail({ slug }: { readonly slug: string }) {
   return (
-    <div className="relative min-h-[90px] overflow-hidden border-r border-border bg-secondary">
+    <div className="relative min-h-[92px] overflow-hidden border-r border-border bg-secondary">
       <InkImage
         kind="fine"
         className={cn(
@@ -31,11 +31,9 @@ export function ListCard({ article, className }: ListCardProps) {
     <Link
       href={`/articles/${article.slug}`}
       className={cn(
-        'group relative grid grid-cols-[120px_1fr] overflow-hidden rounded-[4px] border border-border bg-card',
+        'group relative grid grid-cols-[110px_1fr] overflow-hidden rounded-[4px] border border-border bg-card',
         'transition-all duration-200',
         'hover:-translate-y-px hover:border-[var(--accent)] hover:shadow-[var(--card-shadow-hover)]',
-        'before:absolute before:inset-x-0 before:top-0 before:z-10 before:h-0.5 before:bg-[image:var(--accent-gradient)] before:opacity-0 before:transition-opacity before:duration-200',
-        'hover:before:opacity-100',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
         'max-md:grid-cols-[100px_1fr] max-[480px]:grid-cols-[80px_1fr]',
         className,

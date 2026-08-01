@@ -39,7 +39,6 @@ export default async function ProjectsPage({ params }: ProjectsPageProps) {
         <PageInk />
         <SectionHeader
           size="page"
-          label={t('label')}
           title={t('title')}
           description={t('description')}
           descriptionEn={t.has('descriptionEn') ? t('descriptionEn') : undefined}

@@ -86,7 +86,6 @@ export default async function ArticlesPage({ params, searchParams }: ArticlesPag
           <PageInk />
           <SectionHeader
             size="page"
-            label={t('heading.label')}
             title={t('heading.title')}
             description={t('heading.description')}
             descriptionEn={t.has('heading.descriptionEn') ? t('heading.descriptionEn') : undefined}

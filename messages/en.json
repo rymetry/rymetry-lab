@@ -38,6 +38,7 @@
     "hero": {
       "line1": "Build it. Prove it.",
       "line2": "Write about it.",
+      "jaLine": "作って、確かめて、書き残す。",
       "description": "I publish the tools I build, the technologies I validate, and the lessons learned as reproducible knowledge from the field of productivity engineering.",
       "projects": "Projects",
       "articles": "Articles",
@@ -52,13 +53,13 @@
       "missionCommand": "echo $MISSION"
     },
     "featuredProjects": {
-      "label": "Featured Projects",
       "title": "Featured Work",
+      "viewAll": "View all projects",
       "description": "Tools engineered to multiply team velocity."
     },
     "recentArticles": {
-      "label": "Latest Articles",
       "title": "Recent Articles",
+      "viewAll": "View all articles",
       "description": "Field notes from the trenches of developer productivity."
     }
   },
@@ -68,7 +69,6 @@
       "description": "Insights on developer productivity, automation, and modern engineering."
     },
     "heading": {
-      "label": "Articles",
       "title": "All Articles",
       "description": "Insights on developer productivity, automation, and modern engineering."
     },
@@ -102,12 +102,10 @@
     "detail": {
       "notFoundTitle": "Article Not Found | Rymlab",
       "back": "Articles",
-      "label": "Article",
       "toc": "Contents",
       "navigation": "Article navigation",
       "previous": "Previous Article",
       "next": "Next Article",
-      "relatedLabel": "Related",
       "relatedTitle": "Related Articles",
       "relatedDescription": "Curated articles selected for this post."
     }
@@ -118,7 +116,6 @@
       "description": "Tools designed and built to accelerate team velocity."
     },
     "heading": {
-      "label": "Projects",
       "title": "All Projects",
       "description": "Tools designed and built to accelerate team velocity."
     }
@@ -134,19 +131,16 @@
       "bio2": "Measure, automate, and improve is the operating principle behind my day-to-day work on better development workflows."
     },
     "principles": {
-      "label": "Engineering Principles",
       "title": "What I Value",
       "description": "The compass that guides my engineering decisions."
     },
     "toolbox": {
-      "label": "Toolbox",
       "title": "Tech Stack",
       "description": "Tools of the trade."
     }
   },
   "ErrorPages": {
     "notFound": {
-      "label": "NOT_FOUND",
       "title": "Page Not Found",
       "description": "The page you are looking for does not exist or may have moved.",
       "terminalCommand": "curl /unknown-path",

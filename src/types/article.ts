@@ -1,4 +1,3 @@
-import type { LucideIcon } from 'lucide-react';
 import type { Tag } from './tag';
 
 export interface ArticleImage {
@@ -14,8 +13,6 @@ export interface Article {
   readonly publishedAt: string;
   readonly updatedAt?: string;
   readonly readingTime: string;
-  readonly thumbnailIcon: LucideIcon;
-  readonly thumbnailVariant?: 'v1' | 'v2' | 'v3';
   readonly tags: readonly Tag[];
 }
 

@@ -25,7 +25,7 @@ function ArticleThumbnail({
       className={cn(
         'relative overflow-hidden bg-secondary',
         layout === 'list'
-          ? 'h-full min-h-[140px] border-r border-border max-[1024px]:min-h-[100px]'
+          ? 'h-full min-h-[120px] border-r border-border'
           : 'h-[150px] border-b border-border',
       )}
     >
@@ -50,12 +50,10 @@ export function ArticleCard({ article, href, className, variant = 'grid' }: Arti
       className={cn(
         'group relative overflow-hidden rounded-[4px] border border-border bg-card',
         isList
-          ? 'grid grid-cols-[200px_1fr] max-[1024px]:grid-cols-[140px_1fr] max-[480px]:grid-cols-1'
+          ? 'grid grid-cols-[minmax(140px,220px)_1fr] max-[1024px]:grid-cols-[100px_1fr] max-[480px]:grid-cols-[80px_1fr]'
           : 'flex flex-col',
         'transition-all duration-[250ms]',
         'hover:-translate-y-0.5 hover:border-[var(--border-hover)] hover:shadow-[var(--card-shadow-hover)]',
-        'before:absolute before:inset-x-0 before:top-0 before:z-10 before:h-[3px] before:bg-[image:var(--accent-gradient)] before:opacity-0 before:transition-opacity before:duration-[250ms]',
-        'hover:before:opacity-100',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
         className,
       )}
@@ -82,11 +80,8 @@ export function ArticleCard({ article, href, className, variant = 'grid' }: Arti
         </div>
 
         {/* Title */}
-        <h3 className="mb-2 text-base font-bold leading-snug tracking-[-0.01em] transition-colors duration-200 group-hover:text-primary">
+        <h3 className="mb-2 text-base font-bold leading-snug tracking-[-0.01em]">
           {article.title}
-          <span className="ml-1 inline-block text-[0.85em] text-primary opacity-0 transition-all duration-200 group-hover:translate-x-0.5 group-hover:opacity-100">
-            →
-          </span>
         </h3>
 
         {/* Tags */}

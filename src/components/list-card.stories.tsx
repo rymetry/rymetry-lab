@@ -1,6 +1,6 @@
 import type { Article } from '@/types/article';
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { CodeIcon, GitBranchIcon, GitMergeIcon, InfinityIcon, RocketIcon } from 'lucide-react';
+import { CodeIcon, GitBranchIcon, InfinityIcon, RocketIcon } from 'lucide-react';
 import { ListCard } from './list-card';
 
 const sampleArticles: Article[] = [
@@ -9,7 +9,6 @@ const sampleArticles: Article[] = [
     title: 'Monorepo における依存関係管理の設計戦略',
     publishedAt: '2026-01-22',
     readingTime: '15 min',
-    thumbnailIcon: GitMergeIcon,
     tags: [
       { label: 'TypeScript', category: 'languages', icon: CodeIcon },
       { label: 'CI/CD', category: 'infra', icon: GitBranchIcon },
@@ -20,7 +19,6 @@ const sampleArticles: Article[] = [
     title: 'Feature Flags で安全にリリースする仕組みを構築する',
     publishedAt: '2026-01-10',
     readingTime: '7 min',
-    thumbnailIcon: RocketIcon,
     tags: [
       { label: 'DevOps', category: 'devops', icon: InfinityIcon },
       { label: 'Release', category: 'release', icon: RocketIcon },

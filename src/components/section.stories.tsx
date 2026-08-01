@@ -10,7 +10,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'セクションレイアウト。SectionContainer (max-width + padding) + SectionHeader (label + title + desc)。',
+          'セクションレイアウト。SectionContainer (max-width + padding) + SectionHeader (title + desc)。',
       },
     },
   },
@@ -21,7 +21,6 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    label: 'Featured Projects',
     title: 'Featured Work',
     descriptionEn: 'Less friction, more flow.',
     description: '開発者のワークフローを加速するために構築したツール群。',
@@ -40,7 +39,6 @@ export const Default: Story = {
 
 export const AltBackground: Story = {
   args: {
-    label: 'Latest Articles',
     title: 'Recent Articles',
     descriptionEn: 'Field notes from the trenches of developer productivity.',
     description: '開発生産性の現場から得た知見。',
@@ -57,9 +55,27 @@ export const AltBackground: Story = {
   ],
 };
 
+export const WithKanjiStamp: Story = {
+  args: {
+    title: 'Featured Work',
+    descriptionEn: 'Less friction, more flow.',
+    description: '開発者のワークフローを加速するために構築したツール群。',
+    kanjiStamp: '作',
+  },
+  decorators: [
+    (Story) => (
+      <SectionContainer>
+        <Story />
+        <div className="h-32 rounded-lg border border-dashed border-border bg-muted/30 p-4 text-muted-foreground">
+          Section content area
+        </div>
+      </SectionContainer>
+    ),
+  ],
+};
+
 export const DarkMode: Story = {
   args: {
-    label: 'Featured Projects',
     title: 'Featured Work',
     descriptionEn: 'Less friction, more flow.',
     description: '開発者のワークフローを加速するために構築したツール群。',

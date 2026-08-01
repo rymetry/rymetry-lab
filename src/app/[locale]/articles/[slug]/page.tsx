@@ -123,7 +123,6 @@ export default async function ArticleDetailPage({ params }: ArticleDetailPagePro
         navigationLabel={t('navigation')}
         previousLabel={t('previous')}
         nextLabel={t('next')}
-        relatedLabel={t('relatedLabel')}
         relatedTitle={t('relatedTitle')}
         relatedDescription={t('relatedDescription')}
       />

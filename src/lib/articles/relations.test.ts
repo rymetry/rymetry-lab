@@ -20,7 +20,6 @@ function article(slug: string, publishedAt: string, tags: readonly string[]): Ar
     publishedAt,
     updatedAt: publishedAt,
     readingTime: '1 min',
-    thumbnailIcon: CodeIcon,
     tags: tags.map((label) => ({
       label,
       category: 'frontend',

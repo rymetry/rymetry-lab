@@ -18,10 +18,10 @@ export function ToolboxCard({ category, className }: ToolboxCardProps) {
           <span
             key={item}
             className={cn(
-              'rounded-[5px] border border-border bg-secondary px-[11px] py-[5px]',
+              'rounded-[2px] border border-border bg-secondary px-[11px] py-[5px]',
               'font-mono text-[12.5px] text-text-secondary',
-              'transition-[border-color,color,background] duration-200',
-              'hover:border-primary hover:bg-[var(--accent-glow)] hover:text-primary',
+              'transition-[border-color,color] duration-200',
+              'hover:border-primary hover:text-primary',
             )}
           >
             {item}
