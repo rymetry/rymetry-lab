@@ -49,14 +49,14 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     items: TOC_ITEMS,
-    label: 'Contents',
+    label: 'INDEX',
   },
 };
 
 export const DarkMode: Story = {
   args: {
     items: TOC_ITEMS,
-    label: 'Contents',
+    label: 'INDEX',
   },
   globals: { theme: 'dark' },
 };

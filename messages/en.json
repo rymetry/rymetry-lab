@@ -18,10 +18,7 @@
     "en": "English"
   },
   "ThemeToggle": {
-    "label": "Toggle theme",
-    "light": "Light",
-    "dark": "Dark",
-    "system": "System"
+    "label": "Toggle theme"
   },
   "Layout": {
     "skipToMain": "Skip to main content"
@@ -102,7 +99,7 @@
     "detail": {
       "notFoundTitle": "Article Not Found | Rymlab",
       "back": "Articles",
-      "toc": "Contents",
+      "toc": "INDEX",
       "navigation": "Article navigation",
       "previous": "Previous Article",
       "next": "Next Article",

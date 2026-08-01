@@ -75,7 +75,7 @@ describe('ArticleFooter', () => {
       </NextIntlClientProvider>,
     );
 
-    expect(html.match(/grid-cols-\[110px_1fr\]/g)).toHaveLength(2);
+    expect(html.match(/grid-cols-\[minmax\(140px,220px\)_1fr\]/g)).toHaveLength(2);
     expect(
       html.match(/min-h-\[92px\] overflow-hidden border-r border-border bg-secondary/g),
     ).toHaveLength(2);

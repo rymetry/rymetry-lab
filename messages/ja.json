@@ -18,10 +18,7 @@
     "en": "English"
   },
   "ThemeToggle": {
-    "label": "テーマを切り替える",
-    "light": "Light",
-    "dark": "Dark",
-    "system": "System"
+    "label": "テーマを切り替える"
   },
   "Layout": {
     "skipToMain": "メインコンテンツへスキップ"
@@ -105,7 +102,7 @@
     "detail": {
       "notFoundTitle": "記事が見つかりません | Rymlab",
       "back": "Articles",
-      "toc": "Contents",
+      "toc": "INDEX",
       "navigation": "記事ナビゲーション",
       "previous": "Previous Article",
       "next": "Next Article",

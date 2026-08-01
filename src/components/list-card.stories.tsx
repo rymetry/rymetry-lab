@@ -35,7 +35,7 @@ const meta = {
     docs: {
       description: {
         component:
-          '横型リストカード。墨サムネイル (110px / 狭幅 100px / 480px 以下 80px) + タイトル + メタ + タグ。関連記事・前後ナビで使用。hover は translateY(-1px)。',
+          '横型リストカード。サムネイル (140-220px / 狭幅 100px / 480px 以下 80px、ogpImage 優先で墨フォールバック) + タイトル + メタ + タグ。関連記事・前後ナビで使用。hover は border-hover + shadow + translateY(-1px)。',
       },
     },
   },

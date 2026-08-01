@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { InkImage, inkThumbVariant } from '@/components/ink-image';
 import { TagList } from '@/components/tag';
 import { Link } from '@/i18n/navigation';
+import { buildCardThumbnailUrl } from '@/lib/cms/image';
 import { cn } from '@/lib/utils';
 import type { Article, ArticleImage } from '@/types/article';
 
@@ -34,7 +35,11 @@ function ArticleThumbnail({
     >
       {image ? (
         <Image
-          src={image.url}
+          src={buildCardThumbnailUrl(
+            image.url,
+            // 表示ボックスの実効アスペクト比に合わせた中央クロップ (2x 相当の実寸)
+            layout === 'list' ? { width: 480, height: 320 } : { width: 960, height: 400 },
+          )}
           alt=""
           fill
           sizes="(max-width: 480px) 100vw, 320px"

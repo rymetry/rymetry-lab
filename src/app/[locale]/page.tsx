@@ -74,6 +74,7 @@ export default async function Home({ params }: HomePageProps) {
             }
             viewAllHref="/articles"
             viewAllLabel={t('recentArticles.viewAll')}
+            descriptionClassName="max-w-none"
           />
           {recentArticles.map((article) => (
             <ArticleCard key={article.slug} article={article} />

@@ -115,7 +115,13 @@
 - 🎯 タグアイコンはカテゴリ色を維持 (プロトタイプは全 accent 一色)。カテゴリ識別性を優先
 - 🎯 モバイルのハンバーガーメニュー: プロトタイプも <768px はハンバーガー式だが、展開 UI が異なる (mock = ヘッダー直下のインライン縦並び / 実装 = shadcn Sheet の右ドロワー)。フォーカストラップ・スクロールロックを備えた Sheet を維持
 - 🎯 エラーページ (error.tsx): プロトタイプに対応画面なし。404 と同系の様式を踏襲
-- 🎯 テーマ切替 UI: mock は即時トグルだが、system 対応を優先して DropdownMenu (light/dark/system) を維持
+- 🎯 セクション説明文の 1 行化: About principles / Home Recent Articles の説明は `max-w-none` (mock は max-width 600px で折返し)。`SectionHeader descriptionClassName` prop で個別指定
+- 🎯 PrincipleCard (What I Value) の hover 演出撤去: mock は border-hover+shadow だが、非リンク要素のため無効に
+- 🎯 ListCard の hover を border-hover に統一 (mock は accent 枠 — mock 内で記事一覧リストと不統一だったため通常カード側に寄せた)。サムネ列も ArticleCard list と同じ minmax(140px,220px) 系列に統一 (mock は 110px)
+- 🎯 TOC ラベルは "INDEX" (mock は "Contents")。mono 大文字ラベルの言語に統一
+- 📝 テーマ切替は即時トグル化で mock 準拠に (resolvedTheme の反対をセット、defaultTheme=system 維持)。アイコンの rotate/scale 演出のみ実装独自
+- 📝 カードサムネイルは `buildCardThumbnailUrl` で表示ボックス比の imgix `fit=crop` (grid 960×400 / list 480×320) を要求。運用ルール: アイキャッチは 1200×630・中央セーフエリア推奨
+- ✅ TOC パネルの card-shadow 撤去 (mock は影なし — 監査漏れの追随。ライトで浮いて見えていた)
 - 🎯 Home の記事カードにも更新日 (pen-line) を表示 (mock は Home では公開日+読了時間のみ)。情報の一貫性を優先
 - 🎯 `.reveal` スクロール連動フェード (IntersectionObserver) と `scroll-behavior: smooth`: プロトタイプに存在しない実装側の追加演出 (CLAUDE.md 記載済み)。prefers-reduced-motion で無効化される
 - 🎯 Articles 空状態カード・Home ローディングの見出しセル: プロトタイプに対応 UI がない実装独自要素。様式は実ページに整合させる

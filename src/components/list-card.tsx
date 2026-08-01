@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { InkImage, inkThumbVariant } from '@/components/ink-image';
 import { TagList } from '@/components/tag';
 import { Link } from '@/i18n/navigation';
+import { buildCardThumbnailUrl } from '@/lib/cms/image';
 import { cn } from '@/lib/utils';
 import type { Article, ArticleImage } from '@/types/article';
 
@@ -22,7 +23,13 @@ function ListCardThumbnail({
   return (
     <div className="relative min-h-[92px] overflow-hidden border-r border-border bg-secondary">
       {image ? (
-        <Image src={image.url} alt="" fill sizes="120px" className="object-cover" />
+        <Image
+          src={buildCardThumbnailUrl(image.url, { width: 480, height: 320 })}
+          alt=""
+          fill
+          sizes="220px"
+          className="object-cover"
+        />
       ) : (
         <InkImage
           kind="fine"
@@ -42,9 +49,9 @@ export function ListCard({ article, className }: ListCardProps) {
     <Link
       href={`/articles/${article.slug}`}
       className={cn(
-        'group relative grid grid-cols-[110px_1fr] overflow-hidden rounded-[4px] border border-border bg-card',
+        'group relative grid grid-cols-[minmax(140px,220px)_1fr] overflow-hidden rounded-[4px] border border-border bg-card',
         'transition-all duration-200',
-        'hover:-translate-y-px hover:border-[var(--accent)] hover:shadow-[var(--card-shadow-hover)]',
+        'hover:-translate-y-px hover:border-[var(--border-hover)] hover:shadow-[var(--card-shadow-hover)]',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
         // max-md と max-[480px] は CSS 出力順で 480px 側が先になり打ち消されるため、範囲を重ねない
         'min-[480px]:max-md:grid-cols-[100px_1fr] max-[480px]:grid-cols-[80px_1fr]',

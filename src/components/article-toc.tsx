@@ -39,7 +39,7 @@ export function ArticleToc({ items, label }: ArticleTocProps) {
     <aside className="max-lg:order-first lg:sticky lg:top-[100px] lg:max-h-[calc(100vh-7.5rem)] lg:overflow-y-auto">
       {/* 狭幅 (<1024px): 折りたたみ (デフォルト閉) を本文上に配置。
           mock は order:-1 で常時展開だが、本文を押し下げないアコーディオンを採用 */}
-      <details className="group rounded-[4px] border border-border bg-card shadow-[var(--card-shadow)] lg:hidden">
+      <details className="group rounded-[4px] border border-border bg-card lg:hidden">
         <summary className="flex cursor-pointer list-none items-center justify-between p-[18px] font-mono text-xs font-semibold uppercase tracking-[0.05em] text-muted-foreground [&::-webkit-details-marker]:hidden">
           {label}
           <ChevronDownIcon
@@ -55,7 +55,7 @@ export function ArticleToc({ items, label }: ArticleTocProps) {
       {/* デスクトップ (lg 以上): sticky サイドバーカード */}
       <nav
         aria-label={label}
-        className="hidden rounded-[4px] border border-border bg-card p-[18px] shadow-[var(--card-shadow)] lg:block"
+        className="hidden rounded-[4px] border border-border bg-card p-[18px] lg:block"
       >
         <p className="mb-3.5 font-mono text-xs font-semibold uppercase tracking-[0.05em] text-muted-foreground">
           {label}

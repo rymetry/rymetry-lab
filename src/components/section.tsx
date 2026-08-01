@@ -45,6 +45,8 @@ interface SectionHeaderProps {
   readonly size?: 'section' | 'page' | 'sub';
   /** 見出し先頭の漢字スタンプ (角印)。省略時は非表示 (プロトタイプ default OFF) */
   readonly kanjiStamp?: string;
+  /** 説明文 p への追加クラス (例: `max-w-none` で 1 行表示) */
+  readonly descriptionClassName?: string;
 }
 
 const HEADING_SIZE_CLASSES = {
@@ -60,6 +62,7 @@ export function SectionHeader({
   className,
   size = 'section',
   kanjiStamp,
+  descriptionClassName,
 }: SectionHeaderProps) {
   return (
     <div className={cn('mb-10 max-md:mb-7', className)}>
@@ -80,7 +83,12 @@ export function SectionHeader({
         {title}
       </h2>
       {(descriptionEn ?? description) && (
-        <p className="max-w-[600px] text-[15px] leading-[1.7] text-text-secondary">
+        <p
+          className={cn(
+            'max-w-[600px] text-[15px] leading-[1.7] text-text-secondary',
+            descriptionClassName,
+          )}
+        >
           {descriptionEn && <span className="font-medium text-foreground">{descriptionEn}</span>}
           {descriptionEn && description && ' — '}
           {description}
