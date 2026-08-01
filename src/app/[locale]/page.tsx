@@ -1,8 +1,9 @@
 import { ArticleCard } from '@/components/article-card';
 import { HeroSection } from '@/components/hero-section';
+import { HomeSectionHead } from '@/components/home-section-head';
 import { ProjectCard } from '@/components/project-card';
 import { ScrollRevealList } from '@/components/scroll-reveal-list';
-import { SectionContainer, SectionHeader } from '@/components/section';
+import { SectionContainer } from '@/components/section';
 import { ARTICLES } from '@/data/articles';
 import { PROJECTS } from '@/data/projects';
 import { createPageMetadata, getSiteUrl } from '@/lib/seo/metadata';
@@ -42,45 +43,38 @@ export default async function Home({ params }: HomePageProps) {
 
       {/* #25: Featured Work */}
       <SectionContainer>
-        <SectionHeader
-          label={t('featuredProjects.label')}
-          title={t('featuredProjects.title')}
-          description={t('featuredProjects.description')}
-          descriptionEn={
-            t.has('featuredProjects.descriptionEn')
-              ? t('featuredProjects.descriptionEn')
-              : undefined
-          }
-        />
-        <ScrollRevealList className="grid grid-cols-[repeat(auto-fill,minmax(min(320px,100%),1fr))] gap-5">
-          {PROJECTS.slice(0, 3).map((project, i) => (
-            <ProjectCard
-              key={project.slug}
-              project={{ ...project, href: '#' }}
-              className={i >= 2 ? 'max-lg:hidden' : undefined}
-            />
+        <ScrollRevealList className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+          <HomeSectionHead
+            title={t('featuredProjects.title')}
+            description={t('featuredProjects.description')}
+            descriptionEn={
+              t.has('featuredProjects.descriptionEn')
+                ? t('featuredProjects.descriptionEn')
+                : undefined
+            }
+            viewAllHref="/projects"
+            viewAllLabel={t('featuredProjects.viewAll')}
+          />
+          {PROJECTS.slice(0, 3).map((project) => (
+            <ProjectCard key={project.slug} project={{ ...project, href: '#' }} />
           ))}
         </ScrollRevealList>
       </SectionContainer>
 
-      {/* #26: Recent Articles */}
-      <SectionContainer alt>
-        <SectionHeader
-          label={t('recentArticles.label')}
-          title={t('recentArticles.title')}
-          description={t('recentArticles.description')}
-          descriptionEn={
-            t.has('recentArticles.descriptionEn') ? t('recentArticles.descriptionEn') : undefined
-          }
-        />
-        <ScrollRevealList className="grid grid-cols-[repeat(auto-fill,minmax(min(320px,100%),1fr))] gap-5">
-          {ARTICLES.map((article, i) => (
-            <ArticleCard
-              key={article.slug}
-              article={article}
-              href="#"
-              className={i >= 2 ? 'max-lg:hidden' : undefined}
-            />
+      {/* #26: Recent Articles — Featured と地続き (背景帯なし)、縦 padding は padY2 */}
+      <SectionContainer padY="compact">
+        <ScrollRevealList className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+          <HomeSectionHead
+            title={t('recentArticles.title')}
+            description={t('recentArticles.description')}
+            descriptionEn={
+              t.has('recentArticles.descriptionEn') ? t('recentArticles.descriptionEn') : undefined
+            }
+            viewAllHref="/articles"
+            viewAllLabel={t('recentArticles.viewAll')}
+          />
+          {ARTICLES.slice(0, 3).map((article) => (
+            <ArticleCard key={article.slug} article={article} href="#" />
           ))}
         </ScrollRevealList>
       </SectionContainer>

@@ -24,7 +24,6 @@ function article(slug: string, title: string, publishedAt: string): ArticleDetai
     publishedAt,
     updatedAt: publishedAt,
     readingTime: '1 min',
-    thumbnailIcon: CodeIcon,
     tags: [
       {
         label: 'React',
@@ -46,7 +45,6 @@ describe('ArticleFooter', () => {
           navigationLabel="Article navigation"
           previousLabel="Previous Article"
           nextLabel="Next Article"
-          relatedLabel="Related"
           relatedTitle="Related Articles"
           relatedDescription="Selected articles"
         />
@@ -71,16 +69,15 @@ describe('ArticleFooter', () => {
           navigationLabel="Article navigation"
           previousLabel="Previous Article"
           nextLabel="Next Article"
-          relatedLabel="Related"
           relatedTitle="Related Articles"
           relatedDescription="Selected articles"
         />
       </NextIntlClientProvider>,
     );
 
-    expect(html.match(/grid-cols-\[120px_1fr\]/g)).toHaveLength(2);
+    expect(html.match(/grid-cols-\[110px_1fr\]/g)).toHaveLength(2);
     expect(
-      html.match(/min-h-\[90px\] overflow-hidden border-r border-border bg-secondary/g),
+      html.match(/min-h-\[92px\] overflow-hidden border-r border-border bg-secondary/g),
     ).toHaveLength(2);
   });
 

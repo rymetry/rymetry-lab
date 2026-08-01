@@ -58,38 +58,17 @@
       transparent 2px 30px
     );
 
-    /* Terminal component tokens (always dark-themed, theme-invariant except border) */
-    --terminal-bg: #09090b;
-    --terminal-border: #2a2a2f;
-    --terminal-text: #a1a1aa;
-    --terminal-prompt: #5eead4;
-    --terminal-cmd: #fafafa;
-    --terminal-highlight: #99f6e4;
-    --terminal-success: #34d399;
-    --terminal-dim: #71717a;
-    --terminal-cursor: oklch(0.75 0.1 154);
+    /* Terminal component tokens — 墨帯 (--band-*) と同じ帯言語。緑系配色 (静韻) */
+    --terminal-bg: var(--band-bg);
+    --terminal-border: var(--band-border);
+    --terminal-text: #a9b0a4;
+    --terminal-prompt: #93c7a9;
+    --terminal-cmd: #eae8dc;
+    --terminal-highlight: #b7d9c4;
+    --terminal-success: #7fc39a;
+    --terminal-dim: #6b7268;
+    --terminal-cursor: #7fc39a;
 
-    /* Thumbnail gradient overlays — v1/v2/v3 angle variants for article cards, sm for list cards */
-    --thumb-gradient-v1: linear-gradient(
-      135deg,
-      oklch(var(--primary-ch) / 0.06),
-      oklch(var(--accent-2-ch) / 0.06)
-    );
-    --thumb-gradient-v2: linear-gradient(
-      160deg,
-      oklch(var(--primary-ch) / 0.08),
-      oklch(var(--accent-2-ch) / 0.04)
-    );
-    --thumb-gradient-v3: linear-gradient(
-      100deg,
-      oklch(var(--accent-2-ch) / 0.04),
-      oklch(var(--primary-ch) / 0.08)
-    );
-    --thumb-gradient-sm: linear-gradient(
-      135deg,
-      oklch(var(--primary-ch) / 0.06),
-      oklch(var(--accent-2-ch) / 0.06)
-    );
     /* Primary button shadow — dark uses lower opacity (0.2 vs 0.3) for subtlety */
     --btn-primary-shadow: 0 4px 16px oklch(var(--primary-ch) / 0.3);
   }
@@ -144,30 +123,8 @@
       transparent 2px 30px
     );
 
-    /* Terminal border — brighter in dark mode for visibility against dark bg */
-    --terminal-border: #3f3f46;
+    /* Terminal tokens は band 系変数参照のためテーマ追従 (dark 個別上書き不要) */
 
-    /* Thumbnail gradient overlays — v1/v2/v3 angle variants for article cards, sm for list cards */
-    --thumb-gradient-v1: linear-gradient(
-      135deg,
-      oklch(var(--primary-ch) / 0.12),
-      oklch(var(--accent-2-ch) / 0.12)
-    );
-    --thumb-gradient-v2: linear-gradient(
-      160deg,
-      oklch(var(--primary-ch) / 0.14),
-      oklch(var(--accent-2-ch) / 0.06)
-    );
-    --thumb-gradient-v3: linear-gradient(
-      100deg,
-      oklch(var(--accent-2-ch) / 0.06),
-      oklch(var(--primary-ch) / 0.14)
-    );
-    --thumb-gradient-sm: linear-gradient(
-      135deg,
-      oklch(var(--primary-ch) / 0.1),
-      oklch(var(--accent-2-ch) / 0.1)
-    );
     /* Primary button shadow */
     --btn-primary-shadow: 0 4px 16px oklch(var(--primary-ch) / 0.2);
   }
@@ -222,6 +179,7 @@
 
   @media (scripting: none) {
     .anim-up,
+    .anim-fade,
     .reveal,
     .t-line {
       opacity: 1 !important;
@@ -271,12 +229,6 @@
 
   .article-content strong {
     @apply font-semibold text-foreground;
-  }
-
-  .noise-overlay {
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    background-repeat: repeat;
-    background-size: 256px 256px;
   }
 
   .article-content ul,
@@ -399,6 +351,15 @@
   }
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 @keyframes float {
   0%,
   100% {
@@ -462,6 +423,12 @@
     animation-delay: 0.36s;
   }
 
+  /* ヒーロー日本語タグライン (jaLine) — フェードインのみ */
+  .anim-fade {
+    opacity: 0;
+    animation: fadeIn 1s 0.5s forwards;
+  }
+
   /* Terminal typewriter lines — delays are non-uniform (0.5s pauses between command groups).
      :nth-child selectors assume all children of the parent are .t-line elements. */
   .t-line {
@@ -500,6 +467,7 @@
 @media (prefers-reduced-motion: reduce) {
   .reveal,
   .anim-up,
+  .anim-fade,
   .t-line {
     opacity: 1 !important;
     transform: none !important;

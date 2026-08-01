@@ -84,8 +84,6 @@ describe('adaptArticle', () => {
       publishedAt: '2026-04-01',
       updatedAt: '2026-04-02',
       readingTime: '1 min',
-      thumbnailIcon: GaugeIcon,
-      thumbnailVariant: 'v1',
       ogpImage: {
         url: 'https://images.microcms-assets.io/assets/test/dora.png',
         width: 1200,

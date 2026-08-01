@@ -4,11 +4,9 @@ import {
   BotIcon,
   CodeIcon,
   GitBranchIcon,
-  GitMergeIcon,
   InfinityIcon,
   RocketIcon,
   SparklesIcon,
-  UsersIcon,
 } from 'lucide-react';
 import { NextIntlClientProvider } from 'next-intl';
 
@@ -22,7 +20,6 @@ const articles = {
     title: 'Monorepo における依存関係管理の設計戦略',
     publishedAt: '2026-01-22',
     readingTime: '15 min',
-    thumbnailIcon: GitMergeIcon,
     tags: [
       { label: 'TypeScript', category: 'languages', icon: CodeIcon },
       { label: 'CI/CD', category: 'infra', icon: GitBranchIcon },
@@ -33,7 +30,6 @@ const articles = {
     title: 'Feature Flags で安全にリリースする仕組みを構築する',
     publishedAt: '2026-01-10',
     readingTime: '7 min',
-    thumbnailIcon: RocketIcon,
     tags: [
       { label: 'DevOps', category: 'devops', icon: InfinityIcon },
       { label: 'Release', category: 'release', icon: RocketIcon },
@@ -44,7 +40,6 @@ const articles = {
     title: '開発者オンボーディングを自動化して定着率を改善した話',
     publishedAt: '2026-03-01',
     readingTime: '12 min',
-    thumbnailIcon: UsersIcon,
     tags: [
       { label: 'DevEx', category: 'tools', icon: SparklesIcon },
       { label: 'Automation', category: 'infra', icon: BotIcon },
@@ -55,7 +50,6 @@ const articles = {
     title: 'DORA メトリクスを導入して開発チームの健全性を可視化する',
     publishedAt: '2026-02-18',
     readingTime: '10 min',
-    thumbnailIcon: BarChart3Icon,
     tags: [
       { label: 'Metrics', category: 'performance', icon: BarChart3Icon },
       { label: 'DevOps', category: 'devops', icon: InfinityIcon },
@@ -80,7 +74,6 @@ function article(key: keyof typeof articles): ArticleDetail {
     publishedAt: base.publishedAt!,
     updatedAt: base.publishedAt,
     readingTime: base.readingTime!,
-    thumbnailIcon: base.thumbnailIcon!,
     tags: base.tags!,
   };
 }
@@ -89,7 +82,6 @@ const footerLabels = {
   navigationLabel: '記事ナビゲーション',
   previousLabel: 'Previous Article',
   nextLabel: 'Next Article',
-  relatedLabel: 'Related',
   relatedTitle: 'Related Articles',
   relatedDescription: 'この記事に関連して選択された記事をピックアップしています。',
 } as const;

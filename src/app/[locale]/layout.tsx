@@ -1,7 +1,6 @@
 import { DraftModeIndicator } from '@/components/draft-mode-indicator';
 import { Footer } from '@/components/footer';
 import { Header } from '@/components/header';
-import { NoiseOverlay } from '@/components/noise-overlay';
 import { Link } from '@/i18n/navigation';
 import { routing } from '@/i18n/routing';
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
@@ -43,7 +42,6 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
         {children}
       </main>
       <Footer />
-      <NoiseOverlay />
     </NextIntlClientProvider>
   );
 }

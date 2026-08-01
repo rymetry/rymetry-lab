@@ -70,7 +70,6 @@ export default async function AboutPage({ params }: AboutPageProps) {
 
         {/* Engineering Principles */}
         <SectionHeader
-          label={t('principles.label')}
           title={t('principles.title')}
           description={t('principles.description')}
           descriptionEn={
@@ -86,7 +85,6 @@ export default async function AboutPage({ params }: AboutPageProps) {
 
         {/* Tech Stack / Toolbox */}
         <SectionHeader
-          label={t('toolbox.label')}
           title={t('toolbox.title')}
           description={t('toolbox.description')}
           descriptionEn={t.has('toolbox.descriptionEn') ? t('toolbox.descriptionEn') : undefined}

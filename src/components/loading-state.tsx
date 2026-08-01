@@ -1,3 +1,4 @@
+import { HomeSectionHead } from '@/components/home-section-head';
 import { InkImage } from '@/components/ink-image';
 import { SectionContainer, SectionHeader } from '@/components/section';
 import { cn } from '@/lib/utils';
@@ -21,10 +22,10 @@ function CardSkeleton({ compact = false }: { readonly compact?: boolean }) {
     <div
       className={cn(
         'overflow-hidden rounded-[4px] border border-border bg-card',
-        compact ? 'grid grid-cols-[120px_1fr] max-[480px]:grid-cols-[80px_1fr]' : 'flex flex-col',
+        compact ? 'grid grid-cols-[110px_1fr] max-[480px]:grid-cols-[80px_1fr]' : 'flex flex-col',
       )}
     >
-      <div className={cn('relative overflow-hidden', compact ? 'min-h-[90px]' : 'h-[150px]')}>
+      <div className={cn('relative overflow-hidden', compact ? 'min-h-[92px]' : 'h-[150px]')}>
         <Skeleton className="absolute inset-0 rounded-none" />
         <SkeletonInk />
       </div>
@@ -67,9 +68,10 @@ export function HomeLoadingState() {
         </div>
       </SectionContainer>
 
-      <SectionContainer alt>
-        <SectionHeader label="Latest Articles" title="Recent Articles" />
-        <div className="grid grid-cols-[repeat(auto-fill,minmax(min(320px,100%),1fr))] gap-5">
+      <SectionContainer padY="compact">
+        {/* 実ページ (page.tsx) と同じ 1/2/3 列グリッド + 見出しセル構成に揃えて reflow を防ぐ */}
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+          <HomeSectionHead title="Recent Articles" />
           {Array.from({ length: 3 }, (_, index) => (
             <CardSkeleton key={index} />
           ))}
@@ -85,7 +87,6 @@ export function ArticlesLoadingState() {
       <span className="sr-only">記事一覧を読み込み中</span>
       <SectionContainer>
         <SectionHeader
-          label="Articles"
           title="All Articles"
           descriptionEn="Field notes from the trenches of developer productivity."
           description="開発生産性の現場から得た知見。"

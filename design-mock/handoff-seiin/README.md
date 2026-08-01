@@ -90,7 +90,7 @@ Phase 1–3 を1ブランチ、Phase 4 を別ブランチに分けると安全�
 補足:
 - **ダークのフッター帯(`--band-bg` #0e120f)は地(#131714)より一段深い**。「下端で墨が深まる」意図。地より明るくしないこと(浮いて見える)。
 - Terminal 系トークン(`--terminal-*`)は現状維持。band とは分離しておく。
-- `--thumb-gradient-*` は channel 連動なのでそのままで色相が追従する。
+- `--thumb-gradient-*` は Phase 4 で削除済み (墨サムネイル移行で未使用化。DIVERGENCE.md「その他」参照)。
 - インラインコード背景は `--bg-code`、input placeholder は `#8a8577`(light)。
 
 ## Phase 2: フォント(layout.tsx)

@@ -12,7 +12,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'Hero セクション。h1 staggered fadeUp + ターミナル typewriter + float アニメーション + mesh gradient 背景。モバイルではミニターミナルに切替。',
+          'Hero セクション (静韻)。h1 staggered fadeUp + ドットグリッド + 墨流し。heroInk="main" (default) は墨流しメイン、"background" はターミナル + 透かし。jaLine で日本語タグライン表示。',
       },
     },
   },
@@ -31,5 +31,23 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {};
 
 export const DarkMode: Story = {
+  globals: { theme: 'dark' },
+};
+
+export const TerminalBackground: Story = {
+  args: { heroInk: 'background' },
+};
+
+export const TerminalBackgroundDarkMode: Story = {
+  args: { heroInk: 'background' },
+  globals: { theme: 'dark' },
+};
+
+export const WithJaLine: Story = {
+  args: { jaLine: true },
+};
+
+export const WithJaLineDarkMode: Story = {
+  args: { jaLine: true },
   globals: { theme: 'dark' },
 };
