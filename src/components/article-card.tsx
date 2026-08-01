@@ -99,12 +99,17 @@ export function ArticleCard({ article, href, className, variant = 'grid' }: Arti
         </div>
 
         {/* Title */}
-        <h3 className="mb-2 text-base font-bold leading-snug tracking-[-0.01em]">
+        <h3
+          className={cn(
+            'mb-2 text-base font-bold leading-snug tracking-[-0.01em]',
+            isList && 'line-clamp-2',
+          )}
+        >
           {article.title}
         </h3>
 
-        {/* Tags */}
-        <TagList tags={article.tags} />
+        {/* Tags — リスト表示は行の高さ暴発を防ぐため 3 個 + 「+N」に制限 */}
+        <TagList tags={article.tags} max={isList ? 3 : undefined} />
       </div>
     </Link>
   );

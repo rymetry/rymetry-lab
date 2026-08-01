@@ -76,7 +76,8 @@ function ArticleNavCard({
   const Icon = direction === 'previous' ? ArrowLeftIcon : ArrowRightIcon;
 
   return (
-    <div>
+    // flex-col + flex-1 でカードをセルの高さいっぱいに伸ばし、隣のカードと等高にする
+    <div className="flex h-full flex-col">
       <p
         className={cn(
           'mb-2 flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground',
@@ -87,7 +88,7 @@ function ArticleNavCard({
         {label}
         {direction === 'next' ? <Icon aria-hidden="true" className="size-[11px]" /> : null}
       </p>
-      <ArticleCard article={article} variant="list" />
+      <ArticleCard article={article} variant="list" className="flex-1" />
     </div>
   );
 }

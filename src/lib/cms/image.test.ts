@@ -31,13 +31,15 @@ describe('buildMicroCMSImageUrl', () => {
 });
 
 describe('buildCardThumbnailUrl', () => {
-  test('crops microCMS images to the display aspect', () => {
+  test('crops microCMS images to the display aspect with entropy smart crop', () => {
     expect(
       buildCardThumbnailUrl('https://images.microcms-assets.io/assets/test/image.png', {
         width: 480,
         height: 320,
       }),
-    ).toBe('https://images.microcms-assets.io/assets/test/image.png?w=480&h=320&fit=crop');
+    ).toBe(
+      'https://images.microcms-assets.io/assets/test/image.png?w=480&h=320&fit=crop&crop=entropy',
+    );
   });
 
   test('returns non-microCMS URLs unchanged (static demo data etc.)', () => {
