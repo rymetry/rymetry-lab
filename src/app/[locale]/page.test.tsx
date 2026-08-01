@@ -71,7 +71,7 @@ describe('Home graceful degradation', () => {
   /** Home 実装のサーバーログのみ抽出 (React SSR 警告等の console.error と区別する) */
   function homeErrorLogs(): unknown[][] {
     return consoleErrorSpy.mock.calls.filter(
-      (call) => typeof call[0] === 'string' && call[0].includes('recent articles'),
+      (call: unknown[]) => typeof call[0] === 'string' && call[0].includes('recent articles'),
     );
   }
 

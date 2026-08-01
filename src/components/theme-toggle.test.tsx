@@ -12,7 +12,7 @@ GlobalRegistrator.register();
 
 /** next-themes をモックし、resolvedTheme をテストごとに切替える */
 let mockResolvedTheme: 'light' | 'dark' | undefined;
-const setThemeMock = mock((_theme: string) => {});
+const setThemeMock = mock<(theme: string) => void>(() => {});
 
 mock.module('next-themes', () => ({
   useTheme: () => ({
