@@ -1,7 +1,6 @@
 import { CalendarIcon, ChevronLeftIcon, ClockIcon, PenLineIcon, UserRoundIcon } from 'lucide-react';
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-import Image from 'next/image';
 import { notFound } from 'next/navigation';
 
 import { ArticleToc } from '@/components/article-toc';
@@ -183,24 +182,8 @@ function ArticleHero({
         </span>
       </div>
 
+      {/* 静韻デザインではアイキャッチは表示しない (OGP メタデータとしてのみ使用) */}
       <TagList tags={article.tags} className="mt-5" />
-
-      <div className="relative mt-8 h-[180px] overflow-hidden rounded-[11px] border border-border bg-secondary">
-        <Image
-          src={buildMicroCMSImageUrl(article.ogpImage.url, {
-            width: 1040,
-            height: 360,
-            format: 'webp',
-            quality: 75,
-          })}
-          alt=""
-          fill
-          priority
-          sizes="(min-width: 1040px) 1040px, 100vw"
-          className="object-cover"
-        />
-        <div className="absolute inset-0 bg-[linear-gradient(135deg,oklch(var(--primary-ch)/0.10),transparent_58%)]" />
-      </div>
     </header>
   );
 }

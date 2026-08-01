@@ -5,7 +5,7 @@ export default function NotFound() {
   return (
     <section
       className={cn(
-        'relative flex min-h-full items-center justify-center overflow-hidden',
+        'relative flex min-h-[calc(100vh-140px)] items-center justify-center overflow-hidden px-6 py-16',
         '[background:var(--hero-bg)]',
         // Dot-grid overlay
         'before:absolute before:inset-0',
@@ -24,11 +24,6 @@ export default function NotFound() {
       />
 
       <div className="relative z-[1] max-w-[560px] px-6 text-center max-md:px-4">
-        {/* Label */}
-        <p className="anim-up mb-1.5 font-mono text-xs uppercase tracking-[0.1em] text-primary">
-          {'// '}NOT_FOUND
-        </p>
-
         {/* 404 — decorative */}
         <p
           aria-hidden="true"
@@ -48,36 +43,6 @@ export default function NotFound() {
         <p className="anim-up anim-up-3 mb-7 text-[15px] leading-[1.7] text-text-secondary">
           お探しのページは存在しないか、移動された可能性があります。
         </p>
-
-        {/* Terminal diagnostic */}
-        <div
-          aria-hidden="true"
-          className="anim-up anim-up-3 mx-auto mb-8 max-w-[400px] overflow-hidden rounded-[11px] border border-[var(--terminal-border)] bg-[var(--terminal-bg)] text-left shadow-[0_12px_32px_-8px_rgba(0,0,0,0.3)]"
-        >
-          {/* Traffic lights */}
-          <div className="flex gap-[7px] border-b border-[var(--terminal-border)] px-[14px] py-[10px]">
-            <div className="size-[11px] rounded-full bg-[#ef4444]" />
-            <div className="size-[11px] rounded-full bg-[#eab308]" />
-            <div className="size-[11px] rounded-full bg-[#22c55e]" />
-          </div>
-          <div className="px-[18px] py-[14px] font-mono text-xs leading-[1.8] text-[var(--terminal-text)]">
-            <div className="t-line">
-              <span className="text-[var(--terminal-prompt)]">~</span>{' '}
-              <span className="text-[var(--terminal-cmd)]">curl</span> /unknown-path
-            </div>
-            <div className="t-line">
-              <span className="text-[var(--terminal-dim)]">{'\u2192'}</span>{' '}
-              <span className="text-[#ef4444]">404</span>: Resource not found
-            </div>
-            <div className="t-line mt-2">
-              <span className="text-[var(--terminal-prompt)]">~</span>
-              <span
-                aria-hidden="true"
-                className="ml-[3px] inline-block h-[15px] w-[7px] align-middle [background:var(--terminal-cursor)] motion-safe:[animation:blink_1.2s_infinite]"
-              />
-            </div>
-          </div>
-        </div>
 
         {/* CTA */}
         <div className="anim-up anim-up-4 flex flex-wrap justify-center gap-3">
