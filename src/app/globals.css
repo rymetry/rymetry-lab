@@ -7,46 +7,56 @@
 @layer base {
   :root {
     /* shadcn/ui tokens — accents use oklch, neutrals remain hex */
-    --background: #fafafa;
-    --foreground: #0f1a14;
-    --card: #ffffff;
-    --card-foreground: #0f1a14;
-    --popover: #ffffff;
-    --popover-foreground: #0f1a14;
+    --background: #f1eee5;
+    --foreground: #1c1b17;
+    --card: #f7f5ec;
+    --card-foreground: #1c1b17;
+    --popover: #f7f5ec;
+    --popover-foreground: #1c1b17;
     /* oklch channel primitives (L C H — no alpha) */
-    --primary-ch: 0.52 0.11 156;
-    --accent-2-ch: 0.55 0.12 156;
+    --primary-ch: 0.45 0.1 152;
+    --accent-2-ch: 0.55 0.11 152;
 
     --primary: oklch(var(--primary-ch));
-    --primary-foreground: #ffffff;
-    --secondary: #f3f4f6;
-    --secondary-foreground: #0f1a14;
-    --muted: #f3f4f6;
-    --muted-foreground: #6a7585;
+    --primary-foreground: #f4f1e6;
+    --secondary: #e9e6db;
+    --secondary-foreground: #1c1b17;
+    --muted: #e9e6db;
+    --muted-foreground: #6f6b59;
     --accent: oklch(var(--primary-ch));
     --accent-foreground: #ffffff;
     --destructive: #ef4444;
     --destructive-foreground: #ffffff;
-    --border: #e3e8ed;
-    --input: #e3e8ed;
+    --border: #dcd7c8;
+    --input: #dcd7c8;
     --ring: oklch(var(--primary-ch));
-    --radius: 0.5rem;
+    --radius: 0.25rem;
 
     /* Design-specific tokens (no shadcn equivalent) */
-    --text-secondary: #475464;
-    --border-hover: #cdd5dc;
-    --bg-code: #f3f4f6;
+    --text-secondary: #4e4c43;
+    --border-hover: #c6c0ab;
+    --bg-code: #e9e6d8;
     --accent-2: oklch(var(--accent-2-ch));
-    --accent-glow: oklch(0.52 0.035 156 / 0.09);
-    --accent-gradient: linear-gradient(135deg, oklch(0.35 0.08 156), oklch(var(--accent-2-ch)));
-    --hero-bg: linear-gradient(180deg, oklch(0.96 0.02 156) 0%, #fafafa 100%);
-    --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.06);
-    --card-shadow-hover: 0 8px 24px oklch(0.52 0.05 156 / 0.1), 0 2px 6px rgba(0, 0, 0, 0.04);
-    --tag-bg: oklch(0.96 0.025 156);
-    --tag-text: oklch(0.34 0.08 156);
-    --tag-border: oklch(0.79 0.05 156);
+    --accent-glow: oklch(0.45 0.1 152 / 0.08);
+    --accent-gradient: linear-gradient(135deg, oklch(0.34 0.08 152), oklch(0.52 0.1 152));
+    --hero-bg: linear-gradient(180deg, #eceadd 0%, #f1eee5 100%);
+    --card-shadow: 0 1px 3px rgba(28, 27, 23, 0.05), 0 1px 2px rgba(28, 27, 23, 0.07);
+    --card-shadow-hover: 0 10px 26px oklch(0.45 0.08 152 / 0.12), 0 2px 6px rgba(28, 27, 23, 0.05);
+    --tag-bg: #ebe8d9;
+    --tag-text: oklch(0.38 0.09 152);
+    --tag-border: #cbc6ae;
     /* Hero dot-grid pattern overlay */
-    --dot-color: oklch(0.52 0.03 156 / 0.05);
+    --dot-color: oklch(0.45 0.06 152 / 0.07);
+    /* Articles / Projects / About / 記事詳細ページの上部フェード背景 */
+    --page-gradient: linear-gradient(180deg, #eceadd 0, rgba(236, 234, 221, 0) 340px);
+    /* 墨帯 — フッター・コードブロック背景。ライトでも常に墨色 */
+    --band-bg: #151b16;
+    --band-border: #2c332c;
+    --band-texture: repeating-radial-gradient(
+      circle at 15% -30%,
+      rgba(214, 226, 210, 0.03) 0 2px,
+      transparent 2px 30px
+    );
 
     /* Terminal component tokens (always dark-themed, theme-invariant except border) */
     --terminal-bg: #09090b;
@@ -85,44 +95,54 @@
   }
 
   .dark {
-    --background: #09090b;
-    --foreground: #f4f4f5;
-    --card: #1a1a1f;
-    --card-foreground: #f4f4f5;
-    --popover: #1a1a1f;
-    --popover-foreground: #f4f4f5;
+    --background: #131714;
+    --foreground: #eae8dc;
+    --card: #1b211c;
+    --card-foreground: #eae8dc;
+    --popover: #1b211c;
+    --popover-foreground: #eae8dc;
     /* oklch channel primitives (L C H — no alpha, hue 154° Hunt-corrected) */
     --primary-ch: 0.75 0.1 154;
     --accent-2-ch: 0.82 0.07 154;
 
     --primary: oklch(var(--primary-ch));
-    --primary-foreground: #09090b;
-    --secondary: #131316;
-    --secondary-foreground: #f4f4f5;
-    --muted: #131316;
-    --muted-foreground: #888d98;
+    --primary-foreground: #09120c;
+    --secondary: #171c18;
+    --secondary-foreground: #eae8dc;
+    --muted: #171c18;
+    --muted-foreground: #8f947e;
     --accent: oklch(var(--primary-ch));
     --accent-foreground: #09090b;
     --destructive: #dc2626;
     --destructive-foreground: #f4f4f5;
-    --border: #28282e;
-    --input: #28282e;
+    --border: #2a312b;
+    --input: #2a312b;
     --ring: oklch(var(--primary-ch));
 
-    --text-secondary: #b0b4be;
-    --border-hover: #3a3a42;
-    --bg-code: #222228;
+    --text-secondary: #b2b0a1;
+    --border-hover: #3c443c;
+    --bg-code: #232a24;
     --accent-2: oklch(var(--accent-2-ch));
-    --accent-glow: oklch(0.75 0.035 154 / 0.08);
-    --accent-gradient: linear-gradient(135deg, oklch(0.34 0.07 154), oklch(0.55 0.1 154));
-    --hero-bg: linear-gradient(180deg, #0b0d0c 0%, #09090b 100%);
+    --accent-glow: oklch(0.75 0.06 154 / 0.1);
+    --accent-gradient: linear-gradient(135deg, oklch(0.42 0.07 154), oklch(0.62 0.1 154));
+    --hero-bg: linear-gradient(180deg, #11150f 0%, #131714 100%);
     --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-    --card-shadow-hover: 0 8px 24px oklch(0.75 0.035 154 / 0.1), 0 2px 6px rgba(0, 0, 0, 0.3);
-    --tag-bg: oklch(0.25 0.025 154);
-    --tag-text: oklch(0.84 0.06 154);
-    --tag-border: oklch(0.39 0.04 154);
+    --card-shadow-hover: 0 10px 26px rgba(0, 0, 0, 0.45), 0 2px 6px rgba(0, 0, 0, 0.3);
+    --tag-bg: oklch(0.26 0.03 152);
+    --tag-text: oklch(0.84 0.06 152);
+    --tag-border: oklch(0.4 0.05 152);
     /* Hero dot-grid pattern overlay */
-    --dot-color: oklch(0.75 0.025 154 / 0.05);
+    --dot-color: oklch(0.75 0.05 154 / 0.06);
+    /* Articles / Projects / About / 記事詳細ページの上部フェード背景 */
+    --page-gradient: linear-gradient(180deg, #11150f 0, rgba(17, 21, 15, 0) 340px);
+    /* 墨帯 — 地 (#131714) より一段深くする (下端で墨が深まる)。地より明るくしないこと */
+    --band-bg: #0e120f;
+    --band-border: #242b25;
+    --band-texture: repeating-radial-gradient(
+      circle at 15% -30%,
+      rgba(214, 226, 210, 0.03) 0 2px,
+      transparent 2px 30px
+    );
 
     /* Terminal border — brighter in dark mode for visibility against dark bg */
     --terminal-border: #3f3f46;
@@ -180,6 +200,7 @@
   --radius-xl: calc(var(--radius) + 4px);
   --font-sans: var(--font-display), var(--font-sans-jp), sans-serif;
   --font-mono: var(--font-plemol), var(--font-geist-mono), monospace;
+  --font-brand: var(--font-kaisei), var(--font-sans-jp), serif;
 }
 
 @layer base {
@@ -189,6 +210,14 @@
 
   body {
     @apply bg-background text-foreground;
+  }
+
+  /* 静韻: 見出しは明朝 (Kaisei Tokumin)。個別コンポーネントの tracking 指定が優先される */
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-brand);
+    letter-spacing: 0.02em;
   }
 
   @media (scripting: none) {

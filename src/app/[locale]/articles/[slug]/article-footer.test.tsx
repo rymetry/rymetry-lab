@@ -79,7 +79,9 @@ describe('ArticleFooter', () => {
     );
 
     expect(html.match(/grid-cols-\[120px_1fr\]/g)).toHaveLength(2);
-    expect(html.match(/min-h-\[90px\] bg-secondary/g)).toHaveLength(2);
+    expect(
+      html.match(/min-h-\[90px\] overflow-hidden border-r border-border bg-secondary/g),
+    ).toHaveLength(2);
   });
 
   test('describes related articles as manually selected entries, not tag matches', () => {

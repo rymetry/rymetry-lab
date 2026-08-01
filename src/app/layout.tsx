@@ -1,7 +1,7 @@
 import { ThemeProvider } from '@/components/theme-provider';
 import { createPageMetadata, getSiteUrl } from '@/lib/seo/metadata';
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono, Noto_Sans_JP } from 'next/font/google';
+import { Geist, Geist_Mono, Kaisei_Tokumin, Noto_Sans_JP } from 'next/font/google';
 import localFont from 'next/font/local';
 import './globals.css';
 
@@ -19,6 +19,13 @@ const notoSansJP = Noto_Sans_JP({
   variable: '--font-sans-jp',
   subsets: ['latin'],
   weight: ['400', '500', '600', '700', '800'],
+  display: 'swap',
+});
+
+const kaiseiTokumin = Kaisei_Tokumin({
+  variable: '--font-kaisei',
+  subsets: ['latin'],
+  weight: ['400', '500', '700', '800'],
   display: 'swap',
 });
 
@@ -45,7 +52,7 @@ export default function RootLayout({
     <html
       lang="ja"
       data-scroll-behavior="smooth"
-      className={`${geist.variable} ${geistMono.variable} ${notoSansJP.variable} ${plemolJP.variable} h-full antialiased`}
+      className={`${geist.variable} ${geistMono.variable} ${notoSansJP.variable} ${plemolJP.variable} ${kaiseiTokumin.variable} h-full antialiased`}
       suppressHydrationWarning
     >
       <body className="flex min-h-full flex-col bg-background text-foreground">

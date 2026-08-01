@@ -1,3 +1,4 @@
+import { InkImage } from '@/components/ink-image';
 import { SectionContainer, SectionHeader } from '@/components/section';
 import { cn } from '@/lib/utils';
 
@@ -10,6 +11,11 @@ function Skeleton({ className }: { readonly className?: string }) {
   );
 }
 
+/** サムネイル系スケルトンに薄く敷く墨テクスチャ (プロトタイプ準拠 opacity 0.05) */
+function SkeletonInk() {
+  return <InkImage kind="fine" className="absolute inset-0 h-full w-full object-cover opacity-5" />;
+}
+
 function CardSkeleton({ compact = false }: { readonly compact?: boolean }) {
   return (
     <div
@@ -18,7 +24,10 @@ function CardSkeleton({ compact = false }: { readonly compact?: boolean }) {
         compact ? 'grid grid-cols-[120px_1fr] max-[480px]:grid-cols-[80px_1fr]' : 'flex flex-col',
       )}
     >
-      <Skeleton className={compact ? 'min-h-[90px] rounded-none' : 'h-40 rounded-none'} />
+      <div className={cn('relative overflow-hidden', compact ? 'min-h-[90px]' : 'h-[150px]')}>
+        <Skeleton className="absolute inset-0 rounded-none" />
+        <SkeletonInk />
+      </div>
       <div className={cn('flex flex-col', compact ? 'justify-center px-4.5 py-3.5' : 'p-5')}>
         <div className="mb-3 flex gap-2.5">
           <Skeleton className="h-3 w-20" />
@@ -51,7 +60,10 @@ export function HomeLoadingState() {
               <Skeleton className="h-11 w-28 rounded-md" />
             </div>
           </div>
-          <Skeleton className="h-[320px] rounded-[11px] border border-border bg-card" />
+          <div className="relative h-[320px] overflow-hidden rounded-[11px] border border-border bg-card">
+            <Skeleton className="absolute inset-0 rounded-none" />
+            <SkeletonInk />
+          </div>
         </div>
       </SectionContainer>
 

@@ -14,13 +14,13 @@ export default function NotFound() {
         // Top-right mesh blob
         'after:pointer-events-none after:absolute after:-top-[30%] after:-right-[10%]',
         'after:h-[600px] after:w-[600px]',
-        'after:bg-[radial-gradient(ellipse,oklch(0.52_0.11_156/0.08)_0%,transparent_60%)]',
+        'after:bg-[radial-gradient(ellipse,oklch(var(--primary-ch)/0.08)_0%,transparent_60%)]',
       )}
     >
       {/* Bottom-left mesh blob */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -bottom-[20%] -left-[10%] h-[500px] w-[500px] bg-[radial-gradient(ellipse,oklch(0.55_0.12_156/0.05)_0%,transparent_60%)]"
+        className="pointer-events-none absolute -bottom-[20%] -left-[10%] h-[500px] w-[500px] bg-[radial-gradient(ellipse,oklch(var(--accent-2-ch)/0.05)_0%,transparent_60%)]"
       />
 
       <div className="relative z-[1] max-w-[560px] px-6 text-center max-md:px-4">

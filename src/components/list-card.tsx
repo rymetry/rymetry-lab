@@ -1,5 +1,6 @@
 import { CalendarIcon, ClockIcon } from 'lucide-react';
 
+import { InkImage, inkThumbVariant } from '@/components/ink-image';
 import { TagList } from '@/components/tag';
 import { Link } from '@/i18n/navigation';
 import { cn } from '@/lib/utils';
@@ -10,17 +11,17 @@ interface ListCardProps {
   readonly className?: string;
 }
 
-function ListCardThumbnail({ icon: Icon }: { readonly icon: Article['thumbnailIcon'] }) {
+function ListCardThumbnail({ slug }: { readonly slug: string }) {
   return (
-    <div className="relative min-h-[90px] bg-secondary">
-      {/* Gradient overlay */}
-      <div className="absolute inset-0 bg-[image:var(--thumb-gradient-sm)]" />
-      {/* Grid pattern */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[size:14px_14px]" />
-      {/* Icon */}
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 opacity-20 text-foreground">
-        <Icon size={22} />
-      </div>
+    <div className="relative min-h-[90px] overflow-hidden border-r border-border bg-secondary">
+      <InkImage
+        kind="fine"
+        className={cn(
+          'absolute inset-0 h-full w-full object-cover opacity-90',
+          inkThumbVariant(slug),
+        )}
+        sizes="120px"
+      />
     </div>
   );
 }
@@ -40,7 +41,7 @@ export function ListCard({ article, className }: ListCardProps) {
         className,
       )}
     >
-      <ListCardThumbnail icon={article.thumbnailIcon} />
+      <ListCardThumbnail slug={article.slug} />
 
       <div className="flex flex-col justify-center px-4.5 py-3.5">
         {/* Title */}
