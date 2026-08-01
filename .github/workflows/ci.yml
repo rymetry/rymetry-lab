@@ -50,10 +50,24 @@ jobs:
       - run: bun install --frozen-lockfile
       - run: bun run test:coverage
 
+  storybook-test:
+    name: Storybook Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - uses: actions/cache@v4
+        with:
+          path: ~/.bun/install/cache
+          key: ${{ runner.os }}-bun-${{ hashFiles('bun.lock') }}
+      - run: bun install --frozen-lockfile
+      - run: bunx playwright install --with-deps chromium
+      - run: bunx vitest run --project=storybook
+
   build:
     name: Build
     runs-on: ubuntu-latest
-    needs: [lint, type-check, test]
+    needs: [lint, type-check, test, storybook-test]
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2

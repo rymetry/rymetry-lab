@@ -24,13 +24,15 @@ const config: StorybookConfig = {
     "experimentalRSC": true
   },
   // next-intl のサーバー専用 API (getTranslations 等) を Storybook 用スタブに差し替える
-  viteFinal: (viteConfig) => {
-    viteConfig.resolve ??= {};
-    viteConfig.resolve.alias = {
-      ...viteConfig.resolve.alias,
-      'next-intl/server': path.join(dirname, 'next-intl-server-mock.ts'),
-    };
-    return viteConfig;
-  }
+  viteFinal: (viteConfig) => ({
+    ...viteConfig,
+    resolve: {
+      ...viteConfig.resolve,
+      alias: {
+        ...viteConfig.resolve?.alias,
+        'next-intl/server': path.join(dirname, 'next-intl-server-mock.ts'),
+      },
+    },
+  })
 };
 export default config;

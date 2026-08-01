@@ -72,7 +72,7 @@
 - ✅ Story 記述の Phase 4 追随: カード hover 説明 (グリーンバー/矢印/scale 撤去)、リストサムネ幅、Section alt の用途 (Related Articles)。HomeSectionHead の Story 新規追加 (Default / TabletModule / DarkMode)
 - ✅ レスポンシブ不具合修正: `max-md:` と `max-[480px]:` の併用は Tailwind v4 の CSS 出力順 (480px 側が先) で 480px ルールが打ち消される。list-card のサムネ列 (80px) と About の Principles 1 カラム化が死んでいたため `min-[480px]:max-md:` で範囲を分離。※ `max-[480px]` は `width < 480px` (排他的)
 - ✅ prefers-reduced-motion 検証: エミュレーションで anim-up/reveal 強制表示・長時間アニメーションゼロを確認 (float は motion-safe で不適用)
-- ✅ ヒーロー LCP: ink-flow が LCP 要素 (Next.js 警告あり)。`InkImage` に `priority` prop を追加し heroInk="main" に適用 → preload 2 枚 + 警告解消。配信は AVIF 最適化済みで w=1200 実測 ~95KB/枚 (元 PNG 700KB は配信されない)。lazy (default) では display:none 側テーマの画像はフェッチされないことを実測確認 — priority 時のみ両テーマ分 (~190KB) プリロードされるが、手動テーマ切替の即時表示を優先
+- ✅ ヒーロー LCP: ink-flow が LCP 要素 (Next.js 警告あり)。`InkPreload` (getImageProps + `media="(min-width: 1024px)"` の手動 preload、React 19 の link ホイスティング利用) を heroInk="main" に追加。デスクトップのみ light/dark 両テーマ分 (~95KB AVIF/枚、テーマは class 切替でサーバー側不明のため) を先読みし、hero カラムが非表示のモバイルでは preload が走らない (w=1200×2 ≈ 186KB の無駄フェッチを実測で排除)。`InkImage` 自体は常に lazy — display:none 側テーマはフェッチされないことを実測確認。next/image の `priority` は media なし preload を出すため不採用。dev コンソールの「LCP image, add loading=eager」警告は既知のトレードオフとして許容 (eager 化するとモバイルで非表示分を余計にフェッチする。preload 済みのため実測 LCP は 964ms と priority 時より悪化なし)
 - ✅ ドキュメント: CLAUDE.md のデザインセクションを静韻の実態に全面更新、README/AGENTS.md の参照先を handoff-seiin へ変更、旧モック (v3–v12 + color-comparison) を design-mock/archive/mockups/ へ移動
 
 ## 🎯 意図的な逸脱 (対応しない)

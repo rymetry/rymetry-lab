@@ -1,7 +1,5 @@
 import { PROJECTS } from '@/data/projects';
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { NextIntlClientProvider } from 'next-intl';
-import messages from '../../messages/ja.json';
 import { HomeSectionHead } from './home-section-head';
 import { ProjectCard } from './project-card';
 
@@ -30,11 +28,9 @@ const meta = {
   },
   decorators: [
     (Story) => (
-      <NextIntlClientProvider locale="ja" messages={messages}>
-        <div className="mx-auto max-w-[1200px] px-6 py-10">
-          <Story />
-        </div>
-      </NextIntlClientProvider>
+      <div className="mx-auto max-w-[1200px] px-6 py-10">
+        <Story />
+      </div>
     ),
   ],
   args: featuredWorkArgs,

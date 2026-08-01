@@ -42,7 +42,7 @@ Productivity Engineer "Rym" のポートフォリオ & 技術ブログ。Site: R
 - `ink-flow`: ヒーロー右のメインビジュアル (`heroInk="main"`, priority 付き)、一覧ページ見出し背後の透かし (`PageInk`)
 - `ink-fine`: 記事カード・リストカードのサムネイル (slug から決定的に 6 バリエーション選択)、About アバター
 - `ink-vortex`: ローディング画面
-- ライト/ダークで別画像。`InkImage` が 2 枚描画し CSS (`dark:hidden` / `hidden dark:block`) で切替。lazy (default) なら非表示側はフェッチされない。`priority` は LCP になる画像のみ (両テーマ分プリロードされる)
+- ライト/ダークで別画像。`InkImage` が 2 枚描画し CSS (`dark:hidden` / `hidden dark:block`) で切替。常に lazy — 非表示側テーマはフェッチされない。LCP になる画像は `InkPreload` (media 限定 preload) を併用する。next/image の `priority` は使わない (preload に media が付かず、非表示ビューポートでも両テーマ分ダウンロードされるため)
 
 ### Tags
 
