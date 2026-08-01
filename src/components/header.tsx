@@ -34,7 +34,7 @@ export function Header() {
         <Link
           href="/"
           aria-label={t('homeAria')}
-          className="font-mono text-lg font-extrabold tracking-tighter"
+          className="font-brand text-[21px] font-bold tracking-[0.05em]"
         >
           Rym<span className="text-primary">lab</span>
         </Link>
@@ -48,7 +48,7 @@ export function Header() {
                   <Link
                     href={href}
                     className={cn(
-                      'relative text-sm font-medium transition-colors duration-200',
+                      'font-brand relative text-[14.5px] font-medium tracking-[0.04em] transition-colors duration-200',
                       isActive(pathname, href)
                         ? 'text-primary after:absolute after:-bottom-[19px] after:left-0 after:right-0 after:h-0.5 after:rounded-[1px] after:bg-[image:var(--accent-gradient)]'
                         : 'text-text-secondary hover:text-foreground',
@@ -87,7 +87,7 @@ export function Header() {
                       <Link
                         href={href}
                         className={cn(
-                          'block border-b border-border px-0 py-2.5 text-[15px] font-medium transition-colors duration-200 last:border-b-0',
+                          'font-brand block border-b border-border px-0 py-2.5 text-[15px] font-medium tracking-[0.04em] transition-colors duration-200 last:border-b-0',
                           isActive(pathname, href)
                             ? 'text-primary'
                             : 'text-text-secondary hover:text-primary',

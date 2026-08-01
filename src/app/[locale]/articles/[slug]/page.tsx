@@ -1,7 +1,6 @@
 import { CalendarIcon, ChevronLeftIcon, ClockIcon, PenLineIcon, UserRoundIcon } from 'lucide-react';
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
-import Image from 'next/image';
 import { notFound } from 'next/navigation';
 
 import { ArticleToc } from '@/components/article-toc';
@@ -101,19 +100,21 @@ export default async function ArticleDetailPage({ params }: ArticleDetailPagePro
         })}
       />
 
-      <SectionContainer className="pb-12">
-        <article className="mx-auto max-w-[1040px]">
-          <ArticleHero article={article} backLabel={t('back')} articleLabel={t('label')} />
+      <div className="bg-[image:var(--page-gradient)]">
+        <SectionContainer className="pb-12">
+          <article className="mx-auto max-w-[1040px]">
+            <ArticleHero article={article} backLabel={t('back')} />
 
-          <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_240px] lg:items-start">
-            <div className="min-w-0">
-              <div className="article-content" dangerouslySetInnerHTML={{ __html: html }} />
+            <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_240px] lg:items-start">
+              <div className="min-w-0">
+                <div className="article-content" dangerouslySetInnerHTML={{ __html: html }} />
+              </div>
+
+              {toc.length > 0 && <ArticleToc items={toc} label={t('toc')} />}
             </div>
-
-            {toc.length > 0 && <ArticleToc items={toc} label={t('toc')} />}
-          </div>
-        </article>
-      </SectionContainer>
+          </article>
+        </SectionContainer>
+      </div>
 
       <ArticleFooter
         relatedArticles={relations.relatedArticles}
@@ -133,11 +134,9 @@ export default async function ArticleDetailPage({ params }: ArticleDetailPagePro
 function ArticleHero({
   article,
   backLabel,
-  articleLabel,
 }: {
   readonly article: ArticleDetail;
   readonly backLabel: string;
-  readonly articleLabel: string;
 }) {
   return (
     <header className="mb-10">
@@ -149,11 +148,7 @@ function ArticleHero({
         {backLabel}
       </Link>
 
-      <p className="mb-2 font-mono text-xs uppercase tracking-[0.1em] text-primary">
-        {'// '}
-        {articleLabel}
-      </p>
-      <h1 className="max-w-[860px] text-[clamp(28px,5vw,48px)] font-extrabold leading-tight tracking-[-0.03em]">
+      <h1 className="max-w-[880px] text-[clamp(28px,4.4vw,46px)] font-bold leading-[1.4] tracking-[0.01em]">
         {article.title}
       </h1>
       <p className="mt-4 max-w-[720px] text-[15px] leading-[1.8] text-text-secondary">
@@ -181,24 +176,8 @@ function ArticleHero({
         </span>
       </div>
 
+      {/* 静韻デザインではアイキャッチは表示しない (OGP メタデータとしてのみ使用) */}
       <TagList tags={article.tags} className="mt-5" />
-
-      <div className="relative mt-8 h-[180px] overflow-hidden rounded-[11px] border border-border bg-secondary">
-        <Image
-          src={buildMicroCMSImageUrl(article.ogpImage.url, {
-            width: 1040,
-            height: 360,
-            format: 'webp',
-            quality: 75,
-          })}
-          alt=""
-          fill
-          priority
-          sizes="(min-width: 1040px) 1040px, 100vw"
-          className="object-cover"
-        />
-        <div className="absolute inset-0 bg-[linear-gradient(135deg,oklch(var(--primary-ch)/0.10),transparent_58%)]" />
-      </div>
     </header>
   );
 }

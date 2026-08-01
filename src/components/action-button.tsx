@@ -33,10 +33,10 @@ export function ActionButton({
       target={isExternal ? '_blank' : undefined}
       rel={isExternal ? 'noopener noreferrer' : undefined}
       className={cn(
-        'inline-flex items-center gap-2 rounded-[9px] px-[22px] py-[11px] text-sm font-semibold transition-all duration-200',
+        'font-brand inline-flex items-center gap-2 rounded-[3px] px-6 py-[11px] text-[14.5px] font-medium tracking-[0.05em] transition-all duration-200',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
         variant === 'primary' && [
-          'border-none bg-[image:var(--accent-gradient)] text-white',
+          'border-none bg-[image:var(--accent-gradient)] text-[#f4f1e6]',
           'motion-safe:hover:-translate-y-px hover:shadow-[var(--btn-primary-shadow)]',
         ],
         variant === 'secondary' && [

@@ -38,9 +38,9 @@ export function ArticleToc({ items, label }: ArticleTocProps) {
     <aside className="sticky top-24 hidden max-h-[calc(100vh-7rem)] overflow-y-auto lg:block">
       <nav
         aria-label={label}
-        className="rounded-[9px] border border-border bg-card p-4 shadow-[var(--card-shadow)]"
+        className="rounded-[4px] border border-border bg-card p-[18px] shadow-[var(--card-shadow)]"
       >
-        <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.1em] text-primary">
+        <p className="mb-3.5 font-mono text-xs font-semibold uppercase tracking-[0.05em] text-muted-foreground">
           {label}
         </p>
         <ol>

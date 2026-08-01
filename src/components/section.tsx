@@ -26,27 +26,31 @@ export function SectionContainer({ children, className, alt }: SectionContainerP
 }
 
 interface SectionHeaderProps {
-  readonly label: string;
+  /** @deprecated 静韻デザインではモノスペースのセクションラベルを表示しない (プロトタイプ準拠) */
+  readonly label?: string;
   readonly title: string;
   readonly description?: string;
   readonly descriptionEn?: string;
   readonly className?: string;
+  /** page = 一覧ページ見出し (26-38px)、section = Home 等のセクション見出し (22-32px) */
+  readonly size?: 'section' | 'page';
 }
 
 export function SectionHeader({
-  label,
   title,
   description,
   descriptionEn,
   className,
+  size = 'section',
 }: SectionHeaderProps) {
   return (
     <div className={cn('mb-10 max-md:mb-7', className)}>
-      <p className="mb-1.5 font-mono text-xs uppercase tracking-[0.1em] text-primary">
-        {'// '}
-        {label}
-      </p>
-      <h2 className="mb-3 text-[clamp(22px,3vw,32px)] font-bold tracking-[-0.025em] max-md:mb-2">
+      <h2
+        className={cn(
+          'mb-3 font-bold tracking-[0.02em] max-md:mb-2',
+          size === 'page' ? 'text-[clamp(26px,3.4vw,38px)]' : 'text-[clamp(22px,3vw,32px)]',
+        )}
+      >
         {title}
       </h2>
       {(descriptionEn ?? description) && (

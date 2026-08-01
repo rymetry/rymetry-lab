@@ -17,7 +17,7 @@ export function ProjectCard({ project, className }: ProjectCardProps) {
     <Link
       href={href}
       className={cn(
-        'group relative flex flex-col overflow-hidden rounded-[11px] border border-border bg-card p-6',
+        'group relative flex flex-col overflow-hidden rounded-[4px] border border-border bg-card p-6',
         'transition-all duration-[250ms]',
         'hover:-translate-y-0.5 hover:border-[var(--border-hover)] hover:shadow-[var(--card-shadow-hover)]',
         'before:absolute before:inset-x-0 before:top-0 before:z-10 before:h-[3px] before:bg-[image:var(--accent-gradient)] before:opacity-0 before:transition-opacity before:duration-[250ms]',
@@ -28,7 +28,7 @@ export function ProjectCard({ project, className }: ProjectCardProps) {
     >
       {/* Icon */}
       <div className="mb-3.5">
-        <div className="flex size-[38px] items-center justify-center rounded-[9px] border border-[var(--tag-border)] bg-[var(--accent-glow)] text-primary transition-transform duration-300 group-hover:scale-[1.08] group-hover:-rotate-2">
+        <div className="flex size-[38px] items-center justify-center rounded-[3px] border border-[var(--tag-border)] bg-[var(--accent-glow)] text-primary transition-transform duration-300 group-hover:scale-[1.08] group-hover:-rotate-2">
           <Icon size={18} />
         </div>
       </div>

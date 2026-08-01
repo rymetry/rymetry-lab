@@ -22,19 +22,19 @@ export function HeroSection() {
         // Top-right mesh blob
         'after:pointer-events-none after:absolute after:-top-[30%] after:-right-[10%]',
         'after:h-[600px] after:w-[600px]',
-        'after:bg-[radial-gradient(ellipse,oklch(0.52_0.11_156/0.08)_0%,transparent_60%)]',
+        'after:bg-[radial-gradient(ellipse,oklch(var(--primary-ch)/0.08)_0%,transparent_60%)]',
       )}
     >
       {/* Bottom-left mesh blob */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -bottom-[20%] -left-[10%] h-[500px] w-[500px] bg-[radial-gradient(ellipse,oklch(0.55_0.12_156/0.05)_0%,transparent_60%)]"
+        className="pointer-events-none absolute -bottom-[20%] -left-[10%] h-[500px] w-[500px] bg-[radial-gradient(ellipse,oklch(var(--accent-2-ch)/0.05)_0%,transparent_60%)]"
       />
 
       <div className="relative z-[1] mx-auto grid max-w-[1200px] grid-cols-2 items-center gap-12 px-6 max-lg:gap-8 max-md:grid-cols-1 max-md:px-4">
         {/* Left: text */}
         <div>
-          <h1 className="anim-up mb-[18px] text-[clamp(34px,4.5vw,54px)] font-extrabold leading-[1.12] tracking-[-0.035em] max-[480px]:text-[28px]">
+          <h1 className="anim-up mb-[18px] text-[clamp(30px,4.4vw,52px)] font-bold leading-[1.28] tracking-[0.01em] max-[480px]:text-[28px]">
             {t('line1')}
             <br />
             <span className="bg-[image:var(--accent-gradient)] bg-clip-text text-transparent">
@@ -42,7 +42,7 @@ export function HeroSection() {
             </span>
           </h1>
 
-          <p className="anim-up anim-up-2 mb-7 text-base leading-[1.8] text-text-secondary">
+          <p className="anim-up anim-up-2 mb-7 max-w-[520px] text-[15.5px] leading-[1.85] text-text-secondary">
             {t('description')}
           </p>
 

@@ -1,5 +1,6 @@
 import { CalendarIcon, ClockIcon, PenLineIcon } from 'lucide-react';
 
+import { InkImage, inkThumbVariant } from '@/components/ink-image';
 import { TagList } from '@/components/tag';
 import { Link } from '@/i18n/navigation';
 import { cn } from '@/lib/utils';
@@ -13,43 +14,29 @@ interface ArticleCardProps {
 }
 
 function ArticleThumbnail({
-  icon: Icon,
+  slug,
   layout,
-  variant = 'v1',
 }: {
-  readonly icon: Article['thumbnailIcon'];
+  readonly slug: string;
   readonly layout: ArticleCardProps['variant'];
-  readonly variant?: Article['thumbnailVariant'];
 }) {
   return (
     <div
       className={cn(
         'relative overflow-hidden bg-secondary',
-        layout === 'list' ? 'h-full min-h-[140px] max-[1024px]:min-h-[100px]' : 'h-40',
+        layout === 'list'
+          ? 'h-full min-h-[140px] border-r border-border max-[1024px]:min-h-[100px]'
+          : 'h-[150px] border-b border-border',
       )}
     >
-      {/* Gradient overlay */}
-      <div
+      <InkImage
+        kind="fine"
         className={cn(
-          'absolute inset-0',
-          variant === 'v1' && 'bg-[image:var(--thumb-gradient-v1)]',
-          variant === 'v2' && 'bg-[image:var(--thumb-gradient-v2)]',
-          variant === 'v3' && 'bg-[image:var(--thumb-gradient-v3)]',
+          'absolute inset-0 h-full w-full object-cover opacity-90',
+          inkThumbVariant(slug),
         )}
+        sizes="(max-width: 480px) 100vw, 320px"
       />
-      {/* Grid pattern */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[size:18px_18px]" />
-      {/* Icon */}
-      <div
-        className={cn(
-          'absolute opacity-15 text-foreground',
-          variant === 'v1' && 'left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2',
-          variant === 'v2' && 'left-[60%] top-[40%] -translate-x-1/2 -translate-y-1/2',
-          variant === 'v3' && 'left-[40%] top-[55%] -translate-x-1/2 -translate-y-1/2',
-        )}
-      >
-        <Icon size={36} />
-      </div>
     </div>
   );
 }
@@ -61,7 +48,7 @@ export function ArticleCard({ article, href, className, variant = 'grid' }: Arti
     <Link
       href={href ?? `/articles/${article.slug}`}
       className={cn(
-        'group relative overflow-hidden rounded-[11px] border border-border bg-card',
+        'group relative overflow-hidden rounded-[4px] border border-border bg-card',
         isList
           ? 'grid grid-cols-[200px_1fr] max-[1024px]:grid-cols-[140px_1fr] max-[480px]:grid-cols-1'
           : 'flex flex-col',
@@ -73,11 +60,7 @@ export function ArticleCard({ article, href, className, variant = 'grid' }: Arti
         className,
       )}
     >
-      <ArticleThumbnail
-        icon={article.thumbnailIcon}
-        layout={variant}
-        variant={article.thumbnailVariant}
-      />
+      <ArticleThumbnail slug={article.slug} layout={variant} />
 
       <div className={cn(isList ? 'flex flex-col justify-center px-6 py-5' : 'p-5')}>
         {/* Meta */}

@@ -28,11 +28,11 @@ export function Pagination({ label, items, summary }: PaginationProps) {
 
 function PaginationLink({ item }: { readonly item: PaginationItem }) {
   const className = cn(
-    'flex size-9 items-center justify-center rounded-[7px] border border-border text-[13px] text-text-secondary transition-colors',
+    'flex size-9 items-center justify-center rounded-[3px] border border-border text-[13px] text-text-secondary transition-colors',
     'hover:border-primary hover:text-primary',
     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
     item.active &&
-      'border-transparent bg-[image:var(--accent-gradient)] text-white hover:text-white',
+      'border-transparent bg-[image:var(--accent-gradient)] text-[#f4f1e6] hover:text-[#f4f1e6]',
     item.disabled && 'pointer-events-none opacity-45',
   );
 

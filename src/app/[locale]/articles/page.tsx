@@ -10,6 +10,7 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 
 import { ArticleCard } from '@/components/article-card';
 import { FilterTag } from '@/components/filter-tag';
+import { PageInk } from '@/components/ink-image';
 import { Pagination, type PaginationItem } from '@/components/pagination';
 import { ScrollRevealList } from '@/components/scroll-reveal-list';
 import { SectionContainer, SectionHeader } from '@/components/section';
@@ -80,60 +81,64 @@ export default async function ArticlesPage({ params, searchParams }: ArticlesPag
         })}
       />
 
-      <SectionContainer>
-        <SectionHeader
-          label={t('heading.label')}
-          title={t('heading.title')}
-          description={t('heading.description')}
-          descriptionEn={t.has('heading.descriptionEn') ? t('heading.descriptionEn') : undefined}
-        />
+      <div className="bg-[image:var(--page-gradient)]">
+        <SectionContainer className="relative overflow-hidden">
+          <PageInk />
+          <SectionHeader
+            size="page"
+            label={t('heading.label')}
+            title={t('heading.title')}
+            description={t('heading.description')}
+            descriptionEn={t.has('heading.descriptionEn') ? t('heading.descriptionEn') : undefined}
+          />
 
-        <div className="mb-7 flex flex-col gap-3">
-          <div className="flex flex-wrap items-center gap-2.5">
-            <SearchForm query={currentQuery} />
-            <ViewToggle
+          <div className="mb-7 flex flex-col gap-3">
+            <div className="flex flex-wrap items-center gap-2.5">
+              <SearchForm query={currentQuery} />
+              <ViewToggle
+                query={currentQuery}
+                label={t('view.label')}
+                gridLabel={t('view.grid')}
+                listLabel={t('view.list')}
+              />
+            </div>
+            <TagFilter
+              tags={tags}
               query={currentQuery}
-              label={t('view.label')}
-              gridLabel={t('view.grid')}
-              listLabel={t('view.list')}
+              label={t('filter.label')}
+              allLabel={t('filter.all')}
             />
           </div>
-          <TagFilter
-            tags={tags}
-            query={currentQuery}
-            label={t('filter.label')}
-            allLabel={t('filter.all')}
-          />
-        </div>
 
-        {pageArticles.length > 0 ? (
-          <ArticlesList articles={pageArticles} view={query.view} />
-        ) : (
-          <EmptyArticlesState
-            query={currentQuery}
-            title={t('empty.title')}
-            filteredDescription={t('empty.filtered')}
-            unfilteredDescription={t('empty.unfiltered')}
-            clearLabel={t('empty.clear')}
-          />
-        )}
+          {pageArticles.length > 0 ? (
+            <ArticlesList articles={pageArticles} view={query.view} />
+          ) : (
+            <EmptyArticlesState
+              query={currentQuery}
+              title={t('empty.title')}
+              filteredDescription={t('empty.filtered')}
+              unfilteredDescription={t('empty.unfiltered')}
+              clearLabel={t('empty.clear')}
+            />
+          )}
 
-        <ArticlesPagination
-          query={currentQuery}
-          currentPage={currentPage}
-          totalPages={totalPages}
-          totalItems={filteredArticles.length}
-          label={t('pagination.label')}
-          previousLabel={t('pagination.previous')}
-          nextLabel={t('pagination.next')}
-          pageLabel={(page) => t('pagination.page', { page })}
-          summary={t('pagination.summary', {
-            rangeStart,
-            rangeEnd,
-            totalItems: filteredArticles.length,
-          })}
-        />
-      </SectionContainer>
+          <ArticlesPagination
+            query={currentQuery}
+            currentPage={currentPage}
+            totalPages={totalPages}
+            totalItems={filteredArticles.length}
+            label={t('pagination.label')}
+            previousLabel={t('pagination.previous')}
+            nextLabel={t('pagination.next')}
+            pageLabel={(page) => t('pagination.page', { page })}
+            summary={t('pagination.summary', {
+              rangeStart,
+              rangeEnd,
+              totalItems: filteredArticles.length,
+            })}
+          />
+        </SectionContainer>
+      </div>
     </>
   );
 }
