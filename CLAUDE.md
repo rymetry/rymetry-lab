@@ -40,7 +40,7 @@ Productivity Engineer "Rym" のポートフォリオ & 技術ブログ。Site: R
 ### 墨テクスチャ (public/images/ink/)
 
 - `ink-flow`: ヒーロー右のメインビジュアル (`heroInk="main"`, priority 付き)、一覧ページ見出し背後の透かし (`PageInk`)
-- `ink-fine`: 記事カード・リストカードのサムネイル (slug から決定的に 6 バリエーション選択)、About アバター
+- `ink-fine`: 記事カード・リストカードのサムネイルのフォールバック (microCMS の ogpImage を優先し、未設定時のみ slug から決定的に 6 バリエーション選択)、About アバター
 - `ink-vortex`: ローディング画面
 - ライト/ダークで別画像。`InkImage` が 2 枚描画し CSS (`dark:hidden` / `hidden dark:block`) で切替。常に lazy — 非表示側テーマはフェッチされない。LCP になる画像は `InkPreload` (media 限定 preload) を併用する。next/image の `priority` は使わない (preload に media が付かず、非表示ビューポートでも両テーマ分ダウンロードされるため)
 
@@ -70,7 +70,7 @@ Productivity Engineer "Rym" のポートフォリオ & 技術ブログ。Site: R
 
 ### Responsive
 
-- 1024px: Home グリッド 3列→2列 (見出しセルがグリッド1マス目に入り 2×2 モジュール、「View all →」リンクは md のみ表示)、TOC 非表示
+- 1024px: Home グリッド 3列→2列 (見出しセルがグリッド1マス目に入り 2×2 モジュール、「View all →」リンクは md のみ表示)、TOC は本文上のアコーディオン (details、デフォルト閉) に切替
 - 768px: ハンバーガー (Sheet)、1カラム、padding 16px
 - 480px 未満: リストカードのサムネイル列 80px (`max-[480px]` は排他的 `width < 480px`。`max-md` と併用する場合は CSS 出力順で打ち消されるため `min-[480px]:max-md:` で範囲を重ねない)
 

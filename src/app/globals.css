@@ -69,8 +69,8 @@
     --terminal-dim: #6b7268;
     --terminal-cursor: #7fc39a;
 
-    /* Primary button shadow — dark uses lower opacity (0.2 vs 0.3) for subtlety */
-    --btn-primary-shadow: 0 4px 16px oklch(var(--primary-ch) / 0.3);
+    /* Primary button shadow — プロトタイプ準拠で accent-glow (light 0.08 / dark 0.10) を参照 */
+    --btn-primary-shadow: 0 4px 16px var(--accent-glow);
   }
 
   .dark {
@@ -124,9 +124,7 @@
     );
 
     /* Terminal tokens は band 系変数参照のためテーマ追従 (dark 個別上書き不要) */
-
-    /* Primary button shadow */
-    --btn-primary-shadow: 0 4px 16px oklch(var(--primary-ch) / 0.2);
+    /* --btn-primary-shadow も accent-glow 参照のためテーマ追従 */
   }
 }
 
@@ -167,6 +165,19 @@
 
   body {
     @apply bg-background text-foreground;
+    /* テーマ切替時に地色・文字色をフェード (プロトタイプ準拠 0.3s) */
+    transition:
+      background-color 0.3s,
+      color 0.3s;
+  }
+
+  /* 静韻: focus リングはグローバル一括適用 (プロトタイプ準拠)。
+     shadcn 系コンポーネントは outline-none + 独自 ring が優先される */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
   }
 
   /* 静韻: 見出しは明朝 (Kaisei Tokumin)。個別コンポーネントの tracking 指定が優先される */
@@ -218,6 +229,11 @@
     @apply mt-8 text-[17px] leading-snug;
   }
 
+  /* h2 直後の要素は 14px (プロトタイプの h2 margin 40px 0 14px に対応) */
+  .article-content h2 + * {
+    @apply mt-3.5;
+  }
+
   .article-content p,
   .article-content li {
     @apply text-text-secondary;
@@ -253,7 +269,7 @@
   }
 
   .article-content :not(pre) > code {
-    @apply rounded-[2px] border border-border bg-[var(--bg-code)] px-1.5 py-0.5 font-mono text-[0.88em] text-primary;
+    @apply rounded-[2px] bg-[var(--bg-code)] px-[5px] py-[2px] font-mono text-[12.5px] text-primary;
   }
 
   /* コードブロックは両テーマとも墨帯 (--band-*)。静韻ではフッターと同じ「墨の帯」言語 */
@@ -262,7 +278,7 @@
   }
 
   .article-content pre code {
-    @apply block min-w-full p-4 font-mono text-[#cfd6c8];
+    @apply block min-w-full px-[18px] py-4 font-mono text-[#cfd6c8];
   }
 
   /* microCMS のファイル名付きコードブロック (figure.code-block > figcaption + pre) */
@@ -394,6 +410,16 @@
   }
 }
 
+@keyframes skeletonPulse {
+  0%,
+  100% {
+    opacity: 0.62;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
 @layer utilities {
   .reveal {
     opacity: 0;
@@ -424,6 +450,19 @@
   }
   .anim-up-4 {
     animation-delay: 0.36s;
+  }
+
+  /* ヒーローの stagger はプロトタイプ準拠 0.15s/0.3s (404/error は 0.12s 刻みの anim-up-N) */
+  .anim-up-hero-2 {
+    animation-delay: 0.15s;
+  }
+  .anim-up-hero-3 {
+    animation-delay: 0.3s;
+  }
+
+  /* ローディングスケルトン (プロトタイプの skeletonPulse: opacity 0.62↔1) */
+  .skeleton-pulse {
+    animation: skeletonPulse 1.4s ease-in-out infinite;
   }
 
   /* ヒーロー日本語タグライン (jaLine) — フェードインのみ */

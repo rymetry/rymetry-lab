@@ -16,9 +16,6 @@ export function PrincipleCard({ principle, className }: PrincipleCardProps) {
         className,
       )}
     >
-      <div className="mb-2.5 text-[28px]" aria-hidden="true">
-        {principle.emoji}
-      </div>
       <h3 className="mb-1.5 text-[15px] font-bold">{principle.title}</h3>
       <p className="text-[13.5px] leading-[1.6] text-text-secondary">{principle.description}</p>
     </div>

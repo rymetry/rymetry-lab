@@ -37,7 +37,7 @@ export default function GlobalError({ error, unstable_retry }: GlobalErrorProps)
           {/* Error — decorative */}
           <p
             aria-hidden="true"
-            className="mb-3 bg-[linear-gradient(135deg,oklch(0.34_0.07_154),oklch(0.55_0.10_154))] bg-clip-text font-mono text-[clamp(48px,10vw,80px)] leading-none font-extrabold text-transparent"
+            className="mb-3 bg-[linear-gradient(135deg,oklch(0.42_0.07_154),oklch(0.62_0.10_154))] bg-clip-text font-mono text-[clamp(48px,10vw,80px)] leading-none font-extrabold text-transparent"
           >
             Error
           </p>
@@ -59,14 +59,14 @@ export default function GlobalError({ error, unstable_retry }: GlobalErrorProps)
             <button
               type="button"
               onClick={unstable_retry}
-              className="cursor-pointer rounded-[9px] border-0 bg-[linear-gradient(135deg,oklch(0.34_0.07_154),oklch(0.55_0.10_154))] px-[22px] py-[11px] text-sm font-semibold text-white"
+              className="cursor-pointer rounded-[3px] border-0 bg-[linear-gradient(135deg,oklch(0.42_0.07_154),oklch(0.62_0.10_154))] px-6 py-[11px] text-[14.5px] font-medium tracking-[0.05em] text-[#f4f1e6]"
             >
               リトライ ↻
             </button>
             {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- global-error replaces root layout; plain <a> is safer than <Link> */}
             <a
               href="/"
-              className="inline-flex items-center rounded-[9px] border-[1.5px] border-[rgba(244,244,245,0.3)] bg-transparent px-[22px] py-[11px] text-sm font-semibold text-[#f4f4f5] no-underline"
+              className="inline-flex items-center rounded-[3px] border-[1.5px] border-[rgba(244,244,245,0.3)] bg-transparent px-6 py-[11px] text-[14.5px] font-medium tracking-[0.05em] text-[#f4f4f5] no-underline"
             >
               ホームに戻る
             </a>

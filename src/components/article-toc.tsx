@@ -1,5 +1,6 @@
 'use client';
 
+import { ChevronDownIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 import type { ArticleTocItem } from '@/lib/articles/content';
@@ -35,40 +36,68 @@ export function ArticleToc({ items, label }: ArticleTocProps) {
   const activeId = useActiveHeading(items);
 
   return (
-    <aside className="sticky top-24 hidden max-h-[calc(100vh-7rem)] overflow-y-auto lg:block">
+    <aside className="max-lg:order-first lg:sticky lg:top-[100px] lg:max-h-[calc(100vh-7.5rem)] lg:overflow-y-auto">
+      {/* 狭幅 (<1024px): 折りたたみ (デフォルト閉) を本文上に配置。
+          mock は order:-1 で常時展開だが、本文を押し下げないアコーディオンを採用 */}
+      <details className="group rounded-[4px] border border-border bg-card shadow-[var(--card-shadow)] lg:hidden">
+        <summary className="flex cursor-pointer list-none items-center justify-between p-[18px] font-mono text-xs font-semibold uppercase tracking-[0.05em] text-muted-foreground [&::-webkit-details-marker]:hidden">
+          {label}
+          <ChevronDownIcon
+            aria-hidden="true"
+            className="size-3.5 transition-transform duration-200 group-open:rotate-180"
+          />
+        </summary>
+        <nav aria-label={label} className="px-[18px] pb-[18px]">
+          <TocList items={items} activeId={activeId} />
+        </nav>
+      </details>
+
+      {/* デスクトップ (lg 以上): sticky サイドバーカード */}
       <nav
         aria-label={label}
-        className="rounded-[4px] border border-border bg-card p-[18px] shadow-[var(--card-shadow)]"
+        className="hidden rounded-[4px] border border-border bg-card p-[18px] shadow-[var(--card-shadow)] lg:block"
       >
         <p className="mb-3.5 font-mono text-xs font-semibold uppercase tracking-[0.05em] text-muted-foreground">
           {label}
         </p>
-        <ol>
-          {items.map((item) => {
-            const isActive = item.id === activeId;
-
-            return (
-              <li key={item.id}>
-                <a
-                  href={`#${item.id}`}
-                  aria-current={isActive ? 'location' : undefined}
-                  className={cn(
-                    'block border-l-2 py-1 pl-3 text-[13px] leading-5 transition-colors duration-200',
-                    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card',
-                    item.level === 3 && 'pl-6 text-[12.5px]',
-                    isActive
-                      ? 'border-primary font-medium text-primary'
-                      : 'border-border text-text-secondary hover:border-[var(--border-hover)] hover:text-foreground',
-                  )}
-                >
-                  {item.text}
-                </a>
-              </li>
-            );
-          })}
-        </ol>
+        <TocList items={items} activeId={activeId} />
       </nav>
     </aside>
+  );
+}
+
+function TocList({
+  items,
+  activeId,
+}: {
+  readonly items: readonly ArticleTocItem[];
+  readonly activeId: string | null;
+}) {
+  return (
+    <ol>
+      {items.map((item) => {
+        const isActive = item.id === activeId;
+
+        return (
+          <li key={item.id}>
+            <a
+              href={`#${item.id}`}
+              aria-current={isActive ? 'location' : undefined}
+              className={cn(
+                'block border-l-2 py-1 pl-3 text-[13px] leading-5 transition-colors duration-200',
+                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card',
+                item.level === 3 && 'pl-6 text-[12.5px]',
+                isActive
+                  ? 'border-primary font-medium text-primary'
+                  : 'border-border text-text-secondary hover:text-foreground',
+              )}
+            >
+              {item.text}
+            </a>
+          </li>
+        );
+      })}
+    </ol>
   );
 }
 

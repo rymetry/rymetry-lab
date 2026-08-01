@@ -28,7 +28,7 @@ export function Header() {
   const t = useTranslations('Header');
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-background/85 backdrop-blur-lg backdrop-saturate-[180%] transition-colors duration-300">
+    <header className="sticky top-0 z-50 border-b border-border bg-background/85 backdrop-blur-lg backdrop-saturate-[160%] transition-colors duration-300">
       <div className="mx-auto flex h-15 max-w-[1200px] items-center justify-between px-4 md:px-6">
         {/* Logo */}
         <Link
@@ -39,10 +39,10 @@ export function Header() {
           Rym<span className="text-primary">lab</span>
         </Link>
 
-        <div className="flex items-center gap-7 max-lg:gap-5">
+        <div className="flex items-center gap-6">
           {/* Desktop Nav */}
           <nav aria-label={t('mainNavigation')} className="max-md:hidden">
-            <ul className="flex gap-7 max-lg:gap-5">
+            <ul className="flex gap-[26px] max-lg:gap-5">
               {NAV_ITEMS.map(({ href, labelKey }) => (
                 <li key={href}>
                   <Link
@@ -50,7 +50,7 @@ export function Header() {
                     className={cn(
                       'font-brand relative text-[14.5px] font-medium tracking-[0.04em] transition-colors duration-200',
                       isActive(pathname, href)
-                        ? 'text-primary after:absolute after:-bottom-[19px] after:left-0 after:right-0 after:h-0.5 after:rounded-[1px] after:bg-[image:var(--accent-gradient)]'
+                        ? 'text-primary after:absolute after:-bottom-[19px] after:left-0 after:right-0 after:h-0.5 after:bg-primary'
                         : 'text-text-secondary hover:text-foreground',
                     )}
                   >
@@ -73,13 +73,13 @@ export function Header() {
                   type="button"
                   variant="outline"
                   size="icon"
-                  className="md:hidden hover:bg-transparent dark:hover:bg-transparent hover:border-primary hover:text-primary"
+                  className="md:hidden size-[34px] rounded-[3px] hover:bg-transparent dark:hover:bg-transparent hover:border-primary hover:text-primary"
                 >
-                  <MenuIcon className="size-[18px]" />
+                  <MenuIcon className="size-[17px]" />
                   <span className="sr-only">{t('openMenu')}</span>
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-[280px] pt-12">
+              <SheetContent side="right" className="w-[280px] px-6 pt-12">
                 <SheetTitle className="sr-only">{t('navigationMenu')}</SheetTitle>
                 <nav aria-label={t('mobileNavigation')} className="flex flex-col gap-1">
                   {NAV_ITEMS.map(({ href, labelKey }) => (

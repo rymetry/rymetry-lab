@@ -106,7 +106,7 @@ export default async function ArticleDetailPage({ params }: ArticleDetailPagePro
             <ArticleHero article={article} backLabel={t('back')} />
 
             <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_240px] lg:items-start">
-              <div className="min-w-0">
+              <div className="min-w-0 max-w-[720px]">
                 <div className="article-content" dangerouslySetInnerHTML={{ __html: html }} />
               </div>
 

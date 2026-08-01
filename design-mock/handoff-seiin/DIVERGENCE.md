@@ -75,9 +75,47 @@
 - ✅ ヒーロー LCP: ink-flow が LCP 要素 (Next.js 警告あり)。`InkPreload` (getImageProps + `media="(min-width: 1024px)"` の手動 preload、React 19 の link ホイスティング利用) を heroInk="main" に追加。デスクトップのみ light/dark 両テーマ分 (~95KB AVIF/枚、テーマは class 切替でサーバー側不明のため) を先読みし、hero カラムが非表示のモバイルでは preload が走らない (w=1200×2 ≈ 186KB の無駄フェッチを実測で排除)。`InkImage` 自体は常に lazy — display:none 側テーマはフェッチされないことを実測確認。next/image の `priority` は media なし preload を出すため不採用。dev コンソールの「LCP image, add loading=eager」警告は既知のトレードオフとして許容 (eager 化するとモバイルで非表示分を余計にフェッチする。preload 済みのため実測 LCP は 964ms と priority 時より悪化なし)
 - ✅ ドキュメント: CLAUDE.md のデザインセクションを静韻の実態に全面更新、README/AGENTS.md の参照先を handoff-seiin へ変更、旧モック (v3–v12 + color-comparison) を design-mock/archive/mockups/ へ移動
 
+## 差分監査による追随修正 (2026-08-01)
+
+全画面再監査 (トークン/タイポ/構造/アニメーション) で検出した未記載差分の修正。
+
+- ✅ focus-visible をグローバル一括適用: `a/button/input:focus-visible` に `outline: 2px solid var(--accent)` + offset 2px (globals.css)。shadcn 系は `outline-none` + 独自 ring が優先されるため二重表示なし
+- ✅ `--btn-primary-shadow` を `var(--accent-glow)` 参照に (alpha 0.3/0.2 → プロトタイプの 0.08/0.10)
+- ✅ body にテーマ切替 transition 0.3s (background-color/color)
+- ✅ ListCard タイトル (h4) に font-brand 適用 + line-height 1.4 (h1–h3 のみの brand 適用から漏れて sans に落ちていた)
+- ✅ ProjectCard タイトル line-height 1.7 (leading-tight 1.25 は旧デザイン残骸)
+- ✅ ArticleCard: list padding 20px、リストサムネ 100px 化を <768px に (max-[1024px] は 768–1024px 帯で幅が過小)、Tag sm アイコン 10px
+- ✅ ヒーロー: Projects ボタンの「→」撤去 (mock は矢印なし。404 の CTA 矢印も同時撤去 — messages/story 含む)、stagger 0.15s/0.3s (`anim-up-hero-*`。404/error は 0.12s 刻みの `anim-up-N` のまま)、`max-[480px]:text-[28px]` 上書き撤去 (clamp 下限 30px)
+- ✅ ActionButton secondary hover: 枠色変化を撤去 (bg accent-glow のみ)
+- ✅ ヘッダー: nav gap 26px / nav↔actions 24px、backdrop saturate 160%、アクティブ下線を単色 accent に (グラデ廃止)、HeaderFallback ロゴを本物と同じ font-brand 21px に
+- ✅ ヘッダー操作系を 34px・角丸 3px に統一 (ThemeToggle/ハンバーガー 36px/6px、LangToggle 32px/6px → mock 準拠。LangToggle は mono 12px に)
+- ✅ Articles: 検索窓 max-width 560px、ViewToggle を検索窓直後に (ml-auto 右端寄せ撤去)・角丸 3px、グリッド min 320px (max-md 280px 緩和撤去)、リスト gap 14px、見出し下 32px・検索行下 14px・チップ行下 36px、空状態カード角丸 4px、placeholder #8a8577 (テーマ非依存)
+- ✅ 記事詳細: 本文カラム max-width 720px、TOC sticky top 100px・hover は文字色のみ (枠色変化撤去)、関連リスト gap 10px、前後ナビ gap 14px / mt 40px
+- ✅ 記事本文: h2 直後の余白 14px、インラインコード 12.5px 固定・padding 2px 5px・枠線なし (0.88em + border は旧様式)、pre 横 padding 18px
+- ✅ About: bio max-width 640px、ソーシャルを RSS 抜き 5 件に (`SocialIconBar links` prop)、アバターの accent-glow グラデオーバーレイ撤去
+- ✅ error/global-error: リトライボタンを ActionButton 様式 (角丸 3px・明朝 14.5/500/+0.05em・#f4f1e6) に (rounded-[9px]/text-white/sans は旧残骸)、error のターミナル角丸 5px、global-error のグラデをダーク実値 (0.42/0.62 154°) に統一
+- ✅ root not-found に vortex 墨流し追加 ([locale] 版と統一)
+- ✅ Loading: `skeletonPulse` keyframe 移植 (opacity 0.62↔1、animate-pulse 代用をやめる)、バー角丸 3px (タグのみ 2px)、記事詳細のアイキャッチスケルトン撤去 (実ページ非表示のためロード後に跳ねていた)・本文 720px/コンテナ 1040px/TOC カード枠を実ページに整合、Articles の検索/トグルスケルトンを実寸 (38px/34px) に、Home ヒーローを grid-cols-2/min-h 380px に
+
+## 判断反映 (2026-08-01)
+
+- ✅ 404/error のメッシュブロブ 2 個を撤去 (mock の 404 はドットグリッド + vortex のみ。ヒーローの撤去と整合)
+- ✅ 404 の vortex 位置を mock 準拠に: 560px コンテンツボックス内の absolute (`top:22%/left:50%/translate(-64.5%,-40%)`、`z-index:-1`)。従来はセクション全体基準で位置がずれていた
+- ✅ 404 CTA を mock の英語表記に統一: "Back to Home" / "Browse Articles" (ja/en 両ロケール + root 版ハードコード)
+- ✅ Principle/Toolbox カードの絵文字を削除 (data の emoji フィールドごと撤去)
+- ✅ Home の Recent Articles を microCMS 実データの上位 3 件 + 実リンクに (静的 ARTICLES + `href="#"` を撤去)
+- ✅ TOC の <1024px 挙動: 本文上に配置しつつ折りたたみ (details/summary、デフォルト閉) に。mock の常時展開 (`order:-1`) は本文を押し下げるため不採用
+- ✅ ヘッダーの言語切替アイコンを mock 準拠の globe に (LanguagesIcon → GlobeIcon)
+- ✅ ハンバーガー Sheet に横 padding 24px (リンクが左端に張り付いていた)
+- 🎯 記事カード/リストカードのサムネイル: microCMS の ogpImage を優先表示し、未設定時のみ ink-fine 墨テクスチャにフォールバック (mock は墨テクスチャ固定だが実データの視認性を優先)
+
 ## 🎯 意図的な逸脱 (対応しない)
 
 - 🎯 フッターのコピーライト文字色: プロトタイプの #6b7268 は墨帯上でコントラスト 3.5:1 (WCAG AA 未達) のため #828773 (4.7:1) に変更。アイコン色と同一
 - 🎯 タグアイコンはカテゴリ色を維持 (プロトタイプは全 accent 一色)。カテゴリ識別性を優先
-- 🎯 モバイルのハンバーガーメニュー (Sheet): プロトタイプは常時ナビ表示だが現行 UX を維持
+- 🎯 モバイルのハンバーガーメニュー: プロトタイプも <768px はハンバーガー式だが、展開 UI が異なる (mock = ヘッダー直下のインライン縦並び / 実装 = shadcn Sheet の右ドロワー)。フォーカストラップ・スクロールロックを備えた Sheet を維持
 - 🎯 エラーページ (error.tsx): プロトタイプに対応画面なし。404 と同系の様式を踏襲
+- 🎯 テーマ切替 UI: mock は即時トグルだが、system 対応を優先して DropdownMenu (light/dark/system) を維持
+- 🎯 Home の記事カードにも更新日 (pen-line) を表示 (mock は Home では公開日+読了時間のみ)。情報の一貫性を優先
+- 🎯 `.reveal` スクロール連動フェード (IntersectionObserver) と `scroll-behavior: smooth`: プロトタイプに存在しない実装側の追加演出 (CLAUDE.md 記載済み)。prefers-reduced-motion で無効化される
+- 🎯 Articles 空状態カード・Home ローディングの見出しセル: プロトタイプに対応 UI がない実装独自要素。様式は実ページに整合させる

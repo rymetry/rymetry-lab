@@ -1,27 +1,38 @@
 import { CalendarIcon, ClockIcon } from 'lucide-react';
+import Image from 'next/image';
 
 import { InkImage, inkThumbVariant } from '@/components/ink-image';
 import { TagList } from '@/components/tag';
 import { Link } from '@/i18n/navigation';
 import { cn } from '@/lib/utils';
-import type { Article } from '@/types/article';
+import type { Article, ArticleImage } from '@/types/article';
 
 interface ListCardProps {
   readonly article: Article;
   readonly className?: string;
 }
 
-function ListCardThumbnail({ slug }: { readonly slug: string }) {
+function ListCardThumbnail({
+  slug,
+  image,
+}: {
+  readonly slug: string;
+  readonly image?: ArticleImage;
+}) {
   return (
     <div className="relative min-h-[92px] overflow-hidden border-r border-border bg-secondary">
-      <InkImage
-        kind="fine"
-        className={cn(
-          'absolute inset-0 h-full w-full object-cover opacity-90',
-          inkThumbVariant(slug),
-        )}
-        sizes="120px"
-      />
+      {image ? (
+        <Image src={image.url} alt="" fill sizes="120px" className="object-cover" />
+      ) : (
+        <InkImage
+          kind="fine"
+          className={cn(
+            'absolute inset-0 h-full w-full object-cover opacity-90',
+            inkThumbVariant(slug),
+          )}
+          sizes="120px"
+        />
+      )}
     </div>
   );
 }
@@ -40,11 +51,11 @@ export function ListCard({ article, className }: ListCardProps) {
         className,
       )}
     >
-      <ListCardThumbnail slug={article.slug} />
+      <ListCardThumbnail slug={article.slug} image={article.ogpImage} />
 
       <div className="flex flex-col justify-center px-4.5 py-3.5">
         {/* Title */}
-        <h4 className="mb-1 text-sm font-semibold leading-snug">{article.title}</h4>
+        <h4 className="font-brand mb-1 text-sm font-semibold leading-[1.4]">{article.title}</h4>
 
         {/* Meta */}
         <div className="mb-1.5 flex items-center gap-2.5 font-mono text-[11.5px] text-muted-foreground">

@@ -1,10 +1,11 @@
 import { CalendarIcon, ClockIcon, PenLineIcon } from 'lucide-react';
+import Image from 'next/image';
 
 import { InkImage, inkThumbVariant } from '@/components/ink-image';
 import { TagList } from '@/components/tag';
 import { Link } from '@/i18n/navigation';
 import { cn } from '@/lib/utils';
-import type { Article } from '@/types/article';
+import type { Article, ArticleImage } from '@/types/article';
 
 interface ArticleCardProps {
   readonly article: Article;
@@ -15,9 +16,11 @@ interface ArticleCardProps {
 
 function ArticleThumbnail({
   slug,
+  image,
   layout,
 }: {
   readonly slug: string;
+  readonly image?: ArticleImage;
   readonly layout: ArticleCardProps['variant'];
 }) {
   return (
@@ -29,14 +32,24 @@ function ArticleThumbnail({
           : 'h-[150px] border-b border-border',
       )}
     >
-      <InkImage
-        kind="fine"
-        className={cn(
-          'absolute inset-0 h-full w-full object-cover opacity-90',
-          inkThumbVariant(slug),
-        )}
-        sizes="(max-width: 480px) 100vw, 320px"
-      />
+      {image ? (
+        <Image
+          src={image.url}
+          alt=""
+          fill
+          sizes="(max-width: 480px) 100vw, 320px"
+          className="object-cover"
+        />
+      ) : (
+        <InkImage
+          kind="fine"
+          className={cn(
+            'absolute inset-0 h-full w-full object-cover opacity-90',
+            inkThumbVariant(slug),
+          )}
+          sizes="(max-width: 480px) 100vw, 320px"
+        />
+      )}
     </div>
   );
 }
@@ -50,7 +63,8 @@ export function ArticleCard({ article, href, className, variant = 'grid' }: Arti
       className={cn(
         'group relative overflow-hidden rounded-[4px] border border-border bg-card',
         isList
-          ? 'grid grid-cols-[minmax(140px,220px)_1fr] max-[1024px]:grid-cols-[100px_1fr] max-[480px]:grid-cols-[80px_1fr]'
+          ? // max-md と max-[480px] は CSS 出力順で 480px 側が先になり打ち消されるため、範囲を重ねない
+            'grid grid-cols-[minmax(140px,220px)_1fr] min-[480px]:max-md:grid-cols-[100px_1fr] max-[480px]:grid-cols-[80px_1fr]'
           : 'flex flex-col',
         'transition-all duration-[250ms]',
         'hover:-translate-y-0.5 hover:border-[var(--border-hover)] hover:shadow-[var(--card-shadow-hover)]',
@@ -58,9 +72,9 @@ export function ArticleCard({ article, href, className, variant = 'grid' }: Arti
         className,
       )}
     >
-      <ArticleThumbnail slug={article.slug} layout={variant} />
+      <ArticleThumbnail slug={article.slug} image={article.ogpImage} layout={variant} />
 
-      <div className={cn(isList ? 'flex flex-col justify-center px-6 py-5' : 'p-5')}>
+      <div className={cn(isList ? 'flex flex-col justify-center p-5' : 'p-5')}>
         {/* Meta */}
         <div className="mb-2.5 flex items-center gap-3.5 font-mono text-xs text-muted-foreground">
           <span className="inline-flex items-center gap-1">

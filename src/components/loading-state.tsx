@@ -5,10 +5,7 @@ import { cn } from '@/lib/utils';
 
 function Skeleton({ className }: { readonly className?: string }) {
   return (
-    <div
-      className={cn('animate-pulse rounded bg-muted [animation-duration:1.4s]', className)}
-      aria-hidden="true"
-    />
+    <div className={cn('skeleton-pulse rounded-[3px] bg-muted', className)} aria-hidden="true" />
   );
 }
 
@@ -39,8 +36,8 @@ function CardSkeleton({ compact = false }: { readonly compact?: boolean }) {
         <Skeleton className={cn('mb-2.5 h-4', compact ? 'w-[82%]' : 'w-[90%]')} />
         <Skeleton className={cn('mb-4 h-4', compact ? 'w-[58%]' : 'w-[70%]')} />
         <div className="flex flex-wrap gap-[5px]">
-          <Skeleton className="h-5 w-16 rounded border border-border" />
-          <Skeleton className="h-5 w-20 rounded border border-border" />
+          <Skeleton className="h-5 w-16 rounded-[2px] border border-border" />
+          <Skeleton className="h-5 w-20 rounded-[2px] border border-border" />
         </div>
       </div>
     </div>
@@ -52,15 +49,15 @@ export function HomeLoadingState() {
     <div role="status" aria-label="コンテンツを読み込み中">
       <span className="sr-only">コンテンツを読み込み中</span>
       <SectionContainer>
-        <div className="grid min-h-[420px] items-center gap-10 py-8 lg:grid-cols-[1.05fr_0.95fr]">
+        <div className="grid min-h-[380px] items-center gap-12 py-8 lg:grid-cols-2">
           <div>
             <Skeleton className="mb-5 h-4 w-40" />
             <Skeleton className="mb-3 h-12 w-full max-w-[620px]" />
             <Skeleton className="mb-6 h-12 w-[82%] max-w-[520px]" />
             <Skeleton className="mb-8 h-5 w-full max-w-[560px]" />
             <div className="flex gap-3">
-              <Skeleton className="h-11 w-36 rounded-md" />
-              <Skeleton className="h-11 w-28 rounded-md" />
+              <Skeleton className="h-11 w-36" />
+              <Skeleton className="h-11 w-28" />
             </div>
           </div>
           <div className="relative h-[320px] overflow-hidden rounded-[5px] border border-border bg-card">
@@ -94,10 +91,10 @@ export function ArticlesLoadingState() {
           description="開発生産性の現場から得た知見。"
         />
         <div className="mb-8 grid gap-3 md:grid-cols-[1fr_auto]">
-          <Skeleton className="h-11 rounded-md border border-border bg-card" />
-          <div className="flex gap-2">
-            <Skeleton className="h-11 w-11 rounded-md border border-border bg-card" />
-            <Skeleton className="h-11 w-11 rounded-md border border-border bg-card" />
+          <Skeleton className="h-[38px] max-w-[560px] border border-border bg-card" />
+          <div className="flex gap-1">
+            <Skeleton className="size-[34px] border border-border bg-card" />
+            <Skeleton className="size-[34px] border border-border bg-card" />
           </div>
         </div>
         <div className="grid grid-cols-[repeat(auto-fill,minmax(min(320px,100%),1fr))] gap-5">
@@ -115,17 +112,16 @@ export function ArticleDetailLoadingState() {
     <div role="status" aria-label="記事を読み込み中">
       <span className="sr-only">記事を読み込み中</span>
       <SectionContainer>
-        <div className="mx-auto max-w-[980px]">
+        <div className="mx-auto max-w-[1040px]">
           <Skeleton className="mb-5 h-4 w-28" />
           <Skeleton className="mb-3 h-10 w-full" />
           <Skeleton className="mb-6 h-10 w-[72%]" />
-          <div className="mb-8 flex flex-wrap gap-2">
-            <Skeleton className="h-5 w-20 rounded border border-border" />
-            <Skeleton className="h-5 w-24 rounded border border-border" />
+          <div className="mb-10 flex flex-wrap gap-2">
+            <Skeleton className="h-5 w-20 rounded-[2px] border border-border" />
+            <Skeleton className="h-5 w-24 rounded-[2px] border border-border" />
           </div>
-          <Skeleton className="mb-10 aspect-[1200/630] w-full rounded-[11px] border border-border bg-card" />
-          <div className="grid gap-10 lg:grid-cols-[1fr_240px]">
-            <div className="space-y-4">
+          <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_240px]">
+            <div className="max-w-[720px] space-y-4">
               {Array.from({ length: 7 }, (_, index) => (
                 <Skeleton
                   key={index}
@@ -133,7 +129,7 @@ export function ArticleDetailLoadingState() {
                 />
               ))}
             </div>
-            <div className="max-lg:hidden">
+            <div className="rounded-[4px] border border-border bg-card p-[18px] max-lg:hidden">
               <Skeleton className="mb-3 h-4 w-20" />
               <Skeleton className="mb-2 h-3 w-full" />
               <Skeleton className="mb-2 h-3 w-[84%]" />

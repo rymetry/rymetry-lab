@@ -86,12 +86,13 @@ export default async function ArticlesPage({ params, searchParams }: ArticlesPag
           <PageInk />
           <SectionHeader
             size="page"
+            className="mb-8"
             title={t('heading.title')}
             description={t('heading.description')}
             descriptionEn={t.has('heading.descriptionEn') ? t('heading.descriptionEn') : undefined}
           />
 
-          <div className="mb-7 flex flex-col gap-3">
+          <div className="mb-9 flex flex-col gap-3.5">
             <div className="flex flex-wrap items-center gap-2.5">
               <SearchForm query={currentQuery} />
               <ViewToggle
@@ -151,7 +152,7 @@ function ArticlesList({
 }) {
   if (view === 'list') {
     return (
-      <ScrollRevealList className="grid gap-3">
+      <ScrollRevealList className="grid gap-3.5">
         {articles.map((article) => (
           <ArticleCard key={article.slug} article={article} variant="list" />
         ))}
@@ -160,7 +161,7 @@ function ArticlesList({
   }
 
   return (
-    <ScrollRevealList className="grid grid-cols-[repeat(auto-fill,minmax(min(320px,100%),1fr))] gap-5 max-md:grid-cols-[repeat(auto-fill,minmax(min(280px,100%),1fr))]">
+    <ScrollRevealList className="grid grid-cols-[repeat(auto-fill,minmax(min(320px,100%),1fr))] gap-5">
       {articles.map((article) => (
         <ArticleCard key={article.slug} article={article} />
       ))}
@@ -180,13 +181,13 @@ function ViewToggle({
   readonly listLabel: string;
 }) {
   return (
-    <div className="ml-auto flex gap-1" aria-label={label}>
+    <div className="flex gap-1" aria-label={label}>
       <Button
         asChild
         variant="outline"
         size="icon"
         className={cn(
-          'size-[34px] rounded-md bg-transparent text-muted-foreground shadow-none hover:border-primary hover:text-primary',
+          'size-[34px] rounded-[3px] bg-transparent text-muted-foreground shadow-none hover:border-primary hover:text-primary',
           query.view === 'grid' &&
             'border-[var(--tag-border)] bg-[var(--tag-bg)] text-[var(--tag-text)]',
         )}
@@ -200,7 +201,7 @@ function ViewToggle({
         variant="outline"
         size="icon"
         className={cn(
-          'size-[34px] rounded-md bg-transparent text-muted-foreground shadow-none hover:border-primary hover:text-primary',
+          'size-[34px] rounded-[3px] bg-transparent text-muted-foreground shadow-none hover:border-primary hover:text-primary',
           query.view === 'list' &&
             'border-[var(--tag-border)] bg-[var(--tag-bg)] text-[var(--tag-text)]',
         )}
@@ -318,7 +319,7 @@ function EmptyArticlesState({
   const hasFilters = Boolean(query.q || query.tag);
 
   return (
-    <div className="rounded-[11px] border border-border bg-card px-5 py-12 text-center">
+    <div className="rounded-[4px] border border-border bg-card px-5 py-12 text-center">
       <h3 className="mb-2 text-base font-semibold">{title}</h3>
       <p className="mx-auto max-w-[460px] text-sm leading-6 text-text-secondary">
         {hasFilters ? filteredDescription : unfilteredDescription}

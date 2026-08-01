@@ -22,7 +22,7 @@ export function SearchForm({ query }: SearchFormProps) {
   return (
     <form
       role="search"
-      className="relative min-w-[min(100%,260px)] flex-1"
+      className="relative min-w-[min(100%,260px)] max-w-[560px] flex-1"
       onSubmit={(event) => {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);

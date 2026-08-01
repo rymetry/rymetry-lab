@@ -1,19 +1,25 @@
 import Link from 'next/link';
 
-import { SOCIAL_LINKS } from '@/data/social-links';
+import { SOCIAL_LINKS, type SocialLink } from '@/data/social-links';
 import { cn } from '@/lib/utils';
 
 interface SocialIconBarProps {
   readonly className?: string;
   /** footer = 墨帯上の常時ダーク配色 (テーマ非連動)。default = ページ配色 */
   readonly variant?: 'default' | 'footer';
+  /** 表示するリンク (default: SOCIAL_LINKS 全件)。About は RSS 抜きの 5 件 (プロトタイプ準拠) */
+  readonly links?: readonly SocialLink[];
 }
 
 /** Renders a horizontal row of icon links from SOCIAL_LINKS. External links open in a new tab. */
-export function SocialIconBar({ className, variant = 'default' }: SocialIconBarProps) {
+export function SocialIconBar({
+  className,
+  variant = 'default',
+  links = SOCIAL_LINKS,
+}: SocialIconBarProps) {
   return (
     <div className={cn('flex gap-2', className)}>
-      {SOCIAL_LINKS.map(({ href, label, icon: Icon }) => {
+      {links.map(({ href, label, icon: Icon }) => {
         const isExternal = !href.startsWith('/');
         return (
           <Link

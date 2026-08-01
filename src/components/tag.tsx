@@ -23,7 +23,7 @@ export function Tag({ tag, size = 'default', className }: TagProps) {
     >
       {IconComponent && (
         <IconComponent
-          size={size === 'default' ? 11 : 9}
+          size={size === 'default' ? 11 : 10}
           className={cn('shrink-0', TAG_CATEGORY_TEXT_CLASSES[tag.category])}
         />
       )}

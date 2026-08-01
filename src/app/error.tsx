@@ -31,18 +31,8 @@ export default function ErrorPage({ error, unstable_retry }: ErrorPageProps) {
         'before:absolute before:inset-0',
         'before:bg-[image:radial-gradient(circle_at_1px_1px,var(--dot-color)_1px,transparent_0)]',
         'before:bg-[size:28px_28px]',
-        // Top-right mesh blob
-        'after:pointer-events-none after:absolute after:-top-[30%] after:-right-[10%]',
-        'after:h-[600px] after:w-[600px]',
-        'after:bg-[radial-gradient(ellipse,oklch(var(--primary-ch)/0.08)_0%,transparent_60%)]',
       )}
     >
-      {/* Bottom-left mesh blob */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -bottom-[20%] -left-[10%] h-[500px] w-[500px] bg-[radial-gradient(ellipse,oklch(var(--accent-2-ch)/0.05)_0%,transparent_60%)]"
-      />
-
       <div className="relative z-[1] max-w-[560px] px-6 text-center max-md:px-4">
         {/* Label */}
         <p className="anim-up mb-1.5 font-mono text-xs uppercase tracking-[0.1em] text-primary">
@@ -77,7 +67,7 @@ export default function ErrorPage({ error, unstable_retry }: ErrorPageProps) {
         {/* Terminal diagnostic */}
         <div
           aria-hidden="true"
-          className="anim-up anim-up-3 mx-auto mb-8 max-w-[400px] overflow-hidden rounded-[11px] border border-[var(--terminal-border)] bg-[var(--terminal-bg)] text-left shadow-[0_12px_32px_-8px_rgba(0,0,0,0.3)]"
+          className="anim-up anim-up-3 mx-auto mb-8 max-w-[400px] overflow-hidden rounded-[5px] border border-[var(--terminal-border)] bg-[var(--terminal-bg)] text-left shadow-[0_12px_32px_-8px_rgba(0,0,0,0.3)]"
         >
           {/* Traffic lights */}
           <div className="flex gap-[7px] border-b border-[var(--terminal-border)] px-[14px] py-[10px]">
@@ -112,7 +102,7 @@ export default function ErrorPage({ error, unstable_retry }: ErrorPageProps) {
           <button
             type="button"
             onClick={unstable_retry}
-            className="inline-flex items-center gap-2 rounded-[9px] border-none bg-[image:var(--accent-gradient)] px-[22px] py-[11px] text-sm font-semibold text-white transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-safe:hover:-translate-y-px hover:shadow-[var(--btn-primary-shadow)]"
+            className="font-brand inline-flex items-center gap-2 rounded-[3px] border-none bg-[image:var(--accent-gradient)] px-6 py-[11px] text-[14.5px] font-medium tracking-[0.05em] text-[#f4f1e6] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-safe:hover:-translate-y-px hover:shadow-[var(--btn-primary-shadow)]"
           >
             リトライ ↻
           </button>

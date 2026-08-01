@@ -38,7 +38,7 @@ export function ArticleFooter({
               description={relatedDescription}
               className="mb-5"
             />
-            <div className="grid gap-3">
+            <div className="grid gap-2.5">
               {relatedArticles.map((article) => (
                 <ListCard key={article.slug} article={article} />
               ))}
@@ -49,7 +49,7 @@ export function ArticleFooter({
         {previousArticle || nextArticle ? (
           <nav
             aria-label={navigationLabel}
-            className={cn('grid gap-4 md:grid-cols-2', relatedArticles.length > 0 && 'mt-12')}
+            className={cn('grid gap-3.5 md:grid-cols-2', relatedArticles.length > 0 && 'mt-10')}
           >
             <ArticleNavCard label={previousLabel} article={previousArticle} direction="previous" />
             <ArticleNavCard label={nextLabel} article={nextArticle} direction="next" />
