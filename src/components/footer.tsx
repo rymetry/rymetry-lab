@@ -13,7 +13,8 @@ export function Footer() {
           <div className="font-brand text-[17px] font-bold tracking-[0.05em] text-[#eae8dc]">
             Rym<span className="text-[#93c7a9]">lab</span>
           </div>
-          <p className="font-mono text-xs text-[#6b7268]">
+          {/* プロトタイプは #6b7268 だが墨帯上で 3.5:1 と WCAG AA 未達のため #828773 (4.7:1) に変更 */}
+          <p className="font-mono text-xs text-[#828773]">
             &copy; 2026 Rymlab. All rights reserved.
           </p>
         </div>

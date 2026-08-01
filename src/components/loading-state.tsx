@@ -1,3 +1,4 @@
+import { HomeSectionHead } from '@/components/home-section-head';
 import { InkImage } from '@/components/ink-image';
 import { SectionContainer, SectionHeader } from '@/components/section';
 import { cn } from '@/lib/utils';
@@ -68,8 +69,9 @@ export function HomeLoadingState() {
       </SectionContainer>
 
       <SectionContainer padY="compact">
-        <SectionHeader title="Recent Articles" />
-        <div className="grid grid-cols-[repeat(auto-fill,minmax(min(320px,100%),1fr))] gap-5">
+        {/* 実ページ (page.tsx) と同じ 1/2/3 列グリッド + 見出しセル構成に揃えて reflow を防ぐ */}
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+          <HomeSectionHead title="Recent Articles" />
           {Array.from({ length: 3 }, (_, index) => (
             <CardSkeleton key={index} />
           ))}

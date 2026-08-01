@@ -25,7 +25,10 @@ export function ArticleFooter({
   readonly relatedDescription: string;
 }) {
   return (
-    <SectionContainer alt className="pt-12 pb-16">
+    <SectionContainer
+      alt
+      className="pt-12 pb-16 max-lg:pt-12 max-lg:pb-16 max-md:pt-12 max-md:pb-16"
+    >
       <div className="mx-auto max-w-[1040px]">
         {relatedArticles.length > 0 ? (
           <>

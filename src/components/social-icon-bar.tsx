@@ -26,9 +26,9 @@ export function SocialIconBar({ className, variant = 'default' }: SocialIconBarP
               'flex size-[34px] items-center justify-center rounded-[3px] border',
               'transition-colors duration-200',
               variant === 'footer'
-                ? 'border-[#2c332c] text-[#828773] hover:border-[#93c7a9] hover:text-[#93c7a9]'
-                : 'border-border text-muted-foreground hover:border-primary hover:bg-[var(--accent-glow)] hover:text-primary',
-              'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+                ? 'border-[#2c332c] text-[#828773] hover:border-[#93c7a9] hover:text-[#93c7a9] focus-visible:ring-offset-[var(--band-bg)]'
+                : 'border-border text-muted-foreground hover:border-primary hover:bg-[var(--accent-glow)] hover:text-primary focus-visible:ring-offset-background',
+              'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
             )}
           >
             <Icon size={16} />

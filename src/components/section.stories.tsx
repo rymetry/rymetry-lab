@@ -74,6 +74,26 @@ export const WithKanjiStamp: Story = {
   ],
 };
 
+export const WithKanjiStampDarkMode: Story = {
+  args: {
+    title: 'Featured Work',
+    descriptionEn: 'Less friction, more flow.',
+    description: '開発者のワークフローを加速するために構築したツール群。',
+    kanjiStamp: '作',
+  },
+  globals: { theme: 'dark' },
+  decorators: [
+    (Story) => (
+      <SectionContainer>
+        <Story />
+        <div className="h-32 rounded-lg border border-dashed border-border bg-muted/30 p-4 text-muted-foreground">
+          Section content area
+        </div>
+      </SectionContainer>
+    ),
+  ],
+};
+
 export const DarkMode: Story = {
   args: {
     title: 'Featured Work',
