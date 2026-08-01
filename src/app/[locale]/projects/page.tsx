@@ -38,6 +38,7 @@ export default async function ProjectsPage({ params }: ProjectsPageProps) {
       <SectionContainer className="relative overflow-hidden">
         <PageInk />
         <SectionHeader
+          size="page"
           label={t('label')}
           title={t('title')}
           description={t('description')}

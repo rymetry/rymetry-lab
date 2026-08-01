@@ -85,6 +85,7 @@ export default async function ArticlesPage({ params, searchParams }: ArticlesPag
         <SectionContainer className="relative overflow-hidden">
           <PageInk />
           <SectionHeader
+            size="page"
             label={t('heading.label')}
             title={t('heading.title')}
             description={t('heading.description')}

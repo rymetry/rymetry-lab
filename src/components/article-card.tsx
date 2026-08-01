@@ -48,7 +48,7 @@ export function ArticleCard({ article, href, className, variant = 'grid' }: Arti
     <Link
       href={href ?? `/articles/${article.slug}`}
       className={cn(
-        'group relative overflow-hidden rounded-[11px] border border-border bg-card',
+        'group relative overflow-hidden rounded-[4px] border border-border bg-card',
         isList
           ? 'grid grid-cols-[200px_1fr] max-[1024px]:grid-cols-[140px_1fr] max-[480px]:grid-cols-1'
           : 'flex flex-col',

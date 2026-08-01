@@ -28,7 +28,7 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(functi
         defaultValue={defaultValue}
         aria-label={ariaLabel}
         placeholder={placeholder}
-        className="h-11 rounded-[7px] bg-card pl-9 pr-10 text-[13px] shadow-none"
+        className="h-[38px] rounded-[3px] bg-card pl-9 pr-10 text-[13px] shadow-none"
       />
     </>
   );

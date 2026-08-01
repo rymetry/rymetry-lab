@@ -20,7 +20,7 @@ function CardSkeleton({ compact = false }: { readonly compact?: boolean }) {
   return (
     <div
       className={cn(
-        'overflow-hidden rounded-[11px] border border-border bg-card',
+        'overflow-hidden rounded-[4px] border border-border bg-card',
         compact ? 'grid grid-cols-[120px_1fr] max-[480px]:grid-cols-[80px_1fr]' : 'flex flex-col',
       )}
     >
@@ -60,7 +60,7 @@ export function HomeLoadingState() {
               <Skeleton className="h-11 w-28 rounded-md" />
             </div>
           </div>
-          <div className="relative h-[320px] overflow-hidden rounded-[11px] border border-border bg-card">
+          <div className="relative h-[320px] overflow-hidden rounded-[5px] border border-border bg-card">
             <Skeleton className="absolute inset-0 rounded-none" />
             <SkeletonInk />
           </div>

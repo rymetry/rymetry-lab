@@ -40,7 +40,7 @@ export default async function AboutPage({ params }: AboutPageProps) {
         {/* Profile */}
         <div className="mb-14 grid grid-cols-[180px_1fr] items-start gap-9 max-md:grid-cols-1 max-md:text-center">
           {/* Avatar */}
-          <div className="relative flex size-[180px] items-center justify-center overflow-hidden rounded-[14px] border border-border bg-secondary text-[56px] max-md:mx-auto">
+          <div className="relative flex size-[180px] items-center justify-center overflow-hidden rounded-[4px] border border-border bg-secondary text-[52px] max-md:mx-auto">
             <InkImage
               kind="fine"
               className="absolute inset-0 h-full w-full object-cover opacity-80"
@@ -54,7 +54,7 @@ export default async function AboutPage({ params }: AboutPageProps) {
 
           {/* Info */}
           <div>
-            <h1 className="mb-[3px] text-[28px] font-extrabold">Rym</h1>
+            <h1 className="mb-[3px] text-[32px] font-medium tracking-[0.04em]">Rym</h1>
             <p className="mb-4 font-mono text-[13px] text-primary">{t('profile.role')}</p>
 
             {/* Bio */}

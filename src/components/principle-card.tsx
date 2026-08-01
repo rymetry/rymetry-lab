@@ -10,7 +10,7 @@ export function PrincipleCard({ principle, className }: PrincipleCardProps) {
   return (
     <div
       className={cn(
-        'rounded-[11px] border border-border bg-card p-[22px]',
+        'rounded-[4px] border border-border bg-card p-[22px]',
         'transition-[border-color,box-shadow] duration-200',
         'hover:border-[var(--border-hover)] hover:shadow-[var(--card-shadow-hover)]',
         className,

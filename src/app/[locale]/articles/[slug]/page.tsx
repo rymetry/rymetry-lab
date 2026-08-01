@@ -103,7 +103,7 @@ export default async function ArticleDetailPage({ params }: ArticleDetailPagePro
       <div className="bg-[image:var(--page-gradient)]">
         <SectionContainer className="pb-12">
           <article className="mx-auto max-w-[1040px]">
-            <ArticleHero article={article} backLabel={t('back')} articleLabel={t('label')} />
+            <ArticleHero article={article} backLabel={t('back')} />
 
             <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_240px] lg:items-start">
               <div className="min-w-0">
@@ -134,11 +134,9 @@ export default async function ArticleDetailPage({ params }: ArticleDetailPagePro
 function ArticleHero({
   article,
   backLabel,
-  articleLabel,
 }: {
   readonly article: ArticleDetail;
   readonly backLabel: string;
-  readonly articleLabel: string;
 }) {
   return (
     <header className="mb-10">
@@ -150,10 +148,6 @@ function ArticleHero({
         {backLabel}
       </Link>
 
-      <p className="mb-2 font-mono text-xs uppercase tracking-[0.1em] text-primary">
-        {'// '}
-        {articleLabel}
-      </p>
       <h1 className="max-w-[880px] text-[clamp(28px,4.4vw,46px)] font-bold leading-[1.4] tracking-[0.01em]">
         {article.title}
       </h1>

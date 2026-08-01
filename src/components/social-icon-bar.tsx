@@ -21,7 +21,7 @@ export function SocialIconBar({ className }: SocialIconBarProps) {
             target={isExternal ? '_blank' : undefined}
             rel={isExternal ? 'noopener noreferrer' : undefined}
             className={cn(
-              'flex size-[34px] items-center justify-center rounded-[7px] border border-border',
+              'flex size-[34px] items-center justify-center rounded-[3px] border border-border',
               'text-muted-foreground transition-colors duration-200',
               'hover:border-primary hover:bg-[var(--accent-glow)] hover:text-primary',
               'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
