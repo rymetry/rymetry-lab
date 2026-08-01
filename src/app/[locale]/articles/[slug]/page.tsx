@@ -101,19 +101,21 @@ export default async function ArticleDetailPage({ params }: ArticleDetailPagePro
         })}
       />
 
-      <SectionContainer className="pb-12">
-        <article className="mx-auto max-w-[1040px]">
-          <ArticleHero article={article} backLabel={t('back')} articleLabel={t('label')} />
+      <div className="bg-[image:var(--page-gradient)]">
+        <SectionContainer className="pb-12">
+          <article className="mx-auto max-w-[1040px]">
+            <ArticleHero article={article} backLabel={t('back')} articleLabel={t('label')} />
 
-          <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_240px] lg:items-start">
-            <div className="min-w-0">
-              <div className="article-content" dangerouslySetInnerHTML={{ __html: html }} />
+            <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_240px] lg:items-start">
+              <div className="min-w-0">
+                <div className="article-content" dangerouslySetInnerHTML={{ __html: html }} />
+              </div>
+
+              {toc.length > 0 && <ArticleToc items={toc} label={t('toc')} />}
             </div>
-
-            {toc.length > 0 && <ArticleToc items={toc} label={t('toc')} />}
-          </div>
-        </article>
-      </SectionContainer>
+          </article>
+        </SectionContainer>
+      </div>
 
       <ArticleFooter
         relatedArticles={relations.relatedArticles}
@@ -153,7 +155,7 @@ function ArticleHero({
         {'// '}
         {articleLabel}
       </p>
-      <h1 className="max-w-[860px] text-[clamp(28px,5vw,48px)] font-extrabold leading-tight tracking-[-0.03em]">
+      <h1 className="max-w-[880px] text-[clamp(28px,4.4vw,46px)] font-bold leading-[1.4] tracking-[0.01em]">
         {article.title}
       </h1>
       <p className="mt-4 max-w-[720px] text-[15px] leading-[1.8] text-text-secondary">

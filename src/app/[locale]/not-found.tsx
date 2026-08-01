@@ -39,14 +39,14 @@ export default async function LocaleNotFound() {
         </p>
         <p
           aria-hidden="true"
-          className="anim-up anim-up-2 mb-3 bg-[image:var(--accent-gradient)] bg-clip-text font-mono text-[clamp(80px,15vw,140px)] font-extrabold leading-none tracking-[-0.04em] text-transparent"
+          className="anim-up anim-up-2 mb-3 bg-[image:var(--accent-gradient)] bg-clip-text font-brand text-[clamp(80px,15vw,140px)] font-extrabold leading-none tracking-[0.02em] text-transparent"
         >
           404
         </p>
         <h1
           tabIndex={-1}
           autoFocus
-          className="anim-up anim-up-3 mb-3 text-[clamp(20px,3vw,28px)] font-bold tracking-[-0.02em]"
+          className="anim-up anim-up-3 mb-3 text-[clamp(20px,3vw,28px)] font-bold tracking-[0.02em]"
         >
           {t('title')}
         </h1>

@@ -248,12 +248,12 @@
 
   .article-content h2,
   .article-content h3 {
-    @apply scroll-mt-24 font-bold tracking-[-0.02em] text-foreground;
+    @apply scroll-mt-24 font-semibold tracking-[0.01em] text-foreground;
   }
 
-  /* モックの compact な型スケール (body 15.5px に対し h2 ≈ 1.35 倍) に揃える */
+  /* 静韻プロトタイプの型スケール (h2 22px/600, body 15.5px) に揃える */
   .article-content h2 {
-    @apply mt-10 text-[21px] leading-snug;
+    @apply mt-10 text-[22px] leading-snug;
   }
 
   .article-content h3 {
@@ -301,26 +301,25 @@
   }
 
   .article-content :not(pre) > code {
-    @apply rounded border border-border bg-[var(--bg-code)] px-1.5 py-0.5 font-mono text-[0.88em] text-foreground;
+    @apply rounded-[2px] border border-border bg-[var(--bg-code)] px-1.5 py-0.5 font-mono text-[0.88em] text-primary;
   }
 
-  /* コードブロックは両テーマともダーク (ヒーローターミナルと同じ「コード = ターミナル面」言語)。
-     ボーダーもモックの .terminal と同系の固定ダーク色にする */
+  /* コードブロックは両テーマとも墨帯 (--band-*)。静韻ではフッターと同じ「墨の帯」言語 */
   .article-content pre {
-    @apply overflow-x-auto rounded-[9px] border border-[#2a2a2f] bg-[#09090b] p-0 text-[13px] leading-6 shadow-[var(--card-shadow)];
+    @apply overflow-x-auto rounded-[4px] border border-[var(--band-border)] bg-[var(--band-bg)] p-0 text-[13px] leading-[1.85] shadow-[var(--card-shadow)];
   }
 
   .article-content pre code {
-    @apply block min-w-full p-4 font-mono text-[#e4e4e7];
+    @apply block min-w-full p-4 font-mono text-[#cfd6c8];
   }
 
   /* microCMS のファイル名付きコードブロック (figure.code-block > figcaption + pre) */
   .article-content .code-block {
-    @apply overflow-hidden rounded-[9px] border border-[#2a2a2f] shadow-[var(--card-shadow)];
+    @apply overflow-hidden rounded-[4px] border border-[var(--band-border)] shadow-[var(--card-shadow)];
   }
 
   .article-content .code-filename {
-    @apply border-b border-[#2a2a2f] bg-[#131316] px-4 py-2 font-mono text-[11.5px] leading-5 text-[#a1a1aa];
+    @apply border-b border-[var(--band-border)] bg-[#1b221c] px-4 py-2 font-mono text-[11.5px] leading-5 text-[#a9b0a4];
   }
 
   .article-content .code-block pre {
