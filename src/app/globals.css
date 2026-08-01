@@ -284,18 +284,21 @@
 
   .article-content .line-number::before {
     content: attr(line);
-    @apply mr-4 inline-block w-6 select-none text-right text-[#71717a];
+    @apply mr-4 inline-block w-6 select-none text-right text-[#828773];
   }
 
+  /* Prism シンタックス色 (静韻): プロトタイプの緑系 2 トーン (#93c7a9 / #7fb394) を軸に、
+     墨帯・ターミナル配色 (highlight #b7d9c4 / dim 系) へ揃えた抹茶モノトーン。
+     コメントは #828773 (墨帯上 4.7:1、フッターと同じ a11y 判断。#6b7268 は 3.5:1 で AA 未達) */
   .article-content .token.comment,
   .article-content .token.prolog,
   .article-content .token.doctype,
   .article-content .token.cdata {
-    color: #71717a;
+    color: #828773;
   }
 
   .article-content .token.punctuation {
-    color: #a1a1aa;
+    color: #8f978c;
   }
 
   .article-content .token.property,
@@ -304,7 +307,7 @@
   .article-content .token.number,
   .article-content .token.constant,
   .article-content .token.symbol {
-    color: #fda4af;
+    color: #93c7a9;
   }
 
   .article-content .token.selector,
@@ -312,30 +315,30 @@
   .article-content .token.string,
   .article-content .token.char,
   .article-content .token.builtin {
-    color: #86efac;
+    color: #7fb394;
   }
 
   .article-content .token.operator,
   .article-content .token.entity,
   .article-content .token.url,
   .article-content .token.variable {
-    color: #67e8f9;
+    color: #a9b0a4;
   }
 
   .article-content .token.atrule,
   .article-content .token.attr-value,
   .article-content .token.keyword {
-    color: #93c5fd;
+    color: #b7d9c4;
   }
 
   .article-content .token.function,
   .article-content .token.class-name {
-    color: #fde68a;
+    color: #d9e3d2;
   }
 
   .article-content .token.regex,
   .article-content .token.important {
-    color: #fdba74;
+    color: #c9a24a;
   }
 }
 

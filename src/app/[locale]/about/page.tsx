@@ -77,7 +77,8 @@ export default async function AboutPage({ params }: AboutPageProps) {
           }
           className="mb-6 max-md:mb-6"
         />
-        <ScrollRevealList className="mb-14 grid grid-cols-[repeat(auto-fill,minmax(min(260px,100%),1fr))] gap-4 max-md:grid-cols-2 max-[480px]:grid-cols-1">
+        {/* max-md と max-[480px] は CSS 出力順で 480px 側が先になり打ち消されるため、範囲を重ねない */}
+        <ScrollRevealList className="mb-14 grid grid-cols-[repeat(auto-fill,minmax(min(260px,100%),1fr))] gap-4 min-[480px]:max-md:grid-cols-2 max-[480px]:grid-cols-1">
           {PRINCIPLES.map((principle) => (
             <PrincipleCard key={principle.title} principle={principle} />
           ))}

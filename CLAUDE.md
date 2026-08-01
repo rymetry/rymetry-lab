@@ -18,22 +18,35 @@ Productivity Engineer "Rym" のポートフォリオ & 技術ブログ。Site: R
 
 ## Fonts
 
+- **Brand/見出し**: Kaisei Tokumin (`next/font/google`, 400/500/700/800) → `--font-kaisei` (composited as `--font-brand`)。h1-h3、ナビ、カードタイトル、View all リンクに適用
 - **Display/EN**: Geist (`next/font/google`) → `--font-display`
 - **JP**: Noto Sans JP (`next/font/google`) → `--font-sans-jp`
 - **Code**: PlemolJP HS (`next/font/local`, fallback: Geist Mono) → `--font-plemol` (composited as `--font-mono`)
 
-## Design System
+## Design System — 静韻 (Seiin)
 
-最終デザイン: `design-mock/design-mockup-v12.html` (ブラウザで確認可能、コントロールバーでページ/テーマ切替)
+生成り (warm ecru) × 墨 (sumi ink) × 抹茶グリーンの和×テックデザイン。
+仕様書: `design-mock/handoff-seiin/README.md` (トークン全量・タイポ・構造仕様) / プロトタイプ実物: `design-mock/handoff-seiin/4a 現行×静韻.dc.html` / 差分台帳: `design-mock/handoff-seiin/DIVERGENCE.md` (**意図的逸脱 🎯 はここに記録。プロトタイプとの差分を「修正」する前に必ず参照**)
 
-### Colors — Palette D: Balanced Green 156°/154° (oklch)
+### Colors — 抹茶グリーン 152°/154° (oklch channel primitives)
 
-**Light** — bg: #fafafa / card: #fff / accent: oklch(0.52 0.11 156) / accent-2: oklch(0.55 0.12 156) / gradient: oklch(0.35 0.08 156)→oklch(0.55 0.12 156)
-**Dark** — bg: #09090b / card: #1a1a1f / accent: oklch(0.75 0.10 154) / accent-2: oklch(0.82 0.07 154) / gradient: oklch(0.34 0.07 154)→oklch(0.55 0.10 154)
-ダークモードは Hunt 効果補正で hue 154° (Light 156° から -2°)。アクセント・タグカテゴリ色は oklch 統一。ニュートラルトークン (bg, border 等) は hex 維持。text-muted は WCAG AA 準拠。
-コードブロックは両テーマ共通のダークターミナル面 (#09090b / border #2a2a2f)。ファイル名付きコード (microCMS `data-filename`) は `figure.code-block` + `figcaption.code-filename` に変換して表示する。
+**Light** — bg: #f1eee5 / card: #f7f5ec / `--primary-ch: 0.45 0.10 152` / `--accent-2-ch: 0.55 0.11 152`
+**Dark** — bg: #131714 / card: #1b211c / `--primary-ch: 0.75 0.10 154` / `--accent-2-ch: 0.82 0.07 154` (Hunt 効果補正 +2°)
+`--primary-ch` / `--accent-2-ch` (L C H) が channel primitive で、accent / ring / gradient / glow / dot 系はここから導出。ニュートラルは hex 維持。
+デザイン固有トークン: `--text-secondary` `--border-hover` `--bg-code` `--accent-gradient` `--hero-bg` `--card-shadow(-hover)` `--tag-*` `--dot-color` `--page-gradient` (一覧・詳細ページ上部フェード)。
+**墨帯 (band)**: `--band-bg` / `--band-border` / `--band-texture` — フッター・コードブロック・ヒーロー内ターミナルが共有する「墨の帯」言語。ライトでも常に墨色、ダークの band-bg (#0e120f) は地より一段深くする (地より明るくしないこと)。`--terminal-*` は band 系を参照。
+コードブロックは両テーマ共通の墨帯面 (`--band-bg` / `--band-border`、本文 #cfd6c8)。Prism シンタックス色は緑系トーン (#93c7a9 / #7fb394 軸、コメント #828773 = 4.7:1)。ファイル名付きコード (microCMS `data-filename`) は `figure.code-block` + `figcaption.code-filename` に変換して表示する。
+
+### 墨テクスチャ (public/images/ink/)
+
+- `ink-flow`: ヒーロー右のメインビジュアル (`heroInk="main"`, priority 付き)、一覧ページ見出し背後の透かし (`PageInk`)
+- `ink-fine`: 記事カード・リストカードのサムネイル (slug から決定的に 6 バリエーション選択)、About アバター
+- `ink-vortex`: ローディング画面
+- ライト/ダークで別画像。`InkImage` が 2 枚描画し CSS (`dark:hidden` / `hidden dark:block`) で切替。常に lazy — 非表示側テーマはフェッチされない。LCP になる画像は `InkPreload` (media 限定 preload) を併用する。next/image の `priority` は使わない (preload に media が付かず、非表示ビューポートでも両テーマ分ダウンロードされるため)
 
 ### Tags
+
+タグチップ本体は緑系 (`--tag-bg` / `--tag-text` / `--tag-border`)。アイコンのみ下表のカテゴリ色を維持 (🎯 意図的逸脱: プロトタイプは全 accent 一色だがカテゴリ識別性を優先)。
 
 | Category     | Color                | Icon                       |
 | ------------ | -------------------- | -------------------------- |
@@ -50,15 +63,16 @@ Productivity Engineer "Rym" のポートフォリオ & 技術ブログ。Site: R
 
 ### Animations
 
-- Hero: staggered fadeUp (0s/0.12s/0.24s/0.36s) + terminal typewriter (0.3s間隔) + float (6s, ±6px)
-- Cards: hover translateY(-2px) + green top bar + arrow + icon scale(1.08) rotate(-2deg)
+- Hero: staggered fadeUp (anim-up, 0s/0.12s/0.24s) + 墨流し float (9s)。ターミナル typewriter (typeReveal) は `heroInk="background"` 時のみ
+- Cards: hover は border-color + shadow + translateY(-2px) のみ (リストカードは -1px)。グリーントップバー・矢印・アイコン変形は撤去済み — 復元しないこと
 - Scroll: IntersectionObserver → .reveal → .visible
-- Noise: SVG fractalNoise overlay (1.8%, mix-blend-mode)
-- `prefers-reduced-motion` を尊重すること
+- `prefers-reduced-motion` で全アニメーション無効化 (reveal/anim-up/anim-fade/t-line は強制表示)
 
 ### Responsive
 
-1024px: グリッド調整, TOC非表示 / 768px: ハンバーガー (☰↔✕ + overlay), padding 16px / 480px: 1カラム
+- 1024px: Home グリッド 3列→2列 (見出しセルがグリッド1マス目に入り 2×2 モジュール、「View all →」リンクは md のみ表示)、TOC 非表示
+- 768px: ハンバーガー (Sheet)、1カラム、padding 16px
+- 480px 未満: リストカードのサムネイル列 80px (`max-[480px]` は排他的 `width < 480px`。`max-md` と併用する場合は CSS 出力順で打ち消されるため `min-[480px]:max-md:` で範囲を重ねない)
 
 ### Social Links
 
@@ -68,10 +82,10 @@ GitHub, X, LinkedIn, Zenn, Qiita, RSS — simple-icons:\* + lucide:rss
 
 | Route              | Content                                                                                    |
 | ------------------ | ------------------------------------------------------------------------------------------ |
-| `/`                | Hero (terminal animations) + Featured Work (等幅3カード) + Recent Articles (section-alt)  |
+| `/`                | Hero (墨流しメイン, `heroInk="main"`) + Featured Work (3カード) + Recent Articles (帯なし・地続き) |
 | `/projects`        | プロジェクトグリッド (auto-fill)                                                           |
 | `/articles`        | 検索 + タグフィルタ + ページネーション + Grid/List切替                                     |
-| `/articles/[slug]` | シェルレイアウト (戻りリンク + リード文 + フル幅アイキャッチ) + TOC (sticky 240px, スクロール連動) + 関連記事 → 前後ナビ (alt) |
+| `/articles/[slug]` | シェルレイアウト (戻りリンク + リード文。アイキャッチ表示なし、OGP メタは維持) + TOC (sticky 240px, スクロール連動) + 関連記事 → 前後ナビ (alt 帯) |
 | `/about`           | Profile + Engineering Principles (4カード) + Tech Stack                                    |
 
 ## Architecture
@@ -114,12 +128,13 @@ Epics #1-#10 (`epic`), Tasks #11-#44 (`task`)
 
 ## Storybook Story ルール
 
-- **データはモック準拠**: Story のサンプルデータ（タイトル、説明、日付等）は `design-mock/design-mockup-v12.html` からコピーする。適当なプレースホルダーを使わない
+- **データはプロトタイプ準拠**: Story のサンプルデータ（タイトル、説明、日付等）は `design-mock/handoff-seiin/4a 現行×静韻.dc.html` または実装の messages/ja.json・data/ からコピーする。適当なプレースホルダーを使わない
 - **ThemeProvider は最小限**: `useTheme()` を直接/間接的に使用するコンポーネント (ThemeToggle, および ThemeToggle を内包する Header) のみ ThemeProvider でラップ。他は `preview.tsx` の `WithThemeClass` デコレータ + `globals: { theme: 'dark' }` でテーマ制御
+- **intl はグローバル供給**: `preview.tsx` の `WithIntl` デコレータが NextIntlClientProvider (ja) を全 Story に供給する。`next-intl/server` API を使う async ページ Story は `.storybook/next-intl-server-mock.ts` (viteFinal alias) + `experimentalRSC` で描画
 - **DarkMode Story**: 全コンポーネントに DarkMode variant を用意し、`globals: { theme: 'dark' }` を必ず設定する
-- **モック変更時は双方更新**: 実装の CSS 変数やスタイルを変更したら、モック HTML も同時に更新する
-- Geist: next/font/google (Next.js 16 で Google Fonts 対応済, モックは CDN 代用)
-- モック確認: `python3 -m http.server 8234` → localhost:8234/design-mock/design-mockup-v12.html
+- **プロトタイプ変更時は双方更新**: 実装の CSS 変数やスタイルを変更したら DIVERGENCE.md に記録する (プロトタイプ HTML は原則編集しない)
+- フォント: 実装は next/font、Storybook は `.storybook/storybook-fonts.css` (Kaisei Tokumin は Google Fonts CDN 代用。`--font-kaisei` 未定義だと見出しが sans にフォールバックするので注意)
+- プロトタイプ確認: `python3 -m http.server 8234` → localhost:8234/design-mock/handoff-seiin/4a%20現行×静韻.dc.html
 
 ## Hooks Setup
 

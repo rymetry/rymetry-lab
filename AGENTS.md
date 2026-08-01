@@ -21,7 +21,8 @@ This file is the short entry point for Codex and other coding agents. Use [CLAUD
 ## Implementation Defaults
 
 - Prefer existing local patterns and components before introducing new abstractions.
-- Keep Storybook stories aligned with `design-mock/design-mockup-v12.html`; do not invent placeholder copy for stories.
+- Keep Storybook stories aligned with the Seiin prototype (`design-mock/handoff-seiin/4a 現行×静韻.dc.html`) or the app's `messages/ja.json` / `src/data`; do not invent placeholder copy for stories.
+- Check `design-mock/handoff-seiin/DIVERGENCE.md` before "fixing" any difference from the prototype — 🎯 entries are intentional divergences.
 - Add a `DarkMode` story variant for new visual components and set `globals: { theme: 'dark' }`.
 - Wrap only components that directly or indirectly call `useTheme()` with `ThemeProvider` in stories.
 - Respect `prefers-reduced-motion` for animation work.

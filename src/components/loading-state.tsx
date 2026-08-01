@@ -22,7 +22,9 @@ function CardSkeleton({ compact = false }: { readonly compact?: boolean }) {
     <div
       className={cn(
         'overflow-hidden rounded-[4px] border border-border bg-card',
-        compact ? 'grid grid-cols-[110px_1fr] max-[480px]:grid-cols-[80px_1fr]' : 'flex flex-col',
+        compact
+          ? 'grid grid-cols-[110px_1fr] min-[480px]:max-md:grid-cols-[100px_1fr] max-[480px]:grid-cols-[80px_1fr]'
+          : 'flex flex-col',
       )}
     >
       <div className={cn('relative overflow-hidden', compact ? 'min-h-[92px]' : 'h-[150px]')}>

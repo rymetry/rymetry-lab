@@ -59,7 +59,7 @@ const meta = {
     docs: {
       description: {
         component:
-          '記事カード。サムネイル (3 バリエーション) + メタ情報 + タイトル + タグ。hover でグリーンバー + lift。',
+          '記事カード。墨サムネイル (slug から決まる 6 バリエーション) + メタ情報 + タイトル + タグ。hover は border/shadow + translateY(-2px)。',
       },
     },
   },

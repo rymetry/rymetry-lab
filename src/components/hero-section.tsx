@@ -1,7 +1,7 @@
 'use client';
 
 import { ActionButton } from '@/components/action-button';
-import { InkImage, PageInk } from '@/components/ink-image';
+import { InkImage, InkPreload, PageInk } from '@/components/ink-image';
 import { Terminal } from '@/components/terminal';
 import { cn } from '@/lib/utils';
 import { useTranslations } from 'next-intl';
@@ -69,6 +69,11 @@ export function HeroSection({ heroInk = 'main', jaLine = false }: HeroSectionPro
         {/* Right: 墨流しメイン or ターミナル (デスクトップのみ) */}
         {heroInk === 'main' ? (
           <div aria-hidden="true" className="relative min-h-[480px] max-lg:hidden">
+            {/* LCP 対策: デスクトップ (lg 以上) のみ先読み。モバイルはこのカラム自体が
+                非表示 (PageInk が別サイズで出る) ため media で preload を限定する。
+                dev の「LCP image, add loading=eager」警告は既知 — eager/priority にすると
+                モバイルで非表示分 ~186KB を余計にフェッチするため意図的に lazy のまま */}
+            <InkPreload kind="flow" sizes="1120px" media="(min-width: 1024px)" />
             <InkImage
               kind="flow"
               className={cn(

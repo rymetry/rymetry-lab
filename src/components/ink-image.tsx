@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import Image, { getImageProps } from 'next/image';
 
 import { cn } from '@/lib/utils';
 
@@ -23,6 +23,10 @@ interface InkImageProps {
 /**
  * 静韻の墨流しテクスチャ (装飾専用)。ライト/ダークで別画像のため 2 枚描画し、
  * next-themes の hydration 問題を避けて CSS (`dark:`) でのみ切り替える。
+ * 常に lazy — display:none 側のテーマ画像はフェッチされない。LCP になる画像は
+ * `InkPreload` を併用して media 限定の preload を出す (priority は使わない。
+ * priority の preload は media を持たず、非表示ビューポートでも両テーマ分を
+ * ダウンロードしてしまうため)。
  */
 export function InkImage({ kind, className, sizes }: InkImageProps) {
   const source = SOURCES[kind];
@@ -47,6 +51,49 @@ export function InkImage({ kind, className, sizes }: InkImageProps) {
         sizes={sizes}
         className={cn(className, 'hidden dark:block')}
       />
+    </>
+  );
+}
+
+interface InkPreloadProps {
+  readonly kind: InkKind;
+  /** 対応する InkImage と同じ値を渡す (srcset を一致させ preload キャッシュに当てる) */
+  readonly sizes: string;
+  /** preload を有効にするビューポート条件 (例: hero は '(min-width: 1024px)') */
+  readonly media: string;
+}
+
+/**
+ * InkImage 用の media 限定 preload。React 19 の <link> ホイスティングで <head> に
+ * 展開され、media が一致するビューポートのみ light/dark 両テーマ分を先読みする
+ * (テーマは class 切替のためサーバー側では不明。AVIF 配信で 1 枚 ~100KB)。
+ */
+export function InkPreload({ kind, sizes, media }: InkPreloadProps) {
+  const source = SOURCES[kind];
+
+  return (
+    <>
+      {[source.light, source.dark].map((src) => {
+        const { props } = getImageProps({
+          src,
+          alt: '',
+          width: INK_WIDTH,
+          height: INK_HEIGHT,
+          sizes,
+        });
+
+        return (
+          <link
+            key={src}
+            rel="preload"
+            as="image"
+            imageSrcSet={props.srcSet}
+            imageSizes={props.sizes}
+            media={media}
+            fetchPriority="high"
+          />
+        );
+      })}
     </>
   );
 }
