@@ -114,7 +114,7 @@
 - 🎯 フッターのコピーライト文字色: プロトタイプの #6b7268 は墨帯上でコントラスト 3.5:1 (WCAG AA 未達) のため #828773 (4.7:1) に変更。アイコン色と同一
 - 🎯 タグアイコンはカテゴリ色を維持 (プロトタイプは全 accent 一色)。カテゴリ識別性を優先
 - 🎯 モバイルのハンバーガーメニュー: プロトタイプも <768px はハンバーガー式だが、展開 UI が異なる (mock = ヘッダー直下のインライン縦並び / 実装 = shadcn Sheet の右ドロワー)。フォーカストラップ・スクロールロックを備えた Sheet を維持
-- 🎯 エラーページ (error.tsx): プロトタイプに対応画面なし。404 と同系の様式を踏襲
+- 🎯 エラーページ (error.tsx): プロトタイプに対応画面なし。404 と同系の様式を踏襲。CTA は 404 と同じ英語統一 ("Retry ↻" / "Back to Home"。root error.tsx / global-error.tsx / ErrorPages.error の ja/en 全て。見出し英語 + 説明日本語のトーンも 404 と同一)
 - 🎯 セクション説明文の 1 行化: About principles / Home Recent Articles の説明は `max-w-none` (mock は max-width 600px で折返し)。`SectionHeader descriptionClassName` prop で個別指定
 - 🎯 PrincipleCard (What I Value) の hover 演出撤去: mock は border-hover+shadow だが、非リンク要素のため無効に
 - 🎯 Related/Prev-Next のカードを ArticleCard variant="list" に完全統一し、専用 ListCard コンポーネントを削除 (mock はコンパクトな別型: サムネ 110px / min-height 92px / タイトル 14px / hover accent 枠 + -1px)。記事一覧リストと同一の見た目 (140-220px サムネ / 120px / 16px / border-hover + -2px) になる

@@ -152,7 +152,7 @@
       "title": "Something Went Wrong",
       "description": "An unexpected error occurred. Please try again in a moment.",
       "retry": "Retry ↻",
-      "home": "Back home"
+      "home": "Back to Home"
     }
   }
 }

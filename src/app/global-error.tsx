@@ -61,14 +61,14 @@ export default function GlobalError({ error, unstable_retry }: GlobalErrorProps)
               onClick={unstable_retry}
               className="cursor-pointer rounded-[3px] border-0 bg-[linear-gradient(135deg,oklch(0.42_0.07_154),oklch(0.62_0.10_154))] px-6 py-[11px] text-[14.5px] font-medium tracking-[0.05em] text-[#f4f1e6]"
             >
-              リトライ ↻
+              Retry ↻
             </button>
             {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- global-error replaces root layout; plain <a> is safer than <Link> */}
             <a
               href="/"
               className="inline-flex items-center rounded-[3px] border-[1.5px] border-[rgba(244,244,245,0.3)] bg-transparent px-6 py-[11px] text-[14.5px] font-medium tracking-[0.05em] text-[#f4f4f5] no-underline"
             >
-              ホームに戻る
+              Back to Home
             </a>
           </div>
         </div>
