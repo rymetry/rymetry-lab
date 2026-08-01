@@ -40,7 +40,7 @@ Productivity Engineer "Rym" のポートフォリオ & 技術ブログ。Site: R
 ### 墨テクスチャ (public/images/ink/)
 
 - `ink-flow`: ヒーロー右のメインビジュアル (`heroInk="main"`, priority 付き)、一覧ページ見出し背後の透かし (`PageInk`)
-- `ink-fine`: 記事カード・リストカードのサムネイルのフォールバック (microCMS の ogpImage を優先し、未設定時のみ slug から決定的に 6 バリエーション選択)、About アバター
+- `ink-fine`: 記事カードサムネイルのフォールバック (通常は microCMS の ogpImage を表示。ogpImage は adapter で必須検証されるため、フォールバックが効くのは Story・静的デモデータのみ)、About アバター
 - `ink-vortex`: ローディング画面
 - ライト/ダークで別画像。`InkImage` が 2 枚描画し CSS (`dark:hidden` / `hidden dark:block`) で切替。常に lazy — 非表示側テーマはフェッチされない。LCP になる画像は `InkPreload` (media 限定 preload) を併用する。next/image の `priority` は使わない (preload に media が付かず、非表示ビューポートでも両テーマ分ダウンロードされるため)
 
@@ -63,7 +63,7 @@ Productivity Engineer "Rym" のポートフォリオ & 技術ブログ。Site: R
 
 ### Animations
 
-- Hero: staggered fadeUp (anim-up, 0s/0.12s/0.24s) + 墨流し float (9s)。ターミナル typewriter (typeReveal) は `heroInk="background"` 時のみ
+- Hero: staggered fadeUp (anim-up + anim-up-hero-\*, 0s/0.15s/0.3s。0.12s 刻みの anim-up-N は 404/error 用) + 墨流し float (9s)。ターミナル typewriter (typeReveal) は `heroInk="background"` 時のみ
 - Cards: hover は border-color + shadow + translateY(-2px) のみ。グリーントップバー・矢印・アイコン変形は撤去済み — 復元しないこと。Related/Prev-Next も ArticleCard variant="list" に統一済み (専用 ListCard は削除)
 - Scroll: IntersectionObserver → .reveal → .visible
 - `prefers-reduced-motion` で全アニメーション無効化 (reveal/anim-up/anim-fade/t-line は強制表示)

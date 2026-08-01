@@ -36,7 +36,9 @@ export function ArticleToc({ items, label }: ArticleTocProps) {
   const activeId = useActiveHeading(items);
 
   return (
-    <aside className="max-lg:order-first lg:sticky lg:top-[100px] lg:max-h-[calc(100vh-7.5rem)] lg:overflow-y-auto">
+    // DOM 上も本文より前に置く (page.tsx)。狭幅は自然順で本文上、lg はグリッドの order で右列へ —
+    // 視覚順とフォーカス順を一致させる (order-first だと Tab 順が本文→TOC に逆転する)
+    <aside className="lg:order-last lg:sticky lg:top-[100px] lg:max-h-[calc(100vh-7.5rem)] lg:overflow-y-auto">
       {/* 狭幅 (<1024px): 折りたたみ (デフォルト閉) を本文上に配置。
           mock は order:-1 で常時展開だが、本文を押し下げないアコーディオンを採用 */}
       <details className="group rounded-[4px] border border-border bg-card lg:hidden">

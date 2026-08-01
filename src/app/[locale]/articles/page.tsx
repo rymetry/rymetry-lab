@@ -181,7 +181,7 @@ function ViewToggle({
   readonly listLabel: string;
 }) {
   return (
-    <div className="flex gap-1" aria-label={label}>
+    <div role="group" className="flex gap-1" aria-label={label}>
       <Button
         asChild
         variant="outline"

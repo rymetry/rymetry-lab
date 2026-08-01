@@ -22,9 +22,12 @@ test('switches theme and locale from the header controls', async ({ page }) => {
   await expect(page).toHaveURL(/\/en$/);
   await expect(page.getByRole('button', { name: 'Display language' })).toBeVisible();
 
-  await page.getByRole('button', { name: /テーマを切り替え|Toggle theme/ }).click();
-  await page.getByRole('menuitemradio', { name: /Dark|ダーク/ }).click();
+  // テーマ切替は即時トグル (resolvedTheme の反対をセット)。デフォルトはライトなので dark → light の往復を検証
+  const themeToggle = page.getByRole('button', { name: /テーマを切り替え|Toggle theme/ });
+  await themeToggle.click();
   await expect(page.locator('html')).toHaveClass(/dark/);
+  await themeToggle.click();
+  await expect(page.locator('html')).not.toHaveClass(/dark/);
 });
 
 test('serves security headers on HTML responses', async ({ request }) => {

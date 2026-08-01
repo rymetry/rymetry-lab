@@ -24,6 +24,13 @@ function ArticleThumbnail({
   readonly image?: ArticleImage;
   readonly layout: ArticleCardProps['variant'];
 }) {
+  // list のサムネ列は最大 220px (768px 未満 100px / 480px 未満 80px)。
+  // grid と同じ sizes を流用すると狭幅で 100vw 分の候補をフェッチしてしまう
+  const sizes =
+    layout === 'list'
+      ? '(max-width: 480px) 80px, (max-width: 768px) 100px, 220px'
+      : '(max-width: 480px) 100vw, 320px';
+
   return (
     <div
       className={cn(
@@ -42,7 +49,7 @@ function ArticleThumbnail({
           )}
           alt=""
           fill
-          sizes="(max-width: 480px) 100vw, 320px"
+          sizes={sizes}
           className="object-cover"
         />
       ) : (
@@ -52,7 +59,7 @@ function ArticleThumbnail({
             'absolute inset-0 h-full w-full object-cover opacity-90',
             inkThumbVariant(slug),
           )}
-          sizes="(max-width: 480px) 100vw, 320px"
+          sizes={sizes}
         />
       )}
     </div>

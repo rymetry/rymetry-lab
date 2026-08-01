@@ -175,7 +175,8 @@
      shadcn 系コンポーネントは outline-none + 独自 ring が優先される */
   a:focus-visible,
   button:focus-visible,
-  input:focus-visible {
+  input:focus-visible,
+  summary:focus-visible {
     outline: 2px solid var(--accent);
     outline-offset: 2px;
   }

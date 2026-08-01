@@ -106,11 +106,12 @@ export default async function ArticleDetailPage({ params }: ArticleDetailPagePro
             <ArticleHero article={article} backLabel={t('back')} />
 
             <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_240px] lg:items-start">
+              {/* TOC は DOM 上も本文より前 (狭幅の視覚順・Tab 順と一致)。lg では order で右列へ */}
+              {toc.length > 0 && <ArticleToc items={toc} label={t('toc')} />}
+
               <div className="min-w-0 max-w-[720px]">
                 <div className="article-content" dangerouslySetInnerHTML={{ __html: html }} />
               </div>
-
-              {toc.length > 0 && <ArticleToc items={toc} label={t('toc')} />}
             </div>
           </article>
         </SectionContainer>
