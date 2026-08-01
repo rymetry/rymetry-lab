@@ -25,11 +25,13 @@ function ArticleThumbnail({
   readonly layout: ArticleCardProps['variant'];
 }) {
   // list のサムネ列は最大 220px (768px 未満 100px / 480px 未満 80px)。
-  // grid と同じ sizes を流用すると狭幅で 100vw 分の候補をフェッチしてしまう
+  // grid と同じ sizes を流用すると狭幅で 100vw 分の候補をフェッチしてしまう。
+  // grid は 768px 未満が 1 カラム全幅 (Home md:grid-cols-2 / Articles auto-fill minmax(320px))、
+  // ~1080px までは 2 カラム帯 (カード幅 ~480px)、以降は 3 カラム (max-w-[1200px] 内で ~370px)
   const sizes =
     layout === 'list'
       ? '(max-width: 480px) 80px, (max-width: 768px) 100px, 220px'
-      : '(max-width: 480px) 100vw, 320px';
+      : '(max-width: 768px) 100vw, (max-width: 1080px) 50vw, 370px';
 
   return (
     <div
