@@ -192,7 +192,11 @@ function ViewToggle({
             'border-[var(--tag-border)] bg-[var(--tag-bg)] text-[var(--tag-text)]',
         )}
       >
-        <Link href={buildArticlesHref(query, { view: 'grid' })} aria-label={gridLabel}>
+        <Link
+          href={buildArticlesHref(query, { view: 'grid' })}
+          aria-label={gridLabel}
+          aria-current={query.view === 'grid' ? 'true' : undefined}
+        >
           <LayoutGridIcon aria-hidden="true" />
         </Link>
       </Button>
@@ -206,7 +210,11 @@ function ViewToggle({
             'border-[var(--tag-border)] bg-[var(--tag-bg)] text-[var(--tag-text)]',
         )}
       >
-        <Link href={buildArticlesHref(query, { view: 'list' })} aria-label={listLabel}>
+        <Link
+          href={buildArticlesHref(query, { view: 'list' })}
+          aria-label={listLabel}
+          aria-current={query.view === 'list' ? 'true' : undefined}
+        >
           <ListIcon aria-hidden="true" />
         </Link>
       </Button>

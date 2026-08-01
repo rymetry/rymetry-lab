@@ -18,7 +18,9 @@
     "en": "English"
   },
   "ThemeToggle": {
-    "label": "テーマを切り替える"
+    "label": "テーマを切り替える",
+    "switchToDark": "ダークテーマに切り替える",
+    "switchToLight": "ライトテーマに切り替える"
   },
   "Layout": {
     "skipToMain": "メインコンテンツへスキップ"

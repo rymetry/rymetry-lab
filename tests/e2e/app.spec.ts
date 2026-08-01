@@ -22,8 +22,9 @@ test('switches theme and locale from the header controls', async ({ page }) => {
   await expect(page).toHaveURL(/\/en$/);
   await expect(page.getByRole('button', { name: 'Display language' })).toBeVisible();
 
-  // テーマ切替は即時トグル (resolvedTheme の反対をセット)。デフォルトはライトなので dark → light の往復を検証
-  const themeToggle = page.getByRole('button', { name: /テーマを切り替え|Toggle theme/ });
+  // テーマ切替は即時トグル (resolvedTheme の反対をセット)。デフォルトはライトなので dark → light の往復を検証。
+  // ラベルはマウント後 "Switch to dark/light theme" に動的化されるため theme を含む名前でマッチさせる
+  const themeToggle = page.getByRole('button', { name: /テーマ|theme/i });
   await themeToggle.click();
   await expect(page.locator('html')).toHaveClass(/dark/);
   await themeToggle.click();

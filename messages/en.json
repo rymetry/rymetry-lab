@@ -18,7 +18,9 @@
     "en": "English"
   },
   "ThemeToggle": {
-    "label": "Toggle theme"
+    "label": "Toggle theme",
+    "switchToDark": "Switch to dark theme",
+    "switchToLight": "Switch to light theme"
   },
   "Layout": {
     "skipToMain": "Skip to main content"

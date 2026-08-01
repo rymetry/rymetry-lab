@@ -79,7 +79,7 @@
 
 全画面再監査 (トークン/タイポ/構造/アニメーション) で検出した未記載差分の修正。
 
-- ✅ focus-visible をグローバル一括適用: `a/button/input:focus-visible` に `outline: 2px solid var(--accent)` + offset 2px (globals.css)。shadcn 系は `outline-none` + 独自 ring が優先されるため二重表示なし
+- ✅ focus-visible をグローバル一括適用: `a/button/input/summary:focus-visible` に `outline: 2px solid var(--accent)` + offset 2px (globals.css)。summary は TOC アコーディオン用に追加。shadcn 系は `outline-none` + 独自 ring が優先されるため二重表示なし
 - ✅ `--btn-primary-shadow` を `var(--accent-glow)` 参照に (alpha 0.3/0.2 → プロトタイプの 0.08/0.10)
 - ✅ body にテーマ切替 transition 0.3s (background-color/color)
 - ✅ ListCard タイトル (h4) に font-brand 適用 + line-height 1.4 (h1–h3 のみの brand 適用から漏れて sans に落ちていた)
@@ -89,7 +89,7 @@
 - ✅ ActionButton secondary hover: 枠色変化を撤去 (bg accent-glow のみ)
 - ✅ ヘッダー: nav gap 26px / nav↔actions 24px、backdrop saturate 160%、アクティブ下線を単色 accent に (グラデ廃止)、HeaderFallback ロゴを本物と同じ font-brand 21px に
 - ✅ ヘッダー操作系を 34px・角丸 3px に統一 (ThemeToggle/ハンバーガー 36px/6px、LangToggle 32px/6px → mock 準拠。LangToggle は mono 12px に)
-- ✅ Articles: 検索窓 max-width 560px、ViewToggle を検索窓直後に (ml-auto 右端寄せ撤去)・角丸 3px、グリッド min 320px (max-md 280px 緩和撤去)、リスト gap 14px、見出し下 32px・検索行下 14px・チップ行下 36px、空状態カード角丸 4px、placeholder #8a8577 (テーマ非依存)
+- ✅ Articles: 検索窓 max-width 560px、ViewToggle を検索窓直後に (ml-auto 右端寄せ撤去)・角丸 3px、グリッド min 320px (max-md 280px 緩和撤去)、リスト gap 14px、見出し下 32px・検索行下 14px・チップ行下 36px、空状態カード角丸 4px、placeholder #8a8577 (テーマ非依存。ライトのカード地上で約 3.4:1 と AA 未達だが、placeholder は補助表示で input に aria-label があるため mock 準拠を優先)
 - ✅ 記事詳細: 本文カラム max-width 720px、TOC sticky top 100px・hover は文字色のみ (枠色変化撤去)、関連リスト gap 10px、前後ナビ gap 14px / mt 40px
 - ✅ 記事本文: h2 直後の余白 14px、インラインコード 12.5px 固定・padding 2px 5px・枠線なし (0.88em + border は旧様式)、pre 横 padding 18px
 - ✅ About: bio max-width 640px、ソーシャルを RSS 抜き 5 件に (`SocialIconBar links` prop)、アバターの accent-glow グラデオーバーレイ撤去
