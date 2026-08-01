@@ -64,7 +64,7 @@ Productivity Engineer "Rym" のポートフォリオ & 技術ブログ。Site: R
 ### Animations
 
 - Hero: staggered fadeUp (anim-up, 0s/0.12s/0.24s) + 墨流し float (9s)。ターミナル typewriter (typeReveal) は `heroInk="background"` 時のみ
-- Cards: hover は border-color + shadow + translateY(-2px) のみ (リストカードは -1px)。グリーントップバー・矢印・アイコン変形は撤去済み — 復元しないこと
+- Cards: hover は border-color + shadow + translateY(-2px) のみ。グリーントップバー・矢印・アイコン変形は撤去済み — 復元しないこと。Related/Prev-Next も ArticleCard variant="list" に統一済み (専用 ListCard は削除)
 - Scroll: IntersectionObserver → .reveal → .visible
 - `prefers-reduced-motion` で全アニメーション無効化 (reveal/anim-up/anim-fade/t-line は強制表示)
 

@@ -14,27 +14,20 @@ function SkeletonInk() {
   return <InkImage kind="fine" className="absolute inset-0 h-full w-full object-cover opacity-5" />;
 }
 
-function CardSkeleton({ compact = false }: { readonly compact?: boolean }) {
+function CardSkeleton() {
   return (
-    <div
-      className={cn(
-        'overflow-hidden rounded-[4px] border border-border bg-card',
-        compact
-          ? 'grid grid-cols-[110px_1fr] min-[480px]:max-md:grid-cols-[100px_1fr] max-[480px]:grid-cols-[80px_1fr]'
-          : 'flex flex-col',
-      )}
-    >
-      <div className={cn('relative overflow-hidden', compact ? 'min-h-[92px]' : 'h-[150px]')}>
+    <div className="flex flex-col overflow-hidden rounded-[4px] border border-border bg-card">
+      <div className="relative h-[150px] overflow-hidden">
         <Skeleton className="absolute inset-0 rounded-none" />
         <SkeletonInk />
       </div>
-      <div className={cn('flex flex-col', compact ? 'justify-center px-4.5 py-3.5' : 'p-5')}>
+      <div className="flex flex-col p-5">
         <div className="mb-3 flex gap-2.5">
           <Skeleton className="h-3 w-20" />
           <Skeleton className="h-3 w-14" />
         </div>
-        <Skeleton className={cn('mb-2.5 h-4', compact ? 'w-[82%]' : 'w-[90%]')} />
-        <Skeleton className={cn('mb-4 h-4', compact ? 'w-[58%]' : 'w-[70%]')} />
+        <Skeleton className="mb-2.5 h-4 w-[90%]" />
+        <Skeleton className="mb-4 h-4 w-[70%]" />
         <div className="flex flex-wrap gap-[5px]">
           <Skeleton className="h-5 w-16 rounded-[2px] border border-border" />
           <Skeleton className="h-5 w-20 rounded-[2px] border border-border" />

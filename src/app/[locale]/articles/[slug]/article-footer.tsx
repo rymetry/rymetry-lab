@@ -1,6 +1,6 @@
 import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react';
 
-import { ListCard } from '@/components/list-card';
+import { ArticleCard } from '@/components/article-card';
 import { SectionContainer, SectionHeader } from '@/components/section';
 import { cn } from '@/lib/utils';
 import type { ArticleDetail } from '@/types/article';
@@ -40,7 +40,7 @@ export function ArticleFooter({
             />
             <div className="grid gap-2.5">
               {relatedArticles.map((article) => (
-                <ListCard key={article.slug} article={article} />
+                <ArticleCard key={article.slug} article={article} variant="list" />
               ))}
             </div>
           </>
@@ -87,7 +87,7 @@ function ArticleNavCard({
         {label}
         {direction === 'next' ? <Icon aria-hidden="true" className="size-[11px]" /> : null}
       </p>
-      <ListCard article={article} />
+      <ArticleCard article={article} variant="list" />
     </div>
   );
 }

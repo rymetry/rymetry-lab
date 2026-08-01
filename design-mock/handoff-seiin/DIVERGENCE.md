@@ -117,7 +117,7 @@
 - 🎯 エラーページ (error.tsx): プロトタイプに対応画面なし。404 と同系の様式を踏襲
 - 🎯 セクション説明文の 1 行化: About principles / Home Recent Articles の説明は `max-w-none` (mock は max-width 600px で折返し)。`SectionHeader descriptionClassName` prop で個別指定
 - 🎯 PrincipleCard (What I Value) の hover 演出撤去: mock は border-hover+shadow だが、非リンク要素のため無効に
-- 🎯 ListCard の hover を border-hover に統一 (mock は accent 枠 — mock 内で記事一覧リストと不統一だったため通常カード側に寄せた)。サムネ列も ArticleCard list と同じ minmax(140px,220px) 系列に統一 (mock は 110px)
+- 🎯 Related/Prev-Next のカードを ArticleCard variant="list" に完全統一し、専用 ListCard コンポーネントを削除 (mock はコンパクトな別型: サムネ 110px / min-height 92px / タイトル 14px / hover accent 枠 + -1px)。記事一覧リストと同一の見た目 (140-220px サムネ / 120px / 16px / border-hover + -2px) になる
 - 🎯 TOC ラベルは "INDEX" (mock は "Contents")。mono 大文字ラベルの言語に統一
 - 📝 テーマ切替は即時トグル化で mock 準拠に (resolvedTheme の反対をセット、defaultTheme=system 維持)。アイコンの rotate/scale 演出のみ実装独自
 - 📝 カードサムネイルは `buildCardThumbnailUrl` で表示ボックス比の imgix `fit=crop` (grid 960×400 / list 480×320) を要求。運用ルール: アイキャッチは 1200×630・中央セーフエリア推奨
