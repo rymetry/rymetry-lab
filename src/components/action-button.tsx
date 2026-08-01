@@ -41,7 +41,7 @@ export function ActionButton({
         ],
         variant === 'secondary' && [
           'border-[1.5px] border-primary bg-card text-primary',
-          'hover:border-[var(--accent-2)] hover:bg-[var(--accent-glow)]',
+          'hover:bg-[var(--accent-glow)]',
         ],
         className,
       )}

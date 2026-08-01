@@ -48,9 +48,13 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
 
 function HeaderFallback() {
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-background/85 backdrop-blur-lg backdrop-saturate-[180%]">
+    <header className="sticky top-0 z-50 border-b border-border bg-background/85 backdrop-blur-lg backdrop-saturate-[160%]">
       <div className="mx-auto flex h-15 max-w-[1200px] items-center justify-between px-4 md:px-6">
-        <Link href="/" aria-label="Rymlab" className="font-mono text-lg font-extrabold">
+        <Link
+          href="/"
+          aria-label="Rymlab"
+          className="font-brand text-[21px] font-bold tracking-[0.05em]"
+        >
           Rym<span className="text-primary">lab</span>
         </Link>
       </div>

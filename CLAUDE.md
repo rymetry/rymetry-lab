@@ -40,7 +40,7 @@ Productivity Engineer "Rym" のポートフォリオ & 技術ブログ。Site: R
 ### 墨テクスチャ (public/images/ink/)
 
 - `ink-flow`: ヒーロー右のメインビジュアル (`heroInk="main"`, priority 付き)、一覧ページ見出し背後の透かし (`PageInk`)
-- `ink-fine`: 記事カード・リストカードのサムネイル (slug から決定的に 6 バリエーション選択)、About アバター
+- `ink-fine`: 記事カードサムネイルのフォールバック (通常は microCMS の ogpImage を表示。ogpImage は adapter で必須検証されるため、フォールバックが効くのは Story・静的デモデータのみ)、About アバター
 - `ink-vortex`: ローディング画面
 - ライト/ダークで別画像。`InkImage` が 2 枚描画し CSS (`dark:hidden` / `hidden dark:block`) で切替。常に lazy — 非表示側テーマはフェッチされない。LCP になる画像は `InkPreload` (media 限定 preload) を併用する。next/image の `priority` は使わない (preload に media が付かず、非表示ビューポートでも両テーマ分ダウンロードされるため)
 
@@ -63,14 +63,14 @@ Productivity Engineer "Rym" のポートフォリオ & 技術ブログ。Site: R
 
 ### Animations
 
-- Hero: staggered fadeUp (anim-up, 0s/0.12s/0.24s) + 墨流し float (9s)。ターミナル typewriter (typeReveal) は `heroInk="background"` 時のみ
-- Cards: hover は border-color + shadow + translateY(-2px) のみ (リストカードは -1px)。グリーントップバー・矢印・アイコン変形は撤去済み — 復元しないこと
+- Hero: staggered fadeUp (anim-up + anim-up-hero-\*, 0s/0.15s/0.3s。0.12s 刻みの anim-up-N は 404/error 用) + 墨流し float (9s)。ターミナル typewriter (typeReveal) は `heroInk="background"` 時のみ
+- Cards: hover は border-color + shadow + translateY(-2px) のみ。グリーントップバー・矢印・アイコン変形は撤去済み — 復元しないこと。Related/Prev-Next も ArticleCard variant="list" に統一済み (専用 ListCard は削除)
 - Scroll: IntersectionObserver → .reveal → .visible
 - `prefers-reduced-motion` で全アニメーション無効化 (reveal/anim-up/anim-fade/t-line は強制表示)
 
 ### Responsive
 
-- 1024px: Home グリッド 3列→2列 (見出しセルがグリッド1マス目に入り 2×2 モジュール、「View all →」リンクは md のみ表示)、TOC 非表示
+- 1024px: Home グリッド 3列→2列 (見出しセルがグリッド1マス目に入り 2×2 モジュール、「View all →」リンクは md のみ表示)、TOC は本文上のアコーディオン (details、デフォルト閉) に切替
 - 768px: ハンバーガー (Sheet)、1カラム、padding 16px
 - 480px 未満: リストカードのサムネイル列 80px (`max-[480px]` は排他的 `width < 480px`。`max-md` と併用する場合は CSS 出力順で打ち消されるため `min-[480px]:max-md:` で範囲を重ねない)
 

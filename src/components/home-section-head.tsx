@@ -13,6 +13,8 @@ interface HomeSectionHeadProps {
   readonly viewAllLabel?: string;
   /** ScrollRevealList の cloneElement が注入する reveal 等を受け取る */
   readonly className?: string;
+  /** 説明文 p への追加クラス (例: `max-w-none` で 1 行表示) */
+  readonly descriptionClassName?: string;
 }
 
 /**
@@ -27,6 +29,7 @@ export function HomeSectionHead({
   viewAllHref,
   viewAllLabel,
   className,
+  descriptionClassName,
 }: HomeSectionHeadProps) {
   return (
     <div
@@ -40,6 +43,7 @@ export function HomeSectionHead({
         description={description}
         descriptionEn={descriptionEn}
         className="mb-0 max-md:mb-0"
+        descriptionClassName={descriptionClassName}
       />
       {viewAllHref && viewAllLabel && (
         <Link

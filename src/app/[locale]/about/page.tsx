@@ -5,6 +5,7 @@ import { SectionContainer, SectionHeader } from '@/components/section';
 import { SocialIconBar } from '@/components/social-icon-bar';
 import { ToolboxCard } from '@/components/toolbox-card';
 import { PRINCIPLES, TOOLBOX_CATEGORIES } from '@/data/about';
+import { SOCIAL_LINKS } from '@/data/social-links';
 import { createPageMetadata, getSiteUrl } from '@/lib/seo/metadata';
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
@@ -49,7 +50,6 @@ export default async function AboutPage({ params }: AboutPageProps) {
             <span aria-hidden="true" className="relative">
               {'\u{1F468}\u200D\u{1F4BB}'}
             </span>
-            <div className="absolute inset-0 bg-[linear-gradient(135deg,var(--accent-glow)_0%,transparent_50%)]" />
           </div>
 
           {/* Info */}
@@ -58,13 +58,16 @@ export default async function AboutPage({ params }: AboutPageProps) {
             <p className="mb-4 font-mono text-[13px] text-primary">{t('profile.role')}</p>
 
             {/* Bio */}
-            <div className="mb-5 text-[14.5px] leading-[1.8] text-text-secondary max-md:text-left">
+            <div className="mb-5 max-w-[640px] text-[14.5px] leading-[1.8] text-text-secondary max-md:text-left">
               <p className="mb-2.5">{t('profile.bio1')}</p>
               <p>{t('profile.bio2')}</p>
             </div>
 
-            {/* Social Links */}
-            <SocialIconBar className="max-md:justify-center" />
+            {/* Social Links — RSS はフッターのみ (プロトタイプ準拠で 5 件) */}
+            <SocialIconBar
+              className="max-md:justify-center"
+              links={SOCIAL_LINKS.filter((link) => link.label !== 'RSS')}
+            />
           </div>
         </div>
 
@@ -76,6 +79,7 @@ export default async function AboutPage({ params }: AboutPageProps) {
             t.has('principles.descriptionEn') ? t('principles.descriptionEn') : undefined
           }
           className="mb-6 max-md:mb-6"
+          descriptionClassName="max-w-none"
         />
         {/* max-md と max-[480px] は CSS 出力順で 480px 側が先になり打ち消されるため、範囲を重ねない */}
         <ScrollRevealList className="mb-14 grid grid-cols-[repeat(auto-fill,minmax(min(260px,100%),1fr))] gap-4 min-[480px]:max-md:grid-cols-2 max-[480px]:grid-cols-1">

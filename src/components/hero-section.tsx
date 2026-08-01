@@ -38,7 +38,7 @@ export function HeroSection({ heroInk = 'main', jaLine = false }: HeroSectionPro
       <div className="relative z-[1] mx-auto grid max-w-[1200px] grid-cols-2 items-center gap-12 px-6 max-lg:grid-cols-1 max-lg:gap-8 max-md:px-4">
         {/* Left: text */}
         <div>
-          <h1 className="anim-up mb-[18px] text-[clamp(30px,4.4vw,52px)] font-bold leading-[1.28] tracking-[0.01em] max-[480px]:text-[28px]">
+          <h1 className="anim-up mb-[18px] text-[clamp(30px,4.4vw,52px)] font-bold leading-[1.28] tracking-[0.01em]">
             {t('line1')}
             <br />
             <span className="bg-[image:var(--accent-gradient)] bg-clip-text text-transparent">
@@ -52,13 +52,13 @@ export function HeroSection({ heroInk = 'main', jaLine = false }: HeroSectionPro
             </p>
           )}
 
-          <p className="anim-up anim-up-2 mt-[18px] mb-7 max-w-[520px] text-[15.5px] leading-[1.85] text-text-secondary">
+          <p className="anim-up anim-up-hero-2 mt-[18px] mb-7 max-w-[520px] text-[15.5px] leading-[1.85] text-text-secondary">
             {t('description')}
           </p>
 
-          <div className="anim-up anim-up-3 flex gap-3">
+          <div className="anim-up anim-up-hero-3 flex gap-3">
             <ActionButton href="/projects" variant="primary">
-              {t('projects')} →
+              {t('projects')}
             </ActionButton>
             <ActionButton href="/articles" variant="secondary">
               {t('articles')}

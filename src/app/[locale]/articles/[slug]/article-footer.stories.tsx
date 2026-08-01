@@ -66,8 +66,10 @@ function article(key: keyof typeof articles): ArticleDetail {
     description: `${base.title} description`,
     excerpt: `${base.title} excerpt`,
     content: '<p>body</p>',
+    // Storybook では microCMS に到達できないため public の墨画像を使う
+    // (非 microCMS パスは buildCardThumbnailUrl が素通しし、framework が public を配信する)
     ogpImage: {
-      url: `https://images.microcms-assets.io/assets/test/${base.slug}.png`,
+      url: '/images/ink/ink-fine-light.png',
       width: 1200,
       height: 630,
     },

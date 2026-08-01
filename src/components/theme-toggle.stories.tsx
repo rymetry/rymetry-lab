@@ -23,7 +23,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'Light / Dark / System を切り替えるドロップダウンメニュー。next-themes の useTheme フックを使用。',
+          'テーマ切替の即時トグルボタン (プロトタイプ準拠)。defaultTheme は system のまま、クリックで resolvedTheme の反対に切り替える。next-themes の useTheme フックを使用。',
       },
     },
   },

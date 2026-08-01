@@ -4,13 +4,14 @@ import { HomeSectionHead } from '@/components/home-section-head';
 import { ProjectCard } from '@/components/project-card';
 import { ScrollRevealList } from '@/components/scroll-reveal-list';
 import { SectionContainer } from '@/components/section';
-import { ARTICLES } from '@/data/articles';
 import { PROJECTS } from '@/data/projects';
 import { createPageMetadata, getSiteUrl } from '@/lib/seo/metadata';
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 
-// TODO #28: Replace static ARTICLES/PROJECTS with microCMS SDK fetch + adapters behind 'use cache'
+import { getArticlesPageContent } from './articles/articles-cache';
+
+// TODO #28: Replace static PROJECTS with microCMS SDK fetch + adapters behind 'use cache'
 
 interface HomePageProps {
   readonly params: Promise<{
@@ -34,7 +35,8 @@ export async function generateMetadata({ params }: HomePageProps): Promise<Metad
 export default async function Home({ params }: HomePageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const t = await getTranslations('Home');
+  const [t, { articles }] = await Promise.all([getTranslations('Home'), getArticlesPageContent()]);
+  const recentArticles = articles.slice(0, 3);
 
   return (
     <>
@@ -72,9 +74,10 @@ export default async function Home({ params }: HomePageProps) {
             }
             viewAllHref="/articles"
             viewAllLabel={t('recentArticles.viewAll')}
+            descriptionClassName="max-w-none"
           />
-          {ARTICLES.slice(0, 3).map((article) => (
-            <ArticleCard key={article.slug} article={article} href="#" />
+          {recentArticles.map((article) => (
+            <ArticleCard key={article.slug} article={article} />
           ))}
         </ScrollRevealList>
       </SectionContainer>

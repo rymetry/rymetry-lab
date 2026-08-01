@@ -59,7 +59,7 @@ const meta = {
     docs: {
       description: {
         component:
-          '記事カード。墨サムネイル (slug から決まる 6 バリエーション) + メタ情報 + タイトル + タグ。hover は border/shadow + translateY(-2px)。',
+          '記事カード。サムネイル (microCMS の ogpImage を imgix スマートクロップで表示、未設定のデモデータは slug から決まる墨テクスチャ 6 バリエーション) + メタ情報 + タイトル + タグ。list variant はタグ 3 個 + 「+N」・タイトル line-clamp-2。hover は border/shadow + translateY(-2px)。',
       },
     },
   },

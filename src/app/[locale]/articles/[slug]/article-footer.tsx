@@ -1,6 +1,6 @@
 import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react';
 
-import { ListCard } from '@/components/list-card';
+import { ArticleCard } from '@/components/article-card';
 import { SectionContainer, SectionHeader } from '@/components/section';
 import { cn } from '@/lib/utils';
 import type { ArticleDetail } from '@/types/article';
@@ -38,9 +38,9 @@ export function ArticleFooter({
               description={relatedDescription}
               className="mb-5"
             />
-            <div className="grid gap-3">
+            <div className="grid gap-2.5">
               {relatedArticles.map((article) => (
-                <ListCard key={article.slug} article={article} />
+                <ArticleCard key={article.slug} article={article} variant="list" />
               ))}
             </div>
           </>
@@ -49,7 +49,7 @@ export function ArticleFooter({
         {previousArticle || nextArticle ? (
           <nav
             aria-label={navigationLabel}
-            className={cn('grid gap-4 md:grid-cols-2', relatedArticles.length > 0 && 'mt-12')}
+            className={cn('grid gap-3.5 md:grid-cols-2', relatedArticles.length > 0 && 'mt-10')}
           >
             <ArticleNavCard label={previousLabel} article={previousArticle} direction="previous" />
             <ArticleNavCard label={nextLabel} article={nextArticle} direction="next" />
@@ -76,7 +76,8 @@ function ArticleNavCard({
   const Icon = direction === 'previous' ? ArrowLeftIcon : ArrowRightIcon;
 
   return (
-    <div>
+    // flex-col + flex-1 でカードをセルの高さいっぱいに伸ばし、隣のカードと等高にする
+    <div className="flex h-full flex-col">
       <p
         className={cn(
           'mb-2 flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground',
@@ -87,7 +88,7 @@ function ArticleNavCard({
         {label}
         {direction === 'next' ? <Icon aria-hidden="true" className="size-[11px]" /> : null}
       </p>
-      <ListCard article={article} />
+      <ArticleCard article={article} variant="list" className="flex-1" />
     </div>
   );
 }

@@ -35,7 +35,7 @@ export function ProjectCard({ project, className }: ProjectCardProps) {
       <div className="mb-3 font-mono text-[11.5px] text-primary">{project.role}</div>
 
       {/* Title */}
-      <h3 className="mb-1.5 text-[17px] font-bold leading-tight tracking-[-0.01em]">
+      <h3 className="mb-1.5 text-[17px] font-bold leading-[1.7] tracking-[-0.01em]">
         {project.title}
       </h3>
 

@@ -30,16 +30,8 @@ export default function LocaleErrorPage({ error, unstable_retry }: LocaleErrorPa
         'before:absolute before:inset-0',
         'before:bg-[image:radial-gradient(circle_at_1px_1px,var(--dot-color)_1px,transparent_0)]',
         'before:bg-[size:28px_28px]',
-        'after:pointer-events-none after:absolute after:-top-[30%] after:-right-[10%]',
-        'after:h-[600px] after:w-[600px]',
-        'after:bg-[radial-gradient(ellipse,oklch(var(--primary-ch)/0.08)_0%,transparent_60%)]',
       )}
     >
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -bottom-[20%] -left-[10%] h-[500px] w-[500px] bg-[radial-gradient(ellipse,oklch(var(--accent-2-ch)/0.05)_0%,transparent_60%)]"
-      />
-
       <div className="relative z-[1] max-w-[560px] px-6 text-center max-md:px-4">
         <p className="anim-up mb-1.5 font-mono text-xs uppercase tracking-[0.1em] text-primary">
           {'// '}
@@ -71,7 +63,7 @@ export default function LocaleErrorPage({ error, unstable_retry }: LocaleErrorPa
           <button
             type="button"
             onClick={unstable_retry}
-            className="inline-flex items-center gap-2 rounded-[9px] border-none bg-[image:var(--accent-gradient)] px-[22px] py-[11px] text-sm font-semibold text-white transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-safe:hover:-translate-y-px hover:shadow-[var(--btn-primary-shadow)]"
+            className="font-brand inline-flex items-center gap-2 rounded-[3px] border-none bg-[image:var(--accent-gradient)] px-6 py-[11px] text-[14.5px] font-medium tracking-[0.05em] text-[#f4f1e6] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-safe:hover:-translate-y-px hover:shadow-[var(--btn-primary-shadow)]"
           >
             {t('retry')}
           </button>

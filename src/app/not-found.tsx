@@ -1,4 +1,5 @@
 import { ActionButton } from '@/components/action-button';
+import { InkImage } from '@/components/ink-image';
 import { cn } from '@/lib/utils';
 
 export default function NotFound() {
@@ -11,19 +12,17 @@ export default function NotFound() {
         'before:absolute before:inset-0',
         'before:bg-[image:radial-gradient(circle_at_1px_1px,var(--dot-color)_1px,transparent_0)]',
         'before:bg-[size:28px_28px]',
-        // Top-right mesh blob
-        'after:pointer-events-none after:absolute after:-top-[30%] after:-right-[10%]',
-        'after:h-[600px] after:w-[600px]',
-        'after:bg-[radial-gradient(ellipse,oklch(var(--primary-ch)/0.08)_0%,transparent_60%)]',
       )}
     >
-      {/* Bottom-left mesh blob */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -bottom-[20%] -left-[10%] h-[500px] w-[500px] bg-[radial-gradient(ellipse,oklch(var(--accent-2-ch)/0.05)_0%,transparent_60%)]"
-      />
-
       <div className="relative z-[1] max-w-[560px] px-6 text-center max-md:px-4">
+        {/* 墨流し (vortex) — 見出し背後の透かし (mock 準拠: コンテンツボックス基準。[locale] 版と同一) */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute left-1/2 top-[22%] -z-[1] h-[620px] -translate-x-[64.5%] -translate-y-[40%] opacity-[0.15] dark:opacity-[0.22]"
+        >
+          <InkImage kind="vortex" className="h-full w-auto max-w-none" sizes="1100px" />
+        </div>
+
         {/* 404 — decorative */}
         <p
           aria-hidden="true"
@@ -47,10 +46,10 @@ export default function NotFound() {
         {/* CTA */}
         <div className="anim-up anim-up-4 flex flex-wrap justify-center gap-3">
           <ActionButton href="/" variant="primary" localeAware={false}>
-            ホームに戻る →
+            Back to Home
           </ActionButton>
           <ActionButton href="/articles" variant="secondary" localeAware={false}>
-            記事を探す
+            Browse Articles
           </ActionButton>
         </div>
       </div>

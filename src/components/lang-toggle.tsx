@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { usePathname, useRouter } from '@/i18n/navigation';
 import { routing, type AppLocale } from '@/i18n/routing';
-import { LanguagesIcon } from 'lucide-react';
+import { GlobeIcon } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 import { startTransition } from 'react';
 
@@ -27,9 +27,9 @@ export function LangToggle() {
           type="button"
           variant="outline"
           aria-label={t('label')}
-          className="h-8 gap-1.5 rounded-[6px] px-2.5 py-1.5 font-mono text-[11px] uppercase hover:border-primary hover:bg-transparent hover:text-primary dark:hover:bg-transparent"
+          className="h-[34px] gap-[5px] rounded-[3px] px-2.5 font-mono text-[12px] uppercase hover:border-primary hover:bg-transparent hover:text-primary dark:hover:bg-transparent"
         >
-          <LanguagesIcon aria-hidden="true" className="size-3.5" />
+          <GlobeIcon aria-hidden="true" className="size-3.5" />
           <span aria-hidden="true">{locale.toUpperCase()}</span>
         </Button>
       </DropdownMenuTrigger>

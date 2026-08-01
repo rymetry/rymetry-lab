@@ -18,13 +18,15 @@ const meta = {
     docs: {
       description: {
         component:
-          '記事詳細の目次 (sticky サイドバー)。スクロール位置に連動して現在の見出しをアクセント色でハイライトする。',
+          '記事詳細の目次。lg 以上は sticky サイドバー、1024px 未満は本文上の折りたたみ (details、デフォルト閉)。スクロール位置に連動して現在の見出しをアクセント色でハイライトする。DOM 上は本文より前に置き、lg では order で右列に配置する (実ページと同構造)。',
       },
     },
   },
   decorators: [
     (Story) => (
       <div className="grid grid-cols-[minmax(0,1fr)_240px] gap-10">
+        {/* 実ページと同じく TOC を DOM 上先頭に置き、lg:order-last で右列へ */}
+        <Story />
         <div className="grid gap-6">
           {TOC_ITEMS.map((item) => (
             <section key={item.id}>
@@ -37,7 +39,6 @@ const meta = {
             </section>
           ))}
         </div>
-        <Story />
       </div>
     ),
   ],
@@ -49,14 +50,14 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     items: TOC_ITEMS,
-    label: 'Contents',
+    label: 'INDEX',
   },
 };
 
 export const DarkMode: Story = {
   args: {
     items: TOC_ITEMS,
-    label: 'Contents',
+    label: 'INDEX',
   },
   globals: { theme: 'dark' },
 };

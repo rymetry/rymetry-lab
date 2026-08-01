@@ -23,7 +23,7 @@ export function Tag({ tag, size = 'default', className }: TagProps) {
     >
       {IconComponent && (
         <IconComponent
-          size={size === 'default' ? 11 : 9}
+          size={size === 'default' ? 11 : 10}
           className={cn('shrink-0', TAG_CATEGORY_TEXT_CLASSES[tag.category])}
         />
       )}
@@ -36,16 +36,31 @@ interface TagListProps {
   readonly tags: readonly TagType[];
   readonly size?: 'default' | 'sm';
   readonly className?: string;
+  /** 表示するタグ数の上限。超過分は「+N」チップにまとめる (カードの高さ暴発防止) */
+  readonly max?: number;
 }
 
-export function TagList({ tags, size = 'default', className }: TagListProps) {
+export function TagList({ tags, size = 'default', className, max }: TagListProps) {
   if (tags.length === 0) return null;
+
+  const visibleTags = max ? tags.slice(0, max) : tags;
+  const overflowCount = tags.length - visibleTags.length;
 
   return (
     <div className={cn('flex flex-wrap gap-[5px]', className)}>
-      {tags.map((tag) => (
+      {visibleTags.map((tag) => (
         <Tag key={`${tag.category}-${tag.label}`} tag={tag} size={size} />
       ))}
+      {overflowCount > 0 && (
+        <span
+          className={cn(
+            'inline-flex items-center rounded-[2px] border border-border font-mono text-muted-foreground',
+            size === 'default' ? 'px-[9px] py-[3px] text-[11px]' : 'px-[7px] py-px text-[10px]',
+          )}
+        >
+          +{overflowCount}
+        </span>
+      )}
     </div>
   );
 }

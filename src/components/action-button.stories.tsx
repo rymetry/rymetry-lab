@@ -22,7 +22,7 @@ export const Primary: Story = {
   args: {
     href: '/projects',
     variant: 'primary',
-    children: 'Projects →',
+    children: 'Projects',
   },
   decorators: [
     (Story) => (
@@ -49,11 +49,11 @@ export const Secondary: Story = {
 };
 
 export const ButtonGroup: Story = {
-  args: { href: '/projects', children: 'Projects →' },
+  args: { href: '/projects', children: 'Projects' },
   render: () => (
     <div className="flex gap-3 p-8">
       <ActionButton href="/projects" variant="primary">
-        Projects →
+        Projects
       </ActionButton>
       <ActionButton href="/articles" variant="secondary">
         Articles
@@ -63,12 +63,12 @@ export const ButtonGroup: Story = {
 };
 
 export const DarkMode: Story = {
-  args: { href: '/projects', children: 'Projects →' },
+  args: { href: '/projects', children: 'Projects' },
   globals: { theme: 'dark' },
   render: () => (
     <div className="flex gap-3 rounded-lg bg-background p-8">
       <ActionButton href="/projects" variant="primary">
-        Projects →
+        Projects
       </ActionButton>
       <ActionButton href="/articles" variant="secondary">
         Articles

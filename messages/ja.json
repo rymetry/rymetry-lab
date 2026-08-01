@@ -19,9 +19,8 @@
   },
   "ThemeToggle": {
     "label": "テーマを切り替える",
-    "light": "Light",
-    "dark": "Dark",
-    "system": "System"
+    "switchToDark": "ダークテーマに切り替える",
+    "switchToLight": "ライトテーマに切り替える"
   },
   "Layout": {
     "skipToMain": "メインコンテンツへスキップ"
@@ -105,7 +104,7 @@
     "detail": {
       "notFoundTitle": "記事が見つかりません | Rymlab",
       "back": "Articles",
-      "toc": "Contents",
+      "toc": "INDEX",
       "navigation": "記事ナビゲーション",
       "previous": "Previous Article",
       "next": "Next Article",
@@ -151,8 +150,8 @@
       "description": "お探しのページは存在しないか、移動された可能性があります。",
       "terminalCommand": "curl /unknown-path",
       "terminalResult": "Resource not found",
-      "home": "ホームに戻る →",
-      "articles": "記事を探す"
+      "home": "Back to Home",
+      "articles": "Browse Articles"
     },
     "error": {
       "label": "ERROR",

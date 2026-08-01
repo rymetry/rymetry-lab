@@ -14,6 +14,8 @@ export interface Article {
   readonly updatedAt?: string;
   readonly readingTime: string;
   readonly tags: readonly Tag[];
+  /** microCMS の OGP/アイキャッチ画像。未設定時はカード側で墨テクスチャにフォールバック */
+  readonly ogpImage?: ArticleImage;
 }
 
 export interface ArticleDetail extends Article {

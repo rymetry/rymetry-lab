@@ -19,9 +19,8 @@
   },
   "ThemeToggle": {
     "label": "Toggle theme",
-    "light": "Light",
-    "dark": "Dark",
-    "system": "System"
+    "switchToDark": "Switch to dark theme",
+    "switchToLight": "Switch to light theme"
   },
   "Layout": {
     "skipToMain": "Skip to main content"
@@ -102,7 +101,7 @@
     "detail": {
       "notFoundTitle": "Article Not Found | Rymlab",
       "back": "Articles",
-      "toc": "Contents",
+      "toc": "INDEX",
       "navigation": "Article navigation",
       "previous": "Previous Article",
       "next": "Next Article",
@@ -145,8 +144,8 @@
       "description": "The page you are looking for does not exist or may have moved.",
       "terminalCommand": "curl /unknown-path",
       "terminalResult": "Resource not found",
-      "home": "Back home →",
-      "articles": "Browse articles"
+      "home": "Back to Home",
+      "articles": "Browse Articles"
     },
     "error": {
       "label": "ERROR",
