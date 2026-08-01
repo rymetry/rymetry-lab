@@ -1,3 +1,7 @@
+/* 実装は next/font で配信するが、Storybook では Google Fonts CDN で代用する
+   (design-mock のプロトタイプと同じ方式。プロダクションには影響しない) */
+@import url("https://fonts.googleapis.com/css2?family=Kaisei+Tokumin:wght@400;500;700;800&display=swap");
+
 @font-face {
   font-family: "PlemolJP HS";
   src: url("../src/app/fonts/PlemolJPHS-Regular.woff2") format("woff2");
@@ -9,4 +13,7 @@
   --font-sans-jp: "Noto Sans JP", "Hiragino Sans", "Yu Gothic", sans-serif;
   --font-geist-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
   --font-plemol: "PlemolJP HS", "Geist Mono", ui-monospace, monospace;
+  /* layout.tsx の next/font (--font-kaisei) に対応。未定義だと font-brand 全体が
+     invalid になり見出しが sans にフォールバックする */
+  --font-kaisei: "Kaisei Tokumin";
 }

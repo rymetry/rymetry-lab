@@ -1,7 +1,9 @@
 import type { Preview } from '@storybook/nextjs-vite';
 import type { ReactRenderer } from '@storybook/react';
+import { NextIntlClientProvider } from 'next-intl';
 import { useEffect } from 'react';
 import type { DecoratorFunction } from 'storybook/internal/types';
+import messages from '../messages/ja.json';
 import '../src/app/globals.css';
 import './storybook-fonts.css';
 
@@ -13,8 +15,20 @@ const WithThemeClass: DecoratorFunction<ReactRenderer> = (Story, context) => {
   return <Story />;
 };
 
+/* next-intl の Link (@/i18n/navigation) は intl コンテキスト必須。
+   Link を使うコンポーネントがどの Story でも壊れないようグローバルに供給する */
+const WithIntl: DecoratorFunction<ReactRenderer> = (Story) => (
+  <NextIntlClientProvider locale="ja" messages={messages}>
+    <Story />
+  </NextIntlClientProvider>
+);
+
 const preview: Preview = {
   parameters: {
+    // App Router のモックを有効化 (useRouter/usePathname を使う Header/LangToggle 用)
+    nextjs: {
+      appDirectory: true,
+    },
     controls: {
       matchers: {
         color: /(background|color)$/i,
@@ -42,7 +56,7 @@ const preview: Preview = {
   initialGlobals: {
     theme: 'light',
   },
-  decorators: [WithThemeClass],
+  decorators: [WithThemeClass, WithIntl],
 };
 
 export default preview;

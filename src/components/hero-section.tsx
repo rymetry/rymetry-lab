@@ -71,6 +71,7 @@ export function HeroSection({ heroInk = 'main', jaLine = false }: HeroSectionPro
           <div aria-hidden="true" className="relative min-h-[480px] max-lg:hidden">
             <InkImage
               kind="flow"
+              priority
               className={cn(
                 'pointer-events-none absolute -top-[15%] -right-[10%] -z-10 h-[130%] w-[clamp(640px,60vw,1120px)] max-w-none object-contain object-[right_center]',
                 'opacity-[0.98] dark:opacity-100 dark:[filter:drop-shadow(0_0_22px_rgba(234,232,220,0.16))]',

@@ -1,7 +1,7 @@
 # 静韻プロトタイプ差分チェックリスト
 
 `4a 現行×静韻.dc.html` と実装の全画面突き合わせ結果。
-✅ = 対応済み (feat/seiin-design-tokens ブランチ) / ⬜ = Phase 4 ブランチで対応 / 🎯 = 意図的な逸脱 (対応しない)
+✅ = 対応済み / ⬜ = 未対応 / 🎯 = 意図的な逸脱 (対応しない)
 
 ## 対応済み (Phase 1–3 + 追随修正)
 
@@ -64,7 +64,16 @@
 - ✅ noise-overlay: 撤去 (コンポーネント・CSS・layout 使用箇所)
 - ✅ `--thumb-gradient-*` トークンと `thumbnailVariant`/`thumbnailIcon` フィールドを削除 (型・adapter・data・stories・tests)
 - ✅ SectionHeader の deprecated `label` prop と i18n の未使用 label キーの削除
-- ⬜ Prism シンタックス色: プロトタイプは緑系トーン (#93c7a9/#7fb394 等)。現行は標準 prism 色のまま — 要判断 (Phase 5 で判断)
+- ✅ Prism シンタックス色: 緑系トーンを採用 (Phase 5)。プロトタイプの #93c7a9 (property/tag 系) / #7fb394 (string/attr 系) を軸に、keyword #b7d9c4 / function #d9e3d2 / operator #a9b0a4 / punctuation #8f978c / regex #c9a24a (信号ボタンの金) へ展開。コメント・行番号は #828773 (プロトタイプ相当の #6b7268 は墨帯上 3.5:1 で AA 未達のため、フッターと同じ a11y 判断で明るく) — 両テーマ実機比較の結果、標準 prism の多色 (青/赤/黄) は静韻の墨帯で明確に浮くため置換
+
+## Phase 5 (検証・仕上げ — feat/seiin-phase5-verification ブランチ)
+
+- ✅ Storybook 追随: `--font-kaisei` を storybook-fonts.css に追加 (未定義だと font-brand が invalid になり全見出しが sans フォールバックしていた)。NextIntlClientProvider をグローバルデコレータ化 + `next-intl/server` スタブ + `experimentalRSC` で全 85 Story のスモークテスト green 化 (Phase 4 の i18n Link 移行で 24 Story が壊れていた)
+- ✅ Story 記述の Phase 4 追随: カード hover 説明 (グリーンバー/矢印/scale 撤去)、リストサムネ幅、Section alt の用途 (Related Articles)。HomeSectionHead の Story 新規追加 (Default / TabletModule / DarkMode)
+- ✅ レスポンシブ不具合修正: `max-md:` と `max-[480px]:` の併用は Tailwind v4 の CSS 出力順 (480px 側が先) で 480px ルールが打ち消される。list-card のサムネ列 (80px) と About の Principles 1 カラム化が死んでいたため `min-[480px]:max-md:` で範囲を分離。※ `max-[480px]` は `width < 480px` (排他的)
+- ✅ prefers-reduced-motion 検証: エミュレーションで anim-up/reveal 強制表示・長時間アニメーションゼロを確認 (float は motion-safe で不適用)
+- ✅ ヒーロー LCP: ink-flow が LCP 要素 (Next.js 警告あり)。`InkImage` に `priority` prop を追加し heroInk="main" に適用 → preload 2 枚 + 警告解消。配信は AVIF 最適化済みで w=1200 実測 ~95KB/枚 (元 PNG 700KB は配信されない)。lazy (default) では display:none 側テーマの画像はフェッチされないことを実測確認 — priority 時のみ両テーマ分 (~190KB) プリロードされるが、手動テーマ切替の即時表示を優先
+- ✅ ドキュメント: CLAUDE.md のデザインセクションを静韻の実態に全面更新、README/AGENTS.md の参照先を handoff-seiin へ変更、旧モック (v3–v12 + color-comparison) を design-mock/archive/mockups/ へ移動
 
 ## 🎯 意図的な逸脱 (対応しない)
 

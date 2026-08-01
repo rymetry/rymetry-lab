@@ -37,11 +37,12 @@ export const Default: Story = {
   ],
 };
 
+// alt 帯は Phase 4 で Home から撤去され、現在は記事フッター (Related Articles) で使用
 export const AltBackground: Story = {
   args: {
-    title: 'Recent Articles',
-    descriptionEn: 'Field notes from the trenches of developer productivity.',
-    description: '開発生産性の現場から得た知見。',
+    title: 'Related Articles',
+    description: 'この記事に関連して選択された記事をピックアップしています。',
+    size: 'sub',
   },
   decorators: [
     (Story) => (

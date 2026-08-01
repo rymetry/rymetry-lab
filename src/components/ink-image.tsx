@@ -18,13 +18,20 @@ interface InkImageProps {
   readonly kind: InkKind;
   readonly className?: string;
   readonly sizes?: string;
+  /**
+   * LCP になる画像 (hero の墨流し等) にのみ指定する。
+   * デフォルト (lazy) では display:none 側のテーマ画像はフェッチされないが、
+   * priority は lazy を無効化するため両テーマ分がプリロードされる
+   * (AVIF 配信で 1 枚 ~100KB。手動テーマ切替でも即座に表示できる方を優先)。
+   */
+  readonly priority?: boolean;
 }
 
 /**
  * 静韻の墨流しテクスチャ (装飾専用)。ライト/ダークで別画像のため 2 枚描画し、
  * next-themes の hydration 問題を避けて CSS (`dark:`) でのみ切り替える。
  */
-export function InkImage({ kind, className, sizes }: InkImageProps) {
+export function InkImage({ kind, className, sizes, priority = false }: InkImageProps) {
   const source = SOURCES[kind];
 
   return (
@@ -36,6 +43,7 @@ export function InkImage({ kind, className, sizes }: InkImageProps) {
         width={INK_WIDTH}
         height={INK_HEIGHT}
         sizes={sizes}
+        priority={priority}
         className={cn(className, 'dark:hidden')}
       />
       <Image
@@ -45,6 +53,7 @@ export function InkImage({ kind, className, sizes }: InkImageProps) {
         width={INK_WIDTH}
         height={INK_HEIGHT}
         sizes={sizes}
+        priority={priority}
         className={cn(className, 'hidden dark:block')}
       />
     </>

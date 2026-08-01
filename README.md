@@ -54,13 +54,13 @@ bun run check        # format:check + lint + typecheck + build
 
 ## Design Mock
 
-最終デザインの参照は `design-mock/design-mockup-v12.html` です。ブラウザで確認する場合は、リポジトリルートで以下を実行します。
+最終デザイン「静韻 (Seiin)」の参照は `design-mock/handoff-seiin/` です。仕様は `README.md`、プロトタイプ実物は `4a 現行×静韻.dc.html`、実装との差分・意図的逸脱は `DIVERGENCE.md` に記録されています。ブラウザで確認する場合は、リポジトリルートで以下を実行します。
 
 ```bash
 python3 -m http.server 8234
 ```
 
-その後、`http://localhost:8234/design-mock/design-mockup-v12.html` を開きます。実装の CSS 変数やスタイルを変更した場合は、対応するモックも同時に更新してください。
+その後、`http://localhost:8234/design-mock/handoff-seiin/` を開きます。実装のスタイルをプロトタイプから意図的に変えた場合は `DIVERGENCE.md` に記録してください (プロトタイプ HTML は原則編集しません)。旧デザイン世代のモック (v3–v12) は `design-mock/archive/mockups/` に保管しています。
 
 ## Quality Gate
 

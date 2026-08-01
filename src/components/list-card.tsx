@@ -35,7 +35,8 @@ export function ListCard({ article, className }: ListCardProps) {
         'transition-all duration-200',
         'hover:-translate-y-px hover:border-[var(--accent)] hover:shadow-[var(--card-shadow-hover)]',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
-        'max-md:grid-cols-[100px_1fr] max-[480px]:grid-cols-[80px_1fr]',
+        // max-md と max-[480px] は CSS 出力順で 480px 側が先になり打ち消されるため、範囲を重ねない
+        'min-[480px]:max-md:grid-cols-[100px_1fr] max-[480px]:grid-cols-[80px_1fr]',
         className,
       )}
     >

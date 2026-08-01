@@ -14,7 +14,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'プロジェクトカード。アイコン + ロール + タイトル + 説明 + タグ。hover でグリーンバー + lift + 矢印 + アイコン scale/rotate。',
+          'プロジェクトカード。アイコン + ロール + タイトル + 説明 + タグ。hover は border/shadow + translateY(-2px)。',
       },
     },
   },
