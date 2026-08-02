@@ -89,29 +89,30 @@ describe('root error pages own a complete HTML document', () => {
 });
 
 /**
- * WCAG 3.1.1 (Language of Page) / 3.1.2 (Language of Parts):
- * global-error は見出し・CTA が英語で、日本語は説明文 1 段落のみ。ページ全体は `en` を
- * 宣言し、日本語の段落だけ `lang="ja"` で上書きする。
+ * WCAG 3.1.1 (Language of Page):
+ * root の fallback ページ (not-found / error / global-error) は、ロケールを特定できない位置に
+ * あるため既定ロケールの `ja` を宣言する。`[locale]` 配下の ja ページも同じ構成
+ * (英語の見出し・CTA + 日本語の説明文) で `ja` を宣言しており、サイト全体で揃える。
+ *
+ * 「英語見出し + 日本語本文」はサイト共通のトーン (DIVERGENCE.md 🎯)。英語部分への
+ * `lang="en"` 付与 (WCAG 3.1.2 Language of Parts) は messages と `[locale]` 配下を含む
+ * サイト全体の変更になるため、ここでは扱わない。
  */
-describe('global-error declares the page and part languages', () => {
-  test('global-error.tsx is an English document with a Japanese part', () => {
-    const html = renderToString(
-      <GlobalError error={new Error('boom')} unstable_retry={() => undefined} />,
-    );
+describe('root fallback pages declare the default locale', () => {
+  test('all three root fallback documents declare lang="ja"', () => {
+    const documents = [
+      renderToString(<NotFound />),
+      renderToString(<ErrorPage error={new Error('boom')} unstable_retry={() => undefined} />),
+      renderToString(<GlobalError error={new Error('boom')} unstable_retry={() => undefined} />),
+    ];
 
-    expect(html).toContain('<html lang="en"');
-    expect(html).not.toContain('<html lang="ja"');
-    expect(html).toMatch(/lang="ja"[^>]*>[^<]*予期しないエラー/);
+    for (const html of documents) {
+      expect(html).toContain('<html lang="ja"');
+      expect(html).not.toContain('lang="en"');
+    }
   });
 });
 
-/**
- * Error 系 CTA は 404 (not-found.tsx の "Back to Home" / "Browse Articles") と
- * 同じ英語表記に統一する。見出し英語 + 説明日本語のトーンは 404 と同一。
- *
- * 装飾グリフ (↻) は入れない。CTA からの矢印撤去 (DIVERGENCE.md) と同じ判断で、
- * ボタンのアクセシブル名に "clockwise open circle arrow" が混入するのを避ける。
- */
 describe('error page CTAs match the 404 English wording', () => {
   test('error.tsx uses English CTAs without a decorative glyph', () => {
     const html = renderToString(
