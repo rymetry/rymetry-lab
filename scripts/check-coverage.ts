@@ -1,6 +1,13 @@
 import { readFileSync } from 'node:fs';
 
-import { type FileCoverage, parseLcovRecords, percentage, summarize } from './lcov-summary';
+import {
+  assertMeasurable,
+  type CoverageSummary,
+  type FileCoverage,
+  parseLcovRecords,
+  percentage,
+  summarize,
+} from './lcov-summary';
 
 /**
  * `bun test src scripts --coverage --coverage-reporter=lcov` の出力を検査し、
@@ -82,7 +89,22 @@ function readLcov(): string {
   }
 }
 
-const summary = summarize(parseLcovRecords(readLcov()), isIgnored);
+/**
+ * 閾値判定の手前で、レポートが指標として成立していることを保証する。
+ * 壊れたレポートを 100% と解釈して黙って通すより、必ず落ちるほうがよい。
+ */
+function loadSummary(): CoverageSummary {
+  try {
+    const summary = summarize(parseLcovRecords(readLcov()), isIgnored);
+    assertMeasurable(summary);
+    return summary;
+  } catch (error) {
+    console.error(error instanceof Error ? error.message : String(error));
+    process.exit(1);
+  }
+}
+
+const summary = loadSummary();
 
 const failures = [
   percentage(summary.linesHit, summary.linesFound) < MIN_LINE_PERCENT

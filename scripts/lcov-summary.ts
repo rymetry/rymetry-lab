@@ -125,6 +125,40 @@ export function summarize(
   );
 }
 
+/**
+ * 閾値判定にかける前に、集計結果が指標として成立していることを確認する。
+ *
+ * `percentage()` は分母 0 を 100% として扱う (per-file 表示のための仕様) ため、
+ * **除外後に何も残らなかったレポートは 0/0 = 100% となり、そのままでは合格してしまう**。
+ * 実際 `src` のテストが 1 件も走らないと lcov には `scripts/lcov-summary.ts` と
+ * preload される `src/test-setup.ts` しか載らず、どちらも除外対象なので
+ * 計測対象が空になる。この状態を満点として通すと、プロダクトコードのテストが
+ * 丸ごと消えても CI が green のままになる。
+ *
+ * `parseLcovRecords()` の「レコードが 1 件もない」検査は生のレポートしか見ていないので、
+ * ここで**除外を適用した後の合計**を検査する。
+ *
+ * @throws 計測対象ファイル・実行可能行・関数のいずれかが 0 件の場合
+ */
+export function assertMeasurable(summary: CoverageSummary): void {
+  const refuse = (reason: string): never => {
+    throw new Error(
+      `${reason} Coverage is not measuring the product code — refusing to report a passing result. ` +
+        `(ignored: ${summary.ignored.map((record) => record.file).join(', ') || 'none'})`,
+    );
+  };
+
+  if (summary.measured.length === 0) {
+    refuse(`lcov report has no measured file after exclusions.`);
+  }
+  if (summary.linesFound === 0) {
+    refuse(`lcov report has no executable line across ${summary.measured.length} measured files.`);
+  }
+  if (summary.functionsFound === 0) {
+    refuse(`lcov report has no function across ${summary.measured.length} measured files.`);
+  }
+}
+
 /** 分母が 0 のファイル (型宣言のみ等) は計測対象がないので 100% として扱う */
 export function percentage(hit: number, found: number): number {
   if (found === 0) return 100;

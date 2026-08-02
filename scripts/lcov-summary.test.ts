@@ -1,6 +1,12 @@
 import { describe, expect, test } from 'bun:test';
 
-import { type FileCoverage, parseLcovRecords, percentage, summarize } from './lcov-summary';
+import {
+  assertMeasurable,
+  type FileCoverage,
+  parseLcovRecords,
+  percentage,
+  summarize,
+} from './lcov-summary';
 
 /**
  * Bun が出す lcov の `LF:` は**ファイルの物理行数**であり、計測対象行数ではない。
@@ -86,9 +92,9 @@ describe('parseLcovRecords', () => {
   });
 });
 
-describe('summarize', () => {
-  const records = parseLcovRecords(LCOV_WITH_MISLEADING_LF);
+const records = parseLcovRecords(LCOV_WITH_MISLEADING_LF);
 
+describe('summarize', () => {
   test('aggregates every record when nothing is ignored', () => {
     const summary = summarize(records, () => false);
 
@@ -109,6 +115,39 @@ describe('summarize', () => {
     expect(summary.linesHit).toBe(2);
     expect(summary.functionsFound).toBe(4);
     expect(summary.functionsHit).toBe(3);
+  });
+});
+
+describe('assertMeasurable', () => {
+  test('accepts a summary that measures at least one line and one function', () => {
+    expect(() => assertMeasurable(summarize(records, () => false))).not.toThrow();
+  });
+
+  test('rejects a report whose records were all excluded', () => {
+    // scripts/ と src/test-setup.ts しか計測されなかった lcov がこの形になる。
+    // percentage(0, 0) === 100 なので、弾かないと 0/0 が満点として CI を通ってしまう
+    const summary = summarize(records, () => true);
+
+    expect(summary.measured).toHaveLength(0);
+    expect(() => assertMeasurable(summary)).toThrow(/no measured file/i);
+  });
+
+  test('rejects a report with measured files but no executable line', () => {
+    const declarationsOnly = parseLcovRecords(
+      'TN:\nSF:src/types/only.ts\nFNF:0\nFNH:0\nend_of_record\n',
+    );
+
+    expect(() => assertMeasurable(summarize(declarationsOnly, () => false))).toThrow(
+      /no executable line/i,
+    );
+  });
+
+  test('rejects a report with executable lines but no function', () => {
+    const noFunctions = parseLcovRecords(
+      'TN:\nSF:src/data/table.ts\nFNF:0\nFNH:0\nDA:1,3\nDA:2,3\nend_of_record\n',
+    );
+
+    expect(() => assertMeasurable(summarize(noFunctions, () => false))).toThrow(/no function/i);
   });
 });
 
