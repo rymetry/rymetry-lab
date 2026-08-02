@@ -9,7 +9,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'ランタイムエラーページの本文 (route の error.tsx は RootDocument で包むだけ)。リトライボタン + ホームへの CTA。デザインシステム準拠。',
+          'ランタイムエラーページの本文 (route の error.tsx は RootDocument で包むだけ)。レイアウトは 404 (Pages/NotFound) と同一で、差分は文言と Error ID (digest) のみ。リトライ + ホームへの CTA。',
       },
     },
   },

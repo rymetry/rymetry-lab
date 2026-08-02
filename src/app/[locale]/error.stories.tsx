@@ -4,8 +4,9 @@ import messages from '../../../messages/ja.json';
 import LocaleErrorPage from './error';
 
 /**
- * root の `app/error.tsx` (英語固定・ターミナル付き) とは別物で、こちらは
- * `[locale]` セグメント配下の翻訳版。文言は `ErrorPages.error` から引く。
+ * root の `app/error.tsx` は `[locale]` の外で描画されるため文言をハードコードするのに対し、
+ * こちらは `[locale]` セグメント配下の翻訳版で `ErrorPages.error` から引く。
+ * **レイアウトはどちらも 404 と同一。**
  * preview.tsx の WithIntl デコレータが ja メッセージを供給する。
  */
 const meta = {
@@ -16,7 +17,7 @@ const meta = {
     docs: {
       description: {
         component:
-          '[locale] 配下のランタイムエラーページ。next-intl の ErrorPages.error を使う翻訳版で、ターミナル演出は持たない。',
+          '[locale] 配下のランタイムエラーページ。next-intl の ErrorPages.error を使う翻訳版。レイアウトは 404 と同一で、差分は文言と Error ID (digest) のみ。',
       },
     },
   },
