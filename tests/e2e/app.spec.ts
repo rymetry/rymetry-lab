@@ -117,6 +117,36 @@ test('localizes the canonical URL on article detail pages', async ({ page }) => 
   }
 });
 
+/**
+ * canonical が `/en/about` を指す以上、sitemap も英語ツリーを列挙する必要がある。
+ * 記事は microCMS 依存なので、資格情報が無い CI でも必ず出る静的ルートで検証する。
+ */
+test('lists both locale trees in the sitemap', async ({ request }) => {
+  const response = await request.get('/sitemap.xml');
+  expect(response.ok()).toBeTruthy();
+
+  const xml = await response.text();
+  const paths = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(
+    (match) => new URL(match[1]!).pathname,
+  );
+
+  for (const path of [
+    '/',
+    '/articles',
+    '/projects',
+    '/about',
+    '/en',
+    '/en/articles',
+    '/en/projects',
+    '/en/about',
+  ]) {
+    expect(paths, path).toContain(path);
+  }
+
+  expect(new Set(paths).size, '重複した <loc>').toBe(paths.length);
+  expect(xml).toContain('hreflang="x-default"');
+});
+
 test('serves security headers on HTML responses', async ({ request }) => {
   const response = await request.get('/');
 
