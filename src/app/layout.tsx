@@ -1,39 +1,6 @@
-import { ThemeProvider } from '@/components/theme-provider';
 import { createPageMetadata, getSiteUrl } from '@/lib/seo/metadata';
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono, Kaisei_Tokumin, Noto_Sans_JP } from 'next/font/google';
-import localFont from 'next/font/local';
 import './globals.css';
-
-const geist = Geist({
-  variable: '--font-display',
-  subsets: ['latin'],
-});
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
-});
-
-const notoSansJP = Noto_Sans_JP({
-  variable: '--font-sans-jp',
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800'],
-  display: 'swap',
-});
-
-const kaiseiTokumin = Kaisei_Tokumin({
-  variable: '--font-kaisei',
-  subsets: ['latin'],
-  weight: ['400', '500', '700', '800'],
-  display: 'swap',
-});
-
-const plemolJP = localFont({
-  src: './fonts/PlemolJPHS-Regular.woff2',
-  variable: '--font-plemol',
-  display: 'swap',
-});
 
 export const metadata: Metadata = createPageMetadata({
   title: 'Rymlab',
@@ -43,30 +10,20 @@ export const metadata: Metadata = createPageMetadata({
   locale: 'ja',
 });
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-    <html
-      lang="ja"
-      data-scroll-behavior="smooth"
-      className={`${geist.variable} ${geistMono.variable} ${notoSansJP.variable} ${plemolJP.variable} ${kaiseiTokumin.variable} h-full antialiased`}
-      suppressHydrationWarning
-    >
-      <body className="flex min-h-full flex-col bg-background text-foreground">
-        {/* next-themes はここで <script> を描画するため、クライアント再マウントされる
-            [locale] レイアウトではなく、再描画されないルートレイアウトに置く */}
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          enableColorScheme={false}
-        >
-          {children}
-        </ThemeProvider>
-      </body>
-    </html>
-  );
+/**
+ * pass-through なルートレイアウト (Issue #106)。
+ *
+ * `<html lang>` は配信するロケールに一致させる必要がある (WCAG 3.1.1) が、このレイアウトは
+ * `[locale]` セグメントの外側なのでロケールを知らない。ここで `<html>` を描画すると
+ * `/en` まで `lang="ja"` で配信されてしまう。
+ *
+ * そこで `<html>` の供給を下位 (`[locale]/layout.tsx` と root の not-found / error) に委ね、
+ * ここは children を素通しする。`app/not-found.tsx` が存在する限りルートレイアウト自体は
+ * 必須なので、**このファイルを削除してはいけない** (削除すると Next.js が属性なしの
+ * `<html>` を補完し、`lang`・フォント変数・テーマがまとめて落ちる)。
+ *
+ * `metadata` はロケール非依存の既定値としてここに残す。各ページの `generateMetadata` が上書きする。
+ */
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  return children;
 }

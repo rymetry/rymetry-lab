@@ -1,0 +1,3 @@
+[test]
+# next/font はビルド時変換のため bun:test から解決できない。スタブを先読みする
+preload = ["./src/test-setup.ts"]

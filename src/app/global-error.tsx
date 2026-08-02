@@ -25,7 +25,9 @@ export default function GlobalError({ error, unstable_retry }: GlobalErrorProps)
   }, []);
 
   return (
-    <html lang="ja">
+    // 見出し・CTA は英語なのでページの主言語は en。日本語の説明文だけ lang を上書きする
+    // (WCAG 3.1.1 Language of Page / 3.1.2 Language of Parts)
+    <html lang="en">
       <head>
         <title>Error | Rymlab</title>
       </head>
@@ -46,7 +48,7 @@ export default function GlobalError({ error, unstable_retry }: GlobalErrorProps)
             Something Went Wrong
           </h1>
 
-          <p className="mb-2 text-[15px] leading-[1.7] opacity-70">
+          <p lang="ja" className="mb-2 text-[15px] leading-[1.7] opacity-70">
             予期しないエラーが発生しました。ページを再読み込みしてください。
           </p>
 
