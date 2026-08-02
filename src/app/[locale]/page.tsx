@@ -5,12 +5,15 @@ import { ProjectCard } from '@/components/project-card';
 import { ScrollRevealList } from '@/components/scroll-reveal-list';
 import { SectionContainer } from '@/components/section';
 import { PROJECTS } from '@/data/projects';
+// barrel (@/lib/cms) は articles.ts 経由で server-only を引き込み bun test が解決できないため直接 import する
+import { adaptArticles } from '@/lib/cms/adapters';
 import { createPageMetadata, getSiteUrl } from '@/lib/seo/metadata';
 import type { Article } from '@/types/article';
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
+import { unstable_rethrow } from 'next/navigation';
 
-import { getArticlesPageContent } from './articles/articles-cache';
+import { getCachedArticlesPageContent } from './articles/articles-cache';
 
 const RECENT_ARTICLES_COUNT = 3;
 
@@ -20,13 +23,26 @@ const RECENT_ARTICLES_COUNT = 3;
  * null を返してセクションごと非表示にする (Hero / Featured Work は CMS 非依存)。
  */
 async function fetchRecentArticles(): Promise<readonly Article[] | null> {
+  let content;
   try {
-    const { articles } = await getArticlesPageContent();
-    return articles.slice(0, RECENT_ARTICLES_COUNT);
+    // 保護するのは通信・キャッシュ層のみ。ここでの失敗は microCMS 障害や設定不備であり、
+    // CMS 非依存の Hero / Featured Work まで巻き添えにする理由がない
+    content = await getCachedArticlesPageContent();
   } catch (error) {
-    console.error('[Home] Failed to load recent articles; hiding the section', error);
+    // notFound()/redirect()/PPR の prerender 中断は制御フローなので必ず再送出する。
+    // 'use cache' 境界を越えたエラーはクラス識別を失うため instanceof では判別できない
+    unstable_rethrow(error);
+    // 本番では message が難読化されるため digest を併記する
+    const digest = (error as { digest?: string })?.digest ?? 'n/a';
+    console.error(
+      `[Home] microCMS fetch failed; hiding recent articles (digest: ${digest})`,
+      error,
+    );
     return null;
   }
+
+  // 変換・検証は保護しない。表示する記事が壊れていれば /articles と同じく明示的に失敗させる
+  return adaptArticles(content.articles.slice(0, RECENT_ARTICLES_COUNT));
 }
 
 // TODO #28: Replace static PROJECTS with microCMS SDK fetch + adapters behind 'use cache'
@@ -81,8 +97,10 @@ export default async function Home({ params }: HomePageProps) {
       </SectionContainer>
 
       {/* #26: Recent Articles — Featured と地続き (背景帯なし)、縦 padding は padY2。
-          CMS フェッチ失敗時 (null) はセクションごと非表示にして Home の他セクションを守る */}
-      {recentArticles !== null && (
+          CMS フェッチ失敗時 (null) と記事 0 件時はセクションごと非表示にする。
+          後者は microCMS 未設定時に articles-cache が throw せず [] を返すため
+          (見出しと View all だけが残る空セクションを防ぐ) */}
+      {recentArticles?.length ? (
         <SectionContainer padY="compact">
           <ScrollRevealList className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
             <HomeSectionHead
@@ -102,7 +120,7 @@ export default async function Home({ params }: HomePageProps) {
             ))}
           </ScrollRevealList>
         </SectionContainer>
-      )}
+      ) : null}
     </>
   );
 }

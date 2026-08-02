@@ -2,25 +2,24 @@ import { afterEach, beforeEach, describe, expect, mock, spyOn, test } from 'bun:
 import { NextIntlClientProvider, createTranslator } from 'next-intl';
 import { renderToString } from 'react-dom/server';
 
-import type { Article } from '@/types/article';
-import type { Tag } from '@/types/tag';
+import type { CMSArticle } from '@/lib/cms/types';
 
 import jaMessages from '../../../messages/ja.json';
 
 type ArticlesPageContent = {
-  readonly articles: readonly Article[];
-  readonly tags: readonly Tag[];
+  readonly articles: readonly CMSArticle[];
+  readonly tags: readonly never[];
 };
 
 /**
- * microCMS 障害時のグレースフルデグラデーション検証のため、
- * articles-cache をテストごとに差し替え可能なモックへ置換する。
+ * Home のグレースフルデグラデーション検証のため、通信層をテストごとに差し替える。
  * (実モジュールは 'server-only' を import するため bun test では読み込めない)
+ * 変換 (adaptArticles) はモックしない — 検証エラーが握り潰されないことも確認するため。
  */
-let getArticlesPageContent: () => Promise<ArticlesPageContent>;
+let getCachedArticlesPageContent: () => Promise<ArticlesPageContent>;
 
 mock.module('./articles/articles-cache', () => ({
-  getArticlesPageContent: () => getArticlesPageContent(),
+  getCachedArticlesPageContent: () => getCachedArticlesPageContent(),
 }));
 
 mock.module('next-intl/server', () => ({
@@ -35,15 +34,36 @@ mock.module('next-intl/server', () => ({
   setRequestLocale: () => {},
 }));
 
-function articleFixture(slug: string, title: string): Article {
+function cmsArticleFixture(slug: string, title: string, overrides: Partial<CMSArticle> = {}) {
   return {
+    id: slug,
+    createdAt: '2026-04-01T00:00:00.000Z',
+    updatedAt: '2026-04-01T00:00:00.000Z',
+    publishedAt: '2026-04-01T00:00:00.000Z',
     slug,
     title,
-    description: `${title} description`,
-    publishedAt: '2026-04-01',
-    readingTime: '3 min',
-    tags: [{ label: 'React', category: 'frontend' }],
-  };
+    excerpt: `${title} excerpt`,
+    content: '<p>body</p>',
+    ogpImage: {
+      url: 'https://images.microcms-assets.io/assets/test/ogp.png',
+      width: 1200,
+      height: 630,
+    },
+    tags: [
+      {
+        id: 'tag-frontend',
+        createdAt: '2026-04-01T00:00:00.000Z',
+        updatedAt: '2026-04-01T00:00:00.000Z',
+        name: 'React',
+        category: 'frontend',
+      },
+    ],
+    ...overrides,
+  } as CMSArticle;
+}
+
+function resolveWith(articles: readonly CMSArticle[]) {
+  return () => Promise.resolve({ articles, tags: [] as readonly never[] });
 }
 
 async function renderHome(): Promise<string> {
@@ -71,12 +91,13 @@ describe('Home graceful degradation', () => {
   /** Home 実装のサーバーログのみ抽出 (React SSR 警告等の console.error と区別する) */
   function homeErrorLogs(): unknown[][] {
     return consoleErrorSpy.mock.calls.filter(
-      (call: unknown[]) => typeof call[0] === 'string' && call[0].includes('recent articles'),
+      (call: unknown[]) =>
+        typeof call[0] === 'string' && call[0].startsWith('[Home] microCMS fetch failed'),
     );
   }
 
   test('renders Hero and Featured Work without Recent Articles when the CMS fetch fails', async () => {
-    getArticlesPageContent = () => Promise.reject(new Error('microCMS down'));
+    getCachedArticlesPageContent = () => Promise.reject(new Error('microCMS down'));
 
     const html = await renderHome();
 
@@ -85,17 +106,68 @@ describe('Home graceful degradation', () => {
     expect(homeErrorLogs()).not.toBeEmpty();
   });
 
+  test('hides the section when the CMS returns no articles', async () => {
+    getCachedArticlesPageContent = resolveWith([]);
+
+    const html = await renderHome();
+
+    expect(html).toContain(jaMessages.Home.featuredProjects.title);
+    expect(html).not.toContain(jaMessages.Home.recentArticles.title);
+    // 空配列は障害ではないのでエラーログは出さない
+    expect(homeErrorLogs()).toBeEmpty();
+  });
+
   test('renders the Recent Articles section when the CMS fetch succeeds', async () => {
-    getArticlesPageContent = () =>
-      Promise.resolve({
-        articles: [articleFixture('first-post', 'First post title')],
-        tags: [],
-      });
+    getCachedArticlesPageContent = resolveWith([
+      cmsArticleFixture('first-post', 'First post title'),
+    ]);
 
     const html = await renderHome();
 
     expect(html).toContain(jaMessages.Home.recentArticles.title);
     expect(html).toContain('First post title');
     expect(homeErrorLogs()).toBeEmpty();
+  });
+
+  test('renders at most three articles even when the CMS returns more', async () => {
+    getCachedArticlesPageContent = resolveWith(
+      Array.from({ length: 5 }, (_, index) =>
+        cmsArticleFixture(`post-${index + 1}`, `Post ${index + 1} title`),
+      ),
+    );
+
+    const html = await renderHome();
+
+    expect(html).toContain('Post 1 title');
+    expect(html).toContain('Post 3 title');
+    expect(html).not.toContain('Post 4 title');
+  });
+});
+
+// これらのテストは例外を送出するだけで catch のログ経路に入らないため、
+// console.error の spy を張らない (張ると復元漏れが後続ファイルに漏れる)
+describe('Home error propagation', () => {
+  /**
+   * unstable_rethrow が無いと Next.js の制御フロー例外まで握り潰され、
+   * prerender 中断が「セクションなしの正常な shell」として焼き込まれる。
+   */
+  test.each([
+    ['redirect', 'NEXT_REDIRECT;replace;/elsewhere;307;'],
+    ['prerender interruption', 'HANGING_PROMISE_REJECTION'],
+  ])('re-throws %s control-flow errors instead of hiding the section', async (_label, digest) => {
+    const controlFlowError = Object.assign(new Error('control-flow'), { digest });
+    getCachedArticlesPageContent = () => Promise.reject(controlFlowError);
+
+    await expect(renderHome()).rejects.toBe(controlFlowError);
+  });
+
+  test('propagates content validation errors instead of hiding the section', async () => {
+    getCachedArticlesPageContent = resolveWith([
+      cmsArticleFixture('broken', 'Broken article', {
+        ogpImage: { url: '' },
+      }),
+    ]);
+
+    await expect(renderHome()).rejects.toThrow(/ogpImage/);
   });
 });
