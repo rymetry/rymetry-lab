@@ -114,13 +114,13 @@
 - 🎯 フッターのコピーライト文字色: プロトタイプの #6b7268 は墨帯上でコントラスト 3.5:1 (WCAG AA 未達) のため #828773 (4.7:1) に変更。アイコン色と同一
 - 🎯 タグアイコンはカテゴリ色を維持 (プロトタイプは全 accent 一色)。カテゴリ識別性を優先
 - 🎯 モバイルのハンバーガーメニュー: プロトタイプも <768px はハンバーガー式だが、展開 UI が異なる (mock = ヘッダー直下のインライン縦並び / 実装 = shadcn Sheet の右ドロワー)。フォーカストラップ・スクロールロックを備えた Sheet を維持
-- 🎯 エラーページ (error.tsx): プロトタイプに対応画面なし。404 と同系の様式を踏襲。CTA は 404 と同じ英語統一 ("Retry ↻" / "Back to Home"。root error.tsx / global-error.tsx / ErrorPages.error の ja/en 全て。見出し英語 + 説明日本語のトーンも 404 と同一)
+- 🎯 エラーページ (error.tsx): プロトタイプに対応画面なし。404 と同系の様式を踏襲。CTA は 404 と同じ英語統一 ("Retry" / "Back to Home"。root error.tsx / global-error.tsx / ErrorPages.error の ja/en 全て。見出し英語 + 説明日本語のトーンも 404 と同一)。装飾グリフ ↻ は撤去 — 出自は旧 v12 モック (`design-mock/archive/mockups/design-mockup-v12.html`) で、静韻モックにエラー画面は存在せず、同モック由来の CTA 矢印「→」は既に撤去済み。ボタンのアクセシブル名に "clockwise open circle arrow" が混入するのも避ける
 - 🎯 セクション説明文の 1 行化: About principles / Home Recent Articles の説明は `max-w-none` (mock は max-width 600px で折返し)。`SectionHeader descriptionClassName` prop で個別指定
 - 🎯 PrincipleCard (What I Value) の hover 演出撤去: mock は border-hover+shadow だが、非リンク要素のため無効に
 - 🎯 Related/Prev-Next のカードを ArticleCard variant="list" に完全統一し、専用 ListCard コンポーネントを削除 (mock はコンパクトな別型: サムネ 110px / min-height 92px / タイトル 14px / hover accent 枠 + -1px)。記事一覧リストと同一の見た目 (140-220px サムネ / 120px / 16px / border-hover + -2px) になる
 - 🎯 TOC ラベルは "INDEX" (mock は "Contents")。mono 大文字ラベルの言語に統一
 - 📝 テーマ切替は即時トグル化で mock 準拠に (resolvedTheme の反対をセット、defaultTheme=system 維持)。アイコンの rotate/scale 演出のみ実装独自
-- 📝 カードサムネイルは `buildCardThumbnailUrl` で表示ボックス比の imgix `fit=crop&crop=entropy` (grid 960×400 / list 480×320、情報量の多い領域を自動で残すスマートクロップ) を要求。microCMS 画像 API は imgix Rendering API 準拠 (公式ドキュメント明記・実アセットで検証済み)。運用ルール: アイキャッチは 1200×630・中央セーフエリア推奨。クロップ比の微ズレ (実表示ボックス grid ~2.1–3.7 / list ~1.2–1.8 に対し要求 2.4 / 1.5 → object-cover がブラウザ側で再クロップ) は 2026-08-02 に実入稿画像 (1200×630 ×10 + 1024×1024 ×1) で grid 1〜3 カラム帯・list 表示を目視評価し、見切れ・不自然な切り出しなし — 許容とする
+- 📝 カードサムネイルは `buildCardThumbnailUrl` で表示ボックス比の imgix `fit=crop&crop=entropy` (grid 960×400 / list 480×320、情報量の多い領域を自動で残すスマートクロップ) を要求。microCMS 画像 API は imgix Rendering API 準拠 (公式ドキュメント明記・実アセットで検証済み)。運用ルール: アイキャッチは 1200×630・中央セーフエリア推奨。クロップ比のズレ (要求は grid 2.4 / list 1.5 だが、実表示ボックスは grid が 1.92–4.90 = viewport 320px 以上、list は `h-full min-h-[120px]` で行高に追従するため比率は上限値で `<480px: 0.67` / `480–767px: 0.83` / `>=768px: 1.83` となり、本文量によりさらに縦長になる → object-cover がブラウザ側で再クロップ) は 2026-08-02 に実入稿画像 (1200×630 ×10 + 1024×1024 ×1) で **grid の 1〜3 カラム帯**を目視評価し、見切れ・不自然な切り出しなし — 許容とする。**list のモバイル帯 (<768px、縦長ボックスに横長クロップを要求) は未評価 — 要フォローアップ**
 - 🎯 リスト型カードのタグは 3 個 + 「+N」チップに制限、タイトルは line-clamp-2 (mock は無制限)。Prev/Next はラッパー flex + flex-1 で常に等高 — コンテンツ量差による高さ暴発の防止
 - ✅ TOC パネルの card-shadow 撤去 (mock は影なし — 監査漏れの追随。ライトで浮いて見えていた)
 - 🎯 Home の記事カードにも更新日 (pen-line) を表示 (mock は Home では公開日+読了時間のみ)。情報の一貫性を優先
