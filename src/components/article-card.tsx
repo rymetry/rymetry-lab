@@ -1,5 +1,5 @@
 import { CalendarIcon, ClockIcon, PenLineIcon } from 'lucide-react';
-import Image from 'next/image';
+import Image, { getImageProps } from 'next/image';
 
 import { InkImage, inkThumbVariant } from '@/components/ink-image';
 import { TagList } from '@/components/tag';
@@ -28,8 +28,8 @@ export const ARTICLE_GRID_SIZES = {
 } as const;
 
 /**
- * list variant のサムネ列幅。Tailwind 側 (grid-cols-[...] の max-[480px] / max-md) と
- * 同じ排他レンジ・同じ単位で宣言する。
+ * list variant のサムネ列幅 (ink フォールバック用)。Tailwind 側 (grid-cols-[...] の
+ * max-[480px] / max-md) と同じ排他レンジ・同じ単位で宣言する。
  *
  * 768px 以上の 220px は `grid-cols-[minmax(140px,220px)_1fr]` の**上限**であり、
  * surface によって実寸が違う (2026-08-02 実測):
@@ -43,6 +43,77 @@ export const ARTICLE_GRID_SIZES = {
  */
 const LIST_THUMBNAIL_SIZES = '(width < 480px) 80px, (width < 48rem) 100px, 220px';
 
+/**
+ * list サムネの広帯 (>=768px) プロファイル。表示ボックス比が surface で違うため 2 種類ある。
+ *
+ * - `standard` — `/articles?view=list` と Related。全 11 記事 × 768/1024/1280px の実測で
+ *   箱比は 1.83 単一。要求も 1.83 に合わせると元画像の可視幅が 79% → 96% に増える。
+ * - `split-nav` — 記事詳細の Prev/Next。`max-w-[1040px]` 内の `md:grid-cols-2` で圧縮され、
+ *   同じ viewport でも本文量で箱比が 0.92〜1.83 と揺れる (実測)。実効密度は
+ *   `(配信幅 / 箱幅) × min(1, 箱比 / 要求比)` なので「どの箱比でも現行を下回らない」条件は
+ *   **要求比 <= 1.5**。構図は要求比が大きいほど良いので 1.5 = 現行の 480x320 が最適解になる。
+ */
+export type ListThumbnailProfile = 'standard' | 'split-nav';
+
+/**
+ * 狭帯は 2 つの surface で箱比が一致するため共有する (実測: <480px = 0.43〜0.59 /
+ * 480-767px = 0.83 単一)。`media` は**重なりを持たせない** — `<picture>` は最初に
+ * 一致した `<source>` を採るため、`(width < 480px)` と `(width < 48rem)` のように
+ * 包含関係にすると配列順の入れ替えで無言に誤クロップになる (Chromium で再現確認済み)。
+ */
+const LIST_NARROW_BANDS = [
+  { media: '(width < 480px)', sizes: '80px', width: 240, height: 400 },
+  { media: '(width >= 480px) and (width < 48rem)', sizes: '100px', width: 300, height: 360 },
+] as const;
+
+const LIST_WIDE_BAND = {
+  standard: { sizes: '220px', width: 660, height: 360 },
+  'split-nav': { sizes: '220px', width: 480, height: 320 },
+} as const satisfies Record<ListThumbnailProfile, { sizes: string; width: number; height: number }>;
+
+/**
+ * list サムネの Art Direction。`sizes` は srcset 候補の選択にしか効かずクロップを変えないため、
+ * 帯ごとに別クロップの URL を `<source media>` で出し分ける。`fill: true` を維持するのは、
+ * width/height 付きの `<img>` になるとグリッド行高に画像が参加してカード高と border 位置が
+ * 変わるため。
+ */
+function ListThumbnailPicture({
+  src,
+  profile,
+}: {
+  readonly src: string;
+  readonly profile: ListThumbnailProfile;
+}) {
+  const wide = LIST_WIDE_BAND[profile];
+  const {
+    props: { srcSet: wideSrcSet, ...wideProps },
+  } = getImageProps({
+    src: buildCardThumbnailUrl(src, wide),
+    alt: '',
+    fill: true,
+    sizes: wide.sizes,
+    className: 'object-cover',
+  });
+
+  return (
+    <picture>
+      {LIST_NARROW_BANDS.map((band) => {
+        const { props } = getImageProps({
+          src: buildCardThumbnailUrl(src, band),
+          alt: '',
+          fill: true,
+          sizes: band.sizes,
+        });
+
+        return (
+          <source key={band.media} media={band.media} srcSet={props.srcSet} sizes={props.sizes} />
+        );
+      })}
+      <img {...wideProps} srcSet={wideSrcSet} alt="" />
+    </picture>
+  );
+}
+
 interface ArticleCardProps {
   readonly article: Article;
   readonly href?: string;
@@ -50,6 +121,8 @@ interface ArticleCardProps {
   readonly variant?: 'grid' | 'list';
   /** grid variant のみ有効。ARTICLE_GRID_SIZES から表示ページに合うものを渡す */
   readonly gridSizes?: string;
+  /** list variant のみ有効。Prev/Next のように広帯で圧縮される surface は 'split-nav' */
+  readonly listThumbnailProfile?: ListThumbnailProfile;
 }
 
 function ArticleThumbnail({
@@ -57,11 +130,13 @@ function ArticleThumbnail({
   image,
   layout,
   gridSizes,
+  listThumbnailProfile,
 }: {
   readonly slug: string;
   readonly image?: ArticleImage;
   readonly layout: ArticleCardProps['variant'];
   readonly gridSizes?: string;
+  readonly listThumbnailProfile: ListThumbnailProfile;
 }) {
   // list のサムネ列は最大 220px (768px 未満 100px / 480px 未満 80px)。
   // grid と同じ sizes を流用すると狭幅で 100vw 分の候補をフェッチしてしまう。
@@ -82,13 +157,12 @@ function ArticleThumbnail({
           : 'h-[150px] border-b border-border',
       )}
     >
-      {image ? (
+      {image && layout === 'list' ? (
+        <ListThumbnailPicture src={image.url} profile={listThumbnailProfile} />
+      ) : image ? (
         <Image
-          src={buildCardThumbnailUrl(
-            image.url,
-            // 表示ボックスの実効アスペクト比に合わせた中央クロップ (2x 相当の実寸)
-            layout === 'list' ? { width: 480, height: 320 } : { width: 960, height: 400 },
-          )}
+          // 表示ボックスの実効アスペクト比に合わせた中央クロップ (2x 相当の実寸)
+          src={buildCardThumbnailUrl(image.url, { width: 960, height: 400 })}
           alt=""
           fill
           sizes={sizes}
@@ -114,6 +188,7 @@ export function ArticleCard({
   className,
   variant = 'grid',
   gridSizes,
+  listThumbnailProfile = 'standard',
 }: ArticleCardProps) {
   const isList = variant === 'list';
 
@@ -137,6 +212,7 @@ export function ArticleCard({
         image={article.ogpImage}
         layout={variant}
         gridSizes={gridSizes}
+        listThumbnailProfile={listThumbnailProfile}
       />
 
       <div className={cn(isList ? 'flex flex-col justify-center p-5' : 'p-5')}>
