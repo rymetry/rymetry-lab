@@ -142,13 +142,10 @@
     "notFound": {
       "title": "Page Not Found",
       "description": "The page you are looking for does not exist or may have moved.",
-      "terminalCommand": "curl /unknown-path",
-      "terminalResult": "Resource not found",
       "home": "Back to Home",
       "articles": "Browse Articles"
     },
     "error": {
-      "label": "ERROR",
       "title": "Something Went Wrong",
       "description": "An unexpected error occurred. Please try again in a moment.",
       "retry": "Retry",

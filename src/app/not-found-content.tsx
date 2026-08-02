@@ -1,5 +1,5 @@
 import { ActionButton } from '@/components/action-button';
-import { InkImage } from '@/components/ink-image';
+import { VortexWatermark } from '@/components/vortex-watermark';
 import { cn } from '@/lib/utils';
 
 /**
@@ -21,13 +21,8 @@ export function NotFoundContent() {
       )}
     >
       <div className="relative z-[1] max-w-[560px] px-6 text-center max-md:px-4">
-        {/* 墨流し (vortex) — 見出し背後の透かし (mock 準拠: コンテンツボックス基準。[locale] 版と同一) */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute left-1/2 top-[22%] -z-[1] h-[620px] -translate-x-[64.5%] -translate-y-[40%] opacity-[0.15] dark:opacity-[0.22]"
-        >
-          <InkImage kind="vortex" className="h-full w-auto max-w-none" sizes="1100px" />
-        </div>
+        {/* 墨流し (vortex) — 見出し背後の透かし。404 とエラーページで共有 */}
+        <VortexWatermark />
 
         {/* 404 — decorative */}
         <p

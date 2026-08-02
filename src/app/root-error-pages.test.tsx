@@ -89,6 +89,48 @@ describe('root error pages own a complete HTML document', () => {
 });
 
 /**
+ * エラーページは 404 と**同じレイアウト**を使い、文言だけをエラー用に差し替える。
+ * ラベル行 (`// ERROR`) とターミナル診断ブロックは 404 に無いので持たない。
+ */
+describe('error pages reuse the 404 layout', () => {
+  const renderError = () =>
+    renderToString(<ErrorPage error={new Error('boom')} unstable_retry={() => undefined} />);
+
+  test('error.tsx has no terminal diagnostic block', () => {
+    const html = renderError();
+
+    expect(html).not.toContain('t-line');
+    expect(html).not.toContain('--terminal-border');
+  });
+
+  test('error.tsx has no label line above the decorative glyph', () => {
+    // ラベルは大文字 (`// ERROR`)。装飾グリフの "Error" と取り違えないよう大文字で見る
+    expect(renderError()).not.toContain('ERROR');
+  });
+
+  test('error.tsx decorative glyph uses the 404 brand-font style', () => {
+    expect(renderError()).toMatch(/font-brand text-\[clamp\(80px,15vw,140px\)\]/);
+  });
+});
+
+/**
+ * 見出し背後の vortex 墨流しを 404 と共有し、4 画面 (404 / error の root・[locale]) で揃える。
+ */
+describe('error and 404 share the vortex ink watermark', () => {
+  test('not-found.tsx renders the vortex watermark', () => {
+    expect(renderToString(<NotFound />)).toContain('ink-vortex');
+  });
+
+  test('error.tsx renders the vortex watermark', () => {
+    const html = renderToString(
+      <ErrorPage error={new Error('boom')} unstable_retry={() => undefined} />,
+    );
+
+    expect(html).toContain('ink-vortex');
+  });
+});
+
+/**
  * WCAG 3.1.1 (Language of Page):
  * root の fallback ページ (not-found / error / global-error) は、ロケールを特定できない位置に
  * あるため既定ロケールの `ja` を宣言する。`[locale]` 配下の ja ページも同じ構成

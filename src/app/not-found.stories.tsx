@@ -9,7 +9,7 @@ const meta = {
     docs: {
       description: {
         component:
-          '404 Not Found ページの本文 (route の not-found.tsx は RootDocument で包むだけ)。ターミナル風診断ブロック + ホームへの CTA。デザインシステム準拠。',
+          '404 Not Found ページの本文 (route の not-found.tsx は RootDocument で包むだけ)。ドットグリッド + 見出し背後の vortex 墨流し + ホーム/記事一覧への CTA。デザインシステム準拠。',
       },
     },
   },

@@ -114,7 +114,7 @@
 - 🎯 フッターのコピーライト文字色: プロトタイプの #6b7268 は墨帯上でコントラスト 3.5:1 (WCAG AA 未達) のため #828773 (4.7:1) に変更。アイコン色と同一
 - 🎯 タグアイコンはカテゴリ色を維持 (プロトタイプは全 accent 一色)。カテゴリ識別性を優先
 - 🎯 モバイルのハンバーガーメニュー: プロトタイプも <768px はハンバーガー式だが、展開 UI が異なる (mock = ヘッダー直下のインライン縦並び / 実装 = shadcn Sheet の右ドロワー)。フォーカストラップ・スクロールロックを備えた Sheet を維持
-- 🎯 エラーページ (error.tsx): プロトタイプに対応画面なし。404 と同系の様式を踏襲。CTA は 404 と同じ英語統一 ("Retry" / "Back to Home"。root error.tsx / global-error.tsx / ErrorPages.error の ja/en 全て。見出し英語 + 説明日本語のトーンも 404 と同一)。装飾グリフ ↻ は撤去 — 出自は旧 v12 モック (`design-mock/archive/mockups/design-mockup-v12.html`) で、静韻モックにエラー画面は存在せず、同モック由来の CTA 矢印「→」は既に撤去済み。ボタンのアクセシブル名に "clockwise open circle arrow" が混入するのも避ける
+- 🎯 エラーページ (error.tsx / [locale]/error.tsx): プロトタイプに対応画面なし。404 と同系の様式を踏襲 (vortex 墨流しを含む — 下記「エラー画面の墨流し統一」参照)。CTA は 404 と同じ英語統一 ("Retry" / "Back to Home"。root error.tsx / global-error.tsx / ErrorPages.error の ja/en 全て。見出し英語 + 説明日本語のトーンも 404 と同一)。装飾グリフ ↻ は撤去 — 出自は旧 v12 モック (`design-mock/archive/mockups/design-mockup-v12.html`) で、静韻モックにエラー画面は存在せず、同モック由来の CTA 矢印「→」は既に撤去済み。ボタンのアクセシブル名に "clockwise open circle arrow" が混入するのも避ける
 - 🎯 セクション説明文の 1 行化: About principles / Home Recent Articles の説明は `max-w-none` (mock は max-width 600px で折返し)。`SectionHeader descriptionClassName` prop で個別指定
 - 🎯 PrincipleCard (What I Value) の hover 演出撤去: mock は border-hover+shadow だが、非リンク要素のため無効に
 - 🎯 Related/Prev-Next のカードを ArticleCard variant="list" に完全統一し、専用 ListCard コンポーネントを削除 (mock はコンパクトな別型: サムネ 110px / min-height 92px / タイトル 14px / hover accent 枠 + -1px)。記事一覧リストと同一の見た目 (140-220px サムネ / 120px / 16px / border-hover + -2px) になる
@@ -128,3 +128,32 @@
 - 🎯 Home の記事カードにも更新日 (pen-line) を表示 (mock は Home では公開日+読了時間のみ)。情報の一貫性を優先
 - 🎯 `.reveal` スクロール連動フェード (IntersectionObserver) と `scroll-behavior: smooth`: プロトタイプに存在しない実装側の追加演出 (CLAUDE.md 記載済み)。prefers-reduced-motion で無効化される
 - 🎯 Articles 空状態カード・Home ローディングの見出しセル: プロトタイプに対応 UI がない実装独自要素。様式は実ページに整合させる
+
+## エラー画面を 404 レイアウトに統一 (2026-08-02)
+
+- ✅ **エラーページ (`app/error.tsx` / `[locale]/error.tsx`) を 404 と同一レイアウトに揃え、差し替えるのは文言のみ**とした。
+  従来は「404 と同系の様式を踏襲」と宣言 (🎯) しながら実装が 3 通りに割れていた
+  (404 = 墨流し / root error = ターミナル / [locale] error = ドットグリッドのみ)
+- ✅ vortex 墨流しの透かしを `src/components/vortex-watermark.tsx` に切り出し、**404 とエラーの計 4 画面**
+  (`app/not-found` / `[locale]/not-found` / `app/error` / `[locale]/error`) で共有
+- ✅ エラー側から **ラベル行 (`// ERROR`) とターミナル診断ブロックを削除**。
+  どちらも 404 では Phase 4 で削除済みだったものが、エラー側にだけ残っていた
+- ✅ 装飾グリフを 404 と同じ様式に: `font-mono` / `clamp(48px,10vw,80px)` / `tracking-[-0.04em]`
+  → **`font-brand` (明朝) / `clamp(80px,15vw,140px)` / `tracking-[0.02em]`**。
+  見出しの `tracking` も `-0.02em` → `0.02em`、セクションも `min-h-full` → `min-h-[calc(100vh-140px)] px-6 py-16` に統一
+- ✅ 未使用メッセージキーを削除: `ErrorPages.error.label` (今回のラベル行削除で不要化)、
+  `ErrorPages.notFound.terminalCommand` / `terminalResult` (Phase 4 の 404 ターミナル削除以降デッド)
+- 🎯 **Error ID (digest) だけは 404 に無いがエラー側に残す。** 障害調査に必要な情報のため。
+  digest の有無で説明文の下余白を `mb-4` / `mb-7` に切り替え、CTA 直前の間隔を 404 と揃える
+- 📝 透かしの位置指定はプロトタイプ準拠の 560px コンテンツボックス基準 (`top:22%` /
+  `translate(-64.5%, -40%)` / `z-index:-1` / opacity 0.15・dark 0.22)。`top` が % 指定のため
+  本文の高さで見え方が僅かに変わる (2026-08-02 実測 / 1280×800 dark):
+
+  | 画面 | コンテンツボックス | 透かしの相対 top |
+  | --- | --- | --- |
+  | 404 | 481×305 | -181px |
+  | error ([locale]) | 560×363 | -168px |
+
+  差は Error ID 行と説明文の折り返しによる本文高さの違いのみ。透かし自体は 1102×620・opacity 0.22 で同一
+- 📝 `global-error.tsx` は対象外。ルートレイアウトごと落ちた時の最終手段として、
+  フォント・コンポーネント import を持たない独立したダーク配色の画面を維持する
