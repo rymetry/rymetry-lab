@@ -36,7 +36,9 @@ Run the narrowest relevant checks while working. Before handing off a normal cod
 bun run format:check
 bun run lint
 bun run typecheck
+bun run test
 bun run build
 ```
 
-`bun run check` runs the same quality gate in sequence. `bun run test` is intentionally disabled until Epic #10 completes.
+`bun run check` runs the same quality gate in sequence, and CI runs `bun run test` in its own Unit Test job.
+Storybook component tests are separate: `bunx vitest run --project=storybook` (real Chromium).

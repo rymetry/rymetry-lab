@@ -76,6 +76,49 @@ export const TagListExample: Story = {
   ),
 };
 
+/**
+ * ArticleCard variant="list" が使う制限付き表示。max を超えた分は「+N」チップ 1 個に畳まれる。
+ * 記事一覧のリスト表示・Related・Prev/Next はすべて max={3}。
+ */
+export const TagListOverflow: Story = {
+  args: { tag: defaultTag },
+  render: () => (
+    <div className="flex flex-col gap-4 p-4">
+      <div>
+        <p className="mb-1.5 font-mono text-[11px] text-muted-foreground">
+          max=3 / tags=3 (畳まれない)
+        </p>
+        <TagList tags={sampleTags.slice(0, 3)} max={3} />
+      </div>
+      <div>
+        <p className="mb-1.5 font-mono text-[11px] text-muted-foreground">max=3 / tags=4 → +1</p>
+        <TagList tags={sampleTags.slice(0, 4)} max={3} />
+      </div>
+      <div>
+        <p className="mb-1.5 font-mono text-[11px] text-muted-foreground">max=3 / tags=10 → +7</p>
+        <TagList tags={sampleTags} max={3} />
+      </div>
+      <div>
+        <p className="mb-1.5 font-mono text-[11px] text-muted-foreground">
+          size=&quot;sm&quot; / max=3 / tags=10 → +7 (Prev/Next 内の実寸)
+        </p>
+        <TagList tags={sampleTags} max={3} size="sm" />
+      </div>
+    </div>
+  ),
+};
+
+export const TagListOverflowDarkMode: Story = {
+  args: { tag: defaultTag },
+  globals: { theme: 'dark' },
+  render: () => (
+    <div className="flex flex-col gap-4 rounded-lg bg-background p-4">
+      <TagList tags={sampleTags} max={3} />
+      <TagList tags={sampleTags} max={3} size="sm" />
+    </div>
+  ),
+};
+
 export const DarkMode: Story = {
   args: { tag: defaultTag },
   globals: { theme: 'dark' },

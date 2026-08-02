@@ -6,15 +6,15 @@ Productivity Engineer "Rym" のポートフォリオ & 技術ブログ。Site: R
 
 ## Tech Stack
 
-| Category  | Technology                                                                                       |
-| --------- | ------------------------------------------------------------------------------------------------ |
-| Framework | Next.js 16 (App Router, `'use cache'`)                                                           |
-| Runtime   | React 19, TypeScript 6 (strict), Bun                                                             |
-| Styling   | Tailwind CSS v4, shadcn/ui (New York), Iconify (lucide + simple-icons)                           |
-| CMS       | microCMS → unified (rehype-sanitize, rehype-prism-plus)                                          |
-| Testing   | Vitest (unit/component via Storybook) + Playwright (E2E) + Storybook 10 (@storybook/nextjs-vite) |
-| Lint      | ESLint 9 (flat config) + Prettier 3                                                              |
-| i18n      | next-intl (Phase 3) / Dark Mode: next-themes                                                     |
+| Category  | Technology                                                                                                   |
+| --------- | ------------------------------------------------------------------------------------------------------------ |
+| Framework | Next.js 16 (App Router, `'use cache'`)                                                                       |
+| Runtime   | React 19, TypeScript 6 (strict), Bun                                                                         |
+| Styling   | Tailwind CSS v4, shadcn/ui (New York), Iconify (lucide + simple-icons)                                       |
+| CMS       | microCMS → unified (rehype-sanitize, rehype-prism-plus)                                                      |
+| Testing   | `bun:test` (unit/SSR) + Vitest × Storybook 10 (component/browser, @storybook/nextjs-vite) + Playwright (E2E) |
+| Lint      | ESLint 9 (flat config) + Prettier 3                                                                          |
+| i18n      | next-intl (Phase 3) / Dark Mode: next-themes                                                                 |
 
 ## Fonts
 
@@ -80,13 +80,13 @@ GitHub, X, LinkedIn, Zenn, Qiita, RSS — simple-icons:\* + lucide:rss
 
 ## Pages
 
-| Route              | Content                                                                                    |
-| ------------------ | ------------------------------------------------------------------------------------------ |
-| `/`                | Hero (墨流しメイン, `heroInk="main"`) + Featured Work (3カード) + Recent Articles (帯なし・地続き) |
-| `/projects`        | プロジェクトグリッド (auto-fill)                                                           |
-| `/articles`        | 検索 + タグフィルタ + ページネーション + Grid/List切替                                     |
+| Route              | Content                                                                                                                                            |
+| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `/`                | Hero (墨流しメイン, `heroInk="main"`) + Featured Work (3カード) + Recent Articles (帯なし・地続き)                                                 |
+| `/projects`        | プロジェクトグリッド (auto-fill)                                                                                                                   |
+| `/articles`        | 検索 + タグフィルタ + ページネーション + Grid/List切替                                                                                             |
 | `/articles/[slug]` | シェルレイアウト (戻りリンク + リード文。アイキャッチ表示なし、OGP メタは維持) + TOC (sticky 240px, スクロール連動) + 関連記事 → 前後ナビ (alt 帯) |
-| `/about`           | Profile + Engineering Principles (4カード) + Tech Stack                                    |
+| `/about`           | Profile + Engineering Principles (4カード) + Tech Stack                                                                                            |
 
 ## Architecture
 
@@ -152,6 +152,8 @@ cp .claude/settings.example.json .claude/settings.local.json
 ```bash
 bun run dev / bun run build / bun run storybook / bun run lint / bun run format
 bun run typecheck / bun run check
+bun run test / bun run test:coverage / bun run e2e
 ```
 
-`bun run test` is intentionally disabled until Epic #10 completes.
+`bun run check` = `format:check` → `lint` → `typecheck` → `test` → `build`。CI の Unit Test ジョブも `bun run test` を実行する。
+Storybook のコンポーネントテストは `bunx vitest run --project=storybook` (実 Chromium)。
