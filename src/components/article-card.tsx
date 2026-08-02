@@ -30,6 +30,16 @@ export const ARTICLE_GRID_SIZES = {
 /**
  * list variant のサムネ列幅。Tailwind 側 (grid-cols-[...] の max-[480px] / max-md) と
  * 同じ排他レンジ・同じ単位で宣言する。
+ *
+ * 768px 以上の 220px は `grid-cols-[minmax(140px,220px)_1fr]` の**上限**であり、
+ * surface によって実寸が違う (2026-08-02 実測):
+ * - `/articles?view=list` — コンテナが広いため常に上限の 220px
+ * - 記事詳細の Prev/Next — `max-w-[1040px]` 内の `md:grid-cols-2` で圧縮され、
+ *   innerWidth 768px で 145px / 1280px で 220px
+ *
+ * 広い側 (220px) に合わせて宣言する。Prev/Next では過大申告になるが、狭い側に
+ * 合わせると `/articles` のリスト表示が過小申告になりぼやけるため、こちらを取る
+ * (通信量の問題であって画質劣化ではない)。
  */
 const LIST_THUMBNAIL_SIZES = '(width < 480px) 80px, (width < 48rem) 100px, 220px';
 
@@ -57,8 +67,10 @@ function ArticleThumbnail({
   // grid と同じ sizes を流用すると狭幅で 100vw 分の候補をフェッチしてしまう。
   // 境界は grid と同じく range 構文で書く。Tailwind v4 の `max-*` は排他レンジ
   // (`max-md` = `(width < 48rem)`) なので、`(max-width: 768px)` だと 768px ちょうどで
-  // 実サムネ 220px に対して 100px を申告してしまい、候補が 1 段足りなくなる。
-  // 単位は Tailwind 側に合わせる (`max-md` = rem / `max-[480px]` = px)。
+  // `/articles?view=list` の実サムネ 220px に対して 100px を申告してしまい、
+  // 候補が 1 段足りなくなる。単位は Tailwind 側に合わせる
+  // (`max-md` = rem / `max-[480px]` = px)。surface ごとの実寸差は
+  // LIST_THUMBNAIL_SIZES の注記を参照。
   const sizes = layout === 'list' ? LIST_THUMBNAIL_SIZES : (gridSizes ?? ARTICLE_GRID_SIZES.home);
 
   return (
