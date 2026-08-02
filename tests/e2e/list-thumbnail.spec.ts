@@ -15,14 +15,18 @@ const BANDS = [
 ] as const;
 
 /**
- * この spec だけは実入稿画像を必要とする。CI の E2E ジョブは microCMS の資格情報を
- * 持たず `/articles` が空状態で描画されるため、記事が 1 件も無ければスキップする
- * (帯ごとのクロップ定義そのものは bun:test と Storybook browser test が担保する)。
+ * この spec だけは実入稿画像を必要とする。CI の E2E ジョブは microCMS の資格情報を持たず
+ * `/articles` が空状態で描画されるほか、記事 1 件だけ (Prev/Next が出ない) や ogpImage 未設定
+ * (ink フォールバックになり `<picture>` が出ない) も正当な構成なので、検証対象の `<picture>`
+ * が無ければ理由付きでスキップする。帯ごとのクロップ定義そのものは bun:test と
+ * Storybook browser test が担保する。
  */
-async function skipWithoutPublishedArticles(page: import('@playwright/test').Page): Promise<void> {
-  const cards = page.locator('a[href^="/articles/"]');
-  await page.waitForLoadState('domcontentloaded');
-  test.skip((await cards.count()) === 0, 'microCMS の記事が無いため実画像で検証できない');
+async function skipWithoutArtDirectedThumbnail(
+  scope: import('@playwright/test').Locator,
+  reason: string,
+): Promise<void> {
+  await scope.page().waitForLoadState('domcontentloaded');
+  test.skip((await scope.locator('picture source').count()) === 0, reason);
 }
 
 /** 実際に選ばれた画像から microCMS へ要求したクロップを取り出す (lazy 読み込み完了を待つ) */
@@ -44,12 +48,15 @@ test('selects the crop matching each viewport band on the articles list', async 
   // 既定の 30s に収まらないことがある
   test.slow();
   await page.goto('/articles?view=list');
-  await skipWithoutPublishedArticles(page);
+  await skipWithoutArtDirectedThumbnail(
+    page.locator('main'),
+    'microCMS 由来のサムネを持つ記事が無いため実画像で検証できない',
+  );
 
   for (const band of BANDS) {
     await page.setViewportSize({ width: band.width, height: 900 });
     await page.goto('/articles?view=list');
-    const thumbnail = page.locator('a[href^="/articles/"] img').first();
+    const thumbnail = page.locator('a[href^="/articles/"] picture img').first();
 
     expect(await requestedCrop(thumbnail), `viewport ${band.width}px`).toBe(band.crop);
   }
@@ -62,16 +69,22 @@ test('selects the crop matching each viewport band on the articles list', async 
 test('keeps the narrower wide-band crop on the prev/next navigation', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.goto('/articles?view=list');
-  await skipWithoutPublishedArticles(page);
+  await skipWithoutArtDirectedThumbnail(
+    page.locator('main'),
+    'microCMS 由来のサムネを持つ記事が無いため実画像で検証できない',
+  );
 
-  const firstArticle = await page
-    .locator('a[href^="/articles/"]')
-    .first()
-    .getAttribute('href');
+  const firstArticle = await page.locator('a[href^="/articles/"]').first().getAttribute('href');
   expect(firstArticle).toBeTruthy();
 
   await page.goto(firstArticle!);
-  const navThumbnail = page.locator('nav a[href^="/articles/"] img').first();
+  // 記事が 1 件だけなら Prev/Next は描画されない
+  await skipWithoutArtDirectedThumbnail(
+    page.locator('nav:has(a[href^="/articles/"])'),
+    'Prev/Next にサムネ付きのカードが無いため検証できない',
+  );
+
+  const navThumbnail = page.locator('nav a[href^="/articles/"] picture img').first();
 
   expect(await requestedCrop(navThumbnail)).toBe('w=480&h=320');
 });
