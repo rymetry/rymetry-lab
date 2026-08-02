@@ -54,7 +54,9 @@ describe('[locale]/error.tsx', () => {
     }
   });
 
-  test('wires the Retry CTA to unstable_retry without a decorative glyph', () => {
+  // `renderToString` はクリックを起こさないので、ここで検証できるのは文言だけ。
+  // onClick が unstable_retry に繋がっていることは error.stories.tsx の play で担保する
+  test('renders the Retry CTA wording without a decorative glyph', () => {
     const html = render(jaMessages, 'ja');
 
     expect(html).toContain('Retry');
