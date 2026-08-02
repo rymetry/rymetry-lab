@@ -157,7 +157,7 @@
       "label": "ERROR",
       "title": "Something Went Wrong",
       "description": "予期しないエラーが発生しました。しばらくしてからもう一度お試しください。",
-      "retry": "Retry ↻",
+      "retry": "Retry",
       "home": "Back to Home"
     }
   }
