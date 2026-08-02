@@ -40,5 +40,9 @@ bun run test
 bun run build
 ```
 
-`bun run check` runs the same quality gate in sequence, and CI runs `bun run test` in its own Unit Test job.
+`bun run check` runs the same quality gate in sequence (plus `check:document-shell`).
+CI's Unit Test job runs `bun run test:coverage`, which enforces **80% line and 80% function
+coverage** via `scripts/check-coverage.ts` — `bun run check` does not, so a change that only
+passes locally can still fail CI on coverage. See the Coverage ゲート section of `CLAUDE.md`.
+Unit tests cover both `src` and `scripts`.
 Storybook component tests are separate: `bunx vitest run --project=storybook` (real Chromium).
