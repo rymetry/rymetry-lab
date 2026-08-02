@@ -29,7 +29,6 @@ describe('[locale]/error.tsx', () => {
   test('renders every ErrorPages.error key from the ja messages', () => {
     const html = render(jaMessages, 'ja');
 
-    expect(html).toContain(jaMessages.ErrorPages.error.label);
     expect(html).toContain(jaMessages.ErrorPages.error.title);
     expect(html).toContain(jaMessages.ErrorPages.error.description);
     expect(html).toContain(jaMessages.ErrorPages.error.retry);
@@ -39,7 +38,6 @@ describe('[locale]/error.tsx', () => {
   test('renders every ErrorPages.error key from the en messages', () => {
     const html = render(enMessages as Messages, 'en');
 
-    expect(html).toContain(enMessages.ErrorPages.error.label);
     expect(html).toContain(enMessages.ErrorPages.error.title);
     expect(html).toContain(enMessages.ErrorPages.error.description);
     expect(html).toContain(enMessages.ErrorPages.error.retry);
@@ -63,6 +61,28 @@ describe('[locale]/error.tsx', () => {
     expect(html).toContain('Back to Home');
     expect(html).not.toContain('↻');
     expect(html).not.toContain('リトライ');
+  });
+
+  /**
+   * エラーページは 404 と同系の様式を踏襲する (DIVERGENCE.md 🎯)。
+   * 見出し背後の vortex 墨流しは 404 (root / [locale] 両方) と共有する。
+   */
+  test('renders the vortex ink watermark like the 404 page', () => {
+    const html = render(jaMessages, 'ja');
+
+    expect(html).toContain('ink-vortex');
+  });
+
+  /**
+   * 404 と同じレイアウトを使い、文言だけをエラー用に差し替える。
+   * ラベル行 (`// ERROR`) とターミナル診断ブロックは 404 に無いので持たない。
+   */
+  test('reuses the 404 layout without a label line or terminal', () => {
+    const html = render(jaMessages, 'ja');
+
+    expect(html).not.toContain('ERROR');
+    expect(html).not.toContain('t-line');
+    expect(html).toMatch(/font-brand text-\[clamp\(80px,15vw,140px\)\]/);
   });
 
   test('shows the digest only when the error carries one', () => {

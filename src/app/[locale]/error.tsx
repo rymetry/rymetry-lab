@@ -1,6 +1,7 @@
 'use client';
 
 import { ActionButton } from '@/components/action-button';
+import { VortexWatermark } from '@/components/vortex-watermark';
 import { cn } from '@/lib/utils';
 import { useTranslations } from 'next-intl';
 import { useEffect, useRef } from 'react';
@@ -10,6 +11,13 @@ interface LocaleErrorPageProps {
   readonly unstable_retry: () => void;
 }
 
+/**
+ * ロケール配下のランタイムエラー。
+ *
+ * **レイアウトは 404 (`[locale]/not-found.tsx`) と同一で、差し替えるのは文言のみ。**
+ * ラベル行 (`// ERROR`) とターミナル診断ブロックは 404 に無いので持たない。
+ * 唯一 404 に無い要素が Error ID (digest) で、これは障害調査に必要なので残す。
+ */
 export default function LocaleErrorPage({ error, unstable_retry }: LocaleErrorPageProps) {
   const headingRef = useRef<HTMLHeadingElement>(null);
   const t = useTranslations('ErrorPages.error');
@@ -25,32 +33,40 @@ export default function LocaleErrorPage({ error, unstable_retry }: LocaleErrorPa
   return (
     <section
       className={cn(
-        'relative flex min-h-full items-center justify-center overflow-hidden',
+        'relative flex min-h-[calc(100vh-140px)] items-center justify-center overflow-hidden px-6 py-16',
         '[background:var(--hero-bg)]',
+        // Dot-grid overlay
         'before:absolute before:inset-0',
         'before:bg-[image:radial-gradient(circle_at_1px_1px,var(--dot-color)_1px,transparent_0)]',
         'before:bg-[size:28px_28px]',
       )}
     >
       <div className="relative z-[1] max-w-[560px] px-6 text-center max-md:px-4">
-        <p className="anim-up mb-1.5 font-mono text-xs uppercase tracking-[0.1em] text-primary">
-          {'// '}
-          {t('label')}
-        </p>
+        {/* 墨流し (vortex) — 見出し背後の透かし。404 とエラーページで共有 */}
+        <VortexWatermark />
+
+        {/* Error — decorative */}
         <p
           aria-hidden="true"
-          className="anim-up anim-up-2 mb-3 bg-[image:var(--accent-gradient)] bg-clip-text font-mono text-[clamp(48px,10vw,80px)] font-extrabold leading-none tracking-[-0.04em] text-transparent"
+          className="anim-up anim-up-2 mb-3 bg-[image:var(--accent-gradient)] bg-clip-text font-brand text-[clamp(80px,15vw,140px)] font-extrabold leading-none tracking-[0.02em] text-transparent"
         >
           Error
         </p>
+        {/* Heading + Description */}
         <h1
           ref={headingRef}
           tabIndex={-1}
-          className="anim-up anim-up-3 mb-3 text-[clamp(20px,3vw,28px)] font-bold tracking-[-0.02em]"
+          className="anim-up anim-up-3 mb-3 text-[clamp(20px,3vw,28px)] font-bold tracking-[0.02em]"
         >
           {t('title')}
         </h1>
-        <p className="anim-up anim-up-3 mb-4 text-[15px] leading-[1.7] text-text-secondary">
+        <p
+          className={cn(
+            'anim-up anim-up-3 text-[15px] leading-[1.7] text-text-secondary',
+            // digest がある時は Error ID 側が CTA 前の間隔を持つ
+            error.digest ? 'mb-4' : 'mb-7',
+          )}
+        >
           {t('description')}
         </p>
         {error.digest && (
@@ -59,6 +75,7 @@ export default function LocaleErrorPage({ error, unstable_retry }: LocaleErrorPa
           </p>
         )}
 
+        {/* CTA */}
         <div className="anim-up anim-up-4 flex flex-wrap justify-center gap-3">
           <button
             type="button"

@@ -148,13 +148,10 @@
     "notFound": {
       "title": "Page Not Found",
       "description": "お探しのページは存在しないか、移動された可能性があります。",
-      "terminalCommand": "curl /unknown-path",
-      "terminalResult": "Resource not found",
       "home": "Back to Home",
       "articles": "Browse Articles"
     },
     "error": {
-      "label": "ERROR",
       "title": "Something Went Wrong",
       "description": "予期しないエラーが発生しました。しばらくしてからもう一度お試しください。",
       "retry": "Retry",
