@@ -104,10 +104,10 @@ export default function ErrorPage({ error, unstable_retry }: ErrorPageProps) {
             onClick={unstable_retry}
             className="font-brand inline-flex items-center gap-2 rounded-[3px] border-none bg-[image:var(--accent-gradient)] px-6 py-[11px] text-[14.5px] font-medium tracking-[0.05em] text-[#f4f1e6] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background motion-safe:hover:-translate-y-px hover:shadow-[var(--btn-primary-shadow)]"
           >
-            リトライ ↻
+            Retry
           </button>
           <ActionButton href="/" variant="secondary" localeAware={false}>
-            ホームに戻る
+            Back to Home
           </ActionButton>
         </div>
       </div>

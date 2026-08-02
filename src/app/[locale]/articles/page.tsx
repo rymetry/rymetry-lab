@@ -8,7 +8,7 @@ import {
 import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 
-import { ArticleCard } from '@/components/article-card';
+import { ARTICLE_GRID_SIZES, ArticleCard } from '@/components/article-card';
 import { FilterTag } from '@/components/filter-tag';
 import { PageInk } from '@/components/ink-image';
 import { Pagination, type PaginationItem } from '@/components/pagination';
@@ -163,7 +163,7 @@ function ArticlesList({
   return (
     <ScrollRevealList className="grid grid-cols-[repeat(auto-fill,minmax(min(320px,100%),1fr))] gap-5">
       {articles.map((article) => (
-        <ArticleCard key={article.slug} article={article} />
+        <ArticleCard key={article.slug} article={article} gridSizes={ARTICLE_GRID_SIZES.articles} />
       ))}
     </ScrollRevealList>
   );

@@ -8,28 +8,51 @@ import { buildCardThumbnailUrl } from '@/lib/cms/image';
 import { cn } from '@/lib/utils';
 import type { Article, ArticleImage } from '@/types/article';
 
+/**
+ * grid variant の sizes プリセット。カラムが切り替わる viewport がページごとに違うため
+ * (Home = Tailwind md/lg、Articles = auto-fill minmax(320px) の 692/1048px) 呼び出し側で選ぶ。
+ * どちらも最終段は max-w-[1200px] 内の 3 カラム = (1152-40)/3 ≒ 371px。
+ *
+ * 境界は Media Queries Level 4 の range 構文で書く。Tailwind が出力する
+ * `@media (width >= 48rem)` の否定と厳密に一致し、max-width + 端数による近似で生じる
+ * 境界直前の未カバー区間をなくせるため (baseline: Safari 16.4+ — globals.css 参照)。
+ * Home を rem にするのは、既定フォントサイズを上げた環境で md/lg の実発火位置と
+ * ズレて過小申告になる (= 画像がぼやける) のを防ぐため。
+ * Articles の 692/1048px は minmax(320px)+gap から決まる px 由来なので px のまま
+ * (Tailwind のグローバル breakpoint には追加しない)。
+ * 33vw ではなく 32vw なのは、vw=1199 で 33.3vw=400px となり 384w ではなく 640w 候補に飛ぶため。
+ */
+export const ARTICLE_GRID_SIZES = {
+  home: '(width < 48rem) 100vw, (width < 64rem) 50vw, (width < 1200px) 32vw, 371px',
+  articles: '(width < 692px) 100vw, (width < 1048px) 50vw, (width < 1200px) 32vw, 371px',
+} as const;
+
 interface ArticleCardProps {
   readonly article: Article;
   readonly href?: string;
   readonly className?: string;
   readonly variant?: 'grid' | 'list';
+  /** grid variant のみ有効。ARTICLE_GRID_SIZES から表示ページに合うものを渡す */
+  readonly gridSizes?: string;
 }
 
 function ArticleThumbnail({
   slug,
   image,
   layout,
+  gridSizes,
 }: {
   readonly slug: string;
   readonly image?: ArticleImage;
   readonly layout: ArticleCardProps['variant'];
+  readonly gridSizes?: string;
 }) {
   // list のサムネ列は最大 220px (768px 未満 100px / 480px 未満 80px)。
   // grid と同じ sizes を流用すると狭幅で 100vw 分の候補をフェッチしてしまう
   const sizes =
     layout === 'list'
       ? '(max-width: 480px) 80px, (max-width: 768px) 100px, 220px'
-      : '(max-width: 480px) 100vw, 320px';
+      : (gridSizes ?? ARTICLE_GRID_SIZES.home);
 
   return (
     <div
@@ -66,7 +89,13 @@ function ArticleThumbnail({
   );
 }
 
-export function ArticleCard({ article, href, className, variant = 'grid' }: ArticleCardProps) {
+export function ArticleCard({
+  article,
+  href,
+  className,
+  variant = 'grid',
+  gridSizes,
+}: ArticleCardProps) {
   const isList = variant === 'list';
 
   return (
@@ -84,7 +113,12 @@ export function ArticleCard({ article, href, className, variant = 'grid' }: Arti
         className,
       )}
     >
-      <ArticleThumbnail slug={article.slug} image={article.ogpImage} layout={variant} />
+      <ArticleThumbnail
+        slug={article.slug}
+        image={article.ogpImage}
+        layout={variant}
+        gridSizes={gridSizes}
+      />
 
       <div className={cn(isList ? 'flex flex-col justify-center p-5' : 'p-5')}>
         {/* Meta */}

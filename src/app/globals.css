@@ -2,7 +2,10 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* oklch color tokens require Chrome 111+, Firefox 113+, Safari 16.2+ */
+/* Browser baseline: Chrome 111+, Firefox 113+, Safari 16.4+
+   - oklch color tokens: Chrome 111+, Firefox 113+, Safari 16.2+
+   - Media Queries Level 4 range syntax (ArticleCard の sizes): Chrome 104+, Firefox 102+, Safari 16.4+
+   Safari のみ range 構文が上限を決める。Chrome / Firefox は oklch 側が上限 */
 
 @layer base {
   :root {

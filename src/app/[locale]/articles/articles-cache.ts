@@ -24,7 +24,12 @@ export async function getArticlesPageContent() {
 type CMSArticleContent = Omit<CMSArticle, 'id' | 'createdAt' | 'updatedAt' | 'revisedAt'>;
 type CMSTagContent = Omit<CMSTag, 'id' | 'createdAt' | 'updatedAt' | 'publishedAt' | 'revisedAt'>;
 
-async function getCachedArticlesPageContent() {
+/**
+ * 変換前の生データを返す通信・キャッシュ層。
+ * adapt を含まないため、呼び出し側は「通信失敗 (劣化させてよい)」と
+ * 「コンテンツ検証失敗 (明示的に落とすべき)」を保護範囲で分離できる。
+ */
+export async function getCachedArticlesPageContent() {
   'use cache';
   cacheLife(ARTICLES_PAGE_CACHE_LIFE);
   cacheTag('articles', 'tags');

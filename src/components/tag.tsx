@@ -43,7 +43,8 @@ interface TagListProps {
 export function TagList({ tags, size = 'default', className, max }: TagListProps) {
   if (tags.length === 0) return null;
 
-  const visibleTags = max ? tags.slice(0, max) : tags;
+  // max={0} を「上限なし」に落とさないよう truthy ではなく undefined 判定にする
+  const visibleTags = max !== undefined ? tags.slice(0, max) : tags;
   const overflowCount = tags.length - visibleTags.length;
 
   return (
