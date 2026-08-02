@@ -77,6 +77,9 @@ jobs:
           key: ${{ runner.os }}-bun-${{ hashFiles('bun.lock') }}
       - run: bun install --frozen-lockfile
       - run: bun run build
+      # build 成果物のドキュメントの殻を検査する。ルートレイアウトを pass-through にする
+      # 構成は <html> が消失/入れ子になっても build が成功してしまうため (#106)
+      - run: bun run check:document-shell
 
   e2e:
     name: E2E

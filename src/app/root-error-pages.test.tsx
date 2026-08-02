@@ -38,12 +38,81 @@ describe('root error pages render without NextIntlClientProvider', () => {
 });
 
 /**
- * Error 系 CTA は 404 (not-found.tsx の "Back to Home" / "Browse Articles") と
- * 同じ英語表記に統一する。見出し英語 + 説明日本語のトーンは 404 と同一。
+ * Issue #106: ルートレイアウトは pass-through (`return children`) なので `<html>` を
+ * 供給しない。`[locale]` の外で描画される root の not-found / error は自前で完全な
+ * ドキュメントを持たないと、`lang` もフォント変数も当たらない裸の文書になる
+ * (production build で `lang=""` / フォント変数 0 個を実測済み)。
  *
- * 装飾グリフ (↻) は入れない。CTA からの矢印撤去 (DIVERGENCE.md) と同じ判断で、
- * ボタンのアクセシブル名に "clockwise open circle arrow" が混入するのを避ける。
+ * `<html>` / `<body>` は必ず 1 個ずつ。2 個になる構成は HTML パーサに内側を破棄され、
+ * `documentElement` が属性なしになるため退行と同じ。
  */
+describe('root error pages own a complete HTML document', () => {
+  const countTags = (html: string, tag: string) =>
+    (html.match(new RegExp(`<${tag}[\\s>]`, 'g')) ?? []).length;
+
+  /**
+   * `src/app/fonts.ts` が宣言する CSS 変数名。本番では next/font がハッシュ付きクラス名を
+   * 生成するが、`src/test-setup.ts` のスタブは渡された `variable` をそのまま返すため、
+   * ここでは「fontVariables が `<html className>` に配線されているか」を検証できる。
+   */
+  const FONT_VARIABLES = [
+    '--font-display',
+    '--font-geist-mono',
+    '--font-sans-jp',
+    '--font-plemol',
+    '--font-kaisei',
+  ] as const;
+
+  test('not-found.tsx renders a single documented shell with lang and fonts', () => {
+    const html = renderToString(<NotFound />);
+
+    expect(html).toContain('<html lang="ja"');
+    expect(countTags(html, 'html')).toBe(1);
+    expect(countTags(html, 'body')).toBe(1);
+    for (const variable of FONT_VARIABLES) {
+      expect(html).toContain(variable);
+    }
+  });
+
+  test('error.tsx renders a single documented shell with lang and fonts', () => {
+    const html = renderToString(
+      <ErrorPage error={new Error('boom')} unstable_retry={() => undefined} />,
+    );
+
+    expect(html).toContain('<html lang="ja"');
+    expect(countTags(html, 'html')).toBe(1);
+    expect(countTags(html, 'body')).toBe(1);
+    for (const variable of FONT_VARIABLES) {
+      expect(html).toContain(variable);
+    }
+  });
+});
+
+/**
+ * WCAG 3.1.1 (Language of Page):
+ * root の fallback ページ (not-found / error / global-error) は、ロケールを特定できない位置に
+ * あるため既定ロケールの `ja` を宣言する。`[locale]` 配下の ja ページも同じ構成
+ * (英語の見出し・CTA + 日本語の説明文) で `ja` を宣言しており、サイト全体で揃える。
+ *
+ * 「英語見出し + 日本語本文」はサイト共通のトーン (DIVERGENCE.md 🎯)。英語部分への
+ * `lang="en"` 付与 (WCAG 3.1.2 Language of Parts) は messages と `[locale]` 配下を含む
+ * サイト全体の変更になるため、ここでは扱わない。
+ */
+describe('root fallback pages declare the default locale', () => {
+  test('all three root fallback documents declare lang="ja"', () => {
+    const documents = [
+      renderToString(<NotFound />),
+      renderToString(<ErrorPage error={new Error('boom')} unstable_retry={() => undefined} />),
+      renderToString(<GlobalError error={new Error('boom')} unstable_retry={() => undefined} />),
+    ];
+
+    for (const html of documents) {
+      expect(html).toContain('<html lang="ja"');
+      expect(html).not.toContain('lang="en"');
+    }
+  });
+});
+
 describe('error page CTAs match the 404 English wording', () => {
   test('error.tsx uses English CTAs without a decorative glyph', () => {
     const html = renderToString(

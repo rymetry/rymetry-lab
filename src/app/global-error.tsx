@@ -25,6 +25,8 @@ export default function GlobalError({ error, unstable_retry }: GlobalErrorProps)
   }, []);
 
   return (
+    // ロケールを特定できない位置なので既定ロケールの ja を宣言する (WCAG 3.1.1)。
+    // root の not-found / error および [locale] 配下の ja ページと揃える
     <html lang="ja">
       <head>
         <title>Error | Rymlab</title>

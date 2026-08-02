@@ -31,6 +31,26 @@ test('switches theme and locale from the header controls', async ({ page }) => {
   await expect(page.locator('html')).not.toHaveClass(/dark/);
 });
 
+/**
+ * Issue #106 / WCAG 3.1.1 — `<html lang>` は配信されるロケールと一致させる。
+ * `localePrefix: 'as-needed'` なので日本語の正規 URL は `/ja` ではなく `/`。
+ *
+ * 既知の制限: `/en/no-such-page` のようなロケール配下の未マッチ URL は root の
+ * not-found が受けるため `lang="ja"` のまま。catch-all を挟むと PPR のシェルが先に
+ * 200 で返り soft 404 になるため、別 Issue で扱う。
+ */
+test('declares the document language for the served locale', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator('html')).toHaveAttribute('lang', 'ja');
+
+  await page.goto('/en');
+  await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+
+  await page.goto('/no-such-page');
+  await expect(page.locator('html')).toHaveAttribute('lang', 'ja');
+
+});
+
 test('serves security headers on HTML responses', async ({ request }) => {
   const response = await request.get('/');
 

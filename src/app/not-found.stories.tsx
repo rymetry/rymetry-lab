@@ -1,19 +1,19 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import NotFound from './not-found';
+import { NotFoundContent } from './not-found-content';
 
 const meta = {
   title: 'Pages/NotFound',
-  component: NotFound,
+  component: NotFoundContent,
   parameters: {
     layout: 'fullscreen',
     docs: {
       description: {
         component:
-          '404 Not Found ページ。ターミナル風診断ブロック + ホームへの CTA。デザインシステム準拠。',
+          '404 Not Found ページの本文 (route の not-found.tsx は RootDocument で包むだけ)。ターミナル風診断ブロック + ホームへの CTA。デザインシステム準拠。',
       },
     },
   },
-} satisfies Meta<typeof NotFound>;
+} satisfies Meta<typeof NotFoundContent>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
