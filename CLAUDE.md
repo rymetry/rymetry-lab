@@ -155,5 +155,24 @@ bun run typecheck / bun run check
 bun run test / bun run test:coverage / bun run e2e
 ```
 
-`bun run check` = `format:check` → `lint` → `typecheck` → `test` → `build`。CI の Unit Test ジョブも `bun run test` を実行する。
+`bun run check` = `format:check` → `lint` → `typecheck` → `test` → `build` → `check:document-shell`。
+ユニットテストの対象は `src` と `scripts` の両方 (`bun test src scripts`)。
 Storybook のコンポーネントテストは `bunx vitest run --project=storybook` (実 Chromium)。
+
+### Coverage ゲート (Issue #107)
+
+CI の Unit Test ジョブは `bun run test:coverage` を実行する。これは lcov を出力してから
+`scripts/check-coverage.ts` に渡し、**行・関数カバレッジをともに 80% で強制**する
+(`bun run check` は `bun run test` を呼ぶので、このゲートはローカルの通常検証では効かない)。
+
+- **行数は lcov の `LF:` ではなく `DA:` レコードから数える。** Bun の `LF:` はファイルの
+  物理行数 (コメント・import・空行込み) なので、そのまま割ると 53% という無意味な値になる。
+  集計ロジックは `scripts/lcov-summary.ts` にあり `scripts/lcov-summary.test.ts` で検証している
+- `bunfig.toml` の `coverageThreshold` は使わない。インラインテーブル形式
+  (`{ line = ..., function = ... }`) も `[test.coverageThreshold]` 形式も **無警告で no-op** になり、
+  スカラー形式は per-file 判定かつ失敗理由を一切出力しない (Bun 1.3.14 で実測)
+- 分母から外すのは `src/test-setup.ts` と `scripts/` のみ。除外を増やすときは
+  `scripts/check-coverage.ts` の `IGNORED_PATHS` に理由付きで追加する
+- **既知の限界**: Bun はユニットテストから実際に import されたモジュールしか計測しない。
+  未 import のファイル (API routes、CMS クライアント等) は 0% ではなくレポートから消える。
+  スクリプトが計測対象外のファイル数を毎回併記するので、その数を見て判断すること
