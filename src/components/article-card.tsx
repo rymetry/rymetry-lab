@@ -27,6 +27,12 @@ export const ARTICLE_GRID_SIZES = {
   articles: '(width < 692px) 100vw, (width < 1048px) 50vw, (width < 1200px) 32vw, 371px',
 } as const;
 
+/**
+ * list variant のサムネ列幅。Tailwind 側 (grid-cols-[...] の max-[480px] / max-md) と
+ * 同じ排他レンジ・同じ単位で宣言する。
+ */
+const LIST_THUMBNAIL_SIZES = '(width < 480px) 80px, (width < 48rem) 100px, 220px';
+
 interface ArticleCardProps {
   readonly article: Article;
   readonly href?: string;
@@ -48,11 +54,12 @@ function ArticleThumbnail({
   readonly gridSizes?: string;
 }) {
   // list のサムネ列は最大 220px (768px 未満 100px / 480px 未満 80px)。
-  // grid と同じ sizes を流用すると狭幅で 100vw 分の候補をフェッチしてしまう
-  const sizes =
-    layout === 'list'
-      ? '(max-width: 480px) 80px, (max-width: 768px) 100px, 220px'
-      : (gridSizes ?? ARTICLE_GRID_SIZES.home);
+  // grid と同じ sizes を流用すると狭幅で 100vw 分の候補をフェッチしてしまう。
+  // 境界は grid と同じく range 構文で書く。Tailwind v4 の `max-*` は排他レンジ
+  // (`max-md` = `(width < 48rem)`) なので、`(max-width: 768px)` だと 768px ちょうどで
+  // 実サムネ 220px に対して 100px を申告してしまい、候補が 1 段足りなくなる。
+  // 単位は Tailwind 側に合わせる (`max-md` = rem / `max-[480px]` = px)。
+  const sizes = layout === 'list' ? LIST_THUMBNAIL_SIZES : (gridSizes ?? ARTICLE_GRID_SIZES.home);
 
   return (
     <div
