@@ -14,6 +14,17 @@ const BANDS = [
   { width: 1280, crop: 'w=660&h=360' },
 ] as const;
 
+/**
+ * この spec だけは実入稿画像を必要とする。CI の E2E ジョブは microCMS の資格情報を
+ * 持たず `/articles` が空状態で描画されるため、記事が 1 件も無ければスキップする
+ * (帯ごとのクロップ定義そのものは bun:test と Storybook browser test が担保する)。
+ */
+async function skipWithoutPublishedArticles(page: import('@playwright/test').Page): Promise<void> {
+  const cards = page.locator('a[href^="/articles/"]');
+  await page.waitForLoadState('domcontentloaded');
+  test.skip((await cards.count()) === 0, 'microCMS の記事が無いため実画像で検証できない');
+}
+
 /** 実際に選ばれた画像から microCMS へ要求したクロップを取り出す (lazy 読み込み完了を待つ) */
 async function requestedCrop(image: import('@playwright/test').Locator): Promise<string> {
   await image.scrollIntoViewIfNeeded();
@@ -29,6 +40,12 @@ async function requestedCrop(image: import('@playwright/test').Locator): Promise
 }
 
 test('selects the crop matching each viewport band on the articles list', async ({ page }) => {
+  // 6 帯ぶんナビゲートし、その都度 lazy 画像の読み込みを待つ。dev サーバーがコールドだと
+  // 既定の 30s に収まらないことがある
+  test.slow();
+  await page.goto('/articles?view=list');
+  await skipWithoutPublishedArticles(page);
+
   for (const band of BANDS) {
     await page.setViewportSize({ width: band.width, height: 900 });
     await page.goto('/articles?view=list');
@@ -45,6 +62,7 @@ test('selects the crop matching each viewport band on the articles list', async 
 test('keeps the narrower wide-band crop on the prev/next navigation', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.goto('/articles?view=list');
+  await skipWithoutPublishedArticles(page);
 
   const firstArticle = await page
     .locator('a[href^="/articles/"]')
