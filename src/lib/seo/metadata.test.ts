@@ -50,6 +50,89 @@ describe('createPageMetadata', () => {
   });
 });
 
+describe('canonical URL localization', () => {
+  const pageCases = [
+    {
+      name: 'leaves the path untouched when no locale is given',
+      locale: undefined,
+      path: '/about',
+      expectedPath: '/about',
+    },
+    {
+      name: 'keeps Japanese pages on the unprefixed path',
+      locale: 'ja',
+      path: '/about',
+      expectedPath: '/about',
+    },
+    {
+      name: 'prefixes English pages with the locale segment',
+      locale: 'en',
+      path: '/about',
+      expectedPath: '/en/about',
+    },
+    {
+      name: 'maps the English home page to the bare locale segment',
+      locale: 'en',
+      path: '/',
+      expectedPath: '/en',
+    },
+  ] as const;
+
+  for (const { name, locale, path, expectedPath } of pageCases) {
+    test(`createPageMetadata ${name}`, () => {
+      const metadata = createPageMetadata({
+        title: 'About',
+        description: 'Profile and engineering principles.',
+        path,
+        siteUrl: SITE_URL,
+        locale,
+      });
+
+      expect(metadata.alternates?.canonical).toBe(`${SITE_URL}${expectedPath}`);
+      expect(metadata.openGraph?.url).toBe(`${SITE_URL}${expectedPath}`);
+    });
+  }
+
+  const articleCases = [
+    {
+      name: 'leaves the path untouched when no locale is given',
+      locale: undefined,
+      expectedPath: '/articles/article-title',
+    },
+    {
+      name: 'keeps Japanese articles on the unprefixed path',
+      locale: 'ja',
+      expectedPath: '/articles/article-title',
+    },
+    {
+      name: 'prefixes English articles with the locale segment',
+      locale: 'en',
+      expectedPath: '/en/articles/article-title',
+    },
+  ] as const;
+
+  for (const { name, locale, expectedPath } of articleCases) {
+    test(`createArticleMetadata ${name}`, () => {
+      const metadata = createArticleMetadata({
+        title: 'Article title',
+        description: 'Article description',
+        path: '/articles/article-title',
+        siteUrl: SITE_URL,
+        locale,
+        publishedAt: '2026-04-01',
+        image: {
+          url: 'https://images.microcms-assets.io/assets/test/image.png',
+          width: 1200,
+          height: 630,
+        },
+      });
+
+      expect(metadata.alternates?.canonical).toBe(`${SITE_URL}${expectedPath}`);
+      expect(metadata.openGraph?.url).toBe(`${SITE_URL}${expectedPath}`);
+    });
+  }
+});
+
 describe('createArticleMetadata', () => {
   test('builds article metadata with article-specific Open Graph fields', () => {
     const metadata = createArticleMetadata({

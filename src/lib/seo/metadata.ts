@@ -1,21 +1,25 @@
 import type { ArticleImage } from '@/types/article';
 import type { Metadata } from 'next';
 
+import type { SeoLocale } from './locale-url';
+
+import {
+  buildAbsoluteUrl,
+  buildLanguageAlternates as buildAllLanguageAlternates,
+  buildLocalizedUrl,
+} from './locale-url';
+
 const DEFAULT_SITE_NAME = 'Rymlab';
 const DEFAULT_SITE_URL = 'https://rymlab.dev';
 const DEFAULT_OG_IMAGE = '/ogp.png';
 const SEO_DESCRIPTION_LIMIT = 160;
-const DEFAULT_LOCALE = 'ja';
-const LOCALES = ['ja', 'en'] as const;
-
-type MetadataLocale = (typeof LOCALES)[number];
 
 interface BaseMetadataInput {
   readonly title: string;
   readonly description: string;
   readonly path: string;
   readonly siteUrl?: string;
-  readonly locale?: MetadataLocale;
+  readonly locale?: SeoLocale;
 }
 
 interface ArticleMetadataInput extends BaseMetadataInput {
@@ -36,7 +40,7 @@ export function truncateForSEO(value: string, limit = SEO_DESCRIPTION_LIMIT): st
 
 export function createPageMetadata(input: BaseMetadataInput): Metadata {
   const siteUrl = normalizeSiteUrl(input.siteUrl);
-  const canonical = buildAbsoluteUrl(input.path, siteUrl);
+  const canonical = buildCanonicalUrl(input.path, siteUrl, input.locale);
   const description = truncateForSEO(input.description);
   const title = formatTitle(input.title);
   const imageUrl = buildAbsoluteUrl(DEFAULT_OG_IMAGE, siteUrl);
@@ -74,7 +78,7 @@ export function createPageMetadata(input: BaseMetadataInput): Metadata {
 
 export function createArticleMetadata(input: ArticleMetadataInput): Metadata {
   const siteUrl = normalizeSiteUrl(input.siteUrl);
-  const canonical = buildAbsoluteUrl(input.path, siteUrl);
+  const canonical = buildCanonicalUrl(input.path, siteUrl, input.locale);
   const description = truncateForSEO(input.description);
   const title = formatTitle(input.title);
 
@@ -120,48 +124,24 @@ function normalizeSiteUrl(value: string | undefined): string {
   return (value ?? DEFAULT_SITE_URL).replace(/\/+$/, '');
 }
 
-function buildAbsoluteUrl(path: string, siteUrl: string): string {
-  if (/^https?:\/\//.test(path)) return path;
+/**
+ * 呼び出し側はロケール非依存のパス (`/about`) と `locale` を別々に渡すので、canonical は
+ * ここでロケール化する。ロケール化しないと `/en` 配下のページが日本語版 URL を canonical に
+ * 宣言し、英語ツリーが「日本語ページの重複」として扱われる (Issue #114)。
+ *
+ * `locale` 未指定の呼び出し (root layout の既定値) はロケールを知らないため素通しする。
+ */
+function buildCanonicalUrl(path: string, siteUrl: string, locale: SeoLocale | undefined): string {
+  if (!locale) return buildAbsoluteUrl(path, siteUrl);
 
-  return `${siteUrl}${path.startsWith('/') ? path : `/${path}`}`;
+  return buildLocalizedUrl(path, siteUrl, locale);
 }
 
-function buildLanguageAlternates(
-  path: string,
-  siteUrl: string,
-  locale: MetadataLocale | undefined,
-) {
+/** ロケールが分からない呼び出しでは hreflang ごと出さない */
+function buildLanguageAlternates(path: string, siteUrl: string, locale: SeoLocale | undefined) {
   if (!locale) return undefined;
 
-  const canonicalPath = stripLocalePrefix(path);
-  const languages = Object.fromEntries(
-    LOCALES.map((targetLocale) => [
-      targetLocale,
-      buildAbsoluteUrl(localizePath(canonicalPath, targetLocale), siteUrl),
-    ]),
-  );
-
-  return {
-    ...languages,
-    'x-default': buildAbsoluteUrl(localizePath(canonicalPath, DEFAULT_LOCALE), siteUrl),
-  };
-}
-
-function stripLocalePrefix(path: string): string {
-  const normalizedPath = path.startsWith('/') ? path : `/${path}`;
-
-  for (const locale of LOCALES) {
-    if (normalizedPath === `/${locale}`) return '/';
-    if (normalizedPath.startsWith(`/${locale}/`)) return normalizedPath.slice(locale.length + 1);
-  }
-
-  return normalizedPath;
-}
-
-function localizePath(path: string, locale: MetadataLocale): string {
-  if (locale === DEFAULT_LOCALE) return path;
-  if (path === '/') return `/${locale}`;
-  return `/${locale}${path}`;
+  return buildAllLanguageAlternates(path, siteUrl);
 }
 
 function formatTitle(title: string): string {

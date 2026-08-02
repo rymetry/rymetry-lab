@@ -51,6 +51,102 @@ test('declares the document language for the served locale', async ({ page }) =>
 
 });
 
+/**
+ * Issue #114 — canonical / og:url は「いま配信しているロケール」の URL を指す必要がある。
+ * ロケール化を忘れると `/en` 配下が日本語版 URL を canonical に宣言し、英語ツリーが
+ * 日本語ページの重複として自己申告される。
+ *
+ * `localePrefix: 'as-needed'` なので日本語の正規 URL は無印 (`/about`)、英語だけ `/en` が付く。
+ * 絶対 URL の origin は `NEXT_PUBLIC_SITE_URL` 次第なので pathname だけを比較する。
+ */
+const LOCALIZED_PAGES = [
+  { path: '/', canonicalPath: '/' },
+  { path: '/en', canonicalPath: '/en' },
+  { path: '/about', canonicalPath: '/about' },
+  { path: '/en/about', canonicalPath: '/en/about' },
+] as const;
+
+/** `<head>` のリンク/メタが持つ絶対 URL を pathname に落とす */
+async function headPathname(
+  page: import('@playwright/test').Page,
+  selector: string,
+  attribute: string,
+): Promise<string> {
+  const value = await page.locator(selector).getAttribute(attribute);
+  expect(value, `${selector} が見つからない`).toBeTruthy();
+
+  return new URL(value!).pathname;
+}
+
+test('declares the served locale URL as canonical', async ({ page }) => {
+  for (const { path, canonicalPath } of LOCALIZED_PAGES) {
+    await page.goto(path);
+
+    expect(await headPathname(page, 'link[rel="canonical"]', 'href'), path).toBe(canonicalPath);
+    expect(await headPathname(page, 'meta[property="og:url"]', 'content'), path).toBe(canonicalPath);
+  }
+});
+
+test('keeps hreflang alternates pointing at both locale trees', async ({ page }) => {
+  for (const path of ['/about', '/en/about']) {
+    await page.goto(path);
+
+    expect(await headPathname(page, 'link[hreflang="ja"]', 'href'), path).toBe('/about');
+    expect(await headPathname(page, 'link[hreflang="en"]', 'href'), path).toBe('/en/about');
+    expect(await headPathname(page, 'link[hreflang="x-default"]', 'href'), path).toBe('/about');
+  }
+});
+
+test('localizes the canonical URL on article detail pages', async ({ page }) => {
+  await page.goto('/articles');
+  const firstArticle = page.locator('a[href^="/articles/"]').first();
+  // CI の E2E ジョブは microCMS の資格情報を持たず `/articles` が空状態で描画される
+  test.skip(
+    (await firstArticle.count()) === 0,
+    'microCMS の記事が無いため詳細ページを開けない',
+  );
+
+  const articlePath = await firstArticle.getAttribute('href');
+  expect(articlePath).toBeTruthy();
+
+  for (const path of [articlePath!, `/en${articlePath}`]) {
+    await page.goto(path);
+
+    expect(await headPathname(page, 'link[rel="canonical"]', 'href'), path).toBe(path);
+    expect(await headPathname(page, 'meta[property="og:url"]', 'content'), path).toBe(path);
+  }
+});
+
+/**
+ * canonical が `/en/about` を指す以上、sitemap も英語ツリーを列挙する必要がある。
+ * 記事は microCMS 依存なので、資格情報が無い CI でも必ず出る静的ルートで検証する。
+ */
+test('lists both locale trees in the sitemap', async ({ request }) => {
+  const response = await request.get('/sitemap.xml');
+  expect(response.ok()).toBeTruthy();
+
+  const xml = await response.text();
+  const paths = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(
+    (match) => new URL(match[1]!).pathname,
+  );
+
+  for (const path of [
+    '/',
+    '/articles',
+    '/projects',
+    '/about',
+    '/en',
+    '/en/articles',
+    '/en/projects',
+    '/en/about',
+  ]) {
+    expect(paths, path).toContain(path);
+  }
+
+  expect(new Set(paths).size, '重複した <loc>').toBe(paths.length);
+  expect(xml).toContain('hreflang="x-default"');
+});
+
 test('serves security headers on HTML responses', async ({ request }) => {
   const response = await request.get('/');
 
