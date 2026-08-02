@@ -88,7 +88,13 @@ function ArticleNavCard({
         {label}
         {direction === 'next' ? <Icon aria-hidden="true" className="size-[11px]" /> : null}
       </p>
-      <ArticleCard article={article} variant="list" className="flex-1" />
+      {/* 広帯で md:grid-cols-2 に圧縮され箱比が揺れる surface。理由は ListThumbnailProfile を参照 */}
+      <ArticleCard
+        article={article}
+        variant="list"
+        className="flex-1"
+        listThumbnailProfile="split-nav"
+      />
     </div>
   );
 }
